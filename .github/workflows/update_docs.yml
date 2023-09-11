@@ -1,0 +1,32 @@
+name: "Update Docs"
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    update-docs:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup
+              uses: conda-incubator/setup-miniconda@v2
+              with:
+                  auto-update-conda: true
+                  activate-environment: docs
+                  environment-file: environment.yml
+          
+            - name: Get Version
+              id: version
+              if: success()
+              shell: bash
+              run: echo "version=$(jq -r '.version' version.json)" >> $GITHUB_OUTPUT
+
+            - name: Update "gh-pages" branch
+              shell: bash -l {0}
+              run: |
+                  mike set-default ${{ steps.version.outputs.version }}
+                  mike deploy --push --update-aliases ${{ steps.version.outputs.version }} latest
