@@ -21,7 +21,7 @@ jobs:
 
             - uses: oleksiyrudenko/gha-git-credentials@v2-latest
               with:
-                  token: '${{ secrets.GITHUB_TOKEN }}'
+                  token: '${{ secrets.DOCS_GITHUB_TOKEN }}'
 
             - name: Get Version
               id: version
