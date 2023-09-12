@@ -28,5 +28,4 @@ jobs:
             - name: Update "gh-pages" branch
               shell: bash -l {0}
               run: |
-                  mike set-default ${{ steps.version.outputs.version }}
                   mike deploy --push --update-aliases ${{ steps.version.outputs.version }} latest
