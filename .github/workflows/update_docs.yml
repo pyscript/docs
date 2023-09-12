@@ -18,7 +18,11 @@ jobs:
                   auto-update-conda: true
                   activate-environment: docs
                   environment-file: environment.yml
-          
+
+            - uses: oleksiyrudenko/gha-git-credentials@v2-latest
+              with:
+                  token: '${{ secrets.GITHUB_TOKEN }}'
+
             - name: Get Version
               id: version
               if: success()
