@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../serving-your-application/">
+        <link rel="prev" href="../license/">
       
+      
+        <link rel="next" href="configuration/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>User Guide - PyScript</title>
+        <title>Introduction (start here) - PyScript</title>
       
     
     
@@ -73,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#user-guide" class="md-skip">
+        <a href="#introduction-start-here" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              User Guide
+              Introduction (start here)
             
           </span>
         </div>
@@ -203,7 +205,7 @@
         
   
   <span class="md-ellipsis">
-    PyScript
+    Home
   </span>
   
 
@@ -218,11 +220,30 @@
   
   
     <li class="md-nav__item">
-      <a href="../advanced-user-guide/" class="md-nav__link">
+      <a href="../beginning-pyscript/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Advanced User Guide
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
   </span>
   
 
@@ -256,11 +277,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    What is PyScript - Features
+    Apache License
   </span>
   
 
@@ -273,42 +294,40 @@
       
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../getting-started/" class="md-nav__link">
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
         
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Getting started with PyScript
+    User guide
   </span>
   
 
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../serving-your-application/" class="md-nav__link">
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-  
-  <span class="md-ellipsis">
-    Serving your application
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
   
   
     
@@ -322,15 +341,324 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Introduction (start here)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    User Guide
+    Introduction (start here)
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-pyscript" class="md-nav__link">
+    What is PyScript?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polyscript" class="md-nav__link">
+    PolyScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-stack" class="md-nav__link">
+    The stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    Lifecycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core concepts
+  </a>
+  
+    <nav class="md-nav" aria-label="Core concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpreters" class="md-nav__link">
+    Interpreters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-dom" class="md-nav__link">
+    The DOM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workers" class="md-nav__link">
+    Workers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    Plugins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ffi" class="md-nav__link">
+    FFI
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lots-of-dom-manipulation" class="md-nav__link">
+    Lots of DOM manipulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-science-y" class="md-nav__link">
+    Data science-y
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graphical" class="md-nav__link">
+    Graphical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocking-with-workers" class="md-nav__link">
+    Blocking with workers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calling-an-api" class="md-nav__link">
+    Calling an API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyScript Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with the DOM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ffi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Foreign Function Interface (FFI)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="interpreters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python Interpreters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyScript Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -356,6 +684,165 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-pyscript" class="md-nav__link">
+    What is PyScript?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polyscript" class="md-nav__link">
+    PolyScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-stack" class="md-nav__link">
+    The stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    Lifecycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core concepts
+  </a>
+  
+    <nav class="md-nav" aria-label="Core concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpreters" class="md-nav__link">
+    Interpreters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-dom" class="md-nav__link">
+    The DOM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workers" class="md-nav__link">
+    Workers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    Plugins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ffi" class="md-nav__link">
+    FFI
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lots-of-dom-manipulation" class="md-nav__link">
+    Lots of DOM manipulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-science-y" class="md-nav__link">
+    Data science-y
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graphical" class="md-nav__link">
+    Graphical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocking-with-workers" class="md-nav__link">
+    Blocking with workers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calling-an-api" class="md-nav__link">
+    Calling an API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -369,7 +856,219 @@
                   
 
 
-<h1 id="user-guide">User Guide</h1>
+<h1 id="introduction-start-here">Introduction (start here)</h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This guide provides detailed technical guidance for developers who want
+in depth explanation of the PyScript platform.</p>
+<p>As a result, while we endeavour to write clearly, some of the content in
+this user guide will not be suitable for beginners. We assume folks who
+will get the most from this guide will already have some Python or web
+development experience.</p>
+<p>We welcome feedback to help us improve.</p>
+</div>
+<p>This guide is in three parts:</p>
+<ol>
+<li>The brief overview, context setting and sign-posting contained within this
+   page.</li>
+<li>The other pages of the guide, referenced from this page, that explore the
+   different aspects of PyScript in substantial technical detail.</li>
+<li>The example projects, listed at the end of this page, that demonstrate the
+   various features of PyScript working together in real-world applications.</li>
+</ol>
+<p>We suggest you <em>read this page in full</em>: it will ensure you have a complete and
+comprehensive overview of the PyScript platform along with suggestions for
+where next to explore.</p>
+<p>When you require depth and technical detail you should consult the other pages
+of this guide that are referenced from this page. They provide clear and
+precise details along with example code fragments and descriptions of the APIs
+available via PyScript.</p>
+<p>Finally, the examples listed at the end of this page, are all freely available
+and copiously commented on <a href="pyscript.com">pyscript.com</a>. You should consult
+these for practical "real world" use of the various features of the PyScript
+platform. Many of these examples come from a diversity of members and
+contributors to our wonderful community. If you believe you have a project that
+would make a good example, please don't hesitate to get in touch.</p>
+<h2 id="what-is-pyscript">What is PyScript?</h2>
+<p>PyScript is a platform for Python in the browser.</p>
+<p>PyScript's aim is to bring together two of the most vibrant technical
+ecosystems on the planet. If the web and Python had a baby, you get PyScript.</p>
+<p>PyScript works because modern browsers support
+<a href="https://webassembly.org/">web assembly</a> (abbreviated to WASM) - a virtual
+machine with an open specification and near native performance. PyScript takes
+versions of the Python interpreter compiled to WASM, and makes them easy to use
+from within your browser.</p>
+<p>That's it!</p>
+<p>At the core of PyScript is a philosophy of digital empowerment. The web is the
+world's most ubiquitous computing platform, mature and familiar to billions of
+people. Python is one of the world's most popular programming languages:
+easy to teach and learn, used in a plethora of existing domains
+such as data science, games, embedded systems, artificial intelligence and
+film making (to name but a few), and the Python ecosystem contains a huge
+number of libraries to address its many uses.</p>
+<p>PyScript brings together the ubiquity and accessibility of the web with the
+power, depth and expressiveness of Python. It means PyScript isn't just for
+programming experts but, as we like to say, for the 99% of the rest of the
+planet who use computers.</p>
+<h2 id="features">Features</h2>
+<dl>
+    <dt><strong>All the web</strong></dt>
+    <dd>
+    <p>Thanks to the foreign function interface (FFI), PyScript gives you
+    access to the complete
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API">web
+    APIs implemented by your browser</a>.</p>
+
+    <p>The FFI makes it easy for Python to work with all the capabilities in
+    scope in your browser, including third party JavaScript libraries that may
+    be included with the <code>script</code> tag.</p>
+
+    <p>The FFI even allows JavaScript to access the power of PyScript.</p></dd>
+    <dt><strong>All of Python</strong></dt>
+    <dd>
+    <p>PyScript brings you two Python interpreters:</p>
+    <ol>
+        <li><a href="https://pyodide.org/">Pyodide</a> - the original standard CPython
+        interpreter you know and love, but compiled to web assembly.</li>
+        <li><a href="https://micropython.org/">MicroPython</a> - a lean and efficient
+        reimplementation of Python3 that includes a comprehensive subset of the
+        standard library, compiled to web assembly.</li>
+    </ol>
+    <p>Because it is just regular CPython, Pyodide brings the deep and diverse
+    ecosystem of libraries, frameworks and modules at your disposal. If you
+    find yourself encountering some sort of computing problem, there's probably
+    a Python library to help you with it. If you're used to using a favourite
+    library in Python, now you can use it in your browser and share it with
+    the ease of a URL.</p>
+    <p>MicroPython, because of its small size (170k) and speed, is especially
+    suited to running on more constrained browsers, such as those on mobile
+    or tablet devices.</p>
+    <p>Both Python interpreters supported by PyScript implement the same
+    FFI to bridge the gap between the worlds of Python and the browser.</p>
+    </dd>
+    <dt><strong>Data science built in</strong></dt>
+    <dd>Python is famous for its extraordinary usefulness in data science
+    and artificial intelligence. The Pyodide interpreter comes with many of the
+    libraries you need for this sort of work, already baked in.</dd>
+    <dt><strong>Mobile friendly MicroPython</strong></dt>
+    <dd>
+    <p>Thanks to MicroPython in PyScript, there is a compelling story for
+    Python on mobile.</p>
+
+    <p>MicroPython is small and fast enough that your app will start quickly
+    on first load, and almost instantly (due to the cache) on subsequent
+    runs.</p></dd>
+    <dt><strong>Parallel execution</strong></dt>
+    <dd>Thanks to a browser technology called
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">web workers</a>
+    expensive and blocking computation can be run somewhere other than the
+    main application thread that controls the user interface. Were such work to
+    be done on the main thread your browser would appear frozen, but web
+    workers ensure expensive and blocking computation happens elsewhere. Think
+    of workers as independent subprocesses in your web page.</dd>
+    <dt><strong>Rich and powerful plugins</strong></dt>
+    <dd>
+    <p>As you'll see, PyScript has a small, efficient yet powerful core called
+    <a href="https://github.com/pyscript/polyscript">PolyScript</a>.</p>
+    <p>Most of the functionality of PyScript is actually implemented through
+    PolyScript's plugin system.</p>
+
+    <p>The advantage of this approach is that we get
+    a clear separation of concerns: PolyScript can focus on being small,
+    efficient and powerful, whereas the PyScript related plugins allow us to
+    customise the generic features provided by PolyScript. More importantly,
+    because there is a plugin system, folks independent of the PyScript core
+    team can create their own plugins so we get a rich ecosystem of
+    functionality that reflects the needs of PyScript's users.</p>
+    </dd>
+</dl>
+
+<h2 id="architecture">Architecture</h2>
+<p>There are two important pieces of information you should know about the
+architecture of PyScript:</p>
+<ol>
+<li>A small, efficient and powerful kernel called
+   <a href="https://github.com/pyscript/polyscript">PolyScript</a> is the foundation
+   upon which PyScript and plugins are built.</li>
+<li>The stack inside the browser is relatively simple and easy to understand.</li>
+</ol>
+<p>Let's dive into each in turn.</p>
+<h3 id="polyscript">PolyScript</h3>
+<p><a href="https://pyscript.github.io/polyscript/">PolyScript</a> is the core of PyScript.</p>
+<p>Its purpose is to bootstrap everything and provide all the core capabilities
+we need. It does so as a small, efficient and powerful kernel. Setting aside
+PyScript for a moment, to use <em>just PolyScript</em> requires a <code>&lt;script&gt;</code> reference
+to it, along with a further <code>&lt;script&gt;</code> tag defining how to run some code.</p>
+<div class="language-html highlight"><span class="filename">Bootstrapping with PolyScript</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="cm">&lt;!-- this is a way to automatically bootstrap polyscript --&gt;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/polyscript&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="cm">&lt;!-- run some Python code with the micropython interpreter --&gt;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;micropython&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">            </span><span class="kr">from</span><span class="w"> </span><span class="nx">js</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nb">document</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">            </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;polyscript&#39;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>PolyScript provides a
+<a href="https://pyscript.github.io/polyscript/">small yet powerful set of capabilities</a>
+upon which PyScript itself is built.</p>
+<p>These can be summarised as:</p>
+<ul>
+<li>Evaluating code via <code>&lt;script&gt;</code> tags.</li>
+<li>Handling events with code controlled by PolyScript.</li>
+<li>Use of workers via the <code>XWorker</code> class and its reference <code>xworker</code>.</li>
+<li>Custom scripts to enrich PolyScript's capabilities (as PyScript does).</li>
+<li>Certain events fired during the lifecycle of the page (see below).</li>
+<li>Multipe interpreters (in addition to Pyodide and MicroPython we have had
+  PolyScript work with Lua and Ruby - although these are beyond the scope of
+  this project).</li>
+</ul>
+<p>Please refer to the PolyScript project for more information about its
+capabilities.</p>
+<h3 id="the-stack">The stack</h3>
+<p>The following diagram sums up everything you need to know:</p>
+<p><img src="/assets/images/platform.png"/></p>
+<ul>
+<li>Everything happens inside the context of the browser (represented by the
+  black border). <strong>PyScript code does not run anywhere BUT THE BROWSER.</strong> It
+  means the browser tab for your PyScript app is your sandbox.</li>
+<li>At the bottom of the stack are the Python interpreters compiled to WASM. They
+  evaluate your code and interact with the browser via the FFI.</li>
+<li>The PyScript layer makes it easy to use and configure the Python
+  interpreters. There are two parts to this:<ol>
+<li>The PolyScript kernel (see above), that bootstraps everything and
+   provides the core capabilities.</li>
+<li>The PyScript capabilities and related plugins that sit atop PolyScript
+   and give us the easy-to-use platform.</li>
+</ol>
+</li>
+<li>Above the PyScript layer are either:<ol>
+<li>Application frameworks, modules and libraries written in Pyton that you
+   use to create useful applications.</li>
+<li>Your code (that's your responsibility).</li>
+</ol>
+</li>
+</ul>
+<h2 id="lifecycle">Lifecycle</h2>
+<p>TBD - talk to Andrea to ensure this is correct.</p>
+<h2 id="core-concepts">Core concepts</h2>
+<h3 id="interpreters">Interpreters</h3>
+<h3 id="the-dom">The DOM</h3>
+<h3 id="configuration">Configuration</h3>
+<h3 id="workers">Workers</h3>
+<h3 id="plugins">Plugins</h3>
+<h3 id="ffi">FFI</h3>
+<h2 id="examples">Examples</h2>
+<h3 id="lots-of-dom-manipulation">Lots of DOM manipulation</h3>
+<h3 id="data-science-y">Data science-y</h3>
+<h3 id="graphical">Graphical</h3>
+<h3 id="blocking-with-workers">Blocking with workers</h3>
+<h3 id="calling-an-api">Calling an API</h3>
 
 
 
