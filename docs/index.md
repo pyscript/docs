@@ -1,4 +1,4 @@
-![PyScript Logo](/assets/images/pyscript.svg)
+![PyScript Logo](assets/images/pyscript.svg)
 
 <h1 style="text-align: center; font-weight: bold;">A platform for Python in the browser.</h1>
 

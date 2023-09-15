@@ -3,7 +3,7 @@
 !!! note
 
     This guide provides detailed technical guidance for developers who want
-    in depth explanation of the PyScript platform.
+    an in depth explanation of the PyScript platform.
 
     As a result, while we endeavour to write clearly, some of the content in
     this user guide will not be suitable for beginners. We assume folks who
@@ -21,7 +21,7 @@ This guide is in three parts:
 3. The example projects, listed at the end of this page, that demonstrate the
    various features of PyScript working together in real-world applications.
 
-We suggest you _read this page in full_: it will ensure you have a complete and
+We suggest you _read this page in full_: it will ensure you have a 
 comprehensive overview of the PyScript platform along with suggestions for
 where next to explore.
 
@@ -33,9 +33,9 @@ available via PyScript.
 Finally, the examples listed at the end of this page, are all freely available
 and copiously commented on [pyscript.com](pyscript.com). You should consult
 these for practical "real world" use of the various features of the PyScript
-platform. Many of these examples come from a diversity of members and
-contributors to our wonderful community. If you believe you have a project that
-would make a good example, please don't hesitate to get in touch.
+platform. Many of these examples come from contributors to our wonderful
+community. If you believe you have a project that would make a good example,
+please don't hesitate to get in touch.
 
 ## What is PyScript?
 
@@ -49,8 +49,6 @@ PyScript works because modern browsers support
 machine with an open specification and near native performance. PyScript takes
 versions of the Python interpreter compiled to WASM, and makes them easy to use
 from within your browser.
-
-That's it!
 
 At the core of PyScript is a philosophy of digital empowerment. The web is the
 world's most ubiquitous computing platform, mature and familiar to billions of
@@ -71,41 +69,45 @@ planet who use computers.
     <dt><strong>All the web</strong></dt>
     <dd>
     <p>Thanks to the foreign function interface (FFI), PyScript gives you
-    access to the complete
+    access to all the
     <a href="https://developer.mozilla.org/en-US/docs/Web/API">web
     APIs implemented by your browser</a>.</p>
 
-    <p>The FFI makes it easy for Python to work with all the capabilities in
-    scope in your browser, including third party JavaScript libraries that may
-    be included with the <code>script</code> tag.</p>
+    <p>The FFI makes it easy for Python to work within your browser, including
+    with third party JavaScript libraries that may be included via the
+    <code>script</code> tag.</p>
 
-    <p>The FFI even allows JavaScript to access the power of PyScript.</p></dd>
+    <p>The FFI is bi-directional because it enables JavaScript to access the
+    power of PyScript.</p></dd>
     <dt><strong>All of Python</strong></dt>
     <dd>
     <p>PyScript brings you two Python interpreters:</p>
     <ol>
-        <li><a href="https://pyodide.org/">Pyodide</a> - the original standard CPython
-        interpreter you know and love, but compiled to web assembly.</li>
-        <li><a href="https://micropython.org/">MicroPython</a> - a lean and efficient
-        reimplementation of Python3 that includes a comprehensive subset of the
-        standard library, compiled to web assembly.</li>
+        <li><a href="https://pyodide.org/">Pyodide</a> - the original standard
+        CPython interpreter you know and love, but compiled to web
+        assembly.</li>
+        <li><a href="https://micropython.org/">MicroPython</a> - a lean and
+        efficient reimplementation of Python3 that includes a comprehensive
+        subset of the standard library, compiled to web assembly.</li>
     </ol>
-    <p>Because it is just regular CPython, Pyodide brings the deep and diverse
-    ecosystem of libraries, frameworks and modules at your disposal. If you
-    find yourself encountering some sort of computing problem, there's probably
-    a Python library to help you with it. If you're used to using a favourite
-    library in Python, now you can use it in your browser and share it with
-    the ease of a URL.</p>
+    <p>Because it is just regular CPython, Pyodide puts Python's deep and
+    diverse ecosystem of libraries, frameworks and modules at your disposal. If
+    you find yourself encountering some sort of computing problem, there's
+    probably a Python library to help you with it. If you're used to using a
+    favourite library in Python, now you can use it in your browser and share
+    it with the ease of a URL.</p>
     <p>MicroPython, because of its small size (170k) and speed, is especially
     suited to running on more constrained browsers, such as those on mobile
-    or tablet devices.</p>
+    or tablet devices. It includes a powerful sub-set of the Python standard
+    library and efficiently exposes the expressiveness of Python to the
+    browser.</p>
     <p>Both Python interpreters supported by PyScript implement the same
-    FFI to bridge the gap between the worlds of Python and the browser.</p>
+    API to bridge the gap between the worlds of Python and the browser.</p>
     </dd>
     <dt><strong>Data science built in</strong></dt>
     <dd>Python is famous for its extraordinary usefulness in data science
     and artificial intelligence. The Pyodide interpreter comes with many of the
-    libraries you need for this sort of work, already baked in.</dd>
+    libraries you need for this sort of work already baked in.</dd>
     <dt><strong>Mobile friendly MicroPython</strong></dt>
     <dd>
     <p>Thanks to MicroPython in PyScript, there is a compelling story for
@@ -117,9 +119,9 @@ planet who use computers.
     <dt><strong>Parallel execution</strong></dt>
     <dd>Thanks to a browser technology called
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">web workers</a>
-    expensive and blocking computation can be run somewhere other than the
+    expensive and blocking computation can run somewhere other than the
     main application thread that controls the user interface. Were such work to
-    be done on the main thread your browser would appear frozen, but web
+    be done on the main thread, your browser would appear frozen. Web
     workers ensure expensive and blocking computation happens elsewhere. Think
     of workers as independent subprocesses in your web page.</dd>
     <dt><strong>Rich and powerful plugins</strong></dt>
@@ -129,13 +131,13 @@ planet who use computers.
     <p>Most of the functionality of PyScript is actually implemented through
     PolyScript's plugin system.</p>
 
-    <p>The advantage of this approach is that we get
-    a clear separation of concerns: PolyScript can focus on being small,
-    efficient and powerful, whereas the PyScript related plugins allow us to
-    customise the generic features provided by PolyScript. More importantly,
-    because there is a plugin system, folks independent of the PyScript core
-    team can create their own plugins so we get a rich ecosystem of
-    functionality that reflects the needs of PyScript's users.</p>
+    <p>This approach means we get a clear separation of concerns: PolyScript
+    can focus on being small, efficient and powerful, whereas the PyScript
+    related plugins allow us to customise the generic features provided by
+    PolyScript. More importantly, because there is a plugin system, folks
+    _independent of the PyScript core team_ have a way to create their own
+    plugins so we get a rich ecosystem of functionality that reflects the
+    unique and many needs of PyScript's users.</p>
     </dd>
 </dl>
 
@@ -153,10 +155,10 @@ Let's dive into each in turn.
 
 ### PolyScript
 
-[PolyScript](https://pyscript.github.io/polyscript/) is the core of PyScript.
+[PolyScript](https://github.com/pyscript/polyscript) is the core of PyScript.
 
-Its purpose is to bootstrap everything and provide all the core capabilities
-we need. It does so as a small, efficient and powerful kernel. Setting aside
+Its purpose is to bootstrap the platform and provide all the necessary core
+capabilities. It is a small, efficient and powerful kernel. Setting aside
 PyScript for a moment, to use *just PolyScript* requires a `<script>` reference
 to it, along with a further `<script>` tag defining how to run some code.
 
@@ -183,37 +185,41 @@ upon which PyScript itself is built.
 
 These can be summarised as:
 
-* Evaluating code via `<script>` tags.
-* Handling events with code controlled by PolyScript.
-* Use of workers via the `XWorker` class and its reference `xworker`.
-* Custom scripts to enrich PolyScript's capabilities (as PyScript does).
+* Evaluation of code via `<script>` tags.
+* The handling of events with code controlled by PolyScript.
+* A clear way to use workers via the `XWorker` class and its related reference,
+  `xworker`.
+* Custom scripts to enrich PolyScript's capabilities (as used by PyScript).
 * Certain events fired during the lifecycle of the page (see below).
-* Multipe interpreters (in addition to Pyodide and MicroPython we have had
-  PolyScript work with Lua and Ruby - although these are beyond the scope of
-  this project).
+* Multipe interpreters (in addition to Pyodide and MicroPython, PolyScript
+  works with Lua and Ruby - although these are beyond the scope of this
+  project).
 
-Please refer to the PolyScript project for more information about its
-capabilities.
+Please refer to the
+[PolyScript project](https://github.com/pyscript/polyscript) for more
+information about its capabilities.
 
 ### The stack
 
-The following diagram sums up everything you need to know:
+The stack describes how the different building blocks that make up a PyScript
+application relate to each other:
 
-<img src="/assets/images/platform.png"/>
+<img src="../assets/images/platform.png"/>
 
 * Everything happens inside the context of the browser (represented by the
-  black border). **PyScript code does not run anywhere BUT THE BROWSER.** It
-  means the browser tab for your PyScript app is your sandbox.
+  black border). **PyScript does not run anywhere BUT THE BROWSER.** It
+  means the browser tab for your PyScript app is your sandboxed computing
+  environment.
 * At the bottom of the stack are the Python interpreters compiled to WASM. They
   evaluate your code and interact with the browser via the FFI.
 * The PyScript layer makes it easy to use and configure the Python
   interpreters. There are two parts to this:
     1. The PolyScript kernel (see above), that bootstraps everything and
        provides the core capabilities.
-    2. The PyScript capabilities and related plugins that sit atop PolyScript
-       and give us the easy-to-use platform.
+    2. PyScript and related plugins that sit atop PolyScript to give us the
+       easy-to-use Python platform.
 * Above the PyScript layer are either:
-    1. Application frameworks, modules and libraries written in Pyton that you
+    1. Application frameworks, modules and libraries written in Python that you
        use to create useful applications.
     2. Your code (that's your responsibility).
 
@@ -223,11 +229,172 @@ TBD - talk to Andrea to ensure this is correct.
 
 ## Core concepts
 
+There are only a handful of core concepts you really need to understand in
+order to master PyScript.
+
+The following sections introduce each core concept and link to the in-depth
+documentation so you can explore in more detail.
+
+### Code
+
+You need to tell your browser to use PyScript, then you need to tell PyScript
+where to find your Python code.
+
+To tell your browser to use PyScript, simply add a `<script>` tag, whose `src`
+attribute references a CDN url for `pyscript.core`, to your HTML document's
+`<head>`.
+
+Like this **TODO: USE CORRECT CDN URL**:
+
+```html title="Reference PyScript in your HTML"
+<!doctype html>
+<html>
+    <head>
+        <!-- Recommended meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <!-- optional PyScript CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css">
+        <!-- This script tag bootstraps PyScript -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core"></script>
+    </head>
+    <body>
+        <!-- your code goes here... -->
+    </body>
+</html>
+```
+
+There are two ways to tell PyScript where to find your code.
+
+* With a standard HTML `<script>` tag. **This is currently the recommended
+  way**.
+* Via the bespoke `<py-script>` tag. Historically, this used to be the only
+  way to reference your code.
+
+These should be inserted into the `<body>` of your HTML document.
+
+In both cases use the `src` attribute to reference a Python
+file containing your code, or inline your code between the opening and closing
+tags. **We recommend you use the `src` attribute method**, but retain the
+ability to include code between tags for convenience.
+
+Here's the `<script>` tag method using the `src` attribute to reference the URL
+for a `main.py` Python file.
+
+```html title="Using the script tag with a source file"
+<script type="py" src="main.py"></script>
+```
+
+...and here's the `<py-script>` tag with inline Python code.
+
+```html title="Using the py-script tag with inline code"
+<py-script>
+import sys
+
+
+print(sys.version)
+</py-script>
+```
+
+Both tags accept various attributes to control their behaviour.
+
+More detailed information can be found on the [page about code](code).
+
 ### Interpreters
+
+Python is an interpreted language, and thus needs an interpreter to work.
+
+PyScript supports two versions of the Python interpreter that have been
+compiled to WASM: Pyodide and MicroPython. You should select which one to use
+depending on your use case and acceptable trade-offs.
+
+Both interpreters make use of [emscripten](https://emscripten.org/), a compiler
+toolchain (using LLVM), for emitting WASM assets for the browser. Emscripten
+also provides APIs so operating-system level features such as a sandboxed file
+system (not the user's local machine's filesystem), IO (`stdin`, `stdout`,
+`stderr` etc,) and networking are available within the context of a browser.
+
+
+#### Pyodide
+
+[Pyodide](https://pyodide.org/) is a version of the standard
+[CPython](https://python.org/) interpreter, patched to compile to WASM and
+work in the browser.
+
+It is a mature and stable build of the CPython interpreter and includes many
+useful features:
+
+* A robust [Python](https://pyodide.org/en/stable/usage/api/python-api.html)
+  ⟺ [JavaScript](https://pyodide.org/en/stable/usage/api/js-api.html) foreign
+  function interface (FFI). This bridges the gap between the browser and Python
+  worlds.
+* The installation of pure Python packages from [PyPI](https://pypi.org/) via
+  the [micropip](https://micropip.pyodide.org/en/stable/index.html) package
+  installer. Some packages with C extensions have versions compiled for WASM
+  and these can also be installed with `micropip`. There are plans afoot to
+  make WASM a target in PyPI so packages with C extenions can be automatically
+  compiled to WASM.
+* An active team of volunteer contributors (some of whom have been supported
+  by the PyScript project).
+* Extensive official
+  [documentation](https://micropip.pyodide.org/en/stable/index.html), and many
+  tutorials found online.
+* Builds of Pyodide that include popular packages for data science like
+  [Numpy](https://numpy.org/), [Scipy](https://scipy.org/) and
+  [Pandas](https://pandas.pydata.org/).
+
+#### MicroPython
+
+[MicroPython](https://micropython.org/) is a lean and efficient implementation
+of the Python 3 programming language that includes a small subset of the Python
+standard library and is optimised to run on microcontrollers and in constrained
+environments (like the browser). 
+
+Everything needed to view a web page in a browser needs to be delivered
+over the network. The smaller the asset to be delivered can be, the better.
+MicroPython, when compressed for delivery to the browser, is only around
+170k in size - smaller than most images you find on most websites.
+
+This makes MicroPython particularly suited to browsers running in a more
+constrained environment such as on a mobile or tablet based device. Browsing
+with these devices usually uses (slower) mobile internet connections.
+Furthermore, because MicroPython is lean and efficient it still performs
+exceptionally well on these relatively underpowered devices.
+
+Thanks to collaboration between the MicroPython and PyScript projects, there is
+a foreign function interface for MicroPython. The MicroPython FFI deliberately
+copies the API of the FFI originally written for Pyodide - meaning it is
+relatively easy to migrate between the two supported interpreters.
+
+Further details and more in-depth discussion of the interpreters supported by 
+PyScript can be found on [the interpreters page](interpreters).
 
 ### The DOM
 
+The DOM
+([document object model](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model))
+refers to a tree like data structure that represents the web page in the
+browser. PyScript needs to be able to interact with the DOM in order to change
+the user interface and react to things happening in the browser.
+
+There are currently two ways to interact with the DOM:
+
+1. Through the FFI and by directly interacting with the objects found in the
+   `globalThis` object.
+2. Through the `pydom` module that comes as standard with PyScript.
+
+The first option gives you access to all the [standard web capabilities and
+features](https://developer.mozilla.org/en-US/docs/Web), such as the browser's
+built-in [web APIs](https://developer.mozilla.org/en-US/docs/Web/API), and the
+`document` object at the root of the [DOM tree](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_Document_Object_Model#what_is_a_dom_tree).
+
+The second is a Python module called `pydom` that wraps many (although not all)
+the features available via the FFI in a more idiomatically Pythonic library...
+**TODO: Fabio to finish this bit...**
+
 ### Configuration
+
+
 
 ### Workers
 
