@@ -1,2 +1,0 @@
-# PyScript Plugins
-
