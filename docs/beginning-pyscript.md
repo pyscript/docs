@@ -104,7 +104,7 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>Arrr - Piratical PyScript</title>
-      <script type="module" src="https://unpkg.com/@pyscript/core"></script>
+      <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
   </head>
   <body>
 
@@ -154,7 +154,7 @@ In the end, our HTML should look like this:
       <meta name="viewport" content="width=device-width,initial-scale=1" />
 
       <title>Arrr - Piratical PyScript</title>
-      <script type="module" src="https://esm.sh/@pyscript/core@latest/core.js"></script>
+      <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
   </head>
   <body>
     <h1>Arrr</h1>
