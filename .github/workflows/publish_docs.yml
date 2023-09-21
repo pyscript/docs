@@ -23,5 +23,4 @@ jobs:
 
             - name: Copy to docs
               run: |
-                  aws s3 rm --recursive s3://docs.pyscript.net/
                   aws s3 sync . s3://docs.pyscript.net/
