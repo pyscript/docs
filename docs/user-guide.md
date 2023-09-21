@@ -93,8 +93,8 @@ the planet who use computers.
     <p>PyScript brings you two Python interpreters:</p>
     <ol>
         <li><a href="https://pyodide.org/">Pyodide</a> - the original standard
-        CPython interpreter you know and love, but compiled to web
-        assembly.</li>
+        CPython interpreter you know and love, but compiled to WebAssembly.
+        </li>
         <li><a href="https://micropython.org/">MicroPython</a> - a lean and
         efficient reimplementation of Python3 that includes a comprehensive
         subset of the standard library, compiled to web assembly.</li>
