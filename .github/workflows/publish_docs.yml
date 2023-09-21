@@ -22,6 +22,6 @@ jobs:
                   role-to-assume: ${{ secrets.AWS_OIDC_RUNNER_ROLE }}
 
             - name: Copy to docs
-              run: >
+              run: |
                   aws s3 rm --recursive s3://docs.pyscript.net/
                   aws s3 sync . s3://docs.pyscript.net/
