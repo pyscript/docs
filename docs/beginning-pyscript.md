@@ -65,9 +65,16 @@ refresh the page (`CTRL-R`) to see any updates you may have made.
     [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
     can be used to reload the page as you edit your files.
 
-Let's build a simple PyScript application that translates English into Pirate
+Let's build a simple PyScript application that translates English 🇬🇧 into
+Pirate 🏴‍☠️
 speak. In order to do this we'll make use of the
 [arrr](https://arrr.readthedocs.io/en/latest/) library.
+
+You can see this application embedded into the page below:
+
+<iframe src="https://ntoll.pyscriptapps.com/piratical/latest/" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+Let's explore each of the three files that make this app work.
 
 ### pyscript.toml
 
