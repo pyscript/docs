@@ -97,7 +97,7 @@ the planet who use computers.
         </li>
         <li><a href="https://micropython.org/">MicroPython</a> - a lean and
         efficient reimplementation of Python3 that includes a comprehensive
-        subset of the standard library, compiled to web assembly.</li>
+        subset of the standard library, compiled to WebAssembly.</li>
     </ol>
     <div class="admonition warning">
         <p class="admonition-title">Warning</p>
