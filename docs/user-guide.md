@@ -658,8 +658,8 @@ such as the browser's built-in
 [web APIs](https://developer.mozilla.org/en-US/docs/Web/API).
 
 This is available via the `pyscript.window` module which is a proxy for
-JavaScript's `globalThis` object, or `pyscript.document` which is a proxy for
-the `document` object in JavaScript:
+the main thread's `globalThis` object, or `pyscript.document` which is a proxy
+for the `document` object in JavaScript:
 
 ```Python title="Accessing the window and document objects in Python"
 from pyscript import window, document
