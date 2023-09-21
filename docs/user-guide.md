@@ -49,7 +49,7 @@ planet. If [the web](https://en.wikipedia.org/wiki/World_Wide_Web) and Python
 had a baby, you'd get PyScript.
 
 PyScript works because modern browsers support
-[web assembly](https://webassembly.org/) (abbreviated to WASM) - an
+[WebAssembly](https://webassembly.org/) (abbreviated to WASM) - an
 [instruction set](https://en.wikipedia.org/wiki/Instruction_set_architecture)
 for a [virtual machine](https://en.wikipedia.org/wiki/Virtual_machine) with
 an open specification and near native performance. PyScript takes
