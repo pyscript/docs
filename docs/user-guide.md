@@ -184,9 +184,9 @@ attribute references a CDN url for `pyscript.core`, to your HTML document's
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <!-- optional PyScript CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css">
+        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC1/core.css">
         <!-- This script tag bootstraps PyScript -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core"></script>
+        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
     </head>
     <body>
         <!-- your code goes here... -->
@@ -289,7 +289,7 @@ core capabilities. Setting aside PyScript for a moment, to use
 <html>
     <head>
         <!-- this is a way to automatically bootstrap polyscript -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/polyscript"></script>
+        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
     </head>
     <body>
         <!--
