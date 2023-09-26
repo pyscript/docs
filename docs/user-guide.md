@@ -792,9 +792,6 @@ There are some caveats:
     with that ID (or which matches that selector) will be used to display
     the content instead.
 
-* When used in a worker, the `display` function needs an explicit
-  `target="dom-id"` argument to identify where the content will be
-  displayed.
 * In both the main thread a worker, `append=False` is the default
   behaviour.
 
