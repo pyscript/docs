@@ -787,11 +787,9 @@ There are some caveats:
 * When used in the main thread, the `display` function automatically uses
   the current `<script>` tag as the `target` into which the content will
   be displayed.
-
     - If the `<script>` tag has the `target` attribute, the element on the page
     with that ID (or which matches that selector) will be used to display
     the content instead.
-
 * In both the main thread a worker, `append=False` is the default
   behaviour.
 
