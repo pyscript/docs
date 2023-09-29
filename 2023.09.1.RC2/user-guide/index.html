@@ -1,0 +1,1882 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../license/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>User Guide - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#user-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              User Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../beginning-pyscript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Apache License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-pyscript" class="md-nav__link">
+    What is PyScript?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-steps" class="md-nav__link">
+    First steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polyscript" class="md-nav__link">
+    PolyScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-stack" class="md-nav__link">
+    The stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    Lifecycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreters" class="md-nav__link">
+    Interpreters
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyodide" class="md-nav__link">
+    Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#micropython" class="md-nav__link">
+    MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#toml-or-json" class="md-nav__link">
+    TOML or JSON
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-or-inline" class="md-nav__link">
+    File or inline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpreter" class="md-nav__link">
+    Interpreter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    Files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#packages" class="md-nav__link">
+    Packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    Plugins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom" class="md-nav__link">
+    Custom
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-dom" class="md-nav__link">
+    The DOM
+  </a>
+  
+    <nav class="md-nav" aria-label="The DOM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffi" class="md-nav__link">
+    FFI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pydom" class="md-nav__link">
+    PyDom
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workers" class="md-nav__link">
+    Workers
+  </a>
+  
+    <nav class="md-nav" aria-label="Workers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-headers" class="md-nav__link">
+    HTTP headers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-working" class="md-nav__link">
+    Start working
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#builtin-helpers" class="md-nav__link">
+    Builtin helpers
+  </a>
+  
+    <nav class="md-nav" aria-label="Builtin helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-features" class="md-nav__link">
+    Common features
+  </a>
+  
+    <nav class="md-nav" aria-label="Common features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptwindow" class="md-nav__link">
+    pyscript.window
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdocument" class="md-nav__link">
+    pyscript.document
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdisplay" class="md-nav__link">
+    pyscript.display
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#main-thread-only-features" class="md-nav__link">
+    Main-thread only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Main-thread only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptpyworker" class="md-nav__link">
+    pyscript.PyWorker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-only-features" class="md-nav__link">
+    Worker only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Worker only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptsync" class="md-nav__link">
+    pyscript.sync
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins_1" class="md-nav__link">
+    Plugins
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-pyscript" class="md-nav__link">
+    What is PyScript?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-steps" class="md-nav__link">
+    First steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    Architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polyscript" class="md-nav__link">
+    PolyScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-stack" class="md-nav__link">
+    The stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    Lifecycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreters" class="md-nav__link">
+    Interpreters
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyodide" class="md-nav__link">
+    Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#micropython" class="md-nav__link">
+    MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#toml-or-json" class="md-nav__link">
+    TOML or JSON
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-or-inline" class="md-nav__link">
+    File or inline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interpreter" class="md-nav__link">
+    Interpreter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    Files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#packages" class="md-nav__link">
+    Packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    Plugins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom" class="md-nav__link">
+    Custom
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-dom" class="md-nav__link">
+    The DOM
+  </a>
+  
+    <nav class="md-nav" aria-label="The DOM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffi" class="md-nav__link">
+    FFI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pydom" class="md-nav__link">
+    PyDom
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workers" class="md-nav__link">
+    Workers
+  </a>
+  
+    <nav class="md-nav" aria-label="Workers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-headers" class="md-nav__link">
+    HTTP headers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-working" class="md-nav__link">
+    Start working
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#builtin-helpers" class="md-nav__link">
+    Builtin helpers
+  </a>
+  
+    <nav class="md-nav" aria-label="Builtin helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-features" class="md-nav__link">
+    Common features
+  </a>
+  
+    <nav class="md-nav" aria-label="Common features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptwindow" class="md-nav__link">
+    pyscript.window
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdocument" class="md-nav__link">
+    pyscript.document
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdisplay" class="md-nav__link">
+    pyscript.display
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#main-thread-only-features" class="md-nav__link">
+    Main-thread only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Main-thread only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptpyworker" class="md-nav__link">
+    pyscript.PyWorker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-only-features" class="md-nav__link">
+    Worker only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Worker only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptsync" class="md-nav__link">
+    pyscript.sync
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins_1" class="md-nav__link">
+    Plugins
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="user-guide">User Guide</h1>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This guide provides technical guidance and exploration of the PyScript
+platform.</p>
+<p>While we endeavour to write clearly, some of the content in this user guide
+will not be suitable for beginners. We assume readers already have Python
+or web development experience. If you're a beginner start with our
+<a href="/beginning-pyscript">beginner's guide</a>.</p>
+<p>We <a href="https://github.com/pyscript/docs/issues">welcome feedback</a> to help us
+improve.</p>
+</div>
+<p>This guide has three aims:</p>
+<ol>
+<li>A clear overview, context setting and sign-posting for all things PyScript.</li>
+<li>Exploration of PyScript in substantial technical detail.</li>
+<li>Demonstration of the features of PyScript working together in real-world
+   example applications.</li>
+</ol>
+<p><em>Read this page in full</em>: it is a short but comprehensive overview of the
+PyScript platform.</p>
+<p>Get involved! Join in the PyScript conversation on our
+<a href="https://discord.gg/HxvBtukrg2">discord server</a>. There you'll find core
+developers, community contributors and a flourishing forum for those creating
+projects with PyScript. Should you wish to engage with the development of
+PyScript, you are welcome to contribute via 
+<a href="https://github.com/pyscript">the project's GitHub organisation</a>.</p>
+<p>Finally, the examples listed at the end of this page are all freely available
+and copiously commented on <a href="pyscript.com">pyscript.com</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Many of these examples come from contributors in our wonderful
+community. If you believe you have a project that would make a good
+demonstration, please don't hesitate to
+<a href="https://discord.gg/HxvBtukrg2">get in touch</a>.</p>
+</div>
+<h2 id="what-is-pyscript">What is PyScript?</h2>
+<p><a href="pyscript.net">PyScript</a> is a platform for <a href="python.org">Python</a> in the
+<a href="https://en.wikipedia.org/wiki/Web_browser">browser</a>.</p>
+<p>PyScript brings together two of the most vibrant technical ecosystems on the
+planet. If <a href="https://en.wikipedia.org/wiki/World_Wide_Web">the web</a> and Python
+had a baby, you'd get PyScript.</p>
+<p>PyScript works because modern browsers support
+<a href="https://webassembly.org/">WebAssembly</a> (abbreviated to WASM) - an
+<a href="https://en.wikipedia.org/wiki/Instruction_set_architecture">instruction set</a>
+for a <a href="https://en.wikipedia.org/wiki/Virtual_machine">virtual machine</a> with
+an open specification and near native performance. PyScript takes
+versions of the Python interpreter compiled to WASM, and makes them easy to use
+inside the browser.</p>
+<p>At the core of PyScript is a <em>philosophy of digital empowerment</em>. The web is
+the world's most ubiquitous computing platform, mature and familiar to billions
+of people. Python is one of the
+<a href="https://spectrum.ieee.org/the-top-programming-languages-2023">world's most popular programming languages</a>:
+it is easy to teach and learn, used in a plethora of existing domains
+(such as data science, games, embedded systems, artificial intelligence,
+finance, physics  and film production - to name but a few), and the Python
+ecosystem contains a huge number of popular and powerful libraries to address
+its many uses.</p>
+<p>PyScript brings together the ubiquity, familiarity and accessibility of the web
+with the power, depth and expressiveness of Python. It means PyScript isn't
+just for programming experts but, as we like to say, for the 99% of the rest of
+the planet who use computers.</p>
+<h2 id="features">Features</h2>
+<dl>
+    <dt><em>All the web</em></dt>
+    <dd>
+    <p>Pyscript gives you <a href="#the-dom">full access to the DOM</a> and all
+    the <a href="https://developer.mozilla.org/en-US/docs/Web/API">web
+    APIs implemented by your browser</a>.</p>
+
+    <p>Thanks to the <a href="#ffi">foreign
+    function interface</a> (FFI), Python just works with all the browser has to
+    offer, including any third party JavaScript libraries that may be included
+    in the page.</p>
+
+    <p>The FFI is bi-directional ~ it also enables JavaScript to access the
+    power of Python.</p></dd>
+
+    <dt><em>All of Python</em></dt>
+    <dd>
+    <p>PyScript brings you two Python interpreters:</p>
+    <ol>
+        <li><a href="https://pyodide.org/">Pyodide</a> - the original standard
+        CPython interpreter you know and love, but compiled to WebAssembly.
+        </li>
+        <li><a href="https://micropython.org/">MicroPython</a> - a lean and
+        efficient reimplementation of Python3 that includes a comprehensive
+        subset of the standard library, compiled to WebAssembly.</li>
+    </ol>
+    <p>Because it is just regular CPython, Pyodide puts Python's deep and
+    <a href="https://pypi.org/">diverse ecosystem</a> of libraries, frameworks
+    and modules at your disposal. No matter the area of computing endeavour,
+    there's probably a Python library to help. Got a favourite library in
+    Python? Now you can use it in the browser and share your work with just 
+    a URL.</p>
+    <p>MicroPython, because of its small size (170k) and speed, is especially
+    suited to running on more constrained browsers, such as those on mobile
+    or tablet devices. It includes a powerful sub-set of the Python standard
+    library and efficiently exposes the expressiveness of Python to the
+    browser.</p>
+    <p>Both Python interpreters supported by PyScript implement the
+    <a href="#ffi">same FFI</a> to bridge the gap between the worlds of Python
+    and the browser.</p>
+    </dd>
+
+    <dt><em>AI and Data science built in</em></dt>
+    <dd>Python is famous for its extraordinary usefulness in artificial
+    intelligence and data science. The Pyodide interpreter comes with many of
+    the libraries you need for this sort of work already baked in.</dd>
+
+    <dt><em>Mobile friendly MicroPython</em></dt>
+    <dd>
+    <p>Thanks to MicroPython in PyScript, there is a compelling story for
+    Python on mobile.</p>
+
+    <p>MicroPython is small and fast enough that your app will start quickly
+    on first load, and almost instantly (due to the cache) on subsequent
+    runs.</p></dd>
+
+    <dt><em>Parallel execution</em></dt>
+    <dd>Thanks to a browser technology called
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">web workers</a>
+    expensive and blocking computation can run somewhere other than the main
+    application thread controlling the user interface. When such work is done
+    on the main thread, the browser appears frozen and web workers ensure
+    expensive blocking computation can happen elsewhere. Think of workers as
+    independent subprocesses in your web page.</dd>
+
+    <dt><em>Rich and powerful plugins</em></dt>
+    <dd>
+    <p>PyScript has a small, efficient yet powerful core called
+    <a href="https://github.com/pyscript/polyscript">PolyScript</a>. Most of
+    the functionality of PyScript is actually implemented through PolyScript's
+    <a href="#plugins_1">plugin system</a>.</p>
+
+    <p>This approach ensures a clear separation of concerns: PolyScript
+    can focus on being small, efficient and powerful, whereas the PyScript
+    related plugins allow us to build upon the solid foundations of
+    PolyScript.</p>
+
+    <p>Because there is a plugin system, folks
+    <em>independent of the PyScript core team</em> have a way to create and
+    contribute to a rich ecosystem of plugins whose functionality reflects the
+    unique and diverse needs of PyScript's users.</p>
+    </dd>
+</dl>
+
+<h2 id="first-steps">First steps</h2>
+<p>It's simple:</p>
+<ul>
+<li>tell your browser to use PyScript, then,</li>
+<li>tell PyScript how to run your Python code.</li>
+</ul>
+<p>For the browser to use PyScript, simply add a <code>&lt;script&gt;</code> tag, whose <code>src</code>
+attribute references a CDN url for <code>pyscript.core</code>, to your HTML document's
+<code>&lt;head&gt;</code>. We encourage you to add a reference to optional PyScript related
+CSS:</p>
+<div class="language-html highlight"><span class="filename">Reference PyScript in your HTML</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="cm">&lt;!-- Recommended meta tags --&gt;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width,initial-scale=1.0&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="cm">&lt;!-- PyScript CSS --&gt;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://pyscript.net/snapshots/2023.09.1.RC2/core.css&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="cm">&lt;!-- This script tag bootstraps PyScript --&gt;</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://pyscript.net/snapshots/2023.09.1.RC2/core.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="cm">&lt;!-- your code goes here... --&gt;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>There are two ways to tell PyScript how to find your code.</p>
+<ul>
+<li>With a standard HTML <code>&lt;script&gt;</code> tag whose <code>type</code> attribute is either <code>py</code>
+  (for Pyodide) or <code>mpy</code> (for MicroPython). <strong>This is the recommended way</strong>.</li>
+<li>Via the bespoke <code>&lt;py-script&gt;</code> (Pyodide) and <code>&lt;mpy-script&gt;</code> (MicroPython)
+  tags. Historically, <code>&lt;py-script&gt;</code> used to be the only way to reference your
+  code.</li>
+</ul>
+<p>These should be inserted into the <code>&lt;body&gt;</code> of your HTML document.</p>
+<p>In both cases either use the <code>src</code> attribute to reference a Python
+file containing your code, or inline your code between the opening and closing
+tags. <strong>We recommend you use the <code>src</code> attribute method</strong>, but retain the
+ability to include code between tags for convenience.</p>
+<p>Here's a <code>&lt;script&gt;</code> tag with a <code>src</code> attribute to reference the URL
+for a <code>main.py</code> Python file.</p>
+<div class="language-html highlight"><span class="filename">Using a script tag with a source file</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>...and here's a <code>&lt;py-script&gt;</code> tag with inline Python code.</p>
+<div class="language-html highlight"><span class="filename">Using a py-script tag with inline code</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">py-script</span><span class="p">&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>import sys
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>from pyscript import display
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>display(sys.version)
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">&lt;/</span><span class="nt">py-script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>The <code>&lt;script&gt;</code> and <code>&lt;py-script&gt;</code> / <code>&lt;mpy-script&gt;</code> tags may have the following
+attributes:</p>
+<ul>
+<li><code>src</code> - the content of the tag is ignored and the Python code in the
+  referenced file is evaluated instead. <strong>This is the recommended way to
+  reference your Python code.</strong></li>
+<li><code>config</code> - your code will only be evaluated after the referenced
+  configuration has been parsed. Since configuration can be JSON (or a TOML
+  file), <code>config='{"packages":["numpy"]}'</code> and <code>config="./config.json"</code> or
+  <code>config="./config.toml"</code> are all valid.</li>
+<li><code>async</code> - your Python code can contain a
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await">top level await</a>.</li>
+<li><code>worker</code> - a flag to indicate your Python code is to be run on a web worker
+  instead of the "main thread" that looks after the user interface.</li>
+</ul>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>Why do we recommend use of the <code>&lt;script&gt;</code> tag with a <code>src</code> attribute?</p>
+<p>Within the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script">HTML standard</a>,
+the <code>&lt;script&gt;</code> tag is used to embed executable code. Its use case
+completely aligns with our own, as does its default behaviour.</p>
+<p>By referencing a separate Python source file via the <code>src</code> attribute, your
+code is just a regular Python file your code editor will understand. Python
+code embedded within a <code>&lt;script&gt;</code> tag in an HTML file won't benefit from
+the advantages code editors bring: syntax highlighting, code analysis,
+language-based contextual awareness and perhaps even an AI co-pilot.</p>
+<p>Both the <code>&lt;py-script&gt;</code> and <code>&lt;mpy-script&gt;</code> tags with inline code are
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Components">web components</a>
+that are not built into the browser. While they are convenient, there is a
+performance cost to their use.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The browser's tab displaying the website running PyScript is an isolated
+computing sandbox. Define the Python environment in which your code will
+run with <a href="#configuration">configuration options</a> (discussed later in this
+document).</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you want to run code on both the main thread and in a worker, be
+explicit and use separate tags.</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>  <span class="cm">&lt;!-- on the main thread --&gt;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;worker.py&quot;</span> <span class="na">worker</span> <span class="na">config</span><span class="o">=</span><span class="s">&quot;pyconfig.toml&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span> <span class="cm">&lt;!-- on the worker --&gt;</span>
+</span></code></pre></div>
+<p>Notice how different interpreters can be used in different contexts.</p>
+</div>
+<h2 id="architecture">Architecture</h2>
+<p>There are two important aspects of PyScript's architecture:</p>
+<ol>
+<li>A small, efficient and powerful kernel called
+   <a href="https://github.com/pyscript/polyscript">PolyScript</a> is the foundation
+   upon which PyScript and plugins are built.</li>
+<li>The PyScript <a href="https://en.wikipedia.org/wiki/Solution_stack">stack</a> inside
+   the browser is easy to understand.</li>
+</ol>
+<h3 id="polyscript">PolyScript</h3>
+<p><a href="https://github.com/pyscript/polyscript">PolyScript</a> is the core of PyScript.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Unless you are an advanced user, you only need to know that PolyScript
+exists, and it can be safely ignored.</p>
+</div>
+<p>PolyScript's purpose is to bootstrap the platform and provide all the necessary
+core capabilities. Setting aside PyScript for a moment, to use
+<em>just PolyScript</em> requires a <code>&lt;script&gt;</code> reference to it, along with a further
+<code>&lt;script&gt;</code> tag defining how to run your code.</p>
+<div class="language-html highlight"><span class="filename">Bootstrapping with PolyScript</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="cm">&lt;!-- this is a way to automatically bootstrap polyscript --&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/polyscript&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="cm">&lt;!--</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cm">            Run some Python code with the MicroPython interpreter, but without</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="cm">            the extra benefits provided by PyScript.</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="cm">        --&gt;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;micropython&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">            </span><span class="kr">from</span><span class="w"> </span><span class="nx">js</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nb">document</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">            </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;polyscript&#39;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">        </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>PolyScript is not PyScript.</strong></p>
+<p>PyScript enhances the available Python interpreters with convenient
+features, helper functions and easy-to-use yet powerful capabilities.</p>
+<p>These enhancements are missing from PolyScript.</p>
+</div>
+<p>PolyScript's capabilities, upon which PyScript is built, can be summarised as:</p>
+<ul>
+<li>Evaluation of code via <a href="https://pyscript.github.io/polyscript/#how-scripts-work"><code>&lt;script&gt;</code> tags</a>.</li>
+<li>Handling of
+  <a href="https://pyscript.github.io/polyscript/#how-events-work">browser events</a>
+  via code evaluated by an interpreter supported by PolyScript.</li>
+<li>A <a href="https://pyscript.github.io/polyscript/#xworker">clear way to use workers</a>
+  via the <code>XWorker</code> class and its related reference, <code>xworker</code>.</li>
+<li><a href="https://pyscript.github.io/polyscript/#custom-scripts">Custom scripts</a> to
+  enrich PolyScript's capabilities.</li>
+<li>A <a href="https://pyscript.github.io/polyscript/#ready-event">ready event</a>
+  dispatched when an interpreter is ready and about to run code.</li>
+<li><a href="https://pyscript.github.io/polyscript/#interpreter-features">Multipe interpreters</a>
+  (in addition to Pyodide and MicroPython, PolyScript works with Lua and Ruby -
+  although these are beyond the scope of this project).</li>
+</ul>
+<h3 id="the-stack">The stack</h3>
+<p>The stack describes how the different building blocks <em>inside</em> a PyScript
+application relate to each other:</p>
+<p><img src="../assets/images/platform.png"/></p>
+<ul>
+<li>Everything happens inside the context of the browser (represented by the
+  black border). It means the browser tab for your PyScript app is your
+  sandboxed computing environment.</li>
+</ul>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>Python solely running in the browser is an unfamiliar concept that some
+fail to remember.</p>
+<ul>
+<li>PyScript isn't running on a server hosted in the cloud.</li>
+<li>PyScript doesn't use the version of Python running natively on the user's
+  operating system.</li>
+<li><strong>PyScript only runs IN THE BROWSER (and nowhere else).</strong></li>
+</ul>
+</div>
+<ul>
+<li>At the bottom of the stack are the Python interpreters compiled to WASM. They
+  evaluate your code and interact with the browser via the <a href="#ffi">FFI</a>.</li>
+<li>The PyScript layer makes it easy to use and configure the Python
+  interpreters. There are two parts to this:<ol>
+<li>The PolyScript kernel (see above), that bootstraps everything and
+   provides the core capabilities.</li>
+<li>PyScript and related plugins that sit atop PolyScript to give us an
+   easy-to-use Python platform <em>in the browser</em>.</li>
+</ol>
+</li>
+<li>Above the PyScript layer are either:<ol>
+<li>Application frameworks, modules and libraries written in Python that you
+   use to create useful applications.</li>
+<li>Your code (that's your responsibility).</li>
+</ol>
+</li>
+</ul>
+<h2 id="lifecycle">Lifecycle</h2>
+<p>If the architecture explains how components relate to each other, the lifecycle
+explains how things unfold. It's important to understand both: it will
+help you think about your own code and how it sits within PyScript.</p>
+<p>Here's how PyScript unfolds through time:</p>
+<ul>
+<li>The browser is directed to a URL. The response is HTML.</li>
+<li>When parsing the HTML response the browser encounters the <code>&lt;script&gt;</code>
+  tag that references PyScript. PyScript is loaded and evaluated as a
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript module</a>,
+  meaning it doesn't hold up the loading of the page and is only evaluated when
+  the HTML is fully parsed.</li>
+<li>The PyScript module does broadly six things:<ol>
+<li>Discover Python code referenced in the page.</li>
+<li>Evaluate any <a href="#configuration">configuration</a> on the page (either via a
+   single <code>&lt;py-config&gt;</code> tag or the <code>config</code> attribute of a <code>&lt;script&gt;</code>,
+   <code>&lt;py-script&gt;</code> or <code>&lt;mpy-script&gt;</code> tag).</li>
+<li>Given the detected configuration, download the required interpreter.</li>
+<li>Setup the interpreter's environment. This includes any
+   <a href="#plugins">plugins</a>, <a href="#packages">packages</a> or <a href="#files">files</a> that need
+   to be loaded.</li>
+<li>Make available various
+   <a href="#builtin-helpers">builtin helper objects and functions</a> to the
+   interpreter's environment (accessed via the <code>pyscript</code> module).</li>
+<li>Only then use the interpreter in the correctly configured environment to
+   evaluate the detected Python code.</li>
+</ol>
+</li>
+<li>When an interpreter is ready the <code>py:ready</code> or <code>mpy:ready</code> events are
+  dispatched, depending which interpreter you've specified (Pyodide or
+  MicroPython respectively).</li>
+<li>Finally, a <code>py:all-done</code> event is dispatched after every single script
+  referenced from the page has finished.</li>
+</ul>
+<p>In addition, various "hooks" are called at different moments in the lifecycle
+of PyScript. These can be used by plugin authors to modify or enhance the
+behaviour of PyScript. The hooks, and how to use them, are explored further in
+<a href="#plugins_1">the section on plugins</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When using workers, each worker will have a completely separate environment
+to that of the main thread.</p>
+<p>As a result, configuration in the main thread can be different to that for
+an interpreter running on a worker. In fact, you can use different
+interpreters and configuration in each context (for instance, MicroPython
+on the main thread, and Pyodide on a worker).</p>
+</div>
+<h2 id="interpreters">Interpreters</h2>
+<p>Python is an interpreted language, and thus needs an interpreter to work.</p>
+<p>PyScript supports two versions of the Python interpreter that have
+been compiled to WASM: Pyodide and MicroPython. You should select which one to
+use depending on your use case and acceptable trade-offs.</p>
+<p>Both interpreters make use of <a href="https://emscripten.org/">emscripten</a>, a compiler
+toolchain (using <a href="https://llvm.org/">LLVM</a>), for emitting WASM assets for the
+browser. Emscripten also provides APIs so operating-system level features such
+as a sandboxed <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html">file system</a>
+(<strong>not</strong> the user's local machine's filesystem), <a href="https://emscripten.org/docs/api_reference/console.h.html">IO</a>
+(<code>stdin</code>, <code>stdout</code>, <code>stderr</code> etc,) and <a href="https://emscripten.org/docs/api_reference/fetch.html">networking</a> are
+available within the context of a browser.</p>
+<p>Both Pyodide and MicroPython implement the same robust
+<a href="https://pyodide.org/en/stable/usage/api/python-api.html">Python</a>
+⟺ <a href="https://pyodide.org/en/stable/usage/api/js-api.html">JavaScript</a>
+<a href="#ffi">foreign function interface</a> (FFI). This
+bridges the gap between the browser and Python worlds.</p>
+<h3 id="pyodide">Pyodide</h3>
+<p><a href="https://pyodide.org/"><img src="../assets/images/pyodide.png"/></a></p>
+<p><a href="https://pyodide.org/">Pyodide</a> is a version of the standard
+<a href="https://python.org/">CPython</a> interpreter, patched to compile to WASM and
+work in the browser.</p>
+<p>It includes many useful features:</p>
+<ul>
+<li>The installation of pure Python packages from <a href="https://pypi.org/">PyPI</a> via
+  the <a href="https://micropip.pyodide.org/en/stable/index.html">micropip</a> package
+  installer.</li>
+<li>An active, friendly and technically outstanding team of volunteer
+  contributors (some of whom have been supported by the PyScript project).</li>
+<li>Extensive official
+  <a href="https://micropip.pyodide.org/en/stable/index.html">documentation</a>, and many
+  tutorials found online.</li>
+<li>Builds of Pyodide that include popular packages for data science like
+  <a href="https://numpy.org/">Numpy</a>, <a href="https://scipy.org/">Scipy</a> and
+  <a href="https://pandas.pydata.org/">Pandas</a>.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You may encounter an error message from <code>micropip</code> that explains it can't
+find a "pure Python wheel" for a package. The Pyodide documentation
+<a href="https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package">explains what to do in this situation</a>.</p>
+<p>Briefly, some packages with C extensions have versions compiled for WASM
+and these can be installed with <code>micropip</code>. Packages containing C
+extensions that <em>are not compiled for WASM</em> cause the "pure Python wheel"
+error.</p>
+<p>There are plans afoot to make WASM a target in PyPI so packages with C
+extenions can be automatically compiled to WASM.</p>
+</div>
+<h3 id="micropython">MicroPython</h3>
+<p><a href="https://micropython.org/"><img src="../assets/images/micropython.png"/></a></p>
+<p><a href="https://micropython.org/">MicroPython</a> is a lean and efficient implementation
+of the Python 3 programming language that includes a small subset of the Python
+standard library and is optimised to run on microcontrollers and in constrained
+environments (like the browser). </p>
+<p>Everything needed to view a web page in a browser needs to be delivered
+over the network. The smaller the asset to be delivered can be, the better.
+MicroPython, when compressed for delivery to the browser, is only around
+170k in size - smaller than many images found on the web.</p>
+<p>This makes MicroPython particularly suited to browsers running in a more
+constrained environment such as on a mobile or tablet based device. Browsing
+with these devices usually uses (slower) mobile internet connections.
+Furthermore, because MicroPython is lean and efficient it still performs
+exceptionally well on these relatively underpowered devices.</p>
+<p>Thanks to collaboration between the MicroPython and PyScript projects, there is
+a foreign function interface for MicroPython. The MicroPython FFI deliberately
+copies the API of the FFI originally written for Pyodide - meaning it is
+relatively easy to migrate between the two supported interpreters.</p>
+<h2 id="configuration">Configuration</h2>
+<p>The browser tab in which your PyScript based web page is displayed is a very
+secure sandboxed computing environment for running your Python code.</p>
+<p>This is also the case for web-workers running Python. Despite being associated
+with a single web page, workers are completely separate from each other
+(except for some very limited and clearly defined means of interacting which
+PyScript looks after for you).</p>
+<p>We need to tell PyScript how we want such Python environments to be configured.
+This works in the same way for both the main thread and for web workers. Such
+configuration ensures we get the expected resources ready before our Python
+code is evaluated (resources such as arbitrary data files, third party Python
+packages and PyScript plugins).</p>
+<h3 id="toml-or-json">TOML or JSON</h3>
+<p>Configuration can be expressed in two formats:</p>
+<ul>
+<li><a href="https://toml.io/en/">TOML</a> is the configuration file format preferred by
+  folks in the Python community.</li>
+<li><a href="https://www.json.org/json-en.html">JSON</a> is a data format most often used
+  by folks in the web community.</li>
+</ul>
+<p>Since PyScript is the marriage of Python and the web, and we respect the
+traditions of both technical cultures, we support both formats.</p>
+<p>However, because JSON is built into all browsers by default and TOML requires
+an additional download of a specialist parser before PyScript can work, <strong>the
+use of JSON is more efficient from a performance point of view</strong>.</p>
+<p>The following two configurations are equivalent, and simply tell PyScript to
+ensure the packages <a href="https://arrr.readthedocs.io/en/latest/">arrr</a> and
+<a href="https://numberwang.readthedocs.io/en/latest/">numberwang</a> are installed from
+PyPI (the <a href="https://pypi.org/">Python Packaging Index</a>):</p>
+<div class="language-TOML highlight"><span class="filename">Configuration via TOML</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;arrr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;numberwang&quot;</span><span class="w"> </span><span class="p">]</span>
+</span></code></pre></div>
+<div class="language-JSON highlight"><span class="filename">Configuration via JSON</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nt">&quot;packages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;arrr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;numberwang&quot;</span><span class="p">]</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="file-or-inline">File or inline</h3>
+<p>The recommended way to write configurations is via a separate file and then
+reference it from the tag used to specify the Python code:</p>
+<div class="language-HTML highlight"><span class="filename">Reference a configuration file</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&quot;pyscript.toml&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>If you use JSON, you can make it the value of the <code>config</code> attribute:</p>
+<div class="language-HTML highlight"><span class="filename">JSON as the value of the config attribute</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&#39;{&quot;packages&quot;:[&quot;arrr&quot;, &quot;numberwang&quot;]}&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>For historical and convenience reasons we still support the inline
+specification of configuration information via a <em>single</em> <code>&lt;py-config&gt;</code> or
+<code>&lt;mpy-config&gt;</code> tag in your HTML document:</p>
+<div class="language-HTML highlight"><span class="filename">Inline configuration via the &lt;py-config&gt; tag</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">py-config</span><span class="p">&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>{
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    &quot;packages&quot;: [&quot;arrr&quot;, &quot;numberwang&quot; ]
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>}
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">&lt;/</span><span class="nt">py-config</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Should you use <code>&lt;py-config&gt;</code> or <code>&lt;mpy-config&gt;</code>, <strong>there must be only one of
+these tags on the page per interpreter</strong>.</p>
+</div>
+<h3 id="options">Options</h3>
+<p>There are four core options (<a href="#interpreter"><code>interpreter</code></a>, <a href="#files"><code>files</code></a>,
+<a href="#packages"><code>packages</code></a> and <a href="#plugins"><code>plugins</code></a>). The user is free to define
+arbitrary additional configuration options that plugins or an app may require
+for their own reasons.</p>
+<h4 id="interpreter">Interpreter</h4>
+<p>The <code>interpreter</code> option pins the Python interpreter to the version of the
+specified value. This is useful for testing (does my code work on a specific
+version of Pyodide?), or to ensure the precise combination of PyScript version
+and interpreter version are pinned to known values.</p>
+<p>The value of the <code>interpreter</code> option should be a valid version number
+for the Python interpreter you are configuring, or a fully qualified URL to
+a custom version of the interpreter.</p>
+<p>The following two examples are equivalent:</p>
+<div class="language-TOML highlight"><span class="filename">Specify the interpreter version in TOML</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">interpreter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.23.4&quot;</span>
+</span></code></pre></div>
+<div class="language-JSON highlight"><span class="filename">Specify the interpreter version in JSON</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nt">&quot;interpreter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.23.4&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The following JSON fragment uses a fully qualified URL to point to the same
+version of Pyodide as specified in the previous examples:</p>
+<div class="language-JSON highlight"><span class="filename">Specify the interpreter via a fully qualified URL</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="nt">&quot;interpreter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.mjs&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="files">Files</h4>
+<p>The <code>files</code> option fetches arbitrary content from URLs onto the filesystem
+available to Python, and emulated by the browser. Just map a valid URL to a
+destination filesystem path.</p>
+<p>The following JSON and TOML are equivalent:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nt">&quot;https://example.com/data.csv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./data.csv&quot;</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">&quot;/code.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./subdir/code.py&quot;</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">[files]</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="s">&quot;https://example.com/data.csv&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./data.csv&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="s">&quot;/code.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./subdir/code.py&quot;</span>
+</span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>For most people, most of the time, the simple URL to filename mapping,
+described above, will be sufficient.</strong></p>
+<p>Yet certain situations may require more flexibility. In which case, read
+on.</p>
+</div>
+<p>Sometimes many resources are needed to be fetched from a single location and
+copied into the same directory on the file system. To aid readability and
+reduce repetition, the <code>files</code> option comes with a mini templating language
+that allows re-usable placeholders to be defined between curly brackets (<code>{</code>
+and <code>}</code>). When these placeholders are encountered in the <code>files</code> configuration,
+their name is replaced with their associated value.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Valid placeholder names are always enclosed between curly brackets
+(<code>{</code> and <code>}</code>), like this: <code>{FROM}</code>, <code>{TO}</code> and <code>{DATA SOURCE}</code>
+(capitalized names help identify placeholders
+when reading code ~ although this isn't strictly necessary).</p>
+<p>Any number of placeholders can be defined and used anywhere within URLs and
+paths that map source to destination.</p>
+</div>
+<p>The following JSON and TOML are equivalent:</p>
+<div class="language-json highlight"><span class="filename">Using the template language in JSON</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nt">&quot;{DOMAIN}&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://my-server.com&quot;</span><span class="p">,</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">&quot;{PATH}&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a/path&quot;</span><span class="p">,</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">&quot;{VERSION}&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.2.3&quot;</span><span class="p">,</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="nt">&quot;{FROM}&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{DOMAIN}/{PATH}/{VERSION}&quot;</span><span class="p">,</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="nt">&quot;{TO}&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./my_module&quot;</span><span class="p">,</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="nt">&quot;{FROM}/__init__.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{TO}/__init__.py&quot;</span><span class="p">,</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="nt">&quot;{FROM}/foo.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{TO}/foo.py&quot;</span><span class="p">,</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="nt">&quot;{FROM}/bar.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{TO}/bar.py&quot;</span><span class="p">,</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="nt">&quot;{FROM}/baz.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{TO}/baz.py&quot;</span><span class="p">,</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-toml highlight"><span class="filename">Using the template language in TOML</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">[files]</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="s">&quot;{DOMAIN}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://my-server.com&quot;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="s">&quot;{PATH}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;a/path&quot;</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="s">&quot;{VERSION}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.2.3&quot;</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="s">&quot;{FROM}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{DOMAIN}/{PATH}/{VERSION}&quot;</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="s">&quot;{TO}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./my_module&quot;</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="s">&quot;{FROM}/__init__.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}/__init__.py&quot;</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="s">&quot;{FROM}/foo.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}/foo.py&quot;</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="s">&quot;{FROM}/bar.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}/bar.py&quot;</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="s">&quot;{FROM}/baz.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}/baz.py&quot;</span>
+</span></code></pre></div>
+<p>The <code>{DOMAIN}</code>, <code>{PATH}</code>, and <code>{VERSION}</code> placeholders are
+used to create a further <code>{FROM}</code> placeholder. The <code>{TO}</code> placeholder is also
+defined to point to a common sub-directory on the file system. The final four
+entries use <code>{FROM}</code> and <code>{TO}</code> to copy over four files (<code>__init__.py</code>,
+<code>foo.py</code>, <code>bar.py</code> and <code>baz.py</code>) from the same source to a common destination
+directory.</p>
+<p>For conveniece, if the destination is just a directory (it ends with <code>/</code>)
+then PyScript automatically uses the filename part of the source URL as the
+filename in the destination directory.</p>
+<p>For example, the end of the previous config file could be:</p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="s">&quot;{TO}&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./my_module/&quot;</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="s">&quot;{FROM}/__init__.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}&quot;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="s">&quot;{FROM}/foo.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}&quot;</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="s">&quot;{FROM}/bar.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}&quot;</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="s">&quot;{FROM}/baz.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{TO}&quot;</span>
+</span></code></pre></div>
+<h4 id="packages">Packages</h4>
+<p>The <code>packages</code> option defines a list of Python <code>packages</code> to be installed from
+<a href="https://pypi.org/">PyPI</a> onto the filesystem by Pyodide's 
+<a href="https://micropip.pyodide.org/en/stable/index.html">micropip</a> package
+installer.</p>
+<p>The following two examples are equivalent:</p>
+<div class="language-TOML highlight"><span class="filename">A packages list in TOML</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;arrr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;numberwang&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;snowballstemmer&gt;=2.2.0&quot;</span><span class="w"> </span><span class="p">]</span>
+</span></code></pre></div>
+<div class="language-JSON highlight"><span class="filename">A packages list in JSON</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">{</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="nt">&quot;packages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;arrr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;numberwang&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;snowballstemmer&gt;=2.2.0&quot;</span><span class="w"> </span><span class="p">]</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Because <code>micropip</code> is a Pyodide-only feature, and MicroPython doesn't
+support code packaged on PyPI, <strong>the <code>packages</code> option is only available
+for use with Pyodide</strong>.</p>
+</div>
+<p>The names in the list of <code>packages</code> can be any of the following valid forms:</p>
+<ul>
+<li>A name of a package on PyPI: <code>"snowballstemmer"</code></li>
+<li>A name for a package on PyPI with additional constraints:
+  <code>"snowballstemmer&gt;=2.2.0"</code></li>
+<li>An arbitrary URL to a Python package: <code>"https://.../package.whl"</code></li>
+<li>A file copied onto the browser based file system: <code>"emfs://.../package.whl"</code></li>
+</ul>
+<h4 id="plugins">Plugins</h4>
+<p>The <code>plugins</code> enumerate plugins enabled by PyScript to add extra functionality
+to the platform.</p>
+<p>Each plugin should be included on the web page, as described in the
+<a href="#plugins_1">plugins</a> section below. Then the plugin's name should be listed.</p>
+<div class="language-TOML highlight"><span class="filename">A list of plugins in TOML</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">plugins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;custom_plugin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;!error&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<div class="language-JSON highlight"><span class="filename">A list of plugins in JSON</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="nt">&quot;plugins&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;custom_plugin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;!error&quot;</span><span class="p">]</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>"!error"</code> syntax is a way to turn off a plugin built into PyScript
+that is enabled by default.</p>
+<p>Currently, the only built-in plugin is the <code>error</code> plugin to display a
+stack trace and error messages in the DOM. More may be added at a later
+date.</p>
+</div>
+<h4 id="custom">Custom</h4>
+<p>Sometimes plugins or apps need bespoke configuration options.</p>
+<p>So long as you don't cause a name collision with the built-in option names then
+you are free to use any valid data structure that works with both TOML and JSON
+to express your configuration needs.</p>
+<p><strong>TODO: explain how to programmatically get access to an object representing
+the config.</strong></p>
+<h2 id="the-dom">The DOM</h2>
+<p>The DOM
+(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model">document object model</a>)
+refers to a tree like data structure that represents the web page in the
+browser. PyScript needs to be able to interact with the DOM in order to change
+the user interface and react to things happening in the browser.</p>
+<p>There are currently two ways to interact with the DOM:</p>
+<ol>
+<li>Through the foreign function interface (FFI) and by directly interacting
+   with the objects found in the browser's <code>globalThis</code> object.</li>
+<li>Through the <code>pydom</code> module that comes as standard with PyScript.</li>
+</ol>
+<h3 id="ffi">FFI</h3>
+<p>The foreign function interface (FFI) gives Python access to all the
+<a href="https://developer.mozilla.org/en-US/docs/Web">standard web capabilities and features</a>,
+such as the browser's built-in
+<a href="https://developer.mozilla.org/en-US/docs/Web/API">web APIs</a>.</p>
+<p>This is available via the <code>pyscript.window</code> module which is a proxy for
+the main thread's <code>globalThis</code> object, or <code>pyscript.document</code> which is a proxy
+for the <code>document</code> object in JavaScript:</p>
+<div class="language-Python highlight"><span class="filename">Accessing the window and document objects in Python</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">my_element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">&quot;#my-id&quot;</span><span class="p">)</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="n">my_element</span><span class="o">.</span><span class="n">innerText</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">hostname</span>
+</span></code></pre></div>
+<h3 id="pydom">PyDom</h3>
+<p>The built in Python module <code>pydom</code> wraps many (although not all) the features
+available via the FFI in a more idiomatically Pythonic library.</p>
+<p>The PyDom API is extensively described and demonstrated
+<a href="https://fpliger.pyscriptapps.com/pyweb/latest/pydom.html">on this PyScript page</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>PyDom is currently a work in progress.</p>
+<p>We welcome feedback and suggestions.</p>
+</div>
+<h2 id="workers">Workers</h2>
+<p>Workers allow you to run code in a way that won't block the "main thread" that
+controls the user interface. If you block the main thread, your web page
+becomes annoyingly unresponsive. You should never block the main thread.</p>
+<p>Happily, PyScript makes it very easy to use workers. To make this happen
+PyScript uses a feature recently added to web standards called
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics">Atomics</a>.</p>
+<h3 id="http-headers">HTTP headers</h3>
+<p>In order for Atomics to work <strong>you must ensure your web server should enable
+the following headers</strong> (this is the default behaviour for
+<a href="pyscript.com">pyscript.com</a>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Cross-Origin-Opener-Policy: same-origin
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>Cross-Origin-Embedder-Policy: require-corp
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>Cross-Origin-Resource-Policy: cross-origin
+</span></code></pre></div>
+<p>If you are not able to configure your server's headers, you could try to use
+the <a href="https://github.com/WebReflection/mini-coi#readme">mini-coi</a> project to
+achieve the same end.</p>
+<h3 id="start-working">Start working</h3>
+<p>To start your code in a worker, simply ensure the <code>&lt;script&gt;</code>, <code>&lt;py-script&gt;</code> or
+<code>&lt;mpy-script&gt;</code> tag pointing to the code you want to run has a <code>worker</code>
+attribute flag:</p>
+<div class="language-HTML highlight"><span class="filename">Evaluating code in a worker</span><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./my-worker-code.py&quot;</span> <span class="na">worker</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>Of course, code running in the worker needs to be able to access the web page
+running in the main thread. This is achieved via some builtin helper utilities
+described in the next section.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The worker related functionality in PyScript is, for the sake of ease of
+use, a simpler presentation of more sophisticated and powerful behaviour
+available via PolyScript.</p>
+<p>Please <a href="https://pyscript.github.io/polyscript/#xworker">consult the XWorker</a>
+related documentation from the PolyScript project for how to make use of
+these features.</p>
+</div>
+<h2 id="builtin-helpers">Builtin helpers</h2>
+<p>PyScript makes available various convenience objects and functions inside
+Python. This is done via the <code>pyscript</code> module:</p>
+<div class="language-python highlight"><span class="filename">Accessing the document object via the pyscript module</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span>
+</span></code></pre></div>
+<h3 id="common-features">Common features</h3>
+<p>These objects / functions are available in both the main thread and in code
+running on a web worker:</p>
+<h4 id="pyscriptwindow"><code>pyscript.window</code></h4>
+<p>This object is a proxy for the web page's
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window">global window context</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that in workers, this is still the main window, not the
+worker's own global context. A worker's global context is reachable instead
+via <code>import js</code> (the <code>js</code> object being a proxy for <code>globalThis</code>).</p>
+</div>
+<h4 id="pyscriptdocument"><code>pyscript.document</code></h4>
+<p>This object is a proxy for the the web page's
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document">document object</a>.
+The <code>document</code> is a representation of the
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_Document_Object_Model">DOM</a>
+and can be used to manipulate the content of the web page.</p>
+<h4 id="pyscriptdisplay"><code>pyscript.display</code></h4>
+<p>A function used to display content. The function is intelligent enough to
+introspect the object[s] it is passed and work out how to correctly display the
+object[s] in the web page.</p>
+<p>The <code>display</code> function takes a list of <code>*values</code> as its first argument, and has
+two optional named arguments:</p>
+<ul>
+<li><code>target=None</code> - the DOM element into which the content should be placed.</li>
+<li><code>append=False</code> - a flag to indicate if the output is going to be appended to
+  the <code>target</code>.</li>
+</ul>
+<p>There are some caveats:</p>
+<ul>
+<li>When used in the main thread, the <code>display</code> function automatically uses
+  the current <code>&lt;script&gt;</code> tag as the <code>target</code> into which the content will
+  be displayed.</li>
+<li>When used in a worker, the <code>display</code> function needs an explicit
+  <code>target="dom-id"</code> argument to identify where the content will be
+  displayed.</li>
+<li>In both the main thread a worker, <code>append=False</code> is the default
+  behaviour.</li>
+</ul>
+<h3 id="main-thread-only-features">Main-thread only features</h3>
+<h4 id="pyscriptpyworker"><code>pyscript.PyWorker</code></h4>
+<p>A class used to instantiate a new worker from within Python.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Currently this only works with Pyodide.</p>
+</div>
+<p>The following fragment demonstrates who to start the Python code in the file
+<code>worker.py</code> on a new worker from within Python.</p>
+<div class="language-python highlight"><span class="filename">Starting a new worker from Python</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="n">a_worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="worker-only-features">Worker only features</h3>
+<h4 id="pyscriptsync"><code>pyscript.sync</code></h4>
+<p>A function used to pass serializable data from workers to the main thread. </p>
+<p>Imagine you have this code on the main thread:</p>
+<div class="language-python highlight"><span class="filename">Python code on the main thread</span><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">):</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>    <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="n">worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="n">worker</span><span class="o">.</span><span class="n">sync</span><span class="o">.</span><span class="n">hello</span> <span class="o">=</span> <span class="n">hello</span>
+</span></code></pre></div>
+<p>In the code on the worker, you can pass data back to handler functions like
+this:</p>
+<div class="language-python highlight"><span class="filename">Pass data back to the main thread from a worker</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">sync</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="n">sync</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="plugins_1">Plugins</h2>
+<p><strong>TODO: FINISH THIS</strong></p>
+<!--
+# Examples
+
+### Lots of DOM manipulation
+
+### Data science-y
+
+### Graphical
+
+### Blocking with workers
+
+### Calling an API -->
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
