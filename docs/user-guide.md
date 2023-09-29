@@ -7,7 +7,8 @@
 
     While we endeavour to write clearly, some of the content in this user guide
     will not be suitable for beginners. We assume readers already have Python
-    or web development experience.
+    or web development experience. If you're a beginner start with our
+    [beginner's guide](/beginning-pyscript).
 
     We [welcome feedback](https://github.com/pyscript/docs/issues) to help us
     improve.
@@ -19,14 +20,14 @@ This guide has three aims:
 3. Demonstration of the features of PyScript working together in real-world
    example applications.
 
-_Read this page in full_: you will acquire a comprehensive overview of the
-PyScript platform along with suggestions for where next to explore and learn.
+_Read this page in full_: it is a short but comprehensive overview of the
+PyScript platform.
 
-For more dynamic support, join in the PyScript conversation on our
+Get involved! Join in the PyScript conversation on our
 [discord server](https://discord.gg/HxvBtukrg2). There you'll find core
 developers, community contributors and a flourishing forum for those creating
 projects with PyScript. Should you wish to engage with the development of
-PyScript, you are welcome to engage and make contributions via
+PyScript, you are welcome to contribute via 
 [the project's GitHub organisation](https://github.com/pyscript).
 
 Finally, the examples listed at the end of this page are all freely available
@@ -36,7 +37,7 @@ and copiously commented on [pyscript.com](pyscript.com).
 
     Many of these examples come from contributors in our wonderful
     community. If you believe you have a project that would make a good
-    demonstration example, please don't hesitate to
+    demonstration, please don't hesitate to
     [get in touch](https://discord.gg/HxvBtukrg2).
 
 ## What is PyScript?
@@ -81,12 +82,12 @@ the planet who use computers.
     APIs implemented by your browser</a>.</p>
 
     <p>Thanks to the <a href="#ffi">foreign
-    function interface</a> (FFI), it is easy for Python to work within your
-    browser, including with third party JavaScript libraries that may be
-    included in the page.</p>
+    function interface</a> (FFI), Python just works with all the browser has to
+    offer, including any third party JavaScript libraries that may be included
+    in the page.</p>
 
     <p>The FFI is bi-directional ~ it also enables JavaScript to access the
-    power of PyScript.</p></dd>
+    power of Python.</p></dd>
 
     <dt><em>All of Python</em></dt>
     <dd>
@@ -99,27 +100,20 @@ the planet who use computers.
         efficient reimplementation of Python3 that includes a comprehensive
         subset of the standard library, compiled to WebAssembly.</li>
     </ol>
-    <div class="admonition warning">
-        <p class="admonition-title">Warning</p>
-        <p>Currently, only Pyodide is enabled in PyScript.</p>
-        <p>This will <strong>change very soon</strong> once we complete our integration testing and
-        evaluation steps for MicroPython. However, the documentation relating
-        to MicroPython is currently correct and is included to indicate what
-        you have to look forward to.</p>
-    </div>
     <p>Because it is just regular CPython, Pyodide puts Python's deep and
     <a href="https://pypi.org/">diverse ecosystem</a> of libraries, frameworks
-    and modules at your disposal. If you find yourself encountering some sort
-    of computing problem, there's probably a Python library to help you with
-    it. If you use a favourite library in Python, now you can use it in your
-    browser and share your work with ease via a URL.</p>
+    and modules at your disposal. No matter the area of computing endeavour,
+    there's probably a Python library to help. Got a favourite library in
+    Python? Now you can use it in the browser and share your work with just 
+    a URL.</p>
     <p>MicroPython, because of its small size (170k) and speed, is especially
     suited to running on more constrained browsers, such as those on mobile
     or tablet devices. It includes a powerful sub-set of the Python standard
     library and efficiently exposes the expressiveness of Python to the
     browser.</p>
-    <p>Both Python interpreters supported by PyScript implement the same 
-    FFI to bridge the gap between the worlds of Python and the browser.</p>
+    <p>Both Python interpreters supported by PyScript implement the
+    <a href="#ffi">same FFI</a> to bridge the gap between the worlds of Python
+    and the browser.</p>
     </dd>
 
     <dt><em>AI and Data science built in</em></dt>
@@ -140,25 +134,26 @@ the planet who use computers.
     <dd>Thanks to a browser technology called
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">web workers</a>
     expensive and blocking computation can run somewhere other than the main
-    application thread that controls the user interface. When such work is done
-    on the main thread, the browser appears frozen. Web workers ensure
-    expensive blocking computation happens elsewhere. Think of workers as
+    application thread controlling the user interface. When such work is done
+    on the main thread, the browser appears frozen and web workers ensure
+    expensive blocking computation can happen elsewhere. Think of workers as
     independent subprocesses in your web page.</dd>
 
     <dt><em>Rich and powerful plugins</em></dt>
     <dd>
-    <p>As you'll see, PyScript has a small, efficient yet powerful core called
-    <a href="https://github.com/pyscript/polyscript">PolyScript</a>.</p>
-    <p>Most of the functionality of PyScript is actually implemented through
-    PolyScript's <a href="#plugins">plugin system</a>.</p>
+    <p>PyScript has a small, efficient yet powerful core called
+    <a href="https://github.com/pyscript/polyscript">PolyScript</a>. Most of
+    the functionality of PyScript is actually implemented through PolyScript's
+    <a href="#plugins_1">plugin system</a>.</p>
 
-    <p>This approach means we get a clear separation of concerns: PolyScript
+    <p>This approach ensures a clear separation of concerns: PolyScript
     can focus on being small, efficient and powerful, whereas the PyScript
-    related plugins allow us to build upon the generic features provided by
+    related plugins allow us to build upon the solid foundations of
     PolyScript.</p>
-    <p>More importantly, because there is a plugin system, folks
-    <em>independent of the PyScript core team</em> have a way to create their
-    own plugins so we get a rich ecosystem of functionality that reflects the
+
+    <p>Because there is a plugin system, folks
+    <em>independent of the PyScript core team</em> have a way to create and
+    contribute to a rich ecosystem of plugins whose functionality reflects the
     unique and diverse needs of PyScript's users.</p>
     </dd>
 </dl>
@@ -172,9 +167,8 @@ It's simple:
 
 For the browser to use PyScript, simply add a `<script>` tag, whose `src`
 attribute references a CDN url for `pyscript.core`, to your HTML document's
-`<head>`. You may also add a reference to optional PyScript related CSS:
-
-**TODO: USE CORRECT CDN URL**:
+`<head>`. We encourage you to add a reference to optional PyScript related
+CSS:
 
 ```html title="Reference PyScript in your HTML"
 <!doctype html>
@@ -183,10 +177,10 @@ attribute references a CDN url for `pyscript.core`, to your HTML document's
         <!-- Recommended meta tags -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <!-- optional PyScript CSS -->
-        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC1/core.css">
+        <!-- PyScript CSS -->
+        <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.09.1.RC2/core.css">
         <!-- This script tag bootstraps PyScript -->
-        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
+        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC2/core.js"></script>
     </head>
     <body>
         <!-- your code goes here... -->
@@ -197,10 +191,10 @@ attribute references a CDN url for `pyscript.core`, to your HTML document's
 There are two ways to tell PyScript how to find your code.
 
 * With a standard HTML `<script>` tag whose `type` attribute is either `py`
-  (for Pyodide) or `mpy` (for MicroPython). **This is currently the
-  recommended way**.
+  (for Pyodide) or `mpy` (for MicroPython). **This is the recommended way**.
 * Via the bespoke `<py-script>` (Pyodide) and `<mpy-script>` (MicroPython)
-  tags. Historically, this used to be the only way to reference your code.
+  tags. Historically, `<py-script>` used to be the only way to reference your
+  code.
 
 These should be inserted into the `<body>` of your HTML document.
 
@@ -209,16 +203,16 @@ file containing your code, or inline your code between the opening and closing
 tags. **We recommend you use the `src` attribute method**, but retain the
 ability to include code between tags for convenience.
 
-Here's the `<script>` tag method using the `src` attribute to reference the URL
+Here's a `<script>` tag with a `src` attribute to reference the URL
 for a `main.py` Python file.
 
-```html title="Using the script tag with a source file"
+```html title="Using a script tag with a source file"
 <script type="mpy" src="main.py"></script>
 ```
 
-...and here's the `<py-script>` tag with inline Python code.
+...and here's a `<py-script>` tag with inline Python code.
 
-```html title="Using the py-script tag with inline code"
+```html title="Using a py-script tag with inline code"
 <py-script>
 import sys
 from pyscript import display
@@ -228,12 +222,7 @@ display(sys.version)
 </py-script>
 ```
 
-The browser's tab displaying the website running PyScript is an isolated
-computing sandbox. Define the Python environment in which your code will
-run with [configuration options](#configuration) (discussed later in this
-document).
-
-The `<script>` and `<py-script>` / `<mpy-script>` tags can have the following
+The `<script>` and `<py-script>` / `<mpy-script>` tags may have the following
 attributes:
 
 * `src` - the content of the tag is ignored and the Python code in the
@@ -243,10 +232,35 @@ attributes:
   configuration has been parsed. Since configuration can be JSON (or a TOML
   file), `config='{"packages":["numpy"]}'` and `config="./config.json"` or
   `config="./config.toml"` are all valid.
-* `async` - your Python code is run asynchronously (awaited), rather than in a
-  blocking manner.
+* `async` - your Python code can contain a
+  [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await).
 * `worker` - a flag to indicate your Python code is to be run on a web worker
   instead of the "main thread" that looks after the user interface.
+
+!!! question
+
+    Why do we recommend use of the `<script>` tag with a `src` attribute?
+
+    Within the [HTML standard](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script),
+    the `<script>` tag is used to embed executable code. Its use case
+    completely aligns with our own, as does its default behaviour.
+
+    By referencing a separate Python source file via the `src` attribute, your
+    code is just a regular Python file your code editor will understand. Python
+    code embedded within a `<script>` tag in an HTML file won't benefit from
+    the advantages code editors bring: syntax highlighting, code analysis,
+    language-based contextual awareness and perhaps even an AI co-pilot.
+
+    Both the `<py-script>` and `<mpy-script>` tags with inline code are
+    [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_Components)
+    that are not built into the browser. While they are convenient, there is a
+    performance cost to their use.
+
+!!! info
+    The browser's tab displaying the website running PyScript is an isolated
+    computing sandbox. Define the Python environment in which your code will
+    run with [configuration options](#configuration) (discussed later in this
+    document).
 
 !!! tip 
 
@@ -268,28 +282,28 @@ There are two important aspects of PyScript's architecture:
    [PolyScript](https://github.com/pyscript/polyscript) is the foundation
    upon which PyScript and plugins are built.
 2. The PyScript [stack](https://en.wikipedia.org/wiki/Solution_stack) inside
-   the browser is relatively simple and easy to understand.
+   the browser is easy to understand.
 
 ### PolyScript
 
 [PolyScript](https://github.com/pyscript/polyscript) is the core of PyScript.
 
-!!! info
+!!! danger 
 
-    Unless you are an advanced user, you probably don't need to know much more
-    than PolyScript exists, and it can be safely ignored.
+    Unless you are an advanced user, you only need to know that PolyScript
+    exists, and it can be safely ignored.
 
 PolyScript's purpose is to bootstrap the platform and provide all the necessary
 core capabilities. Setting aside PyScript for a moment, to use
 *just PolyScript* requires a `<script>` reference to it, along with a further
-`<script>` tag defining how to run some code.
+`<script>` tag defining how to run your code.
 
 ```html title="Bootstrapping with PolyScript"
 <!doctype html>
 <html>
     <head>
         <!-- this is a way to automatically bootstrap polyscript -->
-        <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/polyscript"></script>
     </head>
     <body>
         <!--
@@ -303,6 +317,15 @@ core capabilities. Setting aside PyScript for a moment, to use
     </body>
 </html>
 ```
+
+!!! warning
+
+    **PolyScript is not PyScript.**
+
+    PyScript enhances the available Python interpreters with convenient
+    features, helper functions and easy-to-use yet powerful capabilities.
+
+    These enhancements are missing from PolyScript.
 
 PolyScript's capabilities, upon which PyScript is built, can be summarised as:
 
@@ -363,8 +386,9 @@ help you think about your own code and how it sits within PyScript.
 Here's how PyScript unfolds through time:
 
 * The browser is directed to a URL. The response is HTML.
-* As part of parsing the HTML response the browser encounters the `<script>`
-  tag that references PyScript. PyScript is loaded and evaluated as a module,
+* When parsing the HTML response the browser encounters the `<script>`
+  tag that references PyScript. PyScript is loaded and evaluated as a
+  [JavaScript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules),
   meaning it doesn't hold up the loading of the page and is only evaluated when
   the HTML is fully parsed.
 * The PyScript module does broadly six things:
@@ -374,31 +398,33 @@ Here's how PyScript unfolds through time:
        `<py-script>` or `<mpy-script>` tag).
     3. Given the detected configuration, download the required interpreter.
     4. Setup the interpreter's environment. This includes any
-       [plugins](#plugins), [packages](#packages) or [files](#fetch) that need
+       [plugins](#plugins), [packages](#packages) or [files](#files) that need
        to be loaded.
     5. Make available various
        [builtin helper objects and functions](#builtin-helpers) to the
        interpreter's environment (accessed via the `pyscript` module).
-    6. Finally, use the interpreter in the correctly configured environment to
+    6. Only then use the interpreter in the correctly configured environment to
        evaluate the detected Python code.
 * When an interpreter is ready the `py:ready` or `mpy:ready` events are
   dispatched, depending which interpreter you've specified (Pyodide or
   MicroPython respectively).
+* Finally, a `py:all-done` event is dispatched after every single script
+  referenced from the page has finished.
+
+In addition, various "hooks" are called at different moments in the lifecycle
+of PyScript. These can be used by plugin authors to modify or enhance the
+behaviour of PyScript. The hooks, and how to use them, are explored further in
+[the section on plugins](#plugins_1).
 
 !!! warning
 
     When using workers, each worker will have a completely separate environment
     to that of the main thread.
 
-    As a result, configuration in the main thread will be different to that for
+    As a result, configuration in the main thread can be different to that for
     an interpreter running on a worker. In fact, you can use different
     interpreters and configuration in each context (for instance, MicroPython
     on the main thread, and Pyodide on a worker).
-
-Finally, various "hooks" are called at different moments in the lifecycle of
-PyScript. These can be used by plugin authors to modify or enhance the
-behaviour of PyScript. The hooks, and how to use them, are explored further in
-[the section on plugins](#plugins).
 
 ## Interpreters
 
@@ -412,9 +438,8 @@ Both interpreters make use of [emscripten](https://emscripten.org/), a compiler
 toolchain (using [LLVM](https://llvm.org/)), for emitting WASM assets for the
 browser. Emscripten also provides APIs so operating-system level features such
 as a sandboxed [file system](https://emscripten.org/docs/api_reference/Filesystem-API.html)
-(**not** the user's local machine's filesystem), [IO](https://emscripten.org/docs/api_reference/console.h.html`)
-(`stdin`, `stdout`, `stderr` etc,) and
-[networking](https://emscripten.org/docs/api_reference/fetch.html) are
+(**not** the user's local machine's filesystem), [IO](https://emscripten.org/docs/api_reference/console.h.html)
+(`stdin`, `stdout`, `stderr` etc,) and [networking](https://emscripten.org/docs/api_reference/fetch.html) are
 available within the context of a browser.
 
 Both Pyodide and MicroPython implement the same robust
@@ -435,10 +460,7 @@ It includes many useful features:
 
 * The installation of pure Python packages from [PyPI](https://pypi.org/) via
   the [micropip](https://micropip.pyodide.org/en/stable/index.html) package
-  installer. Some packages with C extensions have versions compiled for WASM
-  and these can also be installed with `micropip`. There are plans afoot to
-  make WASM a target in PyPI so packages with C extenions can be automatically
-  compiled to WASM.
+  installer.
 * An active, friendly and technically outstanding team of volunteer
   contributors (some of whom have been supported by the PyScript project).
 * Extensive official
@@ -447,6 +469,20 @@ It includes many useful features:
 * Builds of Pyodide that include popular packages for data science like
   [Numpy](https://numpy.org/), [Scipy](https://scipy.org/) and
   [Pandas](https://pandas.pydata.org/).
+
+!!! warning 
+
+    You may encounter an error message from `micropip` that explains it can't
+    find a "pure Python wheel" for a package. The Pyodide documentation
+    [explains what to do in this situation](https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package).
+
+    Briefly, some packages with C extensions have versions compiled for WASM
+    and these can be installed with `micropip`. Packages containing C
+    extensions that _are not compiled for WASM_ cause the "pure Python wheel"
+    error.
+
+    There are plans afoot to make WASM a target in PyPI so packages with C
+    extenions can be automatically compiled to WASM.
 
 ### MicroPython
 
@@ -475,20 +511,19 @@ relatively easy to migrate between the two supported interpreters.
 
 ## Configuration
 
-Because PyScript is a browser based technology, the tab in which the web page
-is displayed is a very secure sandboxed computing environment for running your
-Python code. Think of it as similar to the notion of a
-[virtual environment](https://docs.python.org/3/tutorial/venv.html)
-in the Python world.
+The browser tab in which your PyScript based web page is displayed is a very
+secure sandboxed computing environment for running your Python code.
 
 This is also the case for web-workers running Python. Despite being associated
-with a single web page, workers are all completely separate from each other
+with a single web page, workers are completely separate from each other
 (except for some very limited and clearly defined means of interacting which
 PyScript looks after for you).
 
-As a result, we often need to tell PyScript about how we want our Python
-environment to be configured. This works in the same way for both the main
-thread and for web workers.
+We need to tell PyScript how we want such Python environments to be configured.
+This works in the same way for both the main thread and for web workers. Such
+configuration ensures we get the expected resources ready before our Python
+code is evaluated (resources such as arbitrary data files, third party Python
+packages and PyScript plugins).
 
 ### TOML or JSON
 
@@ -500,7 +535,7 @@ Configuration can be expressed in two formats:
   by folks in the web community.
 
 Since PyScript is the marriage of Python and the web, and we respect the
-traditions of the two technical cultures, we support both.
+traditions of both technical cultures, we support both formats.
 
 However, because JSON is built into all browsers by default and TOML requires
 an additional download of a specialist parser before PyScript can work, **the
@@ -524,7 +559,7 @@ packages = ["arrr", "numberwang" ]
 ### File or inline
 
 The recommended way to write configurations is via a separate file and then
-referencing it from the tag used to specify the Python code:
+reference it from the tag used to specify the Python code:
 
 ```HTML title="Reference a configuration file"
 <script type="py" src="main.py" config="pyscript.toml"></script>
@@ -537,8 +572,8 @@ If you use JSON, you can make it the value of the `config` attribute:
 ```
 
 For historical and convenience reasons we still support the inline
-specification of configuration information via a _single_ `<py-config>` tag in
-your HTML document:
+specification of configuration information via a _single_ `<py-config>` or
+`<mpy-config>` tag in your HTML document:
 
 ```HTML title="Inline configuration via the &lt;py-config&gt; tag"
 <py-config>
@@ -550,21 +585,147 @@ your HTML document:
 
 !!! warning
 
-    Should you use `<py-config>`, **there must be only one of these tags on the
-    page**.
+    Should you use `<py-config>` or `<mpy-config>`, **there must be only one of
+    these tags on the page per interpreter**.
 
 ### Options
 
-There are three core options, and the user is free to define arbitrary
-additional configuration options that plugins or an app may require for their
-own reasons.
+There are four core options ([`interpreter`](#interpreter), [`files`](#files),
+[`packages`](#packages) and [`plugins`](#plugins)). The user is free to define
+arbitrary additional configuration options that plugins or an app may require
+for their own reasons.
 
-#### Fetch
+#### Interpreter
 
-The `fetch` option fetches files from URLs onto the filesystem emulated by the
-browser.
+The `interpreter` option pins the Python interpreter to the version of the
+specified value. This is useful for testing (does my code work on a specific
+version of Pyodide?), or to ensure the precise combination of PyScript version
+and interpreter version are pinned to known values.
 
-**TODO: Fix this.**
+The value of the `interpreter` option should be a valid version number
+for the Python interpreter you are configuring, or a fully qualified URL to
+a custom version of the interpreter.
+
+The following two examples are equivalent:
+
+```TOML title="Specify the interpreter version in TOML"
+interpreter = "0.23.4"
+```
+
+```JSON title="Specify the interpreter version in JSON"
+{
+    "interpreter": "0.23.4"
+}
+```
+
+The following JSON fragment uses a fully qualified URL to point to the same
+version of Pyodide as specified in the previous examples:
+
+```JSON title="Specify the interpreter via a fully qualified URL"
+{
+    "interpreter": "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.mjs"
+}
+```
+
+#### Files
+
+The `files` option fetches arbitrary content from URLs onto the filesystem
+available to Python, and emulated by the browser. Just map a valid URL to a
+destination filesystem path.
+
+The following JSON and TOML are equivalent:
+
+```json
+{
+  "files": {
+    "https://example.com/data.csv": "./data.csv",
+    "/code.py": "./subdir/code.py"
+  }
+}
+```
+
+```toml
+[files]
+"https://example.com/data.csv" = "./data.csv"
+"/code.py" = "./subdir/code.py"
+```
+
+!!! tip
+
+    **For most people, most of the time, the simple URL to filename mapping,
+    described above, will be sufficient.**
+
+    Yet certain situations may require more flexibility. In which case, read
+    on.
+
+Sometimes many resources are needed to be fetched from a single location and
+copied into the same directory on the file system. To aid readability and
+reduce repetition, the `files` option comes with a mini templating language
+that allows re-usable placeholders to be defined between curly brackets (`{`
+and `}`). When these placeholders are encountered in the `files` configuration,
+their name is replaced with their associated value.
+
+!!! Attention
+
+    Valid placeholder names are always enclosed between curly brackets
+    (`{` and `}`), like this: `{FROM}`, `{TO}` and `{DATA SOURCE}`
+    (capitalized names help identify placeholders
+    when reading code ~ although this isn't strictly necessary).
+
+    Any number of placeholders can be defined and used anywhere within URLs and
+    paths that map source to destination.
+
+The following JSON and TOML are equivalent:
+
+```json title="Using the template language in JSON"
+{
+  "files": {
+    "{DOMAIN}": "https://my-server.com",
+    "{PATH}": "a/path",
+    "{VERSION}": "1.2.3",
+    "{FROM}": "{DOMAIN}/{PATH}/{VERSION}",
+    "{TO}": "./my_module",
+    "{FROM}/__init__.py": "{TO}/__init__.py",
+    "{FROM}/foo.py": "{TO}/foo.py",
+    "{FROM}/bar.py": "{TO}/bar.py",
+    "{FROM}/baz.py": "{TO}/baz.py",
+  }
+}
+```
+
+```toml title="Using the template language in TOML"
+[files]
+"{DOMAIN}" = "https://my-server.com"
+"{PATH}" = "a/path"
+"{VERSION}" = "1.2.3"
+"{FROM}" = "{DOMAIN}/{PATH}/{VERSION}"
+"{TO}" = "./my_module"
+"{FROM}/__init__.py" = "{TO}/__init__.py"
+"{FROM}/foo.py" = "{TO}/foo.py"
+"{FROM}/bar.py" = "{TO}/bar.py"
+"{FROM}/baz.py" = "{TO}/baz.py"
+```
+
+The `{DOMAIN}`, `{PATH}`, and `{VERSION}` placeholders are
+used to create a further `{FROM}` placeholder. The `{TO}` placeholder is also
+defined to point to a common sub-directory on the file system. The final four
+entries use `{FROM}` and `{TO}` to copy over four files (`__init__.py`,
+`foo.py`, `bar.py` and `baz.py`) from the same source to a common destination
+directory.
+
+For conveniece, if the destination is just a directory (it ends with `/`)
+then PyScript automatically uses the filename part of the source URL as the
+filename in the destination directory.
+
+For example, the end of the previous config file could be:
+
+```toml
+"{TO}" = "./my_module/"
+"{FROM}/__init__.py" = "{TO}"
+"{FROM}/foo.py" = "{TO}"
+"{FROM}/bar.py" = "{TO}"
+"{FROM}/baz.py" = "{TO}"
+```
 
 #### Packages
 
@@ -589,12 +750,13 @@ packages = ["arrr", "numberwang", "snowballstemmer>=2.2.0" ]
 
     Because `micropip` is a Pyodide-only feature, and MicroPython doesn't
     support code packaged on PyPI, **the `packages` option is only available
-    if you use Pyodide as your interpreter**.
+    for use with Pyodide**.
 
 The names in the list of `packages` can be any of the following valid forms:
 
 * A name of a package on PyPI: `"snowballstemmer"`
-* A name for a package on PyPI with additional constraints: `"snowballstemmer>=2.2.0"`
+* A name for a package on PyPI with additional constraints:
+  `"snowballstemmer>=2.2.0"`
 * An arbitrary URL to a Python package: `"https://.../package.whl"`
 * A file copied onto the browser based file system: `"emfs://.../package.whl"`
 
@@ -604,7 +766,7 @@ The `plugins` enumerate plugins enabled by PyScript to add extra functionality
 to the platform.
 
 Each plugin should be included on the web page, as described in the
-[plugins](#plugins) section below. Then the plugin's name should be listed.
+[plugins](#plugins_1) section below. Then the plugin's name should be listed.
 
 ```TOML title="A list of plugins in TOML"
 plugins = ["custom_plugin", "!error"]
@@ -621,8 +783,8 @@ plugins = ["custom_plugin", "!error"]
     The `"!error"` syntax is a way to turn off a plugin built into PyScript
     that is enabled by default.
 
-    Currently, the only built-in plugin is the `error` plugin (which displays a
-    stack trace and error messages in the DOM). More may be added at a later
+    Currently, the only built-in plugin is the `error` plugin to display a
+    stack trace and error messages in the DOM. More may be added at a later
     date.
 
 #### Custom 
