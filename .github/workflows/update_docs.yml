@@ -36,4 +36,5 @@ jobs:
                   git config user.name tedpatrick
                   git config user.email tpatrick@anaconda.com
                   git fetch origin gh-pages --depth=1
+                  mike delete 2023.09.1 --push
                   mike deploy --push --update-aliases ${{ steps.version.outputs.version }} latest
