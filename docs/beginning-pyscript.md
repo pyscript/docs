@@ -70,7 +70,7 @@ level.
 
 You can see this application embedded into the page below:
 
-<iframe src="https://ntoll.pyscriptapps.com/piratical/latest/" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+<iframe src="https://ntoll.pyscriptapps.com/piratical/v1" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
 Let's explore each of the three files that make this app work.
 
@@ -106,7 +106,7 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
+      <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC2/core.js"></script>
   </head>
   <body>
 
@@ -155,7 +155,7 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC1/core.js"></script>
+      <script type="module" src="https://pyscript.net/snapshots/2023.09.1.RC2/core.js"></script>
   </head>
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>
