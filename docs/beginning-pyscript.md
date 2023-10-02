@@ -14,12 +14,12 @@ We only assume you know how to use a browser and edit text.
 !!! note
 
     The easiest way to get a PyScript development environment and hosting, is
-    to use [pyscript.com](pyscript.com) in your browser.
+    to use [pyscript.com](https://pyscript.com) in your browser.
 
     It is a free service that helps you create new projects from templates, and
     then edit, preview and deploy your apps with a unique link.
 
-    While the core features of [pyscript.com](pyscript.com) will always be
+    While the core features of [pyscript.com](https://pyscript.com) will always be
     free, additional paid-for capabilities directly support and sustain the
     PyScript open source project. Commercial and educational support is also
     available.
@@ -35,10 +35,10 @@ All PyScript applications need three things:
    how your application works.
 
 Create these files with your favourite code editor on your local file system.
-Alternatively, [pyscript.com](pyscript.com) will take away all the pain of
+Alternatively, [pyscript.com](https://pyscript.com) will take away all the pain of
 organising, previewing and deploying your application.
 
-If you decide to use [pyscript.com](pyscript.com) (recommended for first
+If you decide to use [pyscript.com](https://pyscript.com) (recommended for first
 steps), once signed in, create a new project by pressing the "+" button on the
 left hand side below the site's logo. You'll be presented with a page
 containing three columns (listing your files, showing your code and previewing
@@ -221,14 +221,14 @@ That's it!
 
 ### PyScript.com
 
-If you're using [pyscript.com](pyscript.com), you should save all your files
+If you're using [pyscript.com](https://pyscript.com), you should save all your files
 and click the "run" button. Assuming you've copied the code properly, you
 should have a fine old time using "Polyglot 🦜" to translate English to
 Pirate-ish.
 
 Alternatively, [click here to see a working example of this app](https://ntoll.pyscriptapps.com/piratical/latest/).
 Notice that the bottom right hand corner contains a link to view the code on
-[pyscript.com](pyscript.com). Why not explore the code, copy it to your own
+[pyscript.com](https://pyscript.com). Why not explore the code, copy it to your own
 account and change it to your satisfaction.
 
 ### From a web server
@@ -236,7 +236,7 @@ account and change it to your satisfaction.
 Just host the three files (`pyscript.toml`, `index.html`
 and `main.py`) in the same directory on a static web server somewhere.
 
-Clearly, we recommend you use [pyscript.com](pyscript.com) for this, but any
+Clearly, we recommend you use [pyscript.com](https://pyscript.com) for this, but any
 static web host will do (for example,
 [GitHub Pages](https://pages.github.com/),
 [Amazon's S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html),
@@ -252,4 +252,4 @@ needed to build yet more interesting things of your own.
 
 PyScript is extremely powerful, and these beginner steps only just scratch the
 surface. To learn about PyScript in more depth, check out
-[our user guide](/user-guide).
+[our user guide](user-guide.md).
