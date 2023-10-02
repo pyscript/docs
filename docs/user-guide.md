@@ -8,7 +8,7 @@
     While we endeavour to write clearly, some of the content in this user guide
     will not be suitable for beginners. We assume readers already have Python
     or web development experience. If you're a beginner start with our
-    [beginner's guide](/beginning-pyscript).
+    [beginner's guide](beginning-pyscript.md).
 
     We [welcome feedback](https://github.com/pyscript/docs/issues) to help us
     improve.
@@ -31,7 +31,7 @@ PyScript, you are welcome to contribute via
 [the project's GitHub organisation](https://github.com/pyscript).
 
 Finally, the examples listed at the end of this page are all freely available
-and copiously commented on [pyscript.com](pyscript.com).
+and copiously commented on [pyscript.com](https://pyscript.com).
 
 !!! note
 
@@ -42,7 +42,7 @@ and copiously commented on [pyscript.com](pyscript.com).
 
 ## What is PyScript?
 
-[PyScript](pyscript.net) is a platform for [Python](python.org) in the
+[PyScript](https://pyscript.net) is a platform for [Python](https://python.org) in the
 [browser](https://en.wikipedia.org/wiki/Web_browser).
 
 PyScript brings together two of the most vibrant technical ecosystems on the
@@ -860,7 +860,7 @@ PyScript uses a feature recently added to web standards called
 
 In order for Atomics to work **you must ensure your web server should enable
 the following headers** (this is the default behaviour for
-[pyscript.com](pyscript.com)):
+[pyscript.com](https://pyscript.com)):
 
 ```
 Cross-Origin-Opener-Policy: same-origin
