@@ -1211,6 +1211,8 @@ attributes:</p>
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await">top level await</a>.</li>
 <li><code>worker</code> - a flag to indicate your Python code is to be run on a web worker
   instead of the "main thread" that looks after the user interface.</li>
+<li><code>target</code> - The id or selector of the element where calls to
+  <a href="#pyscriptdisplay"><code>display()</code></a> should write their values. </li>
 </ul>
 <div class="admonition question">
 <p class="admonition-title">Question</p>
@@ -1782,10 +1784,12 @@ two optional named arguments:</p>
 <ul>
 <li>When used in the main thread, the <code>display</code> function automatically uses
   the current <code>&lt;script&gt;</code> tag as the <code>target</code> into which the content will
-  be displayed.</li>
-<li>When used in a worker, the <code>display</code> function needs an explicit
-  <code>target="dom-id"</code> argument to identify where the content will be
-  displayed.</li>
+  be displayed.<ul>
+<li>If the <code>&lt;script&gt;</code> tag has the <code>target</code> attribute, the element on the page
+with that ID (or which matches that selector) will be used to display
+the content instead.</li>
+</ul>
+</li>
 <li>In both the main thread a worker, <code>append=False</code> is the default
   behaviour.</li>
 </ul>
