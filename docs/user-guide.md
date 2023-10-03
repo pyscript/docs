@@ -236,6 +236,8 @@ attributes:
   [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await).
 * `worker` - a flag to indicate your Python code is to be run on a web worker
   instead of the "main thread" that looks after the user interface.
+* `target` - The id or selector of the element where calls to
+  [`display()`](#pyscriptdisplay) should write their values. 
 
 !!! question
 
@@ -947,9 +949,9 @@ There are some caveats:
 * When used in the main thread, the `display` function automatically uses
   the current `<script>` tag as the `target` into which the content will
   be displayed.
-* When used in a worker, the `display` function needs an explicit
-  `target="dom-id"` argument to identify where the content will be
-  displayed.
+    - If the `<script>` tag has the `target` attribute, the element on the page
+    with that ID (or which matches that selector) will be used to display
+    the content instead.
 * In both the main thread a worker, `append=False` is the default
   behaviour.
 
