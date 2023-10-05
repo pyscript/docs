@@ -35,7 +35,7 @@ jobs:
             - name: Update "gh-pages" branch
               shell: bash -l {0}
               run: |
-                  git config user.name tedpatrick
-                  git config user.email tpatrick@anaconda.com
+                  git config user.name ${{ secrets.DOCS_GITHUB_USER }}
+                  git config user.email ${{ secrets.DOCS_GITHUB_EMAIL }}
                   git fetch origin gh-pages --depth=1
                   mike deploy --push --update-aliases ${{ steps.version.outputs.version }} latest
