@@ -51,3 +51,5 @@
     helps pay for and sustain PyScript!).</p>
   </ul></dd>
 </dl>
+
+## Go PyScript
