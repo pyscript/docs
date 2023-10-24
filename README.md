@@ -1,7 +1,9 @@
 # PyScript documentation
 
-Welcome to the PyScript documentation directory, where you can find
-and contribute to discussions around PyScript and related topics.
+Welcome to the PyScript documentation repository.
+
+Contribute prose and participate in discussions about the written support of
+PyScript and related topics.
 
 ## Getting started
 
@@ -16,8 +18,9 @@ The `docs` directory in the pyscript repository contains a
 that takes plaintext files containing documentation written in Markdown, along with
 static files like templates and themes, to build the static end result.
 
-To setup the documentation development environment simply run `make setup` from this folder and, once it's done,
-activate your environment by running `conda activate ./_env`
+To setup the documentation development environment simply create a new
+virtual environment, then `pip install -r requirements.txt` (from in the root
+of this repository).
 
 ## Build
 

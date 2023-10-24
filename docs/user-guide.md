@@ -10,15 +10,14 @@
     or web development experience. If you're a beginner start with our
     [beginner's guide](beginning-pyscript.md).
 
-    We [welcome feedback](https://github.com/pyscript/docs/issues) to help us
-    improve.
+    We [welcome constructive feedback](https://github.com/pyscript/docs/issues).
 
 This guide has three aims:
 
-1. A clear overview, context setting and sign-posting for all things PyScript.
-2. Exploration of PyScript in substantial technical detail.
-3. Demonstration of the features of PyScript working together in real-world
-   example applications.
+1. A [clear overview](#what-is-pyscript) of all things PyScript.
+2. [Exploration of PyScript](#architecture) in substantial technical detail.
+3. Demonstration of the features of PyScript working together in
+   [real-world example applications](#examples).
 
 _Read this page in full_: it is a short but comprehensive overview of the
 PyScript platform.
@@ -30,14 +29,15 @@ projects with PyScript. Should you wish to engage with the development of
 PyScript, you are welcome to contribute via 
 [the project's GitHub organisation](https://github.com/pyscript).
 
-Finally, the examples listed at the end of this page are all freely available
+Finally, the projects at the end of this page are all freely available
 and copiously commented on [pyscript.com](https://pyscript.com).
 
 !!! note
 
     Many of these examples come from contributors in our wonderful
-    community. If you believe you have a project that would make a good
-    demonstration, please don't hesitate to
+    community. We love to recognise, amplify and celebrate the incredible work
+    of folks in the PyScript community. If you believe you have a project that
+    would make a good demonstration, please don't hesitate to
     [get in touch](https://discord.gg/HxvBtukrg2).
 
 ## What is PyScript?
@@ -93,10 +93,10 @@ the planet who use computers.
     <dd>
     <p>PyScript brings you two Python interpreters:</p>
     <ol>
-        <li><a href="https://pyodide.org/">Pyodide</a> - the original standard
+        <li><a href="#pyodide">Pyodide</a> - the original standard
         CPython interpreter you know and love, but compiled to WebAssembly.
         </li>
-        <li><a href="https://micropython.org/">MicroPython</a> - a lean and
+        <li><a href="#micropython">MicroPython</a> - a lean and
         efficient reimplementation of Python3 that includes a comprehensive
         subset of the standard library, compiled to WebAssembly.</li>
     </ol>
@@ -135,9 +135,9 @@ the planet who use computers.
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">web workers</a>
     expensive and blocking computation can run somewhere other than the main
     application thread controlling the user interface. When such work is done
-    on the main thread, the browser appears frozen and web workers ensure
-    expensive blocking computation can happen elsewhere. Think of workers as
-    independent subprocesses in your web page.</dd>
+    on the main thread, the browser appears frozen; web workers ensure
+    expensive blocking computation <a href="#workers">happens elsewhere</a>.
+    Think of workers as independent subprocesses in your web page.</dd>
 
     <dt><em>Rich and powerful plugins</em></dt>
     <dd>
@@ -203,16 +203,16 @@ file containing your code, or inline your code between the opening and closing
 tags. **We recommend you use the `src` attribute method**, but retain the
 ability to include code between tags for convenience.
 
-Here's a `<script>` tag with a `src` attribute to reference the URL
-for a `main.py` Python file.
+Here's a `<script>` tag with a `src` attribute containing a URL
+pointing to a `main.py` Python file.
 
-```html title="Using a script tag with a source file"
+```html title="A &lt;script&gt; tag with a source file"
 <script type="mpy" src="main.py"></script>
 ```
 
 ...and here's a `<py-script>` tag with inline Python code.
 
-```html title="Using a py-script tag with inline code"
+```html title="A &lt;py-script&gt; tag with inline code"
 <py-script>
 import sys
 from pyscript import display
@@ -229,15 +229,26 @@ attributes:
   referenced file is evaluated instead. **This is the recommended way to
   reference your Python code.**
 * `config` - your code will only be evaluated after the referenced
-  configuration has been parsed. Since configuration can be JSON (or a TOML
-  file), `config='{"packages":["numpy"]}'` and `config="./config.json"` or
+  [configuration](#configuration) has been parsed. Since configuration can be
+  JSON or a TOML file,
+  `config='{"packages":["numpy"]}'` and `config="./config.json"` or
   `config="./config.toml"` are all valid.
 * `async` - your Python code can contain a
   [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await).
-* `worker` - a flag to indicate your Python code is to be run on a web worker
-  instead of the "main thread" that looks after the user interface.
+* `worker` - a flag to indicate your Python code is to be run on a
+  [web worker](#workers) instead of the "main thread" that looks after the user
+  interface.
 * `target` - The id or selector of the element where calls to
   [`display()`](#pyscriptdisplay) should write their values. 
+
+!!! warning
+
+    The `packages` setting used in the example configuration shown above is a
+    **Pyodide-only feature** because MicroPython doesn't support code packaged
+    on PyPI.
+
+    For more information please refer to the [packages section](#packages) of
+    this user guide.
 
 !!! question
 
@@ -255,8 +266,8 @@ attributes:
 
     Both the `<py-script>` and `<mpy-script>` tags with inline code are
     [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_Components)
-    that are not built into the browser. While they are convenient, there is a
-    performance cost to their use.
+    that are _not built into the browser_. While they are convenient, there is
+    a performance cost to their use.
 
 !!! info
     The browser's tab displaying the website running PyScript is an isolated
@@ -274,17 +285,18 @@ attributes:
     <script type="py" src="worker.py" worker config="pyconfig.toml"></script> <!-- on the worker -->
     ```
 
-    Notice how different interpreters can be used in different contexts.
+    Notice how different interpreters can be used with different
+    configurations.
 
 ## Architecture
 
-There are two important aspects of PyScript's architecture:
+PyScript's architecture has two core concepts:
 
 1. A small, efficient and powerful kernel called
    [PolyScript](https://github.com/pyscript/polyscript) is the foundation
    upon which PyScript and plugins are built.
 2. The PyScript [stack](https://en.wikipedia.org/wiki/Solution_stack) inside
-   the browser is easy to understand.
+   the browser is simple and clearly defined.
 
 ### PolyScript
 
@@ -358,8 +370,8 @@ application relate to each other:
 
 !!! failure
 
-    Python solely running in the browser is an unfamiliar concept that some
-    fail to remember.
+    PyScript is simply Python running in the browser. It is an unfamiliar
+    concept that some fail to remember.
 
     * PyScript isn't running on a server hosted in the cloud.
     * PyScript doesn't use the version of Python running natively on the user's
@@ -395,9 +407,9 @@ Here's how PyScript unfolds through time:
   the HTML is fully parsed.
 * The PyScript module does broadly six things:
     1. Discover Python code referenced in the page.
-    2. Evaluate any [configuration](#configuration) on the page (either via a
-       single `<py-config>` tag or the `config` attribute of a `<script>`,
-       `<py-script>` or `<mpy-script>` tag).
+    2. Evaluate any [configuration](#configuration) on the page (either via
+       single `<py-config>` or `<mpy-config>` tags **or** the `config`
+       attribute of a `<script>`, `<py-script>` or `<mpy-script>` tag).
     3. Given the detected configuration, download the required interpreter.
     4. Setup the interpreter's environment. This includes any
        [plugins](#plugins), [packages](#packages) or [files](#files) that need
@@ -420,10 +432,10 @@ behaviour of PyScript. The hooks, and how to use them, are explored further in
 
 !!! warning
 
-    When using workers, each worker will have a completely separate environment
-    to that of the main thread.
+    A web page's workers have completely separate environments to the main
+    thread.
 
-    As a result, configuration in the main thread can be different to that for
+    It means configuration in the main thread can be different to that for
     an interpreter running on a worker. In fact, you can use different
     interpreters and configuration in each context (for instance, MicroPython
     on the main thread, and Pyodide on a worker).
@@ -502,7 +514,7 @@ MicroPython, when compressed for delivery to the browser, is only around
 
 This makes MicroPython particularly suited to browsers running in a more
 constrained environment such as on a mobile or tablet based device. Browsing
-with these devices usually uses (slower) mobile internet connections.
+with these devices often uses (slower) mobile internet connections.
 Furthermore, because MicroPython is lean and efficient it still performs
 exceptionally well on these relatively underpowered devices.
 
@@ -516,9 +528,9 @@ relatively easy to migrate between the two supported interpreters.
 The browser tab in which your PyScript based web page is displayed is a very
 secure sandboxed computing environment for running your Python code.
 
-This is also the case for web-workers running Python. Despite being associated
+This is also the case for web workers running Python. Despite being associated
 with a single web page, workers are completely separate from each other
-(except for some very limited and clearly defined means of interacting which
+(except for some very limited and clearly defined means of interacting, which
 PyScript looks after for you).
 
 We need to tell PyScript how we want such Python environments to be configured.
@@ -560,7 +572,7 @@ packages = ["arrr", "numberwang" ]
 
 ### File or inline
 
-The recommended way to write configurations is via a separate file and then
+The recommended way to write configuration is via a separate file and then
 reference it from the tag used to specify the Python code:
 
 ```HTML title="Reference a configuration file"
@@ -637,7 +649,7 @@ destination filesystem path.
 
 The following JSON and TOML are equivalent:
 
-```json
+```json title="Fetch files onto the filesystem with JSON"
 {
   "files": {
     "https://example.com/data.csv": "./data.csv",
@@ -646,11 +658,39 @@ The following JSON and TOML are equivalent:
 }
 ```
 
-```toml
+```toml title="Fetch files onto the filesystem with TOML"
 [files]
 "https://example.com/data.csv" = "./data.csv"
 "/code.py" = "./subdir/code.py"
 ```
+
+If you make the target an empty string, the final "filename" part of the source
+URL becomes the destination filename, in the root of the filesystem, to which
+the content is copied. As a result, the `data.csv` entry from the previous
+examples could be equivalently re-written as:
+
+```json title="JSON implied filename in the root directory"
+{
+  "files": {
+    "https://example.com/data.csv": "",
+    ... etc ...
+  }
+}
+```
+
+```toml title="TOML implied filename in the root directory"
+[files]
+"https://example.com/data.csv" = ""
+... etc ...
+```
+
+
+!!! warning
+
+    **PyScript expects all file destinations to be unique.**
+
+    If there is a duplication PyScript will raise an exception to help you find
+    the problem.
 
 !!! tip
 
@@ -662,7 +702,8 @@ The following JSON and TOML are equivalent:
 
 Sometimes many resources are needed to be fetched from a single location and
 copied into the same directory on the file system. To aid readability and
-reduce repetition, the `files` option comes with a mini templating language
+reduce repetition, the `files` option comes with a mini
+[templating language](https://en.wikipedia.org/wiki/Template_processor)
 that allows re-usable placeholders to be defined between curly brackets (`{`
 and `}`). When these placeholders are encountered in the `files` configuration,
 their name is replaced with their associated value.
@@ -715,7 +756,7 @@ entries use `{FROM}` and `{TO}` to copy over four files (`__init__.py`,
 `foo.py`, `bar.py` and `baz.py`) from the same source to a common destination
 directory.
 
-For conveniece, if the destination is just a directory (it ends with `/`)
+For convenience, if the destination is just a directory (it ends with `/`)
 then PyScript automatically uses the filename part of the source URL as the
 filename in the destination directory.
 
@@ -736,6 +777,16 @@ The `packages` option defines a list of Python `packages` to be installed from
 [micropip](https://micropip.pyodide.org/en/stable/index.html) package
 installer.
 
+!!! warning
+
+    Because `micropip` is a Pyodide-only feature, and MicroPython doesn't
+    support code packaged on PyPI, **the `packages` option is only available
+    for use with Pyodide**.
+
+    If you need **Python modules for MicroPython** to use, you should use the
+    [files](#files) option to manually copy the source code onto the
+    file system.
+
 The following two examples are equivalent:
 
 ```TOML title="A packages list in TOML"
@@ -748,12 +799,6 @@ packages = ["arrr", "numberwang", "snowballstemmer>=2.2.0" ]
 }
 ```
 
-!!! warning
-
-    Because `micropip` is a Pyodide-only feature, and MicroPython doesn't
-    support code packaged on PyPI, **the `packages` option is only available
-    for use with Pyodide**.
-
 The names in the list of `packages` can be any of the following valid forms:
 
 * A name of a package on PyPI: `"snowballstemmer"`
@@ -764,8 +809,8 @@ The names in the list of `packages` can be any of the following valid forms:
 
 #### Plugins
 
-The `plugins` enumerate plugins enabled by PyScript to add extra functionality
-to the platform.
+The `plugins` option lists plugins enabled by PyScript to add extra
+functionality to the platform.
 
 Each plugin should be included on the web page, as described in the
 [plugins](#plugins_1) section below. Then the plugin's name should be listed.
@@ -804,15 +849,16 @@ the config.**
 
 The DOM
 ([document object model](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model))
-refers to a tree like data structure that represents the web page in the
-browser. PyScript needs to be able to interact with the DOM in order to change
-the user interface and react to things happening in the browser.
+is a tree like data structure representing the web page displayed by the
+browser. PyScript interacts with the DOM to change the user interface and react
+to things happening in the browser.
 
 There are currently two ways to interact with the DOM:
 
-1. Through the foreign function interface (FFI) and by directly interacting
-   with the objects found in the browser's `globalThis` object.
-2. Through the `pydom` module that comes as standard with PyScript.
+1. Through the [foreign function interface](#ffi) (FFI) to interact with objects found
+   in the browser's `globalThis` or `document` objects.
+2. Through the [`pydom` module](#pydom) that acts as a Pythonic wrapper around
+   the FFI and comes as standard with PyScript.
 
 ### FFI
 
@@ -823,7 +869,7 @@ such as the browser's built-in
 
 This is available via the `pyscript.window` module which is a proxy for
 the main thread's `globalThis` object, or `pyscript.document` which is a proxy
-for the `document` object in JavaScript:
+for the website's `document` object in JavaScript:
 
 ```Python title="Accessing the window and document objects in Python"
 from pyscript import window, document
@@ -833,10 +879,47 @@ my_element = document.querySelector("#my-id")
 my_element.innerText = window.location.hostname
 ```
 
+The FFI creates _proxy objects_ in Python linked to _actual objects_ in
+JavaScript.
+
+The objects in your Python code look and behave like Python
+objects but have related JavaScript objects associated with them. It means the
+API defined in JavaScript remains the same in Python, so any
+[browser based JavaScript APIs](https://developer.mozilla.org/en-US/docs/Web/API)
+or third party JavaScript libraries that expose objects in the web page's
+`globalThis`, will have exactly the same API in Python as in JavaScript.
+
+The FFI automatically transforms Python and JavaScript objects into the
+equivalent in the other language. For example, Python's boolean `True` and
+`False` will become JavaScript's `true` and `false`, while a JavaScript array
+of strings and integers, `["hello", 1, 2, 3]` becomes a Python list of the
+equivalent values: `["hello", 1, 2, 3]`.
+
+!!! info
+
+    Instantiating classes into objects is an interesting special case that the
+    FFI expects you to handle.
+
+    **If you wish to instantiate a JavaScript class in your Python
+    code, you need to call the class's `new` method:**
+
+    ```python
+    from pyscript import window
+
+
+    my_obj = window.MyJavaScriptClass.new("some value")
+
+    ```
+
+    The underlying reason for this is simply JavaScript and Python do
+    instantiation very differently. By explicitly calling the JavaScript
+    class's `new` method PyScript both signals and honours this difference.
+
+
 ### PyDom
 
-The built in Python module `pydom` wraps many (although not all) the features
-available via the FFI in a more idiomatically Pythonic library.
+The built-in Python module `pydom` wraps many (although not all) the features
+available via the FFI in an idiomatically Pythonic manner.
 
 
 The PyDom API is extensively described and demonstrated
@@ -847,21 +930,25 @@ The PyDom API is extensively described and demonstrated
     PyDom is currently a work in progress.
 
     We welcome feedback and suggestions.
+
+**TODO Fabio to finish**
     
 ## Workers
 
-Workers allow you to run code in a way that won't block the "main thread" that
-controls the user interface. If you block the main thread, your web page
-becomes annoyingly unresponsive. You should never block the main thread.
+Workers run code that won't block the "main thread" controlling the user
+interface. If you block the main thread, your web page becomes annoyingly
+unresponsive.** You should never block the main thread.**
 
-Happily, PyScript makes it very easy to use workers. To make this happen
-PyScript uses a feature recently added to web standards called
+Happily, PyScript makes it very easy to use workers.
+
+To make this happen PyScript uses a feature recently added to web standards
+called
 [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics).
 
 ### HTTP headers
 
-In order for Atomics to work **you must ensure your web server should enable
-the following headers** (this is the default behaviour for
+For Atomics to work **you must ensure your web server enables the following
+headers** (this is the default behaviour for
 [pyscript.com](https://pyscript.com)):
 
 ```
@@ -870,8 +957,8 @@ Cross-Origin-Embedder-Policy: require-corp
 Cross-Origin-Resource-Policy: cross-origin
 ```
 
-If you are not able to configure your server's headers, you could try to use
-the [mini-coi](https://github.com/WebReflection/mini-coi#readme) project to
+If you are not able to configure your server's headers, use the
+[mini-coi](https://github.com/WebReflection/mini-coi#readme) project to
 achieve the same end.
 
 ### Start working
@@ -884,23 +971,24 @@ attribute flag:
 <script type="py" src="./my-worker-code.py" worker></script>
 ```
 
-Of course, code running in the worker needs to be able to access the web page
-running in the main thread. This is achieved via some builtin helper utilities
-described in the next section.
+Code running in the worker needs to be able to access the web page running in
+the main thread. This is achieved via builtin helper utilities described in the
+next section.
 
 !!! note
 
-    The worker related functionality in PyScript is, for the sake of ease of
-    use, a simpler presentation of more sophisticated and powerful behaviour
+    For ease of use, the worker related functionality in PyScript is
+    a simpler presentation of more sophisticated and powerful behaviour
     available via PolyScript.
 
-    Please [consult the XWorker](https://pyscript.github.io/polyscript/#xworker)
+    **If you are a confident advanced user**, please
+    [consult the XWorker](https://pyscript.github.io/polyscript/#xworker)
     related documentation from the PolyScript project for how to make use of
     these features.
 
 ## Builtin helpers
 
-PyScript makes available various convenience objects and functions inside
+PyScript makes available convenience objects and functions inside
 Python. This is done via the `pyscript` module:
 
 ```python title="Accessing the document object via the pyscript module"
@@ -921,7 +1009,8 @@ This object is a proxy for the web page's
 
     Please note that in workers, this is still the main window, not the
     worker's own global context. A worker's global context is reachable instead
-    via `import js` (the `js` object being a proxy for `globalThis`).
+    via `import js` (the `js` object being a proxy for the worker's
+    `globalThis`).
 
 #### `pyscript.document`
 
@@ -941,7 +1030,7 @@ The `display` function takes a list of `*values` as its first argument, and has
 two optional named arguments:
 
 * `target=None` - the DOM element into which the content should be placed.
-* `append=False` - a flag to indicate if the output is going to be appended to
+* `append=True` - a flag to indicate if the output is going to be appended to
   the `target`.
 
 There are some caveats:
@@ -949,11 +1038,49 @@ There are some caveats:
 * When used in the main thread, the `display` function automatically uses
   the current `<script>` tag as the `target` into which the content will
   be displayed.
-    - If the `<script>` tag has the `target` attribute, the element on the page
-    with that ID (or which matches that selector) will be used to display
-    the content instead.
-* In both the main thread a worker, `append=False` is the default
+* If the `<script>` tag has the `target` attribute, the element on the page
+  with that ID (or which matches that selector) will be used to display
+  the content instead.
+* When used in a worker, the `display` function needs an explicit
+  `target="dom-id"` argument to identify where the content will be
+  displayed.
+* In both the main thread a worker, `append=True` is the default
   behaviour.
+
+#### `pyscript.when`
+
+A Python decorator to indicate the decorated function should handle the
+specified events for selected elements.
+
+The decorator takes two parameters:
+
+* The `event_type` should be the name of the
+  [browser event to handle](https://developer.mozilla.org/en-US/docs/Web/Events)
+  as a string (e.g. `"click"`).
+* The `selector` should be a string containing a
+  [valid selector](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors)
+  to indicate the target elements in the DOM whose events of `event_type` are
+  of interest.
+
+The following example has a button with an id of `my_button` and a decorated
+function that handles `click` events dispatched by the button.
+
+```html title="The HTML button"
+<button id="my_button">Click me!</button>
+```
+
+```python title="The decorated Python function to handle click events"
+from pyscript import when
+
+
+@when("click", "#my_button")
+def click_handler(event):
+    """
+    Event handlers get an event object representing the activity that raised
+    them.
+    """
+    print("I've been clicked!")
+```
 
 ### Main-thread only features
 
@@ -1006,8 +1133,8 @@ sync.hello("PyScript")
 
 **TODO: FINISH THIS**
 
-<!--
 # Examples
+<!--
 
 ### Lots of DOM manipulation
 
