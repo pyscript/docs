@@ -34,9 +34,9 @@ compassion wins every time.
 * If you need help with anything, get involved - _we welcome questions asked
   in good faith, and will move mountains to help_.
 * If you're unsure where to start, get involved - _we have [many ways to
-  contribute](/contributing)_.
+  contribute](contributing.md)_.
 
-All contributors are expected to follow our [code of conduct](/conduct/).
+All contributors are expected to follow our [code of conduct](conduct.md).
 
 ## Setup 
 
@@ -242,7 +242,7 @@ is through this environment that you contribute to PyScript.
 
 ## Contributing
 
-* We have [suggestions for how to contribute to PyScript](/contributing). Take
+* We have [suggestions for how to contribute to PyScript](contributing.md). Take
   a read and dive in.
 
 * Please make sure you discuss potential contributions *before* you put in
