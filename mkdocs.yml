@@ -5,6 +5,8 @@ theme:
 
     logo: assets/images/pyscript-black.svg
 
+    custom_dir: overrides
+
     palette:
         # Palette toggle for automatic mode
         - media: "(prefers-color-scheme)"
