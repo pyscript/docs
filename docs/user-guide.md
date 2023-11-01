@@ -918,8 +918,16 @@ equivalent values: `["hello", 1, 2, 3]`.
 
 ### PyDom
 
-The built-in Python module `pydom` wraps many (although not all) the features
-available via the FFI in an idiomatically Pythonic manner.
+The built-in Python module `pydom` wraps many (although not all) features
+to access the brower DOM interface and can be used to interact with the elements
+of a web page in an idiomatically Pythonic manner, accessible to humans. While the
+[FFI](#ffi) interface described above focus on giving full access to the entire
+Javascript Interface, `pydom` focuses on providing a small, intuitive and yet
+powerful API. For this reason, while it's first laywer is simple and intuitive
+(hence limited), saving many lines of code and making the code easier, it also provides
+a secondary layer that can be used to directly use full FFI related to a specific
+element.
+
 
 
 The PyDom API is extensively described and demonstrated
@@ -931,7 +939,7 @@ The PyDom API is extensively described and demonstrated
 
     We welcome feedback and suggestions.
 
-**TODO Fabio to finish**
+
     
 ## Workers
 
