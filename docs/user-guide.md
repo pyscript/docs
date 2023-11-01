@@ -918,15 +918,27 @@ equivalent values: `["hello", 1, 2, 3]`.
 
 ### PyDom
 
-The built-in Python module `pydom` wraps many (although not all) features
-to access the brower DOM interface and can be used to interact with the elements
-of a web page in an idiomatically Pythonic manner, accessible to humans. While the
-[FFI](#ffi) interface described above focus on giving full access to the entire
-Javascript Interface, `pydom` focuses on providing a small, intuitive and yet
-powerful API. For this reason, while it's first laywer is simple and intuitive
-(hence limited), saving many lines of code and making the code easier, it also provides
-a secondary layer that can be used to directly use full FFI related to a specific
-element.
+The Standard Web APIs are massive and not always very user-friendly. `PyDom` is a
+Python modue that exposes the power of the web with an easy and idiomatic Pythonic
+interface on top.
+
+While the[FFI](#ffi) interface described above focuses on giving full access to
+the entire Standard Web APIs, `pydom` focuses on providing a small, intuitive and yet
+powerful API that priotirizes common use cases fist. For this reason, it's first
+layer is simple and intuitive (but limited to the most common use cases), but `pydom`
+also provides a secondary layer that can be used to directly use full FFI interface
+of a specific element.
+
+It does not aim to replace the regular Web [Javascript] API nor to be as wide and offer
+feature parity. On the contrary, it's intentionally small and focused on the most popular
+use cases while still providing [a backdoor] access to the full JS API.
+
+
+`Pydom` draws inspiration from popular Python APIs/Libraries known to be friendly and
+easy to learn, and other successful projects related the web as well (for isntance,
+`JQuery` was a good source of inspiration).
+
+#### Core Concepts
 
 
 
