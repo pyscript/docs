@@ -70,7 +70,7 @@ level.
 
 You can see this application embedded into the page below:
 
-<iframe src="https://ntoll.pyscriptapps.com/piratical/v1" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+<iframe src="https://ntoll.pyscriptapps.com/piratical/v2" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
 Let's explore each of the three files that make this app work.
 
@@ -226,7 +226,7 @@ and click the "run" button. Assuming you've copied the code properly, you
 should have a fine old time using "Polyglot 🦜" to translate English to
 Pirate-ish.
 
-Alternatively, [click here to see a working example of this app](https://ntoll.pyscriptapps.com/piratical/latest/).
+Alternatively, [click here to see a working example of this app](https://ntoll.pyscriptapps.com/piratical/v2).
 Notice that the bottom right hand corner contains a link to view the code on
 [pyscript.com](https://pyscript.com). Why not explore the code, copy it to your own
 account and change it to your satisfaction.
