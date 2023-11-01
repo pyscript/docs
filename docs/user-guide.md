@@ -960,7 +960,7 @@ standard HTML DOM query selectors to [locate DOM elements](https://developer.moz
 
 Following, we'll look into each one of these aspects a bit more in detail.
 
-##### Element
+#### Element
 
 `pydom` `Element` is simply just an abstraction of a tranditional `Element` in a web page.
 Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
@@ -968,7 +968,7 @@ elements are always in sync and any change of state in one is reflect into the o
 
 __ADD DIAGRAM HERE__
 
-###### Creating a new element
+##### Creating a new element
 
 New elements can be created by using the `pydom.create` method and passing the type of element
 being crated. Here's an example of what it looks like:
@@ -991,14 +991,62 @@ pydom['#element-creation-example'][0].append(new_div)
 ```
 
 <div>
-  <h3>Result will go here</h3>
+  <h5>Result will go here</h5>
   <div id="pydom-element-createion-example"></div>
 </div>
 
 
 For more details about `pydom.create` please refer to its reference documentation.
 
-    
+##### Setting the content of an element
+
+The Element interface offers 2 main ways to set an element content: the `html` and the
+`content` attributes:
+
+* `content`: sets the `innerHTML` field via the PyScript `display` function. This takes care
+of properly rendering the object being passed based on the object mimetype. So, for instance,
+if the objects is an image, it'll be properly rendered on the element
+* `html`: directly sets the `innerHTML` field of the underlying element without attemnpting
+any conversion.
+
+In general, we suggest using `content` directly as it'll take care of most use cases without
+requiring any extra logic from the user.
+
+##### Changing the element style
+
+Elements have a `style` attribute that can be used to change the element style rules.
+The style attribyte can be used as a dictionary and, to set a style rule for the element,
+simply set the correct key on the `.style` attribute. For instance, the following
+code changes the background color of the element just created in the example above:
+
+```python
+new_p.style["background-color"] = "yellow"
+```
+
+to remove a specific style key, simply use the `pop` method as you'd to to remove
+a key from a dictionary:
+
+```python
+new_p.style.pop("background-color")
+```
+
+In addition to the dictionary interface to explicitly set CSS rules, the `style` attribute
+also offers a convenient `visible` property that can be use show/hide an element.
+
+```python
+new_p.style.visible = False
+```
+
+##### Other useful aspects of the Element API
+
+`append`: method to append a new child to the element.
+`children`: list of the children of the element.
+`value`: allows to set the `value` attribute of an element.
+`clone`: method that creates a clone of the element. NODE: The clone elements will not be
+attached to any element.
+`show_me`: method to scroll the page to where the element is placed.
+
+
 ## Workers
 
 Workers run code that won't block the "main thread" controlling the user
