@@ -933,23 +933,43 @@ It does not aim to replace the regular Web [Javascript] API nor to be as wide an
 feature parity. On the contrary, it's intentionally small and focused on the most popular
 use cases while still providing [a backdoor] access to the full JS API.
 
-
 `Pydom` draws inspiration from popular Python APIs/Libraries known to be friendly and
 easy to learn, and other successful projects related the web as well (for isntance,
 `JQuery` was a good source of inspiration).
-
-#### Core Concepts
-
-
-
-The PyDom API is extensively described and demonstrated
-[on this PyScript page](https://fpliger.pyscriptapps.com/pyweb/latest/pydom.html).
 
 !!! warning
 
     PyDom is currently a work in progress.
 
     We welcome feedback and suggestions.
+
+
+#### Core Concepts
+
+`Pydom` builds on topic of very few and simple core concepts:
+
+* __`Element`:__ any component that is part of a web page. This is a rough abstraction of an
+[HTMLElement](https://developer.mozilla.org/en-US/docs/Glossary/Element). In general,
+`pydom` elements always map to an underlying `HTML` `Element` in a we page
+* __`ElementCollection`:__ a collection of one or more `Elements`. It is a rough abstraction
+of a [HTMLCollection](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection).
+* __Querying:__ a method to query elements on a page based on a
+[selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors). Pydom supports
+standard HTML DOM query selectors to [locate DOM elements](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors) as other native `JavaScript` methods like
+`querySelector` or `querySelectorAll`.
+
+Following, we'll look into each one of these aspects a bit more in detail.
+
+##### Element
+
+`pydom` `Element` is simply just an abstraction of a tranditional `Element` in a web page.
+Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
+elements are always in sync and any change of state in one is reflect into the other.
+
+__ADD DIAGRAM HERE__
+
+###### Creating a new element
+
 
 
     
