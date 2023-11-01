@@ -970,7 +970,33 @@ __ADD DIAGRAM HERE__
 
 ###### Creating a new element
 
+New elements can be created by using the `pydom.create` method and passing the type of element
+being crated. Here's an example of what it looks like:
 
+(To execute and explore the following code, click on the "load" button. The result will be
+conveniently displayed in the box on the below of the code example)
+
+```python
+from pyweb import pydom
+
+# Creating an element directly from pydom creates an unbounded element.
+new_div = pydom.create("div")
+
+# Creating an element from another element automatically creates that element
+# as a child of the original element
+new_p = new_div.create("p", classes=["code-description"], html="Ciao PyScripters!")
+
+# elements can be appended to any other element on the page
+pydom['#element-creation-example'][0].append(new_div)
+```
+
+<div>
+  <h3>Result will go here</h3>
+  <div id="pydom-element-createion-example"></div>
+</div>
+
+
+For more details about `pydom.create` please refer to its reference documentation.
 
     
 ## Workers
