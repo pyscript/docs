@@ -1057,11 +1057,36 @@ paragraphs = pydom['p']
 
 In the example above, `paragraphs` is an `ElementCollection` that maps to all `p` elements in the page.
 
+As any collections, `ElementCollection` can be used to iterate over a collection of elements or to pick
+specific elements or slices of elements in the collection. For instance:
 
+```python
+for element in paragraphs: 
+  display(element.html)
+
+# let's now display only the last 2 elements
+for element in paragraphs[-2:]:
+  display(element.html)
+```
 
 ##### Interacting with an ElementCollection
 
-Interacting
+Besides from allowing operations as an iterable object, `ElementCollection` objects also offer a few
+convenient methods to directly interact with th elements in the collection. For instance, it's possible
+to ask for specific attributes of the elements in the collection directly:
+
+```python
+display(paragraphs.html)
+```
+
+The example above displays a list with the value of the `html` attribute for all the elements in the
+`paragraphs` collection.
+
+The same way we can read attributes, we can also set an attribute directly in the collection. For instance:
+
+```python
+paragraphs.html = "That's cool :)"
+```
 
 
 ## Workers
