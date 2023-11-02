@@ -922,7 +922,7 @@ The Standard Web APIs are massive and not always very user-friendly. `PyDom` is 
 Python modue that exposes the power of the web with an easy and idiomatic Pythonic
 interface on top.
 
-While the[FFI](#ffi) interface described above focuses on giving full access to
+While the [FFI](#ffi) interface described above focuses on giving full access to
 the entire Standard Web APIs, `pydom` focuses on providing a small, intuitive and yet
 powerful API that priotirizes common use cases fist. For this reason, it's first
 layer is simple and intuitive (but limited to the most common use cases), but `pydom`
@@ -1039,12 +1039,29 @@ new_p.style.visible = False
 
 ##### Other useful aspects of the Element API
 
-`append`: method to append a new child to the element.
-`children`: list of the children of the element.
-`value`: allows to set the `value` attribute of an element.
-`clone`: method that creates a clone of the element. NODE: The clone elements will not be
+* `append`: method to append a new child to the element.
+* `children`: list of the children of the element.
+* `value`: allows to set the `value` attribute of an element.
+* `clone`: method that creates a clone of the element. NODE: The clone elements will not be
 attached to any element.
-`show_me`: method to scroll the page to where the element is placed.
+* `show_me`: method to scroll the page to where the element is placed.
+
+
+#### ElementCollection
+
+Element Collections represent a collection of elements typically returned from a query. For instance:
+
+```python
+paragraphs = pydom['p']
+```
+
+In the example above, `paragraphs` is an `ElementCollection` that maps to all `p` elements in the page.
+
+
+
+##### Interacting with an ElementCollection
+
+Interacting
 
 
 ## Workers
