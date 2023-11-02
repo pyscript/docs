@@ -1082,11 +1082,26 @@ display(paragraphs.html)
 The example above displays a list with the value of the `html` attribute for all the elements in the
 `paragraphs` collection.
 
-The same way we can read attributes, we can also set an attribute directly in the collection. For instance:
+The same way we can read attributes, we can also set an attribute directly in the collection. For instance,
+you can directly set the html content of all the elements in the collection
 
 ```python
-paragraphs.html = "That's cool :)"
+# This will change the text of all H1 elements in the page
+pydom['h1'].html = "That's cool :)"
 ```
+
+or perhaps change their style
+
+```
+paragraphs.style['background-color'] = 'lightyellow'
+```
+
+`ElementCollection` currently support the following attributes:
+
+* `style`: just like in `Element`, this proxy attribute can be used to change the style of the elements in
+a collection by setting the proper CSS rules, using `style` with the same API as a dictionary.
+* `html`: allows to change the `html` attribute on all the elements of a collection.
+* `value`: allows to change the `value` attribute on all the elements of a collection.
 
 
 ## Workers
