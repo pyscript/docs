@@ -966,8 +966,6 @@ Following, we'll look into each one of these aspects a bit more in detail.
 Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
 elements are always in sync and any change of state in one is reflect into the other.
 
-__ADD DIAGRAM HERE__
-
 ##### Creating a new element
 
 New elements can be created by using the `pydom.create` method and passing the type of element
