@@ -61,3 +61,24 @@ plugins:
       css_dir: css
       javascript_dir: js
       canonical_version: null
+
+nav:
+  - Home: index.md
+  - Beginning PyScript: beginning-pyscript.md
+  - Code of Conduct: conduct.md
+  - Contributing: contributing.md
+  - Developer Guide: developers.md
+  - License: license.md
+  - User guide:
+    - Introduction: user-guide/index.md
+    - What is PyScript?: user-guide/what.md
+    - Features: user-guide/features.md
+    - First steps: user-guide/first-steps.md
+    - Architecture: user-guide/architecture.md
+    - Configuration: user-guide/configuration.md
+    - The DOM: user-guide/dom.md
+    - Workers: user-guide/workers.md
+    - Builtin helpers: user-guide/builtins.md
+    - Python terminal: user-guide/terminal.md
+    - Plugins: user-guide/plugins.md
+    - Example apps: user-guide/examples.md
