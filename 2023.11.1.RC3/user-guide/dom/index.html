@@ -531,6 +531,80 @@
     PyDom
   </a>
   
+    <nav class="md-nav" aria-label="PyDom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core Concepts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    Element
+  </a>
+  
+    <nav class="md-nav" aria-label="Element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-element" class="md-nav__link">
+    Creating a new element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-content-of-an-element" class="md-nav__link">
+    Setting the content of an element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-element-style" class="md-nav__link">
+    Changing the element style
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-useful-aspects-of-the-element-api" class="md-nav__link">
+    Other useful aspects of the Element API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elementcollection" class="md-nav__link">
+    ElementCollection
+  </a>
+  
+    <nav class="md-nav" aria-label="ElementCollection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interacting-with-an-elementcollection" class="md-nav__link">
+    Interacting with an ElementCollection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -687,6 +761,80 @@
     PyDom
   </a>
   
+    <nav class="md-nav" aria-label="PyDom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core Concepts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    Element
+  </a>
+  
+    <nav class="md-nav" aria-label="Element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-element" class="md-nav__link">
+    Creating a new element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-content-of-an-element" class="md-nav__link">
+    Setting the content of an element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-element-style" class="md-nav__link">
+    Changing the element style
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-useful-aspects-of-the-element-api" class="md-nav__link">
+    Other useful aspects of the Element API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elementcollection" class="md-nav__link">
+    ElementCollection
+  </a>
+  
+    <nav class="md-nav" aria-label="ElementCollection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interacting-with-an-elementcollection" class="md-nav__link">
+    Interacting with an ElementCollection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -760,16 +908,140 @@ instantiation very differently. By explicitly calling the JavaScript
 class's <code>new</code> method PyScript both signals and honours this difference.</p>
 </div>
 <h2 id="pydom">PyDom</h2>
-<p>The built-in Python module <code>pydom</code> wraps many (although not all) the features
-available via the FFI in an idiomatically Pythonic manner.</p>
-<p>The PyDom API is extensively described and demonstrated
-<a href="https://fpliger.pyscriptapps.com/pyweb/latest/pydom.html">on this PyScript page</a>.</p>
+<p>The Standard Web APIs are massive and not always very user-friendly. <code>PyDom</code> is a
+Python modue that exposes the power of the web with an easy and idiomatic Pythonic
+interface on top.</p>
+<p>While the <a href="#ffi">FFI</a> interface described above focuses on giving full access to
+the entire Standard Web APIs, <code>pydom</code> focuses on providing a small, intuitive and yet
+powerful API that priotirizes common use cases fist. For this reason, it's first
+layer is simple and intuitive (but limited to the most common use cases), but <code>pydom</code>
+also provides a secondary layer that can be used to directly use full FFI interface
+of a specific element.</p>
+<p>It does not aim to replace the regular Web [Javascript] API nor to be as wide and offer
+feature parity. On the contrary, it's intentionally small and focused on the most popular
+use cases while still providing [a backdoor] access to the full JS API.</p>
+<p><code>Pydom</code> draws inspiration from popular Python APIs/Libraries known to be friendly and
+easy to learn, and other successful projects related the web as well (for isntance,
+<code>JQuery</code> was a good source of inspiration).</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>PyDom is currently a work in progress.</p>
 <p>We welcome feedback and suggestions.</p>
 </div>
-<p><strong>TODO Fabio to finish</strong></p>
+<h3 id="core-concepts">Core Concepts</h3>
+<p><code>Pydom</code> builds on topic of very few and simple core concepts:</p>
+<ul>
+<li><strong><code>Element</code>:</strong> any component that is part of a web page. This is a rough abstraction of an
+<a href="https://developer.mozilla.org/en-US/docs/Glossary/Element">HTMLElement</a>. In general,
+<code>pydom</code> elements always map to an underlying <code>HTML</code> <code>Element</code> in a we page</li>
+<li><strong><code>ElementCollection</code>:</strong> a collection of one or more <code>Elements</code>. It is a rough abstraction
+of a <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection">HTMLCollection</a>.</li>
+<li><strong>Querying:</strong> a method to query elements on a page based on a
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors">selector</a>. Pydom supports
+standard HTML DOM query selectors to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors">locate DOM elements</a> as other native <code>JavaScript</code> methods like
+<code>querySelector</code> or <code>querySelectorAll</code>.</li>
+</ul>
+<p>Following, we'll look into each one of these aspects a bit more in detail.</p>
+<h3 id="element">Element</h3>
+<p><code>pydom</code> <code>Element</code> is simply just an abstraction of a tranditional <code>Element</code> in a web page.
+Every <code>Element</code> always maps to an underlying <code>JavaScript</code> <code>Element</code> in a web page. These 2
+elements are always in sync and any change of state in one is reflect into the other.</p>
+<h4 id="creating-a-new-element">Creating a new element</h4>
+<p>New elements can be created by using the <code>pydom.create</code> method and passing the type of element
+being crated. Here's an example of what it looks like:</p>
+<p>(To execute and explore the following code, click on the "load" button. The result will be
+conveniently displayed in the box on the below of the code example)</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pyweb</span> <span class="kn">import</span> <span class="n">pydom</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Creating an element directly from pydom creates an unbounded element.</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">new_div</span> <span class="o">=</span> <span class="n">pydom</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Creating an element from another element automatically creates that element</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># as a child of the original element</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">new_p</span> <span class="o">=</span> <span class="n">new_div</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;code-description&quot;</span><span class="p">],</span> <span class="n">html</span><span class="o">=</span><span class="s2">&quot;Ciao PyScripters!&quot;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># elements can be appended to any other element on the page</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">pydom</span><span class="p">[</span><span class="s1">&#39;#element-creation-example&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_div</span><span class="p">)</span>
+</span></code></pre></div>
+<div>
+  <h5>Result will go here</h5>
+  <div id="pydom-element-createion-example"></div>
+</div>
+
+<p>For more details about <code>pydom.create</code> please refer to its reference documentation.</p>
+<h4 id="setting-the-content-of-an-element">Setting the content of an element</h4>
+<p>The Element interface offers 2 main ways to set an element content: the <code>html</code> and the
+<code>content</code> attributes:</p>
+<ul>
+<li><code>content</code>: sets the <code>innerHTML</code> field via the PyScript <code>display</code> function. This takes care
+of properly rendering the object being passed based on the object mimetype. So, for instance,
+if the objects is an image, it'll be properly rendered on the element</li>
+<li><code>html</code>: directly sets the <code>innerHTML</code> field of the underlying element without attemnpting
+any conversion.</li>
+</ul>
+<p>In general, we suggest using <code>content</code> directly as it'll take care of most use cases without
+requiring any extra logic from the user.</p>
+<h4 id="changing-the-element-style">Changing the element style</h4>
+<p>Elements have a <code>style</code> attribute that can be used to change the element style rules.
+The style attribyte can be used as a dictionary and, to set a style rule for the element,
+simply set the correct key on the <code>.style</code> attribute. For instance, the following
+code changes the background color of the element just created in the example above:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;background-color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;yellow&quot;</span>
+</span></code></pre></div>
+<p>to remove a specific style key, simply use the <code>pop</code> method as you'd to to remove
+a key from a dictionary:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;background-color&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>In addition to the dictionary interface to explicitly set CSS rules, the <code>style</code> attribute
+also offers a convenient <code>visible</code> property that can be use show/hide an element.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="kc">False</span>
+</span></code></pre></div>
+<h4 id="other-useful-aspects-of-the-element-api">Other useful aspects of the Element API</h4>
+<ul>
+<li><code>append</code>: method to append a new child to the element.</li>
+<li><code>children</code>: list of the children of the element.</li>
+<li><code>value</code>: allows to set the <code>value</code> attribute of an element.</li>
+<li><code>clone</code>: method that creates a clone of the element. NODE: The clone elements will not be
+attached to any element.</li>
+<li><code>show_me</code>: method to scroll the page to where the element is placed.</li>
+</ul>
+<h3 id="elementcollection">ElementCollection</h3>
+<p>Element Collections represent a collection of elements typically returned from a query. For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">paragraphs</span> <span class="o">=</span> <span class="n">pydom</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span>
+</span></code></pre></div>
+<p>In the example above, <code>paragraphs</code> is an <code>ElementCollection</code> that maps to all <code>p</code> elements in the page.</p>
+<p>As any collections, <code>ElementCollection</code> can be used to iterate over a collection of elements or to pick
+specific elements or slices of elements in the collection. For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">:</span> 
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  <span class="n">display</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># let&#39;s now display only the last 2 elements</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]:</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  <span class="n">display</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="interacting-with-an-elementcollection">Interacting with an ElementCollection</h4>
+<p>Besides from allowing operations as an iterable object, <code>ElementCollection</code> objects also offer a few
+convenient methods to directly interact with th elements in the collection. For instance, it's possible
+to ask for specific attributes of the elements in the collection directly:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">display</span><span class="p">(</span><span class="n">paragraphs</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The example above displays a list with the value of the <code>html</code> attribute for all the elements in the
+<code>paragraphs</code> collection.</p>
+<p>The same way we can read attributes, we can also set an attribute directly in the collection. For instance,
+you can directly set the html content of all the elements in the collection</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># This will change the text of all H1 elements in the page</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">pydom</span><span class="p">[</span><span class="s1">&#39;h1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;That&#39;s cool :)&quot;</span>
+</span></code></pre></div>
+<p>or perhaps change their style</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>paragraphs.style[&#39;background-color&#39;] = &#39;lightyellow&#39;
+</span></code></pre></div>
+<p><code>ElementCollection</code> currently support the following attributes:</p>
+<ul>
+<li><code>style</code>: just like in <code>Element</code>, this proxy attribute can be used to change the style of the elements in
+a collection by setting the proper CSS rules, using <code>style</code> with the same API as a dictionary.</li>
+<li><code>html</code>: allows to change the <code>html</code> attribute on all the elements of a collection.</li>
+<li><code>value</code>: allows to change the <code>value</code> attribute on all the elements of a collection.</li>
+</ul>
 
 
 
