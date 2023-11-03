@@ -69,7 +69,7 @@ equivalent values: `["hello", 1, 2, 3]`.
     class's `new` method PyScript both signals and honours this difference.
 
 
-### PyDom
+## PyDom
 
 The Standard Web APIs are massive and not always very user-friendly. `PyDom` is a
 Python modue that exposes the power of the web with an easy and idiomatic Pythonic
@@ -97,7 +97,7 @@ easy to learn, and other successful projects related the web as well (for isntan
     We welcome feedback and suggestions.
 
 
-#### Core Concepts
+### Core Concepts
 
 `Pydom` builds on topic of very few and simple core concepts:
 
@@ -113,13 +113,13 @@ standard HTML DOM query selectors to [locate DOM elements](https://developer.moz
 
 Following, we'll look into each one of these aspects a bit more in detail.
 
-#### Element
+### Element
 
 `pydom` `Element` is simply just an abstraction of a tranditional `Element` in a web page.
 Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
 elements are always in sync and any change of state in one is reflect into the other.
 
-##### Creating a new element
+#### Creating a new element
 
 New elements can be created by using the `pydom.create` method and passing the type of element
 being crated. Here's an example of what it looks like:
@@ -149,7 +149,7 @@ pydom['#element-creation-example'][0].append(new_div)
 
 For more details about `pydom.create` please refer to its reference documentation.
 
-##### Setting the content of an element
+#### Setting the content of an element
 
 The Element interface offers 2 main ways to set an element content: the `html` and the
 `content` attributes:
@@ -163,7 +163,7 @@ any conversion.
 In general, we suggest using `content` directly as it'll take care of most use cases without
 requiring any extra logic from the user.
 
-##### Changing the element style
+#### Changing the element style
 
 Elements have a `style` attribute that can be used to change the element style rules.
 The style attribyte can be used as a dictionary and, to set a style rule for the element,
@@ -188,7 +188,7 @@ also offers a convenient `visible` property that can be use show/hide an element
 new_p.style.visible = False
 ```
 
-##### Other useful aspects of the Element API
+#### Other useful aspects of the Element API
 
 * `append`: method to append a new child to the element.
 * `children`: list of the children of the element.
@@ -198,7 +198,7 @@ attached to any element.
 * `show_me`: method to scroll the page to where the element is placed.
 
 
-#### ElementCollection
+### ElementCollection
 
 Element Collections represent a collection of elements typically returned from a query. For instance:
 
@@ -220,7 +220,7 @@ for element in paragraphs[-2:]:
   display(element.html)
 ```
 
-##### Interacting with an ElementCollection
+#### Interacting with an ElementCollection
 
 Besides from allowing operations as an iterable object, `ElementCollection` objects also offer a few
 convenient methods to directly interact with th elements in the collection. For instance, it's possible
