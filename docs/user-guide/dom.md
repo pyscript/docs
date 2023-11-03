@@ -71,12 +71,24 @@ equivalent values: `["hello", 1, 2, 3]`.
 
 ## PyDom
 
-The built-in Python module `pydom` wraps many (although not all) the features
-available via the FFI in an idiomatically Pythonic manner.
+The Standard Web APIs are massive and not always very user-friendly. `PyDom` is a
+Python modue that exposes the power of the web with an easy and idiomatic Pythonic
+interface on top.
 
+While the [FFI](#ffi) interface described above focuses on giving full access to
+the entire Standard Web APIs, `pydom` focuses on providing a small, intuitive and yet
+powerful API that priotirizes common use cases fist. For this reason, it's first
+layer is simple and intuitive (but limited to the most common use cases), but `pydom`
+also provides a secondary layer that can be used to directly use full FFI interface
+of a specific element.
 
-The PyDom API is extensively described and demonstrated
-[on this PyScript page](https://fpliger.pyscriptapps.com/pyweb/latest/pydom.html).
+It does not aim to replace the regular Web [Javascript] API nor to be as wide and offer
+feature parity. On the contrary, it's intentionally small and focused on the most popular
+use cases while still providing [a backdoor] access to the full JS API.
+
+`Pydom` draws inspiration from popular Python APIs/Libraries known to be friendly and
+easy to learn, and other successful projects related the web as well (for isntance,
+`JQuery` was a good source of inspiration).
 
 !!! warning
 
@@ -84,4 +96,160 @@ The PyDom API is extensively described and demonstrated
 
     We welcome feedback and suggestions.
 
-**TODO Fabio to finish**
+
+### Core Concepts
+
+`Pydom` builds on topic of very few and simple core concepts:
+
+* __`Element`:__ any component that is part of a web page. This is a rough abstraction of an
+[HTMLElement](https://developer.mozilla.org/en-US/docs/Glossary/Element). In general,
+`pydom` elements always map to an underlying `HTML` `Element` in a we page
+* __`ElementCollection`:__ a collection of one or more `Elements`. It is a rough abstraction
+of a [HTMLCollection](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection).
+* __Querying:__ a method to query elements on a page based on a
+[selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors). Pydom supports
+standard HTML DOM query selectors to [locate DOM elements](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors) as other native `JavaScript` methods like
+`querySelector` or `querySelectorAll`.
+
+Following, we'll look into each one of these aspects a bit more in detail.
+
+### Element
+
+`pydom` `Element` is simply just an abstraction of a tranditional `Element` in a web page.
+Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
+elements are always in sync and any change of state in one is reflect into the other.
+
+#### Creating a new element
+
+New elements can be created by using the `pydom.create` method and passing the type of element
+being crated. Here's an example of what it looks like:
+
+(To execute and explore the following code, click on the "load" button. The result will be
+conveniently displayed in the box on the below of the code example)
+
+```python
+from pyweb import pydom
+
+# Creating an element directly from pydom creates an unbounded element.
+new_div = pydom.create("div")
+
+# Creating an element from another element automatically creates that element
+# as a child of the original element
+new_p = new_div.create("p", classes=["code-description"], html="Ciao PyScripters!")
+
+# elements can be appended to any other element on the page
+pydom['#element-creation-example'][0].append(new_div)
+```
+
+<div>
+  <h5>Result will go here</h5>
+  <div id="pydom-element-createion-example"></div>
+</div>
+
+
+For more details about `pydom.create` please refer to its reference documentation.
+
+#### Setting the content of an element
+
+The Element interface offers 2 main ways to set an element content: the `html` and the
+`content` attributes:
+
+* `content`: sets the `innerHTML` field via the PyScript `display` function. This takes care
+of properly rendering the object being passed based on the object mimetype. So, for instance,
+if the objects is an image, it'll be properly rendered on the element
+* `html`: directly sets the `innerHTML` field of the underlying element without attemnpting
+any conversion.
+
+In general, we suggest using `content` directly as it'll take care of most use cases without
+requiring any extra logic from the user.
+
+#### Changing the element style
+
+Elements have a `style` attribute that can be used to change the element style rules.
+The style attribyte can be used as a dictionary and, to set a style rule for the element,
+simply set the correct key on the `.style` attribute. For instance, the following
+code changes the background color of the element just created in the example above:
+
+```python
+new_p.style["background-color"] = "yellow"
+```
+
+to remove a specific style key, simply use the `pop` method as you'd to to remove
+a key from a dictionary:
+
+```python
+new_p.style.pop("background-color")
+```
+
+In addition to the dictionary interface to explicitly set CSS rules, the `style` attribute
+also offers a convenient `visible` property that can be use show/hide an element.
+
+```python
+new_p.style.visible = False
+```
+
+#### Other useful aspects of the Element API
+
+* `append`: method to append a new child to the element.
+* `children`: list of the children of the element.
+* `value`: allows to set the `value` attribute of an element.
+* `clone`: method that creates a clone of the element. NODE: The clone elements will not be
+attached to any element.
+* `show_me`: method to scroll the page to where the element is placed.
+
+
+### ElementCollection
+
+Element Collections represent a collection of elements typically returned from a query. For instance:
+
+```python
+paragraphs = pydom['p']
+```
+
+In the example above, `paragraphs` is an `ElementCollection` that maps to all `p` elements in the page.
+
+As any collections, `ElementCollection` can be used to iterate over a collection of elements or to pick
+specific elements or slices of elements in the collection. For instance:
+
+```python
+for element in paragraphs: 
+  display(element.html)
+
+# let's now display only the last 2 elements
+for element in paragraphs[-2:]:
+  display(element.html)
+```
+
+#### Interacting with an ElementCollection
+
+Besides from allowing operations as an iterable object, `ElementCollection` objects also offer a few
+convenient methods to directly interact with th elements in the collection. For instance, it's possible
+to ask for specific attributes of the elements in the collection directly:
+
+```python
+display(paragraphs.html)
+```
+
+The example above displays a list with the value of the `html` attribute for all the elements in the
+`paragraphs` collection.
+
+The same way we can read attributes, we can also set an attribute directly in the collection. For instance,
+you can directly set the html content of all the elements in the collection
+
+```python
+# This will change the text of all H1 elements in the page
+pydom['h1'].html = "That's cool :)"
+```
+
+or perhaps change their style
+
+```
+paragraphs.style['background-color'] = 'lightyellow'
+```
+
+`ElementCollection` currently support the following attributes:
+
+* `style`: just like in `Element`, this proxy attribute can be used to change the style of the elements in
+a collection by setting the proper CSS rules, using `style` with the same API as a dictionary.
+* `html`: allows to change the `html` attribute on all the elements of a collection.
+* `value`: allows to change the `value` attribute on all the elements of a collection.
