@@ -30,6 +30,13 @@ CSS:
 </html>
 ```
 
+!!! warning
+
+    Since release `2023.11.1` the `https://pyscript/latest/` path has been deprecated and will be
+    completely removed from release >= `2023.12.x`. If you've been using `\latest` as a path we
+    highly encourage you to pin your application to a specific version to avoid breaking your
+    application.
+
 There are two ways to tell PyScript how to find your code.
 
 * With a standard HTML `<script>` tag whose `type` attribute is either `py`
