@@ -1,7 +1,7 @@
 site_name: PyScript
 
 extra_javascript:
-    - javascripts/mini-coi.js
+    - mini-coi.js
 
 theme:
     name: material
