@@ -252,4 +252,4 @@ needed to build yet more interesting things of your own.
 
 PyScript is extremely powerful, and these beginner steps only just scratch the
 surface. To learn about PyScript in more depth, check out
-[our user guide](user-guide.md).
+[our user guide](user-guide/index.md).
