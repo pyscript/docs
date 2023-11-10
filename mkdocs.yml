@@ -1,14 +1,9 @@
 site_name: PyScript
 
-extra_javascript:
-    - mini-coi.js
-
 theme:
     name: material
 
     logo: assets/images/pyscript-black.svg
-
-    custom_dir: overrides
 
     palette:
         # Palette toggle for automatic mode
