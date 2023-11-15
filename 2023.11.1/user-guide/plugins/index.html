@@ -560,6 +560,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -569,6 +580,79 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-api" class="md-nav__link">
+    Plugins API
+  </a>
+  
+    <nav class="md-nav" aria-label="Plugins API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-execution-methods" class="md-nav__link">
+    Code Execution Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-events" class="md-nav__link">
+    Lifecycle Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    Hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-hooks" class="md-nav__link">
+    Main Hooks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-hooks" class="md-nav__link">
+    Worker Hooks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -622,6 +706,68 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-api" class="md-nav__link">
+    Plugins API
+  </a>
+  
+    <nav class="md-nav" aria-label="Plugins API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-execution-methods" class="md-nav__link">
+    Code Execution Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifecycle-events" class="md-nav__link">
+    Lifecycle Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    Hooks
+  </a>
+  
+    <nav class="md-nav" aria-label="Hooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-hooks" class="md-nav__link">
+    Main Hooks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-hooks" class="md-nav__link">
+    Worker Hooks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -636,7 +782,266 @@
 
 
 <h1 id="plugins">Plugins</h1>
-<p>** TODO: Finish this **</p>
+<p>PyScript, like many other software plaforms, offers a Plugin API that can be used to extend its
+own functionality without the need to modify its own core. By using this API, users can add new
+features and distribute them as plugins.</p>
+<p>At the moment, PyScript supports plugins written in Javascript. These plugins can use PyScript
+Plugins API to define entry points and hooks so that the plugin can be collected and hook into
+the PyScript lifecycle events, with the ablity to modify and integrate the features of PyScript
+core itself.</p>
+<p>Here's an example of how a PyScript plugin looks like:</p>
+<div class="language-js highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// import the hooks from PyScript first...</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">hooks</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;https://pyscript.net/releases/2023.11.1/core.js&quot;</span><span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// Use the `main` attribute on hooks do define plugins that run on the main thread</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">main</span><span class="p">.</span><span class="nx">onReady</span><span class="p">.</span><span class="nx">add</span><span class="p">((</span><span class="nx">wrap</span><span class="p">,</span><span class="w"> </span><span class="nx">element</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;onReady&quot;</span><span class="p">);</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;?debug&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;wrap&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">wrap</span><span class="p">);</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;element&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">element</span><span class="p">);</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">});</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">main</span><span class="p">.</span><span class="nx">onBeforeRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;onBeforeRun&quot;</span><span class="p">);</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">});</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">main</span><span class="p">.</span><span class="nx">codeBeforeRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;print(&quot;main&quot;, &quot;codeBeforeRun&quot;)&#39;</span><span class="p">);</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">main</span><span class="p">.</span><span class="nx">codeAfterRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;print(&quot;main&quot;, &quot;codeAfterRun&quot;)&#39;</span><span class="p">);</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">main</span><span class="p">.</span><span class="nx">onAfterRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;onAfterRun&quot;</span><span class="p">);</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">});</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1">// Use the `worker` attribute on hooks do define plugins that run on workers</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">onReady</span><span class="p">.</span><span class="nx">add</span><span class="p">((</span><span class="nx">wrap</span><span class="p">,</span><span class="w"> </span><span class="nx">xworker</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;worker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;onReady&quot;</span><span class="p">);</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;?debug&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;worker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;wrap&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">wrap</span><span class="p">);</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;worker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;xworker&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">xworker</span><span class="p">);</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">});</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">onBeforeRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;worker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;onBeforeRun&quot;</span><span class="p">);</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="p">});</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">codeBeforeRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;print(&quot;worker&quot;, &quot;codeBeforeRun&quot;)&#39;</span><span class="p">);</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">codeAfterRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;print(&quot;worker&quot;, &quot;codeAfterRun&quot;)&#39;</span><span class="p">);</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="nx">hooks</span><span class="p">.</span><span class="nx">worker</span><span class="p">.</span><span class="nx">onAfterRun</span><span class="p">.</span><span class="nx">add</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;worker&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;onAfterRun&quot;</span><span class="p">);</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="p">});</span>
+</span></code></pre></div>
+<p>That's it.</p>
+<h2 id="plugins-api">Plugins API</h2>
+<p>As mentioned above, PyScript Plugins API exposes a set of hooks that can be used to intercept
+specific events in the lifecycle of a PyScript application and add or modify specific features
+of the platform itself. To better understand how it works it's important to understand the concepts
+around a PyScript application and plugins.</p>
+<h3 id="code-execution-methods">Code Execution Methods</h3>
+<p>There are 2 mains PyScript Applications can execute code: the browser main
+<a href="https://developer.mozilla.org/en-US/docs/Glossary/Main_thread">thread</a> and on
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers">web workers</a>.</p>
+<p>We highly recommend users to independently search the difference between the 2 methods to fully understand
+the difference and consequences but here's a short summary:</p>
+<ul>
+<li>main thread: executing code in the browser main thread means the code is being executed in the same
+process where the browser processes user events and paints. By default, the browser uses this single thread
+to run all the JavaScript code in your page, as well as to perform layout, reflows, and garbage collection.
+This means that long-running code or blocking calls can or will block the thread, leading to an unresponsive
+page and a bad user experience.</li>
+<li>web workers: code executed in workers actually run on "background" threads. This means the code can perform
+tasks without interfering with the user interface or other operations being perfomed in the main thread. While
+this adds great flexibility it's important to understand that workers actually have limited capabilities when
+comparing to code executed on the main thread. For instace, while PyScript offers a DOM API that actually can
+be used in web workers on the browser, by default, does not allow DOM operation in workers. So, in this case,
+if you just use <code>window</code> and <code>document</code> directly mapping the Javascript FFI provided directly by the interpreters
+we support (Pyodide and MicroPython). With that in mind, <code>from pyscript import window, document</code> will work and
+allow you to interact with the DOM while the following will not:</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>from js import document, window
+</span></code></pre></div>
+<p>or</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>import js
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>js.document
+</span></code></pre></div>
+<p>or </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>import js
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>js.window
+</span></code></pre></div>
+<p>will not.</p>
+<p>In general, we recommend executing your code on workers unless there are explicit reasons preventing users from
+doing that.</p>
+<h3 id="lifecycle-events">Lifecycle Events</h3>
+<p>During the execution of a PyScript application there are specfic events that capture the beginning
+or the end of specific stages. Here are the main lifecycle events of a PyScript Application:</p>
+<p>Every script or tag running through PyScript inevitably passes through some main or worker thread related tasks.</p>
+<p>In both worlds (wither executing code in the main thread or on a web worker), the exact sequence of steps around code execution is the following:</p>
+<ul>
+<li><strong>ready</strong> - the DOM recognized the special script or tag and the associated interpreter is ready to work. A <em>JS</em> callback might be useful to instrument the interpreter before anything else happens.</li>
+<li><strong>before run</strong> - there could be some <em>JS</em> code setup specific for the script on the main thread, or the worker. This is similar to a generic <em>setup</em> callback in tests.</li>
+<li><strong>code before run</strong> - there could be some <em>PL</em> code to prepend to the one being executed. In this case the code is a string because it will be part of the evaluation.</li>
+<li><strong>actual code</strong> - the code in the script or tag or the <code>src</code> file specified in the script. This is not a hook, just the exact time the code gets executed in general.</li>
+<li><strong>code after run</strong> - there could be some <em>PL</em> code to append to the one being executed. Same as <em>before</em>, the code is a string targeting the foreign <em>PL</em>.</li>
+<li><strong>after run</strong> - there could be some <em>JS</em> to execute right after the whole code has been evaluated. This is similar to a generic <em>teardown</em> callback in tests.</li>
+</ul>
+<p>As most interpreters can run their code either <em>synchronously</em> or <em>asynchronously</em>, the very same sequence is guaranteed to run in order in both cases, and the difference is only around the naming convention [as we'll see below].</p>
+<h3 id="hooks">Hooks</h3>
+<p>Hooks are a especial mechanism that can be used to tell PyScript that your code wants to subscribe to specific events, allowing your code to get called
+by PyScript's event loop when a specific event happens.</p>
+<h4 id="main-hooks">Main Hooks</h4>
+<p>When it comes to <em>main</em> hooks all callbacks will receive a <em>wrapper</em> of the interpreter with its utilities, see the further section to know more, plus the element on the page that is going to execute its related code, being this a custom script/type or a custom tag.</p>
+<p>This is the list of all possible, yet <strong>optional</strong> hooks, a custom type can define for <strong>main</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">example</th>
+<th style="text-align: left;">behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">onReady</td>
+<td style="text-align: left;"><code>onReady(wrap:Wrap, el:Element) {}</code></td>
+<td style="text-align: left;">If defined, it is invoked before any other hook to signal that the element is going to execute the code. For custom scripts, this hook is in charge of eventually running the content of the script, anyway it prefers to do so.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onBeforeRun</td>
+<td style="text-align: left;"><code>onBeforeRun(wrap:Wrap, el:Element) {}</code></td>
+<td style="text-align: left;">If defined, it is invoked before any other hook to signal that the element is going to execute the code.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onBeforeRunAsync</td>
+<td style="text-align: left;"><code>onBeforeRunAsync(wrap:Wrap, el:Element) {}</code></td>
+<td style="text-align: left;">Same as <code>onBeforeRun</code> except it's the one used whenever the script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeBeforeRun</td>
+<td style="text-align: left;"><code>codeBeforeRun: () =&gt; 'print("before")'</code></td>
+<td style="text-align: left;">If defined, prepend some code to evaluate right before the rest of the code gets executed.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeBeforeRunAsync</td>
+<td style="text-align: left;"><code>codeBeforeRunAsync: () =&gt; 'print("before")'</code></td>
+<td style="text-align: left;">Same as <code>codeBeforeRun</code> except it's the one used whenever the script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeAfterRun</td>
+<td style="text-align: left;"><code>codeAfterRun: () =&gt; 'print("after")'</code></td>
+<td style="text-align: left;">If defined, append some code to evaluate right after the rest of the code already executed.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeAfterRunAsync</td>
+<td style="text-align: left;"><code>codeAfterRunAsync: () =&gt; 'print("after")'</code></td>
+<td style="text-align: left;">Same as <code>codeAfterRun</code> except it's the one used whenever the script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onAfterRun</td>
+<td style="text-align: left;"><code>onAfterRun(wrap:Wrap, el:Element) {}</code></td>
+<td style="text-align: left;">If defined, it is invoked after the foreign code has been executed already.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onAfterRunAsync</td>
+<td style="text-align: left;"><code>onAfterRunAsync(wrap:Wrap, el:Element) {}</code></td>
+<td style="text-align: left;">Same as <code>onAfterRun</code> except it's the one used whenever the script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onWorker</td>
+<td style="text-align: left;"><code>onWorker(wrap = null, xworker) {}</code></td>
+<td style="text-align: left;">If defined, whenever a script or tag with a <code>worker</code> attribute is processed it gets triggered on the main thread, to allow to expose possible <code>xworker</code> features before the code gets executed within the worker thread. The <code>wrap</code> reference is most of the time <code>null</code> unless an explicit <code>XWorker</code> call has been initialized manually and/or there is an interpreter on the main thread (<em>very advanced use case</em>). Please <strong>note</strong> this is the only hook that doesn't exist in the <em>worker</em> counter list of hooks.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="worker-hooks">Worker Hooks</h4>
+<p>When it comes to <em>worker</em> hooks, <strong>all non code related callbacks must be serializable</strong>, meaning that callbacks cannot use any outer scope reference, as these are forwarded as strings, hence evaluated after in the worker, to survive the main &lt;-&gt; worker <code>postMessage</code> dance.</p>
+<p>Here an example of what works and what doesn't:</p>
+<div class="language-js highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// this works 👍</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;pl&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nx">interpreter</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;programming-lang&#39;</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nx">hooks</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nx">worker</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="nx">onReady</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="c1">// NOT suggested, just as example!</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nb">globalThis</span><span class="p">))</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">          </span><span class="nb">globalThis</span><span class="p">.</span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">++</span><span class="nx">i</span><span class="p">);</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">});</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">// this DOES NOT WORK ⚠️</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;pl&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">  </span><span class="nx">interpreter</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;programming-lang&#39;</span><span class="p">,</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">  </span><span class="nx">hooks</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="nx">worker</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">      </span><span class="nx">onReady</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span><span class="c1">// that outer-scope `i` is nowhere understood</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="c1">// whenever this code executes in the worker</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="c1">// as this function gets stringified and re-evaluated</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">++</span><span class="nx">i</span><span class="p">);</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="p">});</span>
+</span></code></pre></div>
+<p>At the same time, as the worker doesn't have any <code>element</code> strictly related, as workers can be created also procedurally, the second argument won't be an element but the related <em>xworker</em> that is driving the logic.</p>
+<p>As summary, this is the list of all possible, yet <strong>optional</strong> hooks, a custom type can define for <strong>worker</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">example</th>
+<th style="text-align: left;">behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">onReady</td>
+<td style="text-align: left;"><code>onReady(wrap:Wrap, xw:XWorker) {}</code></td>
+<td style="text-align: left;">If defined, it is invoked before any other hook to signal that the xworker is going to execute the code. Differently from <strong>main</strong>, the code here is already known so all other operations will be performed automatically.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onBeforeRun</td>
+<td style="text-align: left;"><code>onBeforeRun(wrap:Wrap, xw:XWorker) {}</code></td>
+<td style="text-align: left;">If defined, it is invoked before any other hook to signal that the xworker is going to execute the code.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onBeforeRunAsync</td>
+<td style="text-align: left;"><code>onBeforeRunAsync(wrap:Wrap, xw:XWorker) {}</code></td>
+<td style="text-align: left;">Same as <code>onBeforeRun</code> except it's the one used whenever the worker script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeBeforeRun</td>
+<td style="text-align: left;"><code>codeBeforeRun: () =&gt; 'print("before")'</code></td>
+<td style="text-align: left;">If defined, prepend some code to evaluate right before the rest of the code gets executed.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeBeforeRunAsync</td>
+<td style="text-align: left;"><code>codeBeforeRunAsync: () =&gt; 'print("before")'</code></td>
+<td style="text-align: left;">Same as <code>codeBeforeRun</code> except it's the one used whenever the worker script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeAfterRun</td>
+<td style="text-align: left;"><code>codeAfterRun: () =&gt; 'print("after")'</code></td>
+<td style="text-align: left;">If defined, append some code to evaluate right after the rest of the code already executed.</td>
+</tr>
+<tr>
+<td style="text-align: left;">codeAfterRunAsync</td>
+<td style="text-align: left;"><code>codeAfterRunAsync: () =&gt; 'print("after")'</code></td>
+<td style="text-align: left;">Same as <code>codeAfterRun</code> except it's the one used whenever the worker script is <code>async</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onAfterRun</td>
+<td style="text-align: left;"><code>onAfterRun(wrap:Wrap, xw:XWorker) {}</code></td>
+<td style="text-align: left;">If defined, it is invoked after the foreign code has been executed already.</td>
+</tr>
+<tr>
+<td style="text-align: left;">onAfterRunAsync</td>
+<td style="text-align: left;"><code>onAfterRunAsync(wrap:Wrap, xw:XWorker) {}</code></td>
+<td style="text-align: left;">Same as <code>onAfterRun</code> except it's the one used whenever the worker script is <code>async</code>.</td>
+</tr>
+</tbody>
+</table>
 
 
 
