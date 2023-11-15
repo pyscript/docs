@@ -83,8 +83,28 @@ this adds great flexibility it's important to understand that workers actually h
 comparing to code executed on the main thread. For instace, while PyScript offers a DOM API that actually can
 be used in web workers on the browser, by default, does not allow DOM operation in workers. So, in this case,
 if you just use `window` and `document` directly mapping the Javascript FFI provided directly by the interpreters
-we support (Pyodide and MicroPython): `from pyscript import window, document` will work and allow you to interact
-with the DOM while `from js import window, document` will not.
+we support (Pyodide and MicroPython). With that in mind, `from pyscript import window, document` will work and
+allow you to interact with the DOM while the following will not:
+
+```
+from js import document, window
+```
+
+or
+
+```
+import js
+js.document
+```
+
+or 
+
+```
+import js
+js.window
+```
+
+will not.
 
 In general, we recommend executing your code on workers unless there are explicit reasons preventing users from
 doing that.
