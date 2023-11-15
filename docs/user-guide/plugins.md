@@ -1,5 +1,6 @@
 # Plugins
 
+
 PyScript, like many other software plaforms, offers a Plugin API that can be used to extend its
 own functionality without the need to modify its own core. By using this API, users can add new
 features and distribute them as plugins.
@@ -51,3 +52,22 @@ hooks.worker.onAfterRun.add(() => {
     console.log("worker", "onAfterRun");
 });
 ```
+
+That's it.
+
+
+## Plugins API
+
+As mentioned above, PyScript Plugins API exposes a set of hooks that can be used to intercept
+specific events in the lifecycle of a PyScript application and add or modify specific features
+of the platform itself. To better understand how it works it's important to understand the concepts
+behind Plugins.
+
+### Concepts
+
+**TODO: ADD LIST OF CONCEPTS**
+
+
+
+
+Here's a list of the available hooks:
