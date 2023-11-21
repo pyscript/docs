@@ -156,7 +156,7 @@ The Element interface offers 2 main ways to set an element content: the `html` a
 
 * `content`: sets the `innerHTML` field via the PyScript `display` function. This takes care
 of properly rendering the object being passed based on the object mimetype. So, for instance,
-if the objects is an image, it'll be properly rendered on the element
+if the objects is an image, it'll be properly rendered on the element.
 * `html`: directly sets the `innerHTML` field of the underlying element without attemnpting
 any conversion.
 
@@ -166,7 +166,7 @@ requiring any extra logic from the user.
 #### Changing the element style
 
 Elements have a `style` attribute that can be used to change the element style rules.
-The style attribyte can be used as a dictionary and, to set a style rule for the element,
+The style attribute can be used as a dictionary. To set a style rule for the element,
 simply set the correct key on the `.style` attribute. For instance, the following
 code changes the background color of the element just created in the example above:
 
@@ -174,7 +174,7 @@ code changes the background color of the element just created in the example abo
 new_p.style["background-color"] = "yellow"
 ```
 
-to remove a specific style key, simply use the `pop` method as you'd to to remove
+to remove a specific style key, simply use the same `pop` method you would use to remove
 a key from a dictionary:
 
 ```python
@@ -222,8 +222,8 @@ for element in paragraphs[-2:]:
 
 #### Interacting with an ElementCollection
 
-Besides from allowing operations as an iterable object, `ElementCollection` objects also offer a few
-convenient methods to directly interact with th elements in the collection. For instance, it's possible
+Besides allowing operations as an iterable object, `ElementCollection` objects also offer a few
+convenient methods to directly interact with the elements in the collection. For instance, it's possible
 to ask for specific attributes of the elements in the collection directly:
 
 ```python
@@ -234,20 +234,20 @@ The example above displays a list with the value of the `html` attribute for all
 `paragraphs` collection.
 
 The same way we can read attributes, we can also set an attribute directly in the collection. For instance,
-you can directly set the html content of all the elements in the collection
+you can directly set the html content of all the elements in the collection:
 
 ```python
 # This will change the text of all H1 elements in the page
 pydom['h1'].html = "That's cool :)"
 ```
 
-or perhaps change their style
+or perhaps change their style:
 
 ```
 paragraphs.style['background-color'] = 'lightyellow'
 ```
 
-`ElementCollection` currently support the following attributes:
+`ElementCollection` currently supports the following attributes:
 
 * `style`: just like in `Element`, this proxy attribute can be used to change the style of the elements in
 a collection by setting the proper CSS rules, using `style` with the same API as a dictionary.
