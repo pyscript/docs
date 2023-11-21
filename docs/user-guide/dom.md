@@ -77,9 +77,9 @@ interface on top.
 
 While the [FFI](#ffi) interface described above focuses on giving full access to
 the entire Standard Web APIs, `pydom` focuses on providing a small, intuitive and yet
-powerful API that priotirizes common use cases first. For this reason, it's first
+powerful API that prioritizes common use cases first. For this reason, it's first
 layer is simple and intuitive (but limited to the most common use cases), but `pydom`
-also provides a secondary layer that can be used to directly use full FFI interface
+also provides a secondary layer that can be used to directly use full the FFI interface
 of a specific element.
 
 It does not aim to replace the regular Web [Javascript] API nor to be as wide and offer
@@ -151,13 +151,13 @@ For more details about `pydom.create` please refer to its reference documentatio
 
 #### Setting the content of an element
 
-The Element interface offers 2 main ways to set an element content: the `html` and the
+The Element interface offers 2 main ways to set an element's content: the `html` and the
 `content` attributes:
 
 * `content`: sets the `innerHTML` field via the PyScript `display` function. This takes care
 of properly rendering the object being passed based on the object mimetype. So, for instance,
 if the objects is an image, it'll be properly rendered on the element.
-* `html`: directly sets the `innerHTML` field of the underlying element without attemnpting
+* `html`: directly sets the `innerHTML` field of the underlying element without attempting
 any conversion.
 
 In general, we suggest using `content` directly as it'll take care of most use cases without
@@ -193,7 +193,7 @@ new_p.style.visible = False
 * `append`: method to append a new child to the element.
 * `children`: list of the children of the element.
 * `value`: allows to set the `value` attribute of an element.
-* `clone`: method that creates a clone of the element. NODE: The clone elements will not be
+* `clone`: method that creates a clone of the element. NOTE: The clone elements will not be
 attached to any element.
 * `show_me`: method to scroll the page to where the element is placed.
 
@@ -251,5 +251,5 @@ paragraphs.style['background-color'] = 'lightyellow'
 
 * `style`: just like in `Element`, this proxy attribute can be used to change the style of the elements in
 a collection by setting the proper CSS rules, using `style` with the same API as a dictionary.
-* `html`: allows to change the `html` attribute on all the elements of a collection.
-* `value`: allows to change the `value` attribute on all the elements of a collection.
+* `html`: allows you to change the `html` attribute on all the elements of a collection.
+* `value`: allows you to change the `value` attribute on all the elements of a collection.
