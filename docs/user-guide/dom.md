@@ -72,12 +72,12 @@ equivalent values: `["hello", 1, 2, 3]`.
 ## PyDom
 
 The Standard Web APIs are massive and not always very user-friendly. `PyDom` is a
-Python modue that exposes the power of the web with an easy and idiomatic Pythonic
+Python module that exposes the power of the web with an easy and idiomatic Pythonic
 interface on top.
 
 While the [FFI](#ffi) interface described above focuses on giving full access to
 the entire Standard Web APIs, `pydom` focuses on providing a small, intuitive and yet
-powerful API that priotirizes common use cases fist. For this reason, it's first
+powerful API that priotirizes common use cases first. For this reason, it's first
 layer is simple and intuitive (but limited to the most common use cases), but `pydom`
 also provides a secondary layer that can be used to directly use full FFI interface
 of a specific element.
@@ -87,7 +87,7 @@ feature parity. On the contrary, it's intentionally small and focused on the mos
 use cases while still providing [a backdoor] access to the full JS API.
 
 `Pydom` draws inspiration from popular Python APIs/Libraries known to be friendly and
-easy to learn, and other successful projects related the web as well (for isntance,
+easy to learn, and other successful projects related the web as well (for instance,
 `JQuery` was a good source of inspiration).
 
 !!! warning
@@ -99,11 +99,11 @@ easy to learn, and other successful projects related the web as well (for isntan
 
 ### Core Concepts
 
-`Pydom` builds on topic of very few and simple core concepts:
+`Pydom` builds on a very few and simple core concepts:
 
 * __`Element`:__ any component that is part of a web page. This is a rough abstraction of an
 [HTMLElement](https://developer.mozilla.org/en-US/docs/Glossary/Element). In general,
-`pydom` elements always map to an underlying `HTML` `Element` in a we page
+`pydom` elements always map to an underlying `HTML` `Element` in a web page
 * __`ElementCollection`:__ a collection of one or more `Elements`. It is a rough abstraction
 of a [HTMLCollection](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection).
 * __Querying:__ a method to query elements on a page based on a
@@ -111,18 +111,18 @@ of a [HTMLCollection](https://developer.mozilla.org/en-US/docs/Web/API/HTMLColle
 standard HTML DOM query selectors to [locate DOM elements](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors) as other native `JavaScript` methods like
 `querySelector` or `querySelectorAll`.
 
-Following, we'll look into each one of these aspects a bit more in detail.
+In the following sections, we'll look into each one of these concepts.
 
 ### Element
 
-`pydom` `Element` is simply just an abstraction of a tranditional `Element` in a web page.
+`pydom` `Element` is an abstraction of a traditional `Element` in a web page.
 Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
-elements are always in sync and any change of state in one is reflect into the other.
+elements are always in sync and any change of state in one is reflected in the other.
 
 #### Creating a new element
 
 New elements can be created by using the `pydom.create` method and passing the type of element
-being crated. Here's an example of what it looks like:
+being created. Here's an example of what it looks like:
 
 (To execute and explore the following code, click on the "load" button. The result will be
 conveniently displayed in the box on the below of the code example)
