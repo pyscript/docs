@@ -99,7 +99,7 @@ easy to learn, and other successful projects related the web as well (for instan
 
 ### Core Concepts
 
-`Pydom` builds on a very few and simple core concepts:
+`Pydom` is built on the following core concepts:
 
 * __`Element`:__ any component that is part of a web page. This is a rough abstraction of an
 [HTMLElement](https://developer.mozilla.org/en-US/docs/Glossary/Element). In general,
