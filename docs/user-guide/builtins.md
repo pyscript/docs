@@ -104,7 +104,7 @@ A class used to instantiate a new worker from within Python.
 
     Currently this only works with Pyodide.
 
-The following fragment demonstrates who to start the Python code in the file
+The following fragment demonstrates how to start the Python code in the file
 `worker.py` on a new worker from within Python.
 
 ```python title="Starting a new worker from Python"
