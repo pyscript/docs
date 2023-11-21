@@ -223,7 +223,7 @@ for element in paragraphs[-2:]:
 #### Interacting with an ElementCollection
 
 Besides allowing operations as an iterable object, `ElementCollection` objects also offer a few
-convenient methods to directly interact with the elements in the collection. For instance, it's possible
+convenience methods to directly interact with the elements in the collection. For instance, it's possible
 to ask for specific attributes of the elements in the collection directly:
 
 ```python
@@ -233,7 +233,7 @@ display(paragraphs.html)
 The example above displays a list with the value of the `html` attribute for all the elements in the
 `paragraphs` collection.
 
-The same way we can read attributes, we can also set an attribute directly in the collection. For instance,
+We can also set an attribute directly in the collection the same way we would read an attribute. For instance,
 you can directly set the html content of all the elements in the collection:
 
 ```python
