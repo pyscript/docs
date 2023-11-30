@@ -547,6 +547,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#javascript-modules" class="md-nav__link">
+    JavaScript modules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#custom" class="md-nav__link">
     Custom
   </a>
@@ -766,6 +773,13 @@
           <li class="md-nav__item">
   <a href="#plugins" class="md-nav__link">
     Plugins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-modules" class="md-nav__link">
+    JavaScript modules
   </a>
   
 </li>
@@ -1030,6 +1044,74 @@ that is enabled by default.</p>
 stack trace and error messages in the DOM. More may be added at a later
 date.</p>
 </div>
+<h3 id="javascript-modules">JavaScript modules</h3>
+<p>It's easy to import and use JavaScript modules in your Python code.</p>
+<p>To do so, requires telling PyScript about the JavaScript modules you want to
+use. This is the purpose of the <code>js_modules</code> related configuration fields.</p>
+<p>There are two fields:</p>
+<ul>
+<li><code>js_modules.main</code> defines JavaScript modules loaded in the context of the
+  main thread of the browser. Helpfully, it is also possible to interact with
+  such modules <strong>from the context of workers</strong>. Sometimes such modules also
+  need CSS files to work, and these can also be specified.</li>
+<li><code>js_modules.worker</code> defines JavaScript modules loaded into the context of
+  the web worker. Such modules <strong>must not expect</strong> <code>document</code> or <code>window</code>
+  references (if this is the case,you must load them via <code>js_modules.main</code> and
+  use them from the worker). However, if the JavaScript module could work
+  without such references, then performance is better if defined on a worker.
+  Because CSS is meaningless in the context of a worker, it is not possible to
+  specify such files in a worker context.</li>
+</ul>
+<p>Once specified, your JavaScript modules will be available under the
+<code>pyscript.js_modules.*</code> namespace.</p>
+<p>To specify such modules, simply provide a list of source/module name pairs.</p>
+<p>For example, to use the excellent <a href="https://leafletjs.com/">Leaflet</a> JavaScript
+module for creating interactive maps you'd add the following lines:</p>
+<div class="language-TOML highlight"><span class="filename">JavaScript main thread modules defined in TOML</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">[js_modules.main]</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="s2">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="s2">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span><span class="w"> </span><span class="c1"># CSS</span>
+</span></code></pre></div>
+<div class="language-JSON highlight"><span class="filename">JavaScript main thread modules defined in JSON</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">{</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="nt">&quot;js_modules.main&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">        </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span><span class="p">,</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">        </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Notice how the second line references the required CSS needed for the
+JavaScript module to work correctly.</p>
+<p>The CSS file <strong>MUST</strong> target the very same name as the JavaScript module to
+which it is related.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Since the Leaflet module expects to manipulate the DOM and have access to
+<code>document</code> and <code>window</code> references, <strong>it must only be added via the
+<code>js_modules.main</code> setting</strong> (as shown) and cannot be added in a worker
+context.</p>
+</div>
+<p>At this point Python code running on either the main thread or in a
+worker will have access to the JavaScript module like this:</p>
+<div class="language-python highlight"><span class="filename">Making use of a JavaScript module from within Python.</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kn">from</span> <span class="nn">pyscript.js_modules</span> <span class="kn">import</span> <span class="n">leaflet</span> <span class="k">as</span> <span class="n">L</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nb">map</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;map&quot;</span><span class="p">)</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1"># etc....</span>
+</span></code></pre></div>
+<p>Some JavaScript modules (such as
+<a href="https://www.npmjs.com/package/html-escaper">html-escaper</a>) don't require
+access to the DOM and, for efficiency reasons, can be included in the worker
+context:</p>
+<div class="language-JSON highlight"><span class="filename">A JavaScript worker module defined in JSON</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="p">{</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="nt">&quot;js_modules.worker&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">        </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/html-escaper&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>However, <code>from polyscript.js_modules import html_escaper</code> would then only work
+within the context of Python code <strong>running on a worker</strong>.</p>
 <h3 id="custom">Custom</h3>
 <p>Sometimes plugins or apps need bespoke configuration options.</p>
 <p>So long as you don't cause a name collision with the built-in option names then
