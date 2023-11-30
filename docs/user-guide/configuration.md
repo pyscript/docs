@@ -309,6 +309,92 @@ plugins = ["custom_plugin", "!error"]
     stack trace and error messages in the DOM. More may be added at a later
     date.
 
+### JavaScript modules
+
+It's easy to import and use JavaScript modules in your Python code.
+
+To do so, requires telling PyScript about the JavaScript modules you want to
+use. This is the purpose of the `js_modules` related configuration fields.
+
+There are two fields:
+
+* `js_modules.main` defines JavaScript modules loaded in the context of the
+  main thread of the browser. Helpfully, it is also possible to interact with
+  such modules **from the context of workers**. Sometimes such modules also
+  need CSS files to work, and these can also be specified.
+* `js_modules.worker` defines JavaScript modules loaded into the context of
+  the web worker. Such modules **must not expect** `document` or `window`
+  references (if this is the case,you must load them via `js_modules.main` and
+  use them from the worker). However, if the JavaScript module could work
+  without such references, then performance is better if defined on a worker.
+  Because CSS is meaningless in the context of a worker, it is not possible to
+  specify such files in a worker context.
+
+Once specified, your JavaScript modules will be available under the
+`pyscript.js_modules.*` namespace.
+
+To specify such modules, simply provide a list of source/module name pairs.
+
+For example, to use the excellent [Leaflet](https://leafletjs.com/) JavaScript
+module for creating interactive maps you'd add the following lines:
+
+```TOML title="JavaScript main thread modules defined in TOML"
+[js_modules.main]
+"https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js" = "leaflet"
+"https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" = "leaflet" # CSS
+```
+
+```JSON title="JavaScript main thread modules defined in JSON"
+{
+    "js_modules.main": {
+        "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js": "leaflet",
+        "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css": "leaflet"
+    }
+}
+```
+
+!!! info
+    
+    Notice how the second line references the required CSS needed for the
+    JavaScript module to work correctly.
+
+    The CSS file **MUST** target the very same name as the JavaScript module to
+    which it is related.
+
+!!! warning
+
+    Since the Leaflet module expects to manipulate the DOM and have access to
+    `document` and `window` references, **it must only be added via the
+    `js_modules.main` setting** (as shown) and cannot be added in a worker
+    context.
+
+At this point Python code running on either the main thread or in a
+worker will have access to the JavaScript module like this:
+
+```python title="Making use of a JavaScript module from within Python."
+from pyscript.js_modules import leaflet as L
+
+map = L.map("map")
+
+# etc....
+```
+
+Some JavaScript modules (such as
+[html-escaper](https://www.npmjs.com/package/html-escaper)) don't require
+access to the DOM and, for efficiency reasons, can be included in the worker
+context:
+
+```JSON title="A JavaScript worker module defined in JSON"
+{
+    "js_modules.worker": {
+        "https://cdn.jsdelivr.net/npm/html-escaper": "html_escaper"
+    }
+}
+```
+
+However, `from polyscript.js_modules import html_escaper` would then only work
+within the context of Python code **running on a worker**.
+
 ### Custom 
 
 Sometimes plugins or apps need bespoke configuration options.

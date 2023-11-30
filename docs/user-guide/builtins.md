@@ -94,6 +94,18 @@ def click_handler(event):
     display("I've been clicked!")
 ```
 
+### `pyscript.js_modules`
+
+It is possible to [define JavaScript modules to use within your Python code](configuration.md#javascript-modules).
+
+Such named modules will always then be available under the
+`pyscript.js_modules` namespace.
+
+!!! warning
+
+    Please see the documentation (linked above) about restrictions and gotchas
+    when configuring how JavaScript modules are made available to PyScript.
+
 ## Main-thread only features
 
 ### `pyscript.PyWorker`
