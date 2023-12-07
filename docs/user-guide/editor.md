@@ -61,8 +61,8 @@ The outcome of these code fragments should look something like this:
 
     Hovering over the Python editor reveals the "run" button.
 
-Finally, it is possible to specify a target node into which the code editor is
-created:
+Finally, it is possible to specify a target node into which the output from
+`print` statements is directed:
 
 ```html title="Specify a target for the Python editor."
 <script type="mpy-editor" target="editor">
