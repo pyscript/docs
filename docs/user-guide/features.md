@@ -3,11 +3,11 @@
 <dl>
     <dt><em>All the web</em></dt>
     <dd>
-    <p>Pyscript gives you <a href="#the-dom">full access to the DOM</a> and all
+    <p>Pyscript gives you <a href="../dom">full access to the DOM</a> and all
     the <a href="https://developer.mozilla.org/en-US/docs/Web/API">web
     APIs implemented by your browser</a>.</p>
 
-    <p>Thanks to the <a href="#ffi">foreign
+    <p>Thanks to the <a href="../dom#ffi">foreign
     function interface</a> (FFI), Python just works with all the browser has to
     offer, including any third party JavaScript libraries that may be included
     in the page.</p>
@@ -19,10 +19,10 @@
     <dd>
     <p>PyScript brings you two Python interpreters:</p>
     <ol>
-        <li><a href="#pyodide">Pyodide</a> - the original standard
+        <li><a href="../architecture#pyodide">Pyodide</a> - the original standard
         CPython interpreter you know and love, but compiled to WebAssembly.
         </li>
-        <li><a href="#micropython">MicroPython</a> - a lean and
+        <li><a href="../architecture#micropython">MicroPython</a> - a lean and
         efficient reimplementation of Python3 that includes a comprehensive
         subset of the standard library, compiled to WebAssembly.</li>
     </ol>
@@ -38,7 +38,7 @@
     library and efficiently exposes the expressiveness of Python to the
     browser.</p>
     <p>Both Python interpreters supported by PyScript implement the
-    <a href="#ffi">same FFI</a> to bridge the gap between the worlds of Python
+    <a href="../dom#ffi">same FFI</a> to bridge the gap between the worlds of Python
     and the browser.</p>
     </dd>
 
@@ -62,7 +62,7 @@
     expensive and blocking computation can run somewhere other than the main
     application thread controlling the user interface. When such work is done
     on the main thread, the browser appears frozen; web workers ensure
-    expensive blocking computation <a href="#workers">happens elsewhere</a>.
+    expensive blocking computation <a href="../workers">happens elsewhere</a>.
     Think of workers as independent subprocesses in your web page.</dd>
 
     <dt><em>Rich and powerful plugins</em></dt>
@@ -70,7 +70,7 @@
     <p>PyScript has a small, efficient yet powerful core called
     <a href="https://github.com/pyscript/polyscript">PolyScript</a>. Most of
     the functionality of PyScript is actually implemented through PolyScript's
-    <a href="#plugins_1">plugin system</a>.</p>
+    <a href="../plugins">plugin system</a>.</p>
 
     <p>This approach ensures a clear separation of concerns: PolyScript
     can focus on being small, efficient and powerful, whereas the PyScript

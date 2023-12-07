@@ -139,7 +139,8 @@ application's output.
 
 There's something strange about the `<button>` tag: it has a `py-click`
 attribute with the value `translate_english`. This is, in fact, the name of a
-Python function we'll run whenever the button is clicked.
+Python function we'll run whenever the button is clicked. Such `py-*` style
+attributes are [built into PyScript](user-guide/builtins.md#html-attributes).
 
 We put all this together in the `script` tag at the end of the `<body>`. This
 tells the browser we're using PyScript (`type="py"`), and where PyScript
