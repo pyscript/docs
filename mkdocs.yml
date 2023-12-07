@@ -75,5 +75,6 @@ nav:
     - Workers: user-guide/workers.md
     - Builtin helpers: user-guide/builtins.md
     - Python terminal: user-guide/terminal.md
+    - Python editor: user-guide/editor.md
     - Plugins: user-guide/plugins.md
     - Example apps: user-guide/examples.md

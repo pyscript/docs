@@ -45,10 +45,17 @@ name = input("What is your name? ")
 print(f"Hello, {name}")
 </script>
 ```
-
-Once the Python code has finished you are automatically dropped into the
-Python REPL, like this:
-
 <img src="../../assets/images/pyterm2.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
 
+To use the interactive Python REPL in the terminal, use Python's
+[code](https://docs.python.org/3/library/code.html) module like this:
 
+```python
+import code
+
+code.interact()
+```
+
+The end result should look something like this:
+
+<img src="../../assets/images/pyterm3.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
