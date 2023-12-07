@@ -106,7 +106,7 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <script type="module" src="https://pyscript.net/releases/2023.11.2/core.js"></script>
+      <script type="module" src="https://pyscript.net/releases/2023.12.1/core.js"></script>
   </head>
   <body>
 
@@ -156,7 +156,7 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <script type="module" src="https://pyscript.net/releases/2023.11.2/core.js"></script>
+      <script type="module" src="https://pyscript.net/releases/2023.12.1/core.js"></script>
   </head>
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>
