@@ -246,6 +246,10 @@ static web host will do (for example,
 [Google Cloud](https://cloud.google.com/storage/docs/hosting-static-website) or
 [Microsoft's Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website)).
 
+## Running PyScript Offline
+
+For more information on how to run PyScript offline, without loading PyScript and interpreters from a CND online, visit the [Running PyScript Offline](user-guide/running-offline.md) section of the User Guide.
+
 ## Conclusion
 
 Congratulations!
