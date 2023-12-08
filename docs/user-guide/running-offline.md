@@ -85,10 +85,16 @@ Alternatively, if you would like to test also `worker` features, you can try ins
 ```sh
 npx static-handler --coi ./public/
 ```
+## Downloading and Setting up a Local Interpreter
 
-**Please note this page still needs the network to load** so that both *MicroPython* or *Pyodide* will be fetched from related CDN ... we are getting close though!
+Good news! We are almost there. Now that we've:
 
-### Install MicroPython locally
+* downloaded PyScript locally
+* created the skeleton of an initial PyScript App
+
+we need to download and setup up an interpreter. PyScript officially supports *MicroPython* and *Pyodide* interpreters, so let's see how to do that for each one of them.
+
+### Download MicroPython locally
 
 Similarly to what we did for `@pyscript/core`, we can also install *MicroPython* from *npm*:
 
@@ -129,9 +135,7 @@ That folder should contain at least both `micropython.mjs` and `micropython.wasm
   </script>
 </body>
 </html>
-```
-
-We are basically done: if we try to disconnect from the internet but we still run our local server, the page will still show that very same *Hello from PyScript* message :partying_face: 
+``` 
 
 ### Install Pyodide locally
 
@@ -178,9 +182,15 @@ At this point, all we need to do is to change our *HTML* page to use *pyodide* i
 </html>
 ```
 
+## Wrapping it up
+
+We are basically done! If we try to disconnect from the internet but we still run our local server, the page will still show that very same *Hello from PyScript* message :partying_face:
+
 We can now drop internet, still keeping the local server running, and everything should be fine :partying_face: 
 
-### Local Pyodide Packages
+## Local Pyodide Packages
+
+There's one last thing that users are probably going to need: the ability to install Python packages when using Pyodide.
 
 In order to have also 3rd party packages available, we can use the bundle from [pyodide releases](https://github.com/pyodide/pyodide/releases/tag/0.24.1) that contains also packages.
 
