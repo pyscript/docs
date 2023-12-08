@@ -70,7 +70,7 @@ level.
 
 You can see this application embedded into the page below:
 
-<iframe src="https://ntoll.pyscriptapps.com/piratical/v3" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+<iframe src="https://ntoll.pyscriptapps.com/piratical/v4/" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
 Let's explore each of the three files that make this app work.
 
@@ -106,7 +106,7 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <script type="module" src="https://pyscript.net/releases/2023.11.2/core.js"></script>
+      <script type="module" src="https://pyscript.net/releases/2023.12.1/core.js"></script>
   </head>
   <body>
 
@@ -139,7 +139,8 @@ application's output.
 
 There's something strange about the `<button>` tag: it has a `py-click`
 attribute with the value `translate_english`. This is, in fact, the name of a
-Python function we'll run whenever the button is clicked.
+Python function we'll run whenever the button is clicked. Such `py-*` style
+attributes are [built into PyScript](user-guide/builtins.md#html-attributes).
 
 We put all this together in the `script` tag at the end of the `<body>`. This
 tells the browser we're using PyScript (`type="py"`), and where PyScript
@@ -155,7 +156,7 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <script type="module" src="https://pyscript.net/releases/2023.11.2/core.js"></script>
+      <script type="module" src="https://pyscript.net/releases/2023.12.1/core.js"></script>
   </head>
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>

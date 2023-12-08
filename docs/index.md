@@ -34,10 +34,10 @@
   <dt><strong>I want to contribute...</strong></dt>
   <dd>
     <p>Welcome, friend!
-    PyScript is an <a href="/license/">open source project</a>, we expect participants to act in
-    the spirit of our <a href="/conduct/">code of conduct</a> and we have many 
-    ways in which <a href="/contributing/"><u>you</u> can contribute</a>.
-    Our <a href="/developers/">developer guide</a> explains how to set
+    PyScript is an <a href="license/">open source project</a>, we expect participants to act in
+    the spirit of our <a href="conduct/">code of conduct</a> and we have many 
+    ways in which <a href="contributing/"><u>you</u> can contribute</a>.
+    Our <a href="developers/">developer guide</a> explains how to set
     up a working development environment for PyScript.</p>
   </dd>
   <dt><strong>Just show me...</strong></dt>

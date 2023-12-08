@@ -129,7 +129,7 @@ Here's how PyScript unfolds through time:
        attribute of a `<script>`, `<py-script>` or `<mpy-script>` tag).
     3. Given the detected configuration, download the required interpreter.
     4. Setup the interpreter's environment. This includes any
-       [plugins](configuration.md/#plugins), [packages](configuration.md/#packages) or [files](configuration.md/#files) that need
+       [plugins](configuration.md/#plugins), [packages](configuration.md/#packages), [files](configuration.md/#files) or [JavaScript modules](configuration.md/#javascript-modules)that need
        to be loaded.
     5. Make available various
        [builtin helper objects and functions](builtins.md) to the

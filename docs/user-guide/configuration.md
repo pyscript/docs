@@ -79,8 +79,9 @@ specification of configuration information via a _single_ `<py-config>` or
 
 ## Options
 
-There are four core options ([`interpreter`](#interpreter), [`files`](#files),
-[`packages`](#packages) and [`plugins`](#plugins)). The user is free to define
+There are five core options ([`interpreter`](#interpreter), [`files`](#files),
+[`packages`](#packages), [`plugins`](#plugins) and
+[`js_modules`](#javascript-modules).) The user is free to define
 arbitrary additional configuration options that plugins or an app may require
 for their own reasons.
 
@@ -288,7 +289,7 @@ The `plugins` option lists plugins enabled by PyScript to add extra
 functionality to the platform.
 
 Each plugin should be included on the web page, as described in the
-[plugins](#plugins_1) section below. Then the plugin's name should be listed.
+[plugins](plugins.md) section. Then the plugin's name should be listed.
 
 ```TOML title="A list of plugins in TOML"
 plugins = ["custom_plugin", "!error"]
