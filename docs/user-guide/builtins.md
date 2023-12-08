@@ -178,10 +178,11 @@ use of inline event handlers via custom HTML attributes.
     of why this is currently considered bad practice.
 
 These attributes are expressed as `py-*` attributes of an HTML element that
-reference the name of a Python function to run when the event is fired. The
-`*` is replaced by the name of event, in a similar fashion to how all
+reference the name of a Python function to run when the event is fired. You
+should replace the `*` with the _actual name of an event_ (e.g. `py-click`).
+This is similar to how all
 [event handlers on elements](https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers-on-elements,-document-objects,-and-window-objects)
-start with `on` (e.g. `onclick`) in standard HTML. The rule of thumb is to
+start with `on` in standard HTML (e.g. `onclick`). The rule of thumb is to
 simply replace `on` with `py-` and then reference the name of a Python
 function.
 
@@ -210,5 +211,5 @@ enable this behaviour.
     manipulation of the attribute's value could have resulted in the evaluation
     of arbitrary code.
 
-    This is why we changed to the current behaviour of just supplying the name
-    of the Python function to be evaluated.
+    This is why we changed to the current behaviour: just supply the name
+    of the Python function to be evaluated, and PyScript will do this safely.

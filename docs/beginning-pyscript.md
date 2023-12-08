@@ -70,7 +70,7 @@ level.
 
 You can see this application embedded into the page below:
 
-<iframe src="https://ntoll.pyscriptapps.com/piratical/v3" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+<iframe src="https://ntoll.pyscriptapps.com/piratical/v4/" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
 Let's explore each of the three files that make this app work.
 
