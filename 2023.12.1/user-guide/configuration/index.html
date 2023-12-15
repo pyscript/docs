@@ -1067,6 +1067,11 @@ date.</p>
 </div>
 <h3 id="javascript-modules">JavaScript modules</h3>
 <p>It's easy to import and use JavaScript modules in your Python code.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This feature currently only works with Pyodide. MicroPython support will
+come in a future release.</p>
+</div>
 <p>To do so, requires telling PyScript about the JavaScript modules you want to
 use. This is the purpose of the <code>js_modules</code> related configuration fields.</p>
 <p>There are two fields:</p>
@@ -1093,11 +1098,13 @@ module for creating interactive maps you'd add the following lines:</p>
 </span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="s2">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span><span class="w"> </span><span class="c1"># CSS</span>
 </span></code></pre></div>
 <div class="language-JSON highlight"><span class="filename">JavaScript main thread modules defined in JSON</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">{</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="nt">&quot;js_modules.main&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">        </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span><span class="p">,</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">        </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="p">}</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="nt">&quot;js_modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">        </span><span class="nt">&quot;main&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">            </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span><span class="p">,</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">            </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="p">}</span>
 </span></code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1125,11 +1132,16 @@ worker will have access to the JavaScript module like this:</p>
 <a href="https://www.npmjs.com/package/html-escaper">html-escaper</a>) don't require
 access to the DOM and, for efficiency reasons, can be included in the worker
 context:</p>
-<div class="language-JSON highlight"><span class="filename">A JavaScript worker module defined in JSON</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="p">{</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="nt">&quot;js_modules.worker&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">        </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/html-escaper&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">}</span>
+<div class="language-TOML highlight"><span class="filename">A JavaScript worker module defined in TOML</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">[js_modules.worker]</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="s2">&quot;https://cdn.jsdelivr.net/npm/html-escaper&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
+</span></code></pre></div>
+<div class="language-JSON highlight"><span class="filename">A JavaScript worker module defined in JSON</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">{</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="nt">&quot;js_modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">        </span><span class="nt">&quot;worker&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">            </span><span class="nt">&quot;https://cdn.jsdelivr.net/npm/html-escaper&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>However, <code>from polyscript.js_modules import html_escaper</code> would then only work
 within the context of Python code <strong>running on a worker</strong>.</p>
