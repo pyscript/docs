@@ -314,6 +314,11 @@ plugins = ["custom_plugin", "!error"]
 
 It's easy to import and use JavaScript modules in your Python code.
 
+!!! warning
+
+    This feature currently only works with Pyodide. MicroPython support will
+    come in a future release.
+
 To do so, requires telling PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
 
@@ -347,9 +352,11 @@ module for creating interactive maps you'd add the following lines:
 
 ```JSON title="JavaScript main thread modules defined in JSON"
 {
-    "js_modules.main": {
-        "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js": "leaflet",
-        "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css": "leaflet"
+    "js_modules": {
+        "main": {
+            "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js": "leaflet",
+            "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css": "leaflet"
+        }
     }
 }
 ```
@@ -385,10 +392,17 @@ Some JavaScript modules (such as
 access to the DOM and, for efficiency reasons, can be included in the worker
 context:
 
+```TOML title="A JavaScript worker module defined in TOML"
+[js_modules.worker]
+"https://cdn.jsdelivr.net/npm/html-escaper" = "html_escaper"
+```
+
 ```JSON title="A JavaScript worker module defined in JSON"
 {
-    "js_modules.worker": {
-        "https://cdn.jsdelivr.net/npm/html-escaper": "html_escaper"
+    "js_modules": {
+        "worker": {
+            "https://cdn.jsdelivr.net/npm/html-escaper": "html_escaper"
+        }
     }
 }
 ```
