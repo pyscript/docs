@@ -77,4 +77,5 @@ nav:
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
     - Plugins: user-guide/plugins.md
+    - Running PyScript Offline: user-guide/running-offline.md
     - Example apps: user-guide/examples.md
