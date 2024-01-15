@@ -106,6 +106,7 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
       <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
   </head>
   <body>
@@ -156,6 +157,7 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
       <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
   </head>
   <body>
@@ -234,7 +236,7 @@ account and change it to your satisfaction.
 
 ### From a web server
 
-Just host the three files (`pyscript.toml`, `index.html`
+Just host the three files (`pyscript.json`, `index.html`
 and `main.py`) in the same directory on a static web server somewhere.
 
 Clearly, we recommend you use [pyscript.com](https://pyscript.com) for this, but any
