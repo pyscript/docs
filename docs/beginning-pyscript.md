@@ -35,8 +35,8 @@ All PyScript applications need three things:
    how your application works.
 
 Create these files with your favourite code editor on your local file system.
-Alternatively, [pyscript.com](https://pyscript.com) will take away all the pain of
-organising, previewing and deploying your application.
+Alternatively, [pyscript.com](https://pyscript.com) will take away all the pain
+of organising, previewing and deploying your application.
 
 If you decide to use [pyscript.com](https://pyscript.com) (recommended for first
 steps), once signed in, create a new project by pressing the "+" button on the
@@ -246,9 +246,11 @@ static web host will do (for example,
 [Google Cloud](https://cloud.google.com/storage/docs/hosting-static-website) or
 [Microsoft's Azure](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website)).
 
-## Running PyScript Offline
+## Run PyScript Offline
 
-For more information on how to run PyScript offline, without loading PyScript and interpreters from a CND online, visit the [Running PyScript Offline](user-guide/running-offline.md) section of the User Guide.
+To run PyScript offline, without the need of a CDN or internet connection, read
+the [Run PyScript Offline](user-guide/offline.md) section of the user
+guide.
 
 ## Conclusion
 
