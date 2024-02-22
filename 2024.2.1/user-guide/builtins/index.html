@@ -1,0 +1,1114 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../workers/">
+      
+      
+        <link rel="next" href="../terminal/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>Builtin helpers - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#builtin-helpers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Builtin helpers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginning-pyscript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is PyScript?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../first-steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    First steps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The DOM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Builtin helpers
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Builtin helpers
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-features" class="md-nav__link">
+    Common features
+  </a>
+  
+    <nav class="md-nav" aria-label="Common features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptwindow" class="md-nav__link">
+    pyscript.window
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdocument" class="md-nav__link">
+    pyscript.document
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdisplay" class="md-nav__link">
+    pyscript.display
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptwhen" class="md-nav__link">
+    pyscript.when
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptjs_modules" class="md-nav__link">
+    pyscript.js_modules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-thread-only-features" class="md-nav__link">
+    Main-thread only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Main-thread only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptpyworker" class="md-nav__link">
+    pyscript.PyWorker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-only-features" class="md-nav__link">
+    Worker only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Worker only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptsync" class="md-nav__link">
+    pyscript.sync
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html-attributes" class="md-nav__link">
+    HTML attributes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../editor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Offline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Example apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-features" class="md-nav__link">
+    Common features
+  </a>
+  
+    <nav class="md-nav" aria-label="Common features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptwindow" class="md-nav__link">
+    pyscript.window
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdocument" class="md-nav__link">
+    pyscript.document
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptdisplay" class="md-nav__link">
+    pyscript.display
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptwhen" class="md-nav__link">
+    pyscript.when
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptjs_modules" class="md-nav__link">
+    pyscript.js_modules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-thread-only-features" class="md-nav__link">
+    Main-thread only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Main-thread only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptpyworker" class="md-nav__link">
+    pyscript.PyWorker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-only-features" class="md-nav__link">
+    Worker only features
+  </a>
+  
+    <nav class="md-nav" aria-label="Worker only features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptsync" class="md-nav__link">
+    pyscript.sync
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html-attributes" class="md-nav__link">
+    HTML attributes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="builtin-helpers">Builtin helpers</h1>
+<p>PyScript makes available convenience objects and functions inside
+Python as well as custom attributes in HTML.</p>
+<p>In Python this is done via the <code>pyscript</code> module:</p>
+<div class="language-python highlight"><span class="filename">Accessing the document object via the pyscript module</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span>
+</span></code></pre></div>
+<p>In HTML this is done via <code>py-*</code> attributes:</p>
+<div class="language-html highlight"><span class="filename">An example of a py-click handler</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;foo&quot;</span> <span class="na">py-click</span><span class="o">=</span><span class="s">&quot;handler_defined_in_python&quot;</span><span class="p">&gt;</span>Click me<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h2 id="common-features">Common features</h2>
+<p>These Python objects / functions are available in both the main thread and in
+code running on a web worker:</p>
+<h3 id="pyscriptwindow"><code>pyscript.window</code></h3>
+<p>This object is a proxy for the web page's
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window">global window context</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that in workers, this is still the main window, not the
+worker's own global context. A worker's global context is reachable instead
+via <code>import js</code> (the <code>js</code> object being a proxy for the worker's
+<code>globalThis</code>).</p>
+</div>
+<h3 id="pyscriptdocument"><code>pyscript.document</code></h3>
+<p>This object is a proxy for the the web page's
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document">document object</a>.
+The <code>document</code> is a representation of the
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_Document_Object_Model">DOM</a>
+and can be used to manipulate the content of the web page.</p>
+<h3 id="pyscriptdisplay"><code>pyscript.display</code></h3>
+<p>A function used to display content. The function is intelligent enough to
+introspect the object[s] it is passed and work out how to correctly display the
+object[s] in the web page.</p>
+<p>The <code>display</code> function takes a list of <code>*values</code> as its first argument, and has
+two optional named arguments:</p>
+<ul>
+<li><code>target=None</code> - the DOM element into which the content should be placed.</li>
+<li><code>append=True</code> - a flag to indicate if the output is going to be appended to
+  the <code>target</code>.</li>
+</ul>
+<p>There are some caveats:</p>
+<ul>
+<li>When used in the main thread, the <code>display</code> function automatically uses
+  the current <code>&lt;script&gt;</code> tag as the <code>target</code> into which the content will
+  be displayed.</li>
+<li>If the <code>&lt;script&gt;</code> tag has the <code>target</code> attribute, the element on the page
+  with that ID (or which matches that selector) will be used to display
+  the content instead.</li>
+<li>When used in a worker, the <code>display</code> function needs an explicit
+  <code>target="dom-id"</code> argument to identify where the content will be
+  displayed.</li>
+<li>In both the main thread and worker, <code>append=True</code> is the default
+  behaviour.</li>
+</ul>
+<h3 id="pyscriptwhen"><code>pyscript.when</code></h3>
+<p>A Python decorator to indicate the decorated function should handle the
+specified events for selected elements.</p>
+<p>The decorator takes two parameters:</p>
+<ul>
+<li>The <code>event_type</code> should be the name of the
+  <a href="https://developer.mozilla.org/en-US/docs/Web/Events">browser event to handle</a>
+  as a string (e.g. <code>"click"</code>).</li>
+<li>The <code>selector</code> should be a string containing a
+  <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors">valid selector</a>
+  to indicate the target elements in the DOM whose events of <code>event_type</code> are
+  of interest.</li>
+</ul>
+<p>The following example has a button with an id of <code>my_button</code> and a decorated
+function that handles <code>click</code> events dispatched by the button.</p>
+<div class="language-html highlight"><span class="filename">The HTML button</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my_button&quot;</span><span class="p">&gt;</span>Click me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-python highlight"><span class="filename">The decorated Python function to handle click events</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">when</span><span class="p">,</span> <span class="n">display</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;#my_button&quot;</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">def</span> <span class="nf">click_handler</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="sd">    Event handlers get an event object representing the activity that raised</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="sd">    them.</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">display</span><span class="p">(</span><span class="s2">&quot;I&#39;ve been clicked!&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This functionality is related to the <a href="#html-attributes">HTML py-*</a> attributes.</p>
+<h3 id="pyscriptjs_modules"><code>pyscript.js_modules</code></h3>
+<p>It is possible to <a href="../configuration/#javascript-modules">define JavaScript modules to use within your Python code</a>.</p>
+<p>Such named modules will always then be available under the
+<code>pyscript.js_modules</code> namespace.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please see the documentation (linked above) about restrictions and gotchas
+when configuring how JavaScript modules are made available to PyScript.</p>
+</div>
+<h2 id="main-thread-only-features">Main-thread only features</h2>
+<h3 id="pyscriptpyworker"><code>pyscript.PyWorker</code></h3>
+<p>A class used to instantiate a new worker from within Python.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Currently this only works with Pyodide.</p>
+</div>
+<p>The following fragment demonstrates who to start the Python code in the file
+<code>worker.py</code> on a new worker from within Python.</p>
+<div class="language-python highlight"><span class="filename">Starting a new worker from Python</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">a_worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="worker-only-features">Worker only features</h2>
+<h3 id="pyscriptsync"><code>pyscript.sync</code></h3>
+<p>A function used to pass serializable data from workers to the main thread. </p>
+<p>Imagine you have this code on the main thread:</p>
+<div class="language-python highlight"><span class="filename">Python code on the main thread</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">):</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">worker</span><span class="o">.</span><span class="n">sync</span><span class="o">.</span><span class="n">hello</span> <span class="o">=</span> <span class="n">hello</span>
+</span></code></pre></div>
+<p>In the code on the worker, you can pass data back to handler functions like
+this:</p>
+<div class="language-python highlight"><span class="filename">Pass data back to the main thread from a worker</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">sync</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">sync</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="html-attributes">HTML attributes</h2>
+<p>As a convenience, and to ensure backwards compatibility, PyScript allows the
+use of inline event handlers via custom HTML attributes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This classic pattern of coding (inline event handlers) is no longer
+considered good practice in web development circles.</p>
+<p>We include this behaviour for historic reasons, but the folks at
+Mozilla <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these">have a good explanation</a>
+of why this is currently considered bad practice.</p>
+</div>
+<p>These attributes are expressed as <code>py-*</code> attributes of an HTML element that
+reference the name of a Python function to run when the event is fired. You
+should replace the <code>*</code> with the <em>actual name of an event</em> (e.g. <code>py-click</code>).
+This is similar to how all
+<a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers-on-elements,-document-objects,-and-window-objects">event handlers on elements</a>
+start with <code>on</code> in standard HTML (e.g. <code>onclick</code>). The rule of thumb is to
+simply replace <code>on</code> with <code>py-</code> and then reference the name of a Python
+function.</p>
+<div class="language-html highlight"><span class="filename">A py-click event on an HTML button element.</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">py-click</span><span class="o">=</span><span class="s">&quot;handle_click&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my_button&quot;</span><span class="p">&gt;</span>Click me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-python highlight"><span class="filename">The related Python function.</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">def</span> <span class="nf">handle_click</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="sd">    Simply log the click event to the browser&#39;s console.</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">window</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>    
+</span></code></pre></div>
+<p>Under the hood, the <a href="#pyscriptwhen"><code>pyscript.when</code></a> decorator is used to
+enable this behaviour.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In earlier versions of PyScript, the value associated with the attribute
+was simply evaluated by the Python interpreter. This was unsafe:
+manipulation of the attribute's value could have resulted in the evaluation
+of arbitrary code.</p>
+<p>This is why we changed to the current behaviour: just supply the name
+of the Python function to be evaluated, and PyScript will do this safely.</p>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
