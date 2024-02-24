@@ -253,7 +253,7 @@ is through this environment that you contribute to PyScript.
   [discussions section](https://github.com/pyscript/pyscript/discussions) of
   our GitHub repository.
 
-* Every Tusday is a community video call, the details of which are posted onto
+* Every Tuesday is a community video call, the details of which are posted onto
   the discord server. Face to face technical discussions happen here.
 
 * Every two weeks, on a Thursday, is a PyScript FUN call, the details of which

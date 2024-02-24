@@ -72,7 +72,7 @@ equivalent values: `["hello", 1, 2, 3]`.
 ## PyDom
 
 The Standard Web APIs are massive and not always very user-friendly. `PyDom` is a
-Python modue that exposes the power of the web with an easy and idiomatic Pythonic
+Python module that exposes the power of the web with an easy and idiomatic Pythonic
 interface on top.
 
 While the [FFI](#ffi) interface described above focuses on giving full access to
@@ -87,7 +87,7 @@ feature parity. On the contrary, it's intentionally small and focused on the mos
 use cases while still providing [a backdoor] access to the full JS API.
 
 `Pydom` draws inspiration from popular Python APIs/Libraries known to be friendly and
-easy to learn, and other successful projects related the web as well (for isntance,
+easy to learn, and other successful projects related the web as well (for instance,
 `JQuery` was a good source of inspiration).
 
 !!! warning
@@ -103,7 +103,7 @@ easy to learn, and other successful projects related the web as well (for isntan
 
 * __`Element`:__ any component that is part of a web page. This is a rough abstraction of an
 [HTMLElement](https://developer.mozilla.org/en-US/docs/Glossary/Element). In general,
-`pydom` elements always map to an underlying `HTML` `Element` in a we page
+`pydom` elements always map to an underlying `HTML` `Element` in a web page
 * __`ElementCollection`:__ a collection of one or more `Elements`. It is a rough abstraction
 of a [HTMLCollection](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection).
 * __Querying:__ a method to query elements on a page based on a
@@ -122,7 +122,7 @@ elements are always in sync and any change of state in one is reflect into the o
 #### Creating a new element
 
 New elements can be created by using the `pydom.create` method and passing the type of element
-being crated. Here's an example of what it looks like:
+being created. Here's an example of what it looks like:
 
 (To execute and explore the following code, click on the "load" button. The result will be
 conveniently displayed in the box on the below of the code example)
@@ -166,7 +166,7 @@ requiring any extra logic from the user.
 #### Changing the element style
 
 Elements have a `style` attribute that can be used to change the element style rules.
-The style attribyte can be used as a dictionary and, to set a style rule for the element,
+The style attribute can be used as a dictionary and, to set a style rule for the element,
 simply set the correct key on the `.style` attribute. For instance, the following
 code changes the background color of the element just created in the example above:
 

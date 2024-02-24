@@ -70,7 +70,7 @@ PolyScript's capabilities, upon which PyScript is built, can be summarised as:
 * [Hooks](https://pyscript.github.io/polyscript/#hooks), called at clearly
   defined moments in the page lifecycle, provide a means of calling user
   defined functions to modify and enhance PolyScript's default behaviour.
-* [Multipe interpreters](https://pyscript.github.io/polyscript/#interpreter-features)
+* [Multiple interpreters](https://pyscript.github.io/polyscript/#interpreter-features)
   (in addition to Pyodide and MicroPython, PolyScript works with Lua and Ruby -
   although these are beyond the scope of this project).
 
@@ -223,7 +223,7 @@ It includes many useful features:
     "pure Python wheel" error.
 
     There are plans afoot to make WASM a target in PyPI so packages with C
-    extenions are automatically compiled to WASM.
+    extensions are automatically compiled to WASM.
 
 ### MicroPython
 

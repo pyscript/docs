@@ -1,7 +1,7 @@
 # Plugins
 
 
-PyScript, like many other software plaforms, offers a Plugin API that can be used to extend its
+PyScript, like many other software platforms, offers a Plugin API that can be used to extend its
 own functionality without the need to modify its own core. By using this API, users can add new
 features and distribute them as plugins.
 
@@ -78,9 +78,9 @@ to run all the JavaScript code in your page, as well as to perform layout, reflo
 This means that long-running code or blocking calls can or will block the thread, leading to an unresponsive
 page and a bad user experience.
 * web workers: code executed in workers actually run on "background" threads. This means the code can perform
-tasks without interfering with the user interface or other operations being perfomed in the main thread. While
+tasks without interfering with the user interface or other operations being performed in the main thread. While
 this adds great flexibility it's important to understand that workers actually have limited capabilities when
-comparing to code executed on the main thread. For instace, while PyScript offers a DOM API that actually can
+comparing to code executed on the main thread. For instance, while PyScript offers a DOM API that actually can
 be used in web workers on the browser, by default, does not allow DOM operation in workers. So, in this case,
 if you just use `window` and `document` directly mapping the Javascript FFI provided directly by the interpreters
 we support (Pyodide and MicroPython). With that in mind, `from pyscript import window, document` will work and
@@ -111,12 +111,12 @@ doing that.
 
 ### Lifecycle Events
 
-During the execution of a PyScript application there are specfic events that capture the beginning
+During the execution of a PyScript application there are specific events that capture the beginning
 or the end of specific stages. Here are the main lifecycle events of a PyScript Application:
 
 Every script or tag running through PyScript inevitably passes through some main or worker thread related tasks.
 
-In both worlds (wither executing code in the main thread or on a web worker), the exact sequence of steps around code execution is the following:
+In both worlds (whether executing code in the main thread or on a web worker), the exact sequence of steps around code execution is the following:
 
   * **ready** - the DOM recognized the special script or tag and the associated interpreter is ready to work. A *JS* callback might be useful to instrument the interpreter before anything else happens.
   * **before run** - there could be some *JS* code setup specific for the script on the main thread, or the worker. This is similar to a generic *setup* callback in tests.
