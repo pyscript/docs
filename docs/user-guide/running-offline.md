@@ -1,6 +1,6 @@
 # Running PyScript Offline
 
-Althought users will want to create and share PyScript apps on the internet, there are cases when user want to run PyScript applications offline, in an airgapped fashion. This means that both PyScript core and the interpreter used to run code need to be served with the application itself. In short, the 2 main explicit tasks needed to create an offline PyScript application are:
+Although users will want to create and share PyScript apps on the internet, there are cases when user want to run PyScript applications offline, in an airgapped fashion. This means that both PyScript core and the interpreter used to run code need to be served with the application itself. In short, the 2 main explicit tasks needed to create an offline PyScript application are:
 
 * download and include PyScript core (`core.js`)
 * download and include the [Python] interpreters you want to use in your Application

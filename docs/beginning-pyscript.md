@@ -177,7 +177,7 @@ behaviour we need to write some Python. Specifically, we need to define the
 
 ### main.py
 
-The behaviour of the appication is defined in `main.py`. It looks like this:
+The behaviour of the application is defined in `main.py`. It looks like this:
 
 ``` python linenums="1" title="main.py"
 import arrr

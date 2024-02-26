@@ -180,7 +180,7 @@ Sometimes many resources are needed to be fetched from a single location and
 copied into the same directory on the file system. To aid readability and
 reduce repetition, the `files` option comes with a mini
 [templating language](https://en.wikipedia.org/wiki/Template_processor)
-that allows re-usable placeholders to be defined between curly brackets (`{`
+that allows reusable placeholders to be defined between curly brackets (`{`
 and `}`). When these placeholders are encountered in the `files` configuration,
 their name is replaced with their associated value.
 
