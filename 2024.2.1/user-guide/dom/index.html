@@ -946,7 +946,7 @@ class's <code>new</code> method PyScript both signals and honours this differenc
 </div>
 <h2 id="pydom">PyDom</h2>
 <p>The Standard Web APIs are massive and not always very user-friendly. <code>PyDom</code> is a
-Python modue that exposes the power of the web with an easy and idiomatic Pythonic
+Python module that exposes the power of the web with an easy and idiomatic Pythonic
 interface on top.</p>
 <p>While the <a href="#ffi">FFI</a> interface described above focuses on giving full access to
 the entire Standard Web APIs, <code>pydom</code> focuses on providing a small, intuitive and yet
@@ -958,7 +958,7 @@ of a specific element.</p>
 feature parity. On the contrary, it's intentionally small and focused on the most popular
 use cases while still providing [a backdoor] access to the full JS API.</p>
 <p><code>Pydom</code> draws inspiration from popular Python APIs/Libraries known to be friendly and
-easy to learn, and other successful projects related the web as well (for isntance,
+easy to learn, and other successful projects related the web as well (for instance,
 <code>JQuery</code> was a good source of inspiration).</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -970,7 +970,7 @@ easy to learn, and other successful projects related the web as well (for isntan
 <ul>
 <li><strong><code>Element</code>:</strong> any component that is part of a web page. This is a rough abstraction of an
 <a href="https://developer.mozilla.org/en-US/docs/Glossary/Element">HTMLElement</a>. In general,
-<code>pydom</code> elements always map to an underlying <code>HTML</code> <code>Element</code> in a we page</li>
+<code>pydom</code> elements always map to an underlying <code>HTML</code> <code>Element</code> in a web page</li>
 <li><strong><code>ElementCollection</code>:</strong> a collection of one or more <code>Elements</code>. It is a rough abstraction
 of a <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection">HTMLCollection</a>.</li>
 <li><strong>Querying:</strong> a method to query elements on a page based on a
@@ -985,7 +985,7 @@ Every <code>Element</code> always maps to an underlying <code>JavaScript</code> 
 elements are always in sync and any change of state in one is reflect into the other.</p>
 <h4 id="creating-a-new-element">Creating a new element</h4>
 <p>New elements can be created by using the <code>pydom.create</code> method and passing the type of element
-being crated. Here's an example of what it looks like:</p>
+being created. Here's an example of what it looks like:</p>
 <p>(To execute and explore the following code, click on the "load" button. The result will be
 conveniently displayed in the box on the below of the code example)</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pyweb</span> <span class="kn">import</span> <span class="n">pydom</span>
@@ -1020,7 +1020,7 @@ any conversion.</li>
 requiring any extra logic from the user.</p>
 <h4 id="changing-the-element-style">Changing the element style</h4>
 <p>Elements have a <code>style</code> attribute that can be used to change the element style rules.
-The style attribyte can be used as a dictionary and, to set a style rule for the element,
+The style attribute can be used as a dictionary and, to set a style rule for the element,
 simply set the correct key on the <code>.style</code> attribute. For instance, the following
 code changes the background color of the element just created in the example above:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;background-color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;yellow&quot;</span>
