@@ -63,11 +63,11 @@ pointing to a `main.py` Python file.
 
 ```html title="A &lt;py-script&gt; tag with inline code"
 <py-script>
-import sys
-from pyscript import display
+from pyscript import display, window
 
 
-display(sys.version)
+name = window.prompt("What is your name?")
+display(f"Hello {name}!")
 </py-script>
 ```
 
