@@ -37,7 +37,27 @@ position of the cursor):
 
 Should you need an interactive terminal, for example because you use the
 `input` statement that requires the user to type things into the terminal, you
-**must ensure your code is run on a worker**:
+have two options:
+
+For trivial use cases where you merely want to get user input on the main thread,
+you can redefine Python's built-in `input()` function to point to JavaScript's
+built-in [`windows.prompt()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt)
+function.
+
+```html
+<script type="py" terminal>
+import contextlib
+
+with contextlib.suppress(ImportError):
+    from pyscript import window
+    input = window.prompt
+
+name = input("What is your name? ")
+print(f"Hello, {name}")
+</script>
+```
+
+For more complex use cases that use workers, you **must ensure your code is run on a worker**:
 
 ```html
 <script type="py" terminal worker>
