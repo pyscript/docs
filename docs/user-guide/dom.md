@@ -77,7 +77,7 @@ interface on top.
 
 While the [FFI](#ffi) interface described above focuses on giving full access to
 the entire Standard Web APIs, `pydom` focuses on providing a small, intuitive and yet
-powerful API that priotirizes common use cases fist. For this reason, it's first
+powerful API that prioritises common use cases fist. For this reason, its first
 layer is simple and intuitive (but limited to the most common use cases), but `pydom`
 also provides a secondary layer that can be used to directly use full FFI interface
 of a specific element.
@@ -117,7 +117,7 @@ Following, we'll look into each one of these aspects a bit more in detail.
 
 `pydom` `Element` is simply just an abstraction of a tranditional `Element` in a web page.
 Every `Element` always maps to an underlying `JavaScript` `Element` in a web page. These 2
-elements are always in sync and any change of state in one is reflect into the other.
+elements are always in sync and any change of state in one is reflected in the other.
 
 #### Creating a new element
 
