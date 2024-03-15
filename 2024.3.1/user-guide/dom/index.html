@@ -1,0 +1,1126 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../workers/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>The DOM - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-dom" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The DOM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginning-pyscript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is PyScript?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../first-steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    First steps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    The DOM
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    The DOM
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ffi" class="md-nav__link">
+    FFI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydom" class="md-nav__link">
+    PyDom
+  </a>
+  
+    <nav class="md-nav" aria-label="PyDom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core Concepts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    Element
+  </a>
+  
+    <nav class="md-nav" aria-label="Element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-element" class="md-nav__link">
+    Creating a new element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-content-of-an-element" class="md-nav__link">
+    Setting the content of an element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-element-style" class="md-nav__link">
+    Changing the element style
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-useful-aspects-of-the-element-api" class="md-nav__link">
+    Other useful aspects of the Element API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elementcollection" class="md-nav__link">
+    ElementCollection
+  </a>
+  
+    <nav class="md-nav" aria-label="ElementCollection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interacting-with-an-elementcollection" class="md-nav__link">
+    Interacting with an ElementCollection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../builtins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Builtin helpers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../editor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Offline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Example apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ffi" class="md-nav__link">
+    FFI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydom" class="md-nav__link">
+    PyDom
+  </a>
+  
+    <nav class="md-nav" aria-label="PyDom">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core Concepts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    Element
+  </a>
+  
+    <nav class="md-nav" aria-label="Element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-element" class="md-nav__link">
+    Creating a new element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-content-of-an-element" class="md-nav__link">
+    Setting the content of an element
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-the-element-style" class="md-nav__link">
+    Changing the element style
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-useful-aspects-of-the-element-api" class="md-nav__link">
+    Other useful aspects of the Element API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elementcollection" class="md-nav__link">
+    ElementCollection
+  </a>
+  
+    <nav class="md-nav" aria-label="ElementCollection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interacting-with-an-elementcollection" class="md-nav__link">
+    Interacting with an ElementCollection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="the-dom">The DOM</h1>
+<p>The DOM
+(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model">document object model</a>)
+is a tree like data structure representing the web page displayed by the
+browser. PyScript interacts with the DOM to change the user interface and react
+to things happening in the browser.</p>
+<p>There are currently two ways to interact with the DOM:</p>
+<ol>
+<li>Through the <a href="#ffi">foreign function interface</a> (FFI) to interact with objects found
+   in the browser's <code>globalThis</code> or <code>document</code> objects.</li>
+<li>Through the <a href="#pydom"><code>pydom</code> module</a> that acts as a Pythonic wrapper around
+   the FFI and comes as standard with PyScript.</li>
+</ol>
+<h2 id="ffi">FFI</h2>
+<p>The foreign function interface (FFI) gives Python access to all the
+<a href="https://developer.mozilla.org/en-US/docs/Web">standard web capabilities and features</a>,
+such as the browser's built-in
+<a href="https://developer.mozilla.org/en-US/docs/Web/API">web APIs</a>.</p>
+<p>This is available via the <code>pyscript.window</code> module which is a proxy for
+the main thread's <code>globalThis</code> object, or <code>pyscript.document</code> which is a proxy
+for the website's <code>document</code> object in JavaScript:</p>
+<div class="language-Python highlight"><span class="filename">Accessing the window and document objects in Python</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">my_element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">&quot;#my-id&quot;</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">my_element</span><span class="o">.</span><span class="n">innerText</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">hostname</span>
+</span></code></pre></div>
+<p>The FFI creates <em>proxy objects</em> in Python linked to <em>actual objects</em> in
+JavaScript.</p>
+<p>The proxy objects in your Python code look and behave like Python
+objects but have related JavaScript objects associated with them. It means the
+API defined in JavaScript remains the same in Python, so any
+<a href="https://developer.mozilla.org/en-US/docs/Web/API">browser based JavaScript APIs</a>
+or third party JavaScript libraries that expose objects in the web page's
+<code>globalThis</code>, will have exactly the same API in Python as in JavaScript.</p>
+<p>The FFI automatically transforms Python and JavaScript objects into the
+equivalent in the other language. For example, Python's boolean <code>True</code> and
+<code>False</code> will become JavaScript's <code>true</code> and <code>false</code>, while a JavaScript array
+of strings and integers, <code>["hello", 1, 2, 3]</code> becomes a Python list of the
+equivalent values: <code>["hello", 1, 2, 3]</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Instantiating classes into objects is an interesting special case that the
+FFI expects you to handle.</p>
+<p><strong>If you wish to instantiate a JavaScript class in your Python
+code, you need to call the class's <code>new</code> method:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">my_obj</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">MyJavaScriptClass</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;some value&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The underlying reason for this is simply JavaScript and Python do
+instantiation very differently. By explicitly calling the JavaScript
+class's <code>new</code> method PyScript both signals and honours this difference.</p>
+</div>
+<h2 id="pydom">PyDom</h2>
+<p>The Standard Web APIs are massive and not always very user-friendly. <code>PyDom</code> is a
+Python module that exposes the power of the web with an easy and idiomatic Pythonic
+interface on top.</p>
+<p>While the <a href="#ffi">FFI</a> interface described above focuses on giving full access to
+the entire Standard Web APIs, <code>pydom</code> focuses on providing a small, intuitive and yet
+powerful API that prioritises common use cases fist. For this reason, its first
+layer is simple and intuitive (but limited to the most common use cases), but <code>pydom</code>
+also provides a secondary layer that can be used to directly use full FFI interface
+of a specific element.</p>
+<p>It does not aim to replace the regular Web [Javascript] API nor to be as wide and offer
+feature parity. On the contrary, it's intentionally small and focused on the most popular
+use cases while still providing [a backdoor] access to the full JS API.</p>
+<p><code>Pydom</code> draws inspiration from popular Python APIs/Libraries known to be friendly and
+easy to learn, and other successful projects related the web as well (for instance,
+<code>JQuery</code> was a good source of inspiration).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>PyDom is currently a work in progress.</p>
+<p>We welcome feedback and suggestions.</p>
+</div>
+<h3 id="core-concepts">Core Concepts</h3>
+<p><code>Pydom</code> builds on topic of very few and simple core concepts:</p>
+<ul>
+<li><strong><code>Element</code>:</strong> any component that is part of a web page. This is a rough abstraction of an
+<a href="https://developer.mozilla.org/en-US/docs/Glossary/Element">HTMLElement</a>. In general,
+<code>pydom</code> elements always map to an underlying <code>HTML</code> <code>Element</code> in a web page</li>
+<li><strong><code>ElementCollection</code>:</strong> a collection of one or more <code>Elements</code>. It is a rough abstraction
+of a <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection">HTMLCollection</a>.</li>
+<li><strong>Querying:</strong> a method to query elements on a page based on a
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors">selector</a>. Pydom supports
+standard HTML DOM query selectors to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors">locate DOM elements</a> as other native <code>JavaScript</code> methods like
+<code>querySelector</code> or <code>querySelectorAll</code>.</li>
+</ul>
+<p>Following, we'll look into each one of these aspects a bit more in detail.</p>
+<h3 id="element">Element</h3>
+<p><code>pydom</code> <code>Element</code> is simply just an abstraction of a tranditional <code>Element</code> in a web page.
+Every <code>Element</code> always maps to an underlying <code>JavaScript</code> <code>Element</code> in a web page. These 2
+elements are always in sync and any change of state in one is reflected in the other.</p>
+<h4 id="creating-a-new-element">Creating a new element</h4>
+<p>New elements can be created by using the <code>pydom.create</code> method and passing the type of element
+being created. Here's an example of what it looks like:</p>
+<p>(To execute and explore the following code, click on the "load" button. The result will be
+conveniently displayed in the box on the below of the code example)</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pyweb</span> <span class="kn">import</span> <span class="n">pydom</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Creating an element directly from pydom creates an unbounded element.</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">new_div</span> <span class="o">=</span> <span class="n">pydom</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Creating an element from another element automatically creates that element</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># as a child of the original element</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">new_p</span> <span class="o">=</span> <span class="n">new_div</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;code-description&quot;</span><span class="p">],</span> <span class="n">html</span><span class="o">=</span><span class="s2">&quot;Ciao PyScripters!&quot;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># elements can be appended to any other element on the page</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">pydom</span><span class="p">[</span><span class="s1">&#39;#element-creation-example&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_div</span><span class="p">)</span>
+</span></code></pre></div>
+<div>
+  <h5>Result will go here</h5>
+  <div id="pydom-element-createion-example"></div>
+</div>
+
+<p>For more details about <code>pydom.create</code> please refer to its reference documentation.</p>
+<h4 id="setting-the-content-of-an-element">Setting the content of an element</h4>
+<p>The Element interface offers 2 main ways to set an element content: the <code>html</code> and the
+<code>content</code> attributes:</p>
+<ul>
+<li><code>content</code>: sets the <code>innerHTML</code> field via the PyScript <code>display</code> function. This takes care
+of properly rendering the object being passed based on the object mimetype. So, for instance,
+if the objects is an image, it'll be properly rendered on the element</li>
+<li><code>html</code>: directly sets the <code>innerHTML</code> field of the underlying element without attemnpting
+any conversion.</li>
+</ul>
+<p>In general, we suggest using <code>content</code> directly as it'll take care of most use cases without
+requiring any extra logic from the user.</p>
+<h4 id="changing-the-element-style">Changing the element style</h4>
+<p>Elements have a <code>style</code> attribute that can be used to change the element style rules.
+The style attribute can be used as a dictionary and, to set a style rule for the element,
+simply set the correct key on the <code>.style</code> attribute. For instance, the following
+code changes the background color of the element just created in the example above:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;background-color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;yellow&quot;</span>
+</span></code></pre></div>
+<p>to remove a specific style key, simply use the <code>pop</code> method as you'd to to remove
+a key from a dictionary:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;background-color&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>In addition to the dictionary interface to explicitly set CSS rules, the <code>style</code> attribute
+also offers a convenient <code>visible</code> property that can be use show/hide an element.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">new_p</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="kc">False</span>
+</span></code></pre></div>
+<h4 id="other-useful-aspects-of-the-element-api">Other useful aspects of the Element API</h4>
+<ul>
+<li><code>append</code>: method to append a new child to the element.</li>
+<li><code>children</code>: list of the children of the element.</li>
+<li><code>value</code>: allows to set the <code>value</code> attribute of an element.</li>
+<li><code>clone</code>: method that creates a clone of the element. NODE: The clone elements will not be
+attached to any element.</li>
+<li><code>show_me</code>: method to scroll the page to where the element is placed.</li>
+</ul>
+<h3 id="elementcollection">ElementCollection</h3>
+<p>Element Collections represent a collection of elements typically returned from a query. For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">paragraphs</span> <span class="o">=</span> <span class="n">pydom</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span>
+</span></code></pre></div>
+<p>In the example above, <code>paragraphs</code> is an <code>ElementCollection</code> that maps to all <code>p</code> elements in the page.</p>
+<p>As any collections, <code>ElementCollection</code> can be used to iterate over a collection of elements or to pick
+specific elements or slices of elements in the collection. For instance:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">:</span> 
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  <span class="n">display</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># let&#39;s now display only the last 2 elements</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]:</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  <span class="n">display</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="interacting-with-an-elementcollection">Interacting with an ElementCollection</h4>
+<p>Besides from allowing operations as an iterable object, <code>ElementCollection</code> objects also offer a few
+convenient methods to directly interact with th elements in the collection. For instance, it's possible
+to ask for specific attributes of the elements in the collection directly:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">display</span><span class="p">(</span><span class="n">paragraphs</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The example above displays a list with the value of the <code>html</code> attribute for all the elements in the
+<code>paragraphs</code> collection.</p>
+<p>The same way we can read attributes, we can also set an attribute directly in the collection. For instance,
+you can directly set the html content of all the elements in the collection</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># This will change the text of all H1 elements in the page</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">pydom</span><span class="p">[</span><span class="s1">&#39;h1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;That&#39;s cool :)&quot;</span>
+</span></code></pre></div>
+<p>or perhaps change their style</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>paragraphs.style[&#39;background-color&#39;] = &#39;lightyellow&#39;
+</span></code></pre></div>
+<p><code>ElementCollection</code> currently support the following attributes:</p>
+<ul>
+<li><code>style</code>: just like in <code>Element</code>, this proxy attribute can be used to change the style of the elements in
+a collection by setting the proper CSS rules, using <code>style</code> with the same API as a dictionary.</li>
+<li><code>html</code>: allows to change the <code>html</code> attribute on all the elements of a collection.</li>
+<li><code>value</code>: allows to change the <code>value</code> attribute on all the elements of a collection.</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
