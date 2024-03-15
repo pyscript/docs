@@ -54,6 +54,31 @@ The outcome of these code fragments should look something like this:
 
 <img src="../../assets/images/pyeditor1.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
 
+Sometimes you need to create a pre-baked Pythonic context for a shared
+environment used by an editor. This need is especially helpful in educational
+situations where boilerplate code can be run, with just the important salient
+code available in the editor.
+
+To achieve this end use the `setup` attribute within a `script` tag. The
+content of this editor will not be shown, but will bootstrap the referenced
+environment automatically before any following editor within the same
+environment is evaluated.
+
+```html title="Bootstrapping an environment with `setup`"
+<script type="mpy-editor" env="test_env" setup>
+# This code will not be visible, but will run before the next editor's code is
+# evaluated.
+a = 1
+</script>
+
+<script type="mpy-editor" env="test_env">
+# Without the "setup" attribute, this editor is visible. Because it is using
+# the same env as the previous "setup" editor, the previous editor's code is
+# always evaluated first.
+print(a)
+</script>
+```
+
 !!! info
 
     Notice that the interpreter type, and optional environment name is shown
