@@ -14,7 +14,7 @@ Here's an example of how a PyScript plugin looks like:
 
 ```js
 // import the hooks from PyScript first...
-import { hooks } from "https://pyscript.net/releases/2024.2.1/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.3.1/core.js";
 
 // Use the `main` attribute on hooks do define plugins that run on the main thread
 hooks.main.onReady.add((wrap, element) => {

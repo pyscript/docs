@@ -116,6 +116,74 @@ Such named modules will always then be available under the
     Please see the documentation (linked above) about restrictions and gotchas
     when configuring how JavaScript modules are made available to PyScript.
 
+### `pyscript.fetch`
+
+A common task is to `fetch` data from the web via HTTP requests. The
+`pyscript.fetch` function provides a uniform way to achieve this in both
+Pyodide and MicroPython. It is closely modelled on the
+[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) found
+in browsers with some important Pythonic differences.
+
+The simple use case is to pass in a URL and `await` the response. Remember, in
+order to use `await` you must have the `async` attribute in the `script` tag
+that references your code.
+
+```python title="A simple HTTP GET with pyscript.fetch"
+from pyscript import fetch
+
+
+response = await fetch("https://example.com")
+```
+
+If the `fetch` operation _returns a response that is not deemed `OK`_ (the
+definition of which
+[can be found here](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok))
+then an exception is raised.
+
+Assuming an `OK` response, the following methods are available to you to access
+the data returned from the server:
+
+* `response.arrayBuffer()` returns a Python [memoryview](https://docs.python.org/3/library/stdtypes.html#memoryview) of the response. This is equivalent to the [`arrayBuffer()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer) in the browser based `fetch` API.
+* `response.blob()` returns a JavaScript [`blob`](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) version of the response. This is equivalent
+to the [`blob()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) in the browser based `fetch` API.
+* `response.bytearray()` returns a Python [`bytearray`](https://docs.python.org/3/library/stdtypes.html#bytearray) version of the response.
+* `response.json()` returns a Python datastructure representing a JSON serialised payload in the response.
+* `response.text()` returns a Python string version of the response.
+
+!!! warning
+
+    Unlike the browser based `fetch` API, you **do not need to await** the
+    methods listed above, in order to get the data from the response.
+
+The underlying browser `fetch` API has [many request options](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options)
+that you should simply pass in as keyword arguments like this:
+
+```python title="Supplying request options."
+from pyscript import fetch
+
+
+response = await fetch("https://example.com", method="POST", body="HELLO")
+```
+
+Should you need access to the underlying [JavaScript response object](https://developer.mozilla.org/en-US/docs/Web/API/Response), you can find it as `response._response()`.
+
+!!! Danger
+
+    You may encounter [CORS](https://developer.mozilla.org/en-US/docs/Glossary/CORS) errors (especially with reference to a missing
+    [Access-Control-Allow-Origin header](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin).
+
+    This is a security feature of modern browsers where the site to which you
+    are making a request **will not process a request from a site hosted at
+    another domain**.
+
+    For example, if your PyScript app is hosted under `example.com` and you
+    make a request to `bbc.co.uk` (who don't allow requests from other domains)
+    then you'll encounter this sort of CORS related error.
+
+    There is nothing PyScript can do about this problem (it's a feature, not a
+    bug). However, you could use a pass-through proxy service to get around
+    this limitation (i.e. the proxy service makes the call on your behalf).
+
 ## Main-thread only features
 
 ### `pyscript.PyWorker`
