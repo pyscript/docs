@@ -150,7 +150,7 @@ Alternatively, rather than using a double `await` (one to get the response, the
 other to grab the data), it's possible to chain the calls into a single
 `await` like this:
 
-```python title="A simple HTTP GET as a single `await`"
+```python title="A simple HTTP GET as a single await"
 from pyscript import fetch
 
 data = await fetch("https://example.com").text()
