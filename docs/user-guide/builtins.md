@@ -140,6 +140,12 @@ else:
     print(response.status)
 ```
 
+The object returned from an `await fetch` call will have attributes that
+correspond to the
+[JavaScript response object](https://developer.mozilla.org/en-US/docs/Web/API/Response).
+This is useful for getting response codes, headers and other metadata before
+processing the response's data.
+
 Alternatively, rather than using a double `await` (one to get the response, the
 other to grab the data), it's possible to chain the calls into a single
 `await` like this:
