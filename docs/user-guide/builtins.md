@@ -133,23 +133,38 @@ should also be defined as `async`.
 from pyscript import fetch
 
 
-response = await fetch("https://example.com").text()
+response = await fetch("https://example.com")
+if response.ok:
+    data = await response.text()
+else:
+    print(response.status)
 ```
 
-If the `fetch` operation _causes a response that is not deemed `OK`_ (the
-definition of which
-[can be found here](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok))
-then an exception is raised.
+The object returned from an `await fetch` call will have attributes that
+correspond to the
+[JavaScript response object](https://developer.mozilla.org/en-US/docs/Web/API/Response).
+This is useful for getting response codes, headers and other metadata before
+processing the response's data.
 
-Assuming an `OK` response, the following methods are available to you to access
-the data returned from the server:
+Alternatively, rather than using a double `await` (one to get the response, the
+other to grab the data), it's possible to chain the calls into a single
+`await` like this:
 
-* `await fetch("https://example.com").arrayBuffer()` returns a Python [memoryview](https://docs.python.org/3/library/stdtypes.html#memoryview) of the response. This is equivalent to the [`arrayBuffer()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer) in the browser based `fetch` API.
-* `await fetch("https://example.com").blob()` returns a JavaScript [`blob`](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) version of the response. This is equivalent
+```python title="A simple HTTP GET as a single await"
+from pyscript import fetch
+
+data = await fetch("https://example.com").text()
+```
+
+The following awaitable methods are available to you to access the data
+returned from the server:
+
+* `arrayBuffer()` returns a Python [memoryview](https://docs.python.org/3/library/stdtypes.html#memoryview) of the response. This is equivalent to the [`arrayBuffer()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer) in the browser based `fetch` API.
+* `blob()` returns a JavaScript [`blob`](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) version of the response. This is equivalent
 to the [`blob()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) in the browser based `fetch` API.
-* `await fetch("https://example.com").bytearray()` returns a Python [`bytearray`](https://docs.python.org/3/library/stdtypes.html#bytearray) version of the response.
-* `await fetch("https://example.com").json()` returns a Python datastructure representing a JSON serialised payload in the response.
-* `await fetch("https://example.com").text()` returns a Python string version of the response.
+* `bytearray()` returns a Python [`bytearray`](https://docs.python.org/3/library/stdtypes.html#bytearray) version of the response.
+* `json()` returns a Python datastructure representing a JSON serialised payload in the response.
+* `text()` returns a Python string version of the response.
 
 The underlying browser `fetch` API has [many request options](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options)
 that you should simply pass in as keyword arguments like this:
@@ -160,8 +175,6 @@ from pyscript import fetch
 
 response = await fetch("https://example.com", method="POST", body="HELLO").text()
 ```
-
-Should you need access to the underlying [JavaScript response object](https://developer.mozilla.org/en-US/docs/Web/API/Response), you can find it as `response._response()`.
 
 !!! Danger
 
