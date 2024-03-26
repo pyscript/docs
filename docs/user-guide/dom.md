@@ -364,8 +364,8 @@ correct and standard manner:
 <!doctype html>
 <script type="module">
     // this utility escapes and unescape HTML chars
-    import { escape, unescape } from "https://esm.run/html-escape";
-    // esm.run returns a module       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    import { escape, unescape } from "https://esm.run/html-escaper";
+    // esm.run returns a module       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     console.log(escape("<>"));
     // log: "&lt;&gt;"
 </script>

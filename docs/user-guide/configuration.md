@@ -161,9 +161,9 @@ examples could be equivalently re-written as:
 ```
 
 If the source part of the configuration is either a `.zip` or `.tar.gz` file
-its destination is a folder path followed by a star (e.g. `/*` or `./dest/*`)
-then PyScript will extract the referenced archive automatically into the target
-directory in the browser's built in file system.
+and its destination is a folder path followed by a star (e.g. `/*` or
+`./dest/*`), then PyScript will extract the referenced archive automatically
+into the target directory in the browser's built in file system.
 
 !!! warning
 

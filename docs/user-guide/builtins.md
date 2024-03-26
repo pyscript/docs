@@ -197,7 +197,8 @@ response = await fetch("https://example.com", method="POST", body="HELLO").text(
 
 A utility function to convert Python references into their JavaScript
 equivalents. For example, a Python dictionary is converted into a JavaScript
-object literal (rather than a JavaScript `Map`).
+object literal (rather than a JavaScript `Map`), unless a `dict_converter`
+is explicitly specified and the runtime is Pyodide.
 
 ### `pyscript.ffi.create_proxy`
 
