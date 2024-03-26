@@ -312,12 +312,9 @@ plugins = ["custom_plugin", "!error"]
 
 ### JavaScript modules
 
-It's easy to import and use JavaScript modules in your Python code.
-
-!!! warning
-
-    This feature currently only works with Pyodide. MicroPython support will
-    come in a future release.
+It's easy to import and use JavaScript modules in your Python code. This
+section of the docs examines the configuration needed to make this work. How
+to make use of JavaScript is dealt with [elsewhere](../dom/#working-with-javascript).
 
 To do so, requires telling PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
