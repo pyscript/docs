@@ -160,6 +160,10 @@ examples could be equivalently re-written as:
 ... etc ...
 ```
 
+If the source part of the configuration is either a `.zip` or `.tar.gz` file
+and its destination is a folder path followed by a star (e.g. `/*` or
+`./dest/*`), then PyScript will extract the referenced archive automatically
+into the target directory in the browser's built in file system.
 
 !!! warning
 
@@ -312,12 +316,9 @@ plugins = ["custom_plugin", "!error"]
 
 ### JavaScript modules
 
-It's easy to import and use JavaScript modules in your Python code.
-
-!!! warning
-
-    This feature currently only works with Pyodide. MicroPython support will
-    come in a future release.
+It's easy to import and use JavaScript modules in your Python code. This
+section of the docs examines the configuration needed to make this work. How
+to make use of JavaScript is dealt with [elsewhere](../dom/#working-with-javascript).
 
 To do so, requires telling PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
