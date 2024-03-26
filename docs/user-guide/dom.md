@@ -253,3 +253,237 @@ paragraphs.style['background-color'] = 'lightyellow'
 a collection by setting the proper CSS rules, using `style` with the same API as a dictionary.
 * `html`: allows to change the `html` attribute on all the elements of a collection.
 * `value`: allows to change the `value` attribute on all the elements of a collection.
+
+## Working with JavaScript
+
+There are three ways in which JavaScript can get into a web page.
+
+1. As a global reference attached to the `window` object in the web page
+   because the code was referenced as the source of a `script` tag in your HTML
+   (the very old school way to do this).
+2. Using the [Universal Module Definition](https://github.com/umdjs/umd) (UMD)
+   - an out-of-date and non-standard way to create JavaScript modules.
+3. As a standard
+   [JavaScript Module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+   which is the modern, standards compliant way to define and use a JavaScript
+   module. If possible, this is the way you should do things.
+
+Sadly, this being the messy world of the web, methods 1 and 2 are still quite
+common, and so you need to know about them so you're able to discern and work
+around them. There's nothing WE can do about this situation, but we can
+suggest "best practice" ways to work around each situation.
+
+Remember, as mentioned
+[elsewhere in our documentation](../configuration/#javascript-modules),
+the standard way to get JavaScript modules into your PyScript Python context is
+to link a _source_ standard JavaScript module to a _destination_ name:
+
+```toml title="Reference a JavaScript module in the configuration."
+[js_modules.main]
+"https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js" = "leaflet"
+```
+
+Then, reference the module via the destination name in your Python code, by
+importing it from the `pyscript.js_modules` namespace:
+
+```python title="Import the JavaScript module into Python"
+from pyscript.js_modules import leaflet as L
+
+map = L.map("map")
+
+# etc....
+```
+
+We'll deal with each of the potential JavaScript related situations in turn:
+
+### JavaScript as a global reference
+
+In this situation, you have some JavaScript code that just globally defines
+"stuff" in the context of your web page via a `script` tag. Your HTML will
+contain something like this:
+
+```html title="JavaScript as a global reference"
+<!doctype html>
+<!--
+This JS utility escapes and unescapes HTML chars. It adds an "html" object to
+the global context.
+-->
+<script src="https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js"></script>
+
+<!--
+Vanilla JS just to check the expected object is in the global context of the
+web page.
+-->
+<script>
+    console.log(html);
+</script>
+```
+
+When you find yourself in this situation, simply use the `window` object in
+your Python code (found in the `pyscript` namespace) to interact with the
+resulting JavaScript objects:
+
+```python title="Python interaction with the JavaScript global reference"
+from pyscript import window, document
+
+
+# The window object is the global context of your web page.
+html = window.html
+
+# Just use the object "as usual"...
+# e.g. show escaped HTML in the body: &lt;&gt;
+document.body.append(html.escape("<>"))
+```
+
+You can find an example of this technique here:
+
+[https://pyscript.com/@agiammarchi/floral-glade/v1](https://pyscript.com/@agiammarchi/floral-glade/v1)
+
+### JavaScript as a non-standard UMD module
+
+Sadly, these sorts of non-standard JavaScript modules are still quite
+prevalent. But the good news is there are strategies you can use to help you
+get them to work properly.
+
+The non-standard UMD approach tries to check for `export` and `module` fields
+in the JavaScript module and, if it doesn’t find them, falls back to treating
+the module in the same way as a global reference described above.
+
+If you find you have a UMD JavaScript module, there are services online to
+automagically convert it to the modern and standards compliant way to d
+o JavaScript modules. A common (and usually reliable) service is provided by
+[https://esm.run/your-module-name](https://esm.run/your-module-name), a
+service that provides an out of the box way to consume the module in the
+correct and standard manner:
+
+```html title="Use esm.run to automatically convert a non-standard UMD module"
+<!doctype html>
+<script type="module">
+    // this utility escapes and unescape HTML chars
+    import { escape, unescape } from "https://esm.run/html-escape";
+    // esm.run returns a module       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    console.log(escape("<>"));
+    // log: "&lt;&gt;"
+</script>
+```
+
+If a similar test works for the module you want to use, use the esm.run CDN
+service within the `py` or `mpy` configuration file as explained at the start
+of this section on JavaScript (i.e. you'll use it via the `pyscript.js_modules`
+namespace).
+
+If this doesn't work, assume the module is not updated nor migrated to a state
+that can be automatically translated by services like esm.run. You could try an
+alternative (more modern) JavaScript module to achieve you ends or (if it
+really must be this module), you can wrap it in a new JavaScript module that
+conforms to the modern standards.
+
+The following four files demonstrate this approach:
+
+```html title="index.html - still grab the script so it appears as a global reference."
+<!doctype html>
+...
+<!-- land the utility still globally as generic script -->
+<script src="https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js"></script>
+...
+```
+
+```js title="wrapper.js - this grabs the JavaScript functionality from the global context and wraps it (exports it) in the modern standards compliant manner."
+// get all utilities needed from the global.
+const { escape, unescape } = globalThis.html;
+
+// export utilities like a standards compliant module would do.
+export { escape, unescape };
+```
+
+```toml title="pyscript.toml - configure your JS modules as before, but use your wrapper instead of the original module."
+[js_modules.main]
+# will simulate a standard JS module
+"./wrapper.js" = "html_escaper"
+```
+
+```python title="main.py - just import the module as usual and make use of it."
+from pyscript import document
+
+# import the module either via
+from pyscript.js_modules import html_escaper
+# or via
+from pyscript.js_modules.html_escaper import escape, unescape
+
+# show on body: &lt;&gt;
+document.body.append(html.escape("<>"))
+```
+
+You can see this approach in action here:
+
+[https://pyscript.com/@agiammarchi/floral-glade/v2](https://pyscript.com/@agiammarchi/floral-glade/v2)
+
+### A standard JavaScript module
+
+This is both the easiest and best way to import any standard JS module into
+Python.
+
+You don't need to reference the script in your HTML, just define how the source
+JavaScript module maps into the `pyscript.js_modules` namespace in your
+configuration file, as explained above.
+
+That's it!
+
+Here is an example project that uses this approach:
+
+[https://pyscript.com/@agiammarchi/floral-glade/v3](https://pyscript.com/@agiammarchi/floral-glade/v3)
+
+
+### My own JavaScript code
+
+If you have your own JavaScript work, just remember to write it as a standard
+JavaScript module. Put simply, ensure you `export` the things you need to. For
+instance, in the following fragment of JavaScript, the two functions are
+exported from the module:
+
+```js title="code.js - containing two functions exported as capabilities of the module."
+/*
+Some simple JavaScript functions for example purposes.
+*/
+
+export function hello(name) {
+    return "Hello " + name;
+}
+
+export function fibonacci(n) {
+    if (n == 1) return 0;
+    if (n == 2) return 1;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+
+Next, just reference this module in the usual way in your TOML or JSON
+configuration file:
+
+```TOML title="pyscript.toml - references the code.js module so it will appear as the code module in the pyscript.js_modules namespace."
+[js_modules.main]
+"code.js" = "code"
+```
+
+In your HTML, reference your Python script with this configuration file:
+
+```html title="Reference the expected configuration file."
+<script type="py" src="./main.py" config="./pyscript.toml" terminal></script>
+```
+
+Finally, just use your JavaScript module’s exported functions inside PyScript:
+
+```python title="Just call your bespoke JavaScript code from Python."
+from pyscript.js_modules import code
+
+
+# Just use the JS code from Python "as usual".
+greeting = code.hello("Chris")
+print(greeting)
+result = code.fibonacci(12)
+print(result)
+```
+
+You can see this in action in the following example project:
+
+[https://pyscript.com/@ntoll/howto-javascript/latest](https://pyscript.com/@ntoll/howto-javascript/latest)

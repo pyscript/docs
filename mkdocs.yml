@@ -71,7 +71,7 @@ nav:
     - First steps: user-guide/first-steps.md
     - Architecture: user-guide/architecture.md
     - Configuration: user-guide/configuration.md
-    - The DOM: user-guide/dom.md
+    - The DOM &amp; JavaScript: user-guide/dom.md
     - Workers: user-guide/workers.md
     - Builtin helpers: user-guide/builtins.md
     - Python terminal: user-guide/terminal.md
