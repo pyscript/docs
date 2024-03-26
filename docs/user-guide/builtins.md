@@ -193,6 +193,20 @@ response = await fetch("https://example.com", method="POST", body="HELLO").text(
     bug). However, you could use a pass-through proxy service to get around
     this limitation (i.e. the proxy service makes the call on your behalf).
 
+### `pyscript.ffi.to_js`
+
+A utility function to convert Python references into their JavaScript
+equivalents. For example, a Python dictionary is converted into a JavaScript
+object literal (rather than a JavaScript `Map`).
+
+### `pyscript.ffi.create_proxy`
+
+A utility function explicitly for when a callback function is added via an
+event listener. It ensures the function still exists beyond the assignment of
+the function to an event. Should you not `create_proxy` around the callback
+function, it will be immediately garbage collected after being bound to the
+event.
+
 ## Main-thread only features
 
 ### `pyscript.PyWorker`
