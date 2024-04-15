@@ -265,8 +265,8 @@ There are three ways in which JavaScript can get into a web page.
 1. As a global reference attached to the `window` object in the web page
    because the code was referenced as the source of a `script` tag in your HTML
    (the very old school way to do this).
-2. Using the [Universal Module Definition](https://github.com/umdjs/umd) (UMD)
-   - an out-of-date and non-standard way to create JavaScript modules.
+2. Using the [Universal Module Definition](https://github.com/umdjs/umd) (UMD),
+   an out-of-date and non-standard way to create JavaScript modules.
 3. As a standard
    [JavaScript Module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
    which is the modern, standards compliant way to define and use a JavaScript

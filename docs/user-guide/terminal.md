@@ -12,16 +12,13 @@ It usually looks something like this:
 
 Because of the historic importance of the use of a terminal, PyScript makes one
 available in the browser (based upon [XTerm.js](https://xtermjs.org/)).
-As [mentioned earlier](first-steps.md), PyScript's built-in terminal is activated
-with the `terminal` flag when using the `<script>`, `<py-script>` or
+As [mentioned earlier](first-steps.md), PyScript's built-in terminal is
+activated with the `terminal` flag when using the `<script>`, `<py-script>` or
 `<mpy-script>` tags.
 
-!!! danger
+!!! success 
 
-    MicroPython currently doesn't work with the terminal.
-
-    Terminal support for MicroPython is coming, just as soon as a new version
-    of MicroPython is released.
+    As of the 2024.4.1 release, MicroPython works with the terminal.
 
 This is, perhaps, the simplest use case that allows data to be emitted to a
 read-only terminal:
@@ -59,3 +56,21 @@ code.interact()
 The end result should look something like this:
 
 <img src="../../assets/images/pyterm3.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
+
+Finally, it is possible to dynamically pass Python code into the terminal. The
+trick is to get a reference to the terminal created by PyScript. Thankfully,
+this is very easy.
+
+Consider this fragment:
+
+```html
+<script id="my_script" type="mpy" terminal worker>
+```
+
+Get a reference to the element, and just call the `process` method on
+that object:
+
+```JS
+const myterm = document.querySelector("#my_script");
+await myterm.process('print("Hello world!")');
+```
