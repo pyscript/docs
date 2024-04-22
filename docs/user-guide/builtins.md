@@ -22,23 +22,25 @@ code running on a web worker:
 
 ### `pyscript.window`
 
-This object is a proxy for the web page's
+On the main thread, this object is a direct reference to the `import js` module which, in turn, is a proxy of the [globalThis](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis).
+
+On a worker thread, this object is a proxy for the web page's
 [global window context](https://developer.mozilla.org/en-US/docs/Web/API/Window).
 
 !!! warning
 
     Please note that in workers, this is still the main window, not the
-    worker's own global context. A worker's global context is reachable instead
-    via `import js` (the `js` object being a proxy for the worker's
+    worker's own global context. A worker's global context is always reachable
+    instead via `import js` (the `js` object being a proxy for the worker's
     `globalThis`).
 
 ### `pyscript.document`
 
-This object is a proxy for the the web page's
+On both main and worker threads, this object is a proxy for the the web page's
 [document object](https://developer.mozilla.org/en-US/docs/Web/API/Document).
 The `document` is a representation of the
 [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_Document_Object_Model)
-and can be used to manipulate the content of the web page.
+and can be used to read or manipulate the content of the web page.
 
 ### `pyscript.display`
 
@@ -50,22 +52,58 @@ The `display` function takes a list of `*values` as its first argument, and has
 two optional named arguments:
 
 * `target=None` - the DOM element into which the content should be placed.
+  If not specified, the `target` will use the `current_script()` returned id
+  and populate the related dedicated node to show the content.
 * `append=True` - a flag to indicate if the output is going to be appended to
   the `target`.
 
 There are some caveats:
 
 * When used in the main thread, the `display` function automatically uses
-  the current `<script>` tag as the `target` into which the content will
-  be displayed.
-* If the `<script>` tag has the `target` attribute, the element on the page
-  with that ID (or which matches that selector) will be used to display
-  the content instead.
+  the current `<py-script>` or `<mpy-script>` tag as the `target` into which
+  the content will be displayed.
+* If the `<script>` tag has the `target` attribute, and is not a worker,
+  the element on the page with that ID (or which matches that selector)
+  will be used to display the content instead.
 * When used in a worker, the `display` function needs an explicit
   `target="dom-id"` argument to identify where the content will be
   displayed.
 * In both the main thread and worker, `append=True` is the default
   behaviour.
+
+
+```html title="Some display example"
+<!-- will produce
+    <py-script>PyScript</py-script>
+-->
+<py-script worker>
+    from pyscript import display
+    display("PyScript", append=False)
+</py-script>
+
+<!-- will produce
+    <script type="py">...</script>
+    <script-py>PyScript</script-py>
+-->
+<script type="py">
+    from pyscript import display
+    display("PyScript", append=False)
+</script>
+
+<!-- will populate <h1>PyScript</h1> -->
+<script type="py" target="my-h1">
+    from pyscript import display
+    display("PyScript", append=False)
+</script>
+<h1 id="my-h1"></h1>
+
+<!-- will populate <h2>PyScript</h2> -->
+<script type="py" worker>
+    from pyscript import display
+    display("PyScript", target="my-h2", append=False)
+</script>
+<h2 id="my-h2"></h2>
+```
 
 ### `pyscript.when`
 
@@ -102,7 +140,7 @@ def click_handler(event):
     display("I've been clicked!")
 ```
 
-This functionality is related to the [HTML py-*](#html-attributes) attributes.
+This functionality is related to the `py-*` or `mpy-*` [HTML attributes](#html-attributes).
 
 ### `pyscript.js_modules`
 
@@ -208,24 +246,138 @@ the function to an event. Should you not `create_proxy` around the callback
 function, it will be immediately garbage collected after being bound to the
 event.
 
+!!! warning
+
+    In *Pyodide* it's expected that the created proxy is explicitly destroyed
+    when it's not needed / used anymore but that `proxy.destroy()` method has
+    not been implemented in *MicroPython* (yet).
+    To try simplifying this dance and automatically destroy proxies, based on
+    JS Garbage Collector heuristics, we have introduced an **experimental flag**
+    called `experimental_create_proxy = "auto"` which currently tries to be
+    smart enough to orchestrate the whole proxy creation and destruction dance
+    out of the box.
+    If you'd like to try that flag keep in mind you should never need or care about
+    using explictly *create_proxy* but like it is with everything experimental,
+    there might be edge cases we have not (yet) tackled.
+
+### `pyscript.current_target`
+
+A utility function to retrieve the unique identifier of the element used
+to display content. If the element is not a `<script>` and it has already
+an `id`, that `id` will be returned.
+
+```html title="The current_target utility"
+<!-- current_target(): explicit-id -->
+<mpy-script id="explicit-id">
+    from pyscript import display, current_target
+    display(f"current_target(): {current_target()}")
+</mpy-script>
+
+<!-- current_target(): mpy-0 -->
+<mpy-script>
+    from pyscript import display, current_target
+    display(f"current_target(): {current_target()}")
+</mpy-script>
+
+<!-- current_target(): mpy-1 -->
+<!-- creates right after the <script>:
+    <script-py id="mpy-1">
+        <div>current_target(): mpy-1</div>
+    </script-py>
+-->
+<script type="mpy">
+    from pyscript import display, current_target
+    display(f"current_target(): {current_target()}")
+</script>
+```
+
+!!! Note
+
+    Please note that `current_target()` points at a visible element on the page,
+    **not** at the current `<script>` that is executing the code.
+    If you need to explicitly reach the `<script>` element, you can always assign
+    an `id` to it so that at any time, within any listener or functionality,
+    you can `document.getElementById(script_id)` to reach out that element:
+    `<script type="mpy" id="unique-id">...</script>`
+
+### `pyscript.HTML`
+
+A class utility able to wrap a generic content and display it on the page.
+The content can be any of these mime types:
+
+  * `text/plain` to show the content as text
+  * `text/html` to show the content as *HTML*
+  * `image/png` to show the content as `<img>`
+  * `image/jpeg` to show the content as `<img>`
+  * `image/svg+xml` to show the content as `<svg>`
+  * `application/json` to show the content as *JSON*
+  * `application/javascript` to put the content in `<script>` (discouraged)
+
+```html title="The HTML class"
+<!-- display escaped text:
+    &lt;em&gt;em&lt;/em&gt;
+-->
+<script type="mpy">
+    from pyscript import display, HTML
+    display("<em>em</em>")
+</script>
+
+<!-- display exactly this HTML:
+    <em>em</em>
+-->
+<script type="mpy">
+    from pyscript import display, HTML
+    display(HTML("<em>em</em>"))
+</script>
+```
+
+### `pyscript.RUNNING_IN_WORKER`
+
+This constant indicates when the current code is running within a *worker* or within the *main* thread.
+
+It is `True` when the current code is executing in a *worker*, `False` when the code is running on *main*.
+
 ## Main-thread only features
 
 ### `pyscript.PyWorker`
 
 A class used to instantiate a new worker from within Python.
 
-!!! danger 
+!!! Note
 
-    Currently this only works with Pyodide.
+    We currently changed names within the JS module's exports to
+    bootstrap and disambiguate `PyWorker` from `MPWorker` and
+    automatically use the right interpreter behind the scene.
+    The Python class currently is always named `PyWorker` and
+    it requires at least a valid `type` option, [among others](https://pyscript.github.io/polyscript/#xworker-options),
+    which must be either `micropython` or `pyodide`.
+    We will keep this feature alive but in the future this might default
+    to `pyodide` unless a new `MPWorker` class is also exported which will
+    default to `micropython` instead. The explicit `type` would still exist.
 
 The following fragment demonstrates who to start the Python code in the file
 `worker.py` on a new worker from within Python.
 
-```python title="Starting a new worker from Python"
-from pyscript import PyWorker
+```html title="Starting a new worker from Python"
+<script type="mpy">
+    from pyscript import PyWorker
 
+    # type can be either `micropython` or `pyodide`
+    PyWorker("worker.py", type="micropython")
+</script>
+<div id="output"></div>
+```
 
-a_worker = PyWorker("./worker.py")
+```python title="the worker.py content"
+from pyscript import RUNNING_IN_WORKER, display, sync
+
+display("Hello World", target="output", append=True)
+
+# will log into devtools console
+print(RUNNING_IN_WORKER)  # True
+print("sleeping")
+sync.sleep(1)
+print("awake")
 ```
 
 ## Worker only features
@@ -269,9 +421,9 @@ use of inline event handlers via custom HTML attributes.
     Mozilla [have a good explanation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these)
     of why this is currently considered bad practice.
 
-These attributes are expressed as `py-*` attributes of an HTML element that
+These attributes are expressed as `py-*` or `mpy-*` attributes of an HTML element that
 reference the name of a Python function to run when the event is fired. You
-should replace the `*` with the _actual name of an event_ (e.g. `py-click`).
+should replace the `*` with the _actual name of an event_ (e.g. `py-click` or `mpy-click`).
 This is similar to how all
 [event handlers on elements](https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers-on-elements,-document-objects,-and-window-objects)
 start with `on` in standard HTML (e.g. `onclick`). The rule of thumb is to
