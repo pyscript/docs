@@ -22,9 +22,16 @@ To setup the documentation development environment simply create a new
 virtual environment, then `pip install -r requirements.txt` (from in the root
 of this repository).
 
+```sh
+# example of a simple virtual environment
+# creation from the root of this project
+python -m venv .
+./bin/pip install -r requirements.txt
+```
+
 ## Build
 
-Simply run `mkdocs serve`
+Simply run `mkdocs serve` or `./bin/mkdocs serve`.
 
 ## Cross-referencing
 
