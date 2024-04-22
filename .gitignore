@@ -1,3 +1,7 @@
 _env
 site
 .DS_Store
+bin
+lib
+lib64
+pyvenv.cfg
