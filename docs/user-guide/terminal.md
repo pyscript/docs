@@ -74,3 +74,68 @@ that object:
 const myterm = document.querySelector("#my_script");
 await myterm.process('print("Hello world!")');
 ```
+
+## XTerm reference
+
+Each *terminal* has a reachable reference to the [Terminal](https://xtermjs.org/docs/api/terminal/classes/terminal/) instance used to bootstrap the current terminal.
+
+On the *JS* side, it's a `script.terminal` property while on the *Python* side, it's a `__terminal__` special reference that guarantees to provide the very same `script.terminal`:
+
+```html title="How to reach the XTerm Terminal"
+<script id="py-terminal" type="py" terminal worker>
+    from pyscript import document, ffi
+
+    # example: change default font-family
+    __terminal__.options = ffi.to_js({"fontFamily": "cursive"})
+
+    script = document.getElementById("py-terminal")
+    print(script.terminal == __terminal__)
+    # prints True with the defined font
+</script>
+```
+
+### Clear the terminal
+
+As part of the API, it's very simple to clear a PyTerminal:
+
+```html title="Clearing the terminal"
+<script type="mpy" terminal worker>
+    print("before")
+    __terminal__.clear()
+    print("after")
+    # only "after" is on the terminal
+</script>
+```
+
+### Terminal colors
+
+Not just colors, most special characters combination would work similarly to **bold** the text or make it **green**, or you can use `print('\033[2J')` to clear it, instead of using the exposed `clear()` method:
+
+```html title="Terminal colors"
+<script type="mpy" terminal worker>
+    print("This is \033[1mbold\033[0m")
+    print("This is \033[32mgreen\033[0m")
+    print("This is \033[1m\033[35mbold and purple\033[0m")
+</script>
+```
+
+### Terminal addons
+
+Because there is always a reference to the terminal, it's also possible to add any addon to it:
+
+```html title="Terminal addons"
+<py-config>
+    [js_modules.main]
+    "https://cdn.jsdelivr.net/npm/@xterm/addon-web-links/+esm" = "weblinks"
+</py-config>
+<script type="py" terminal>
+    from pyscript import js_modules
+
+    addon = js_modules.weblinks.WebLinksAddon.new()
+    __terminal__.loadAddon(addon)
+    
+    print("Check out https://pyscript.net/")
+</script>
+```
+
+Although it's worth mentioning that the `WebLinksAddon` is already part of the default terminal distribution in *PyScript*, but that's basically what we do behind the scene to enable it and [any other addon](https://github.com/xtermjs/xterm.js/tree/master/addons/) could work the same.
