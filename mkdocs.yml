@@ -74,6 +74,7 @@ nav:
     - The DOM &amp; JavaScript: user-guide/dom.md
     - Workers: user-guide/workers.md
     - Builtin helpers: user-guide/builtins.md
+    - FFI in detail: user-guide/ffi.md
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
     - Plugins: user-guide/plugins.md
