@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.1">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.3.1">
     
     
       
@@ -620,6 +620,27 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pyscriptcurrent_target" class="md-nav__link">
+    pyscript.current_target
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscripthtml" class="md-nav__link">
+    pyscript.HTML
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptrunning_in_worker" class="md-nav__link">
+    pyscript.RUNNING_IN_WORKER
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -878,6 +899,27 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pyscriptcurrent_target" class="md-nav__link">
+    pyscript.current_target
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscripthtml" class="md-nav__link">
+    pyscript.HTML
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptrunning_in_worker" class="md-nav__link">
+    pyscript.RUNNING_IN_WORKER
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -958,21 +1000,22 @@ Python as well as custom attributes in HTML.</p>
 <p>These Python objects / functions are available in both the main thread and in
 code running on a web worker:</p>
 <h3 id="pyscriptwindow"><code>pyscript.window</code></h3>
-<p>This object is a proxy for the web page's
+<p>On the main thread, this object is a direct reference to the <code>import js</code> module which, in turn, is a proxy of the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis">globalThis</a>.</p>
+<p>On a worker thread, this object is a proxy for the web page's
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window">global window context</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Please note that in workers, this is still the main window, not the
-worker's own global context. A worker's global context is reachable instead
-via <code>import js</code> (the <code>js</code> object being a proxy for the worker's
+worker's own global context. A worker's global context is always reachable
+instead via <code>import js</code> (the <code>js</code> object being a proxy for the worker's
 <code>globalThis</code>).</p>
 </div>
 <h3 id="pyscriptdocument"><code>pyscript.document</code></h3>
-<p>This object is a proxy for the the web page's
+<p>On both main and worker threads, this object is a proxy for the the web page's
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document">document object</a>.
 The <code>document</code> is a representation of the
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_Document_Object_Model">DOM</a>
-and can be used to manipulate the content of the web page.</p>
+and can be used to read or manipulate the content of the web page.</p>
 <h3 id="pyscriptdisplay"><code>pyscript.display</code></h3>
 <p>A function used to display content. The function is intelligent enough to
 introspect the object[s] it is passed and work out how to correctly display the
@@ -980,24 +1023,57 @@ object[s] in the web page.</p>
 <p>The <code>display</code> function takes a list of <code>*values</code> as its first argument, and has
 two optional named arguments:</p>
 <ul>
-<li><code>target=None</code> - the DOM element into which the content should be placed.</li>
+<li><code>target=None</code> - the DOM element into which the content should be placed.
+  If not specified, the <code>target</code> will use the <code>current_script()</code> returned id
+  and populate the related dedicated node to show the content.</li>
 <li><code>append=True</code> - a flag to indicate if the output is going to be appended to
   the <code>target</code>.</li>
 </ul>
 <p>There are some caveats:</p>
 <ul>
 <li>When used in the main thread, the <code>display</code> function automatically uses
-  the current <code>&lt;script&gt;</code> tag as the <code>target</code> into which the content will
-  be displayed.</li>
-<li>If the <code>&lt;script&gt;</code> tag has the <code>target</code> attribute, the element on the page
-  with that ID (or which matches that selector) will be used to display
-  the content instead.</li>
+  the current <code>&lt;py-script&gt;</code> or <code>&lt;mpy-script&gt;</code> tag as the <code>target</code> into which
+  the content will be displayed.</li>
+<li>If the <code>&lt;script&gt;</code> tag has the <code>target</code> attribute, and is not a worker,
+  the element on the page with that ID (or which matches that selector)
+  will be used to display the content instead.</li>
 <li>When used in a worker, the <code>display</code> function needs an explicit
   <code>target="dom-id"</code> argument to identify where the content will be
   displayed.</li>
 <li>In both the main thread and worker, <code>append=True</code> is the default
   behaviour.</li>
 </ul>
+<div class="language-html highlight"><span class="filename">Some display example</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">&lt;!-- will produce</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm">    &lt;py-script&gt;PyScript&lt;/py-script&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm">--&gt;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">&lt;</span><span class="nt">py-script</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    from pyscript import display
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    display(&quot;PyScript&quot;, append=False)
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">&lt;/</span><span class="nt">py-script</span><span class="p">&gt;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="cm">&lt;!-- will produce</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="cm">    &lt;script type=&quot;py&quot;&gt;...&lt;/script&gt;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="cm">    &lt;script-py&gt;PyScript&lt;/script-py&gt;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="cm">--&gt;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">display</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nx">display</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">append</span><span class="o">=</span><span class="nx">False</span><span class="p">)</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="cm">&lt;!-- will populate &lt;h1&gt;PyScript&lt;/h1&gt; --&gt;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">target</span><span class="o">=</span><span class="s">&quot;my-h1&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">display</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="nx">display</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">append</span><span class="o">=</span><span class="nx">False</span><span class="p">)</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-h1&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="cm">&lt;!-- will populate &lt;h2&gt;PyScript&lt;/h2&gt; --&gt;</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">display</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="nx">display</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="o">=</span><span class="s2">&quot;my-h2&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">append</span><span class="o">=</span><span class="nx">False</span><span class="p">)</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-h2&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></code></pre></div>
 <h3 id="pyscriptwhen"><code>pyscript.when</code></h3>
 <p>A Python decorator to indicate the decorated function should handle the
 specified events for selected elements.</p>
@@ -1013,20 +1089,20 @@ specified events for selected elements.</p>
 </ul>
 <p>The following example has a button with an id of <code>my_button</code> and a decorated
 function that handles <code>click</code> events dispatched by the button.</p>
-<div class="language-html highlight"><span class="filename">The HTML button</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my_button&quot;</span><span class="p">&gt;</span>Click me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<div class="language-html highlight"><span class="filename">The HTML button</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my_button&quot;</span><span class="p">&gt;</span>Click me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
 </span></code></pre></div>
-<div class="language-python highlight"><span class="filename">The decorated Python function to handle click events</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">when</span><span class="p">,</span> <span class="n">display</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;#my_button&quot;</span><span class="p">)</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">def</span> <span class="nf">click_handler</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="sd">    Event handlers get an event object representing the activity that raised</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="sd">    them.</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">display</span><span class="p">(</span><span class="s2">&quot;I&#39;ve been clicked!&quot;</span><span class="p">)</span>
+<div class="language-python highlight"><span class="filename">The decorated Python function to handle click events</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">when</span><span class="p">,</span> <span class="n">display</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;#my_button&quot;</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">def</span> <span class="nf">click_handler</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="sd">    Event handlers get an event object representing the activity that raised</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="sd">    them.</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">display</span><span class="p">(</span><span class="s2">&quot;I&#39;ve been clicked!&quot;</span><span class="p">)</span>
 </span></code></pre></div>
-<p>This functionality is related to the <a href="#html-attributes">HTML py-*</a> attributes.</p>
+<p>This functionality is related to the <code>py-*</code> or <code>mpy-*</code> <a href="#html-attributes">HTML attributes</a>.</p>
 <h3 id="pyscriptjs_modules"><code>pyscript.js_modules</code></h3>
 <p>It is possible to <a href="../configuration/#javascript-modules">define JavaScript modules to use within your Python code</a>.</p>
 <p>Such named modules will always then be available under the
@@ -1046,14 +1122,14 @@ in browsers with some important Pythonic differences.</p>
 order to use <code>await</code> you must have the <code>async</code> attribute in the <code>script</code> tag
 that references your code. If this request is in a function, that function
 should also be defined as <code>async</code>.</p>
-<div class="language-python highlight"><span class="filename">A simple HTTP GET with pyscript.fetch</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+<div class="language-python highlight"><span class="filename">A simple HTTP GET with pyscript.fetch</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
 </span></code></pre></div>
 <p>The object returned from an <code>await fetch</code> call will have attributes that
 correspond to the
@@ -1063,9 +1139,9 @@ processing the response's data.</p>
 <p>Alternatively, rather than using a double <code>await</code> (one to get the response, the
 other to grab the data), it's possible to chain the calls into a single
 <code>await</code> like this:</p>
-<div class="language-python highlight"><span class="filename">A simple HTTP GET as a single await</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+<div class="language-python highlight"><span class="filename">A simple HTTP GET as a single await</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
 </span></code></pre></div>
 <p>The following awaitable methods are available to you to access the data
 returned from the server:</p>
@@ -1079,10 +1155,10 @@ to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response/blob">
 </ul>
 <p>The underlying browser <code>fetch</code> API has <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options">many request options</a>
 that you should simply pass in as keyword arguments like this:</p>
-<div class="language-python highlight"><span class="filename">Supplying request options.</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="s2">&quot;HELLO&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+<div class="language-python highlight"><span class="filename">Supplying request options.</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="s2">&quot;HELLO&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
 </span></code></pre></div>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
@@ -1109,37 +1185,139 @@ event listener. It ensures the function still exists beyond the assignment of
 the function to an event. Should you not <code>create_proxy</code> around the callback
 function, it will be immediately garbage collected after being bound to the
 event.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In <em>Pyodide</em> it's expected that the created proxy is explicitly destroyed
+when it's not needed / used anymore but that <code>proxy.destroy()</code> method has
+not been implemented in <em>MicroPython</em> (yet).
+To try simplifying this dance and automatically destroy proxies, based on
+JS Garbage Collector heuristics, we have introduced an <strong>experimental flag</strong>
+called <code>experimental_create_proxy = "auto"</code> which currently tries to be
+smart enough to orchestrate the whole proxy creation and destruction dance
+out of the box.
+If you'd like to try that flag keep in mind you should never need or care about
+using explictly <em>create_proxy</em> but like it is with everything experimental,
+there might be edge cases we have not (yet) tackled.</p>
+</div>
+<h3 id="pyscriptcurrent_target"><code>pyscript.current_target</code></h3>
+<p>A utility function to retrieve the unique identifier of the element used
+to display content. If the element is not a <code>&lt;script&gt;</code> and it has already
+an <code>id</code>, that <code>id</code> will be returned.</p>
+<div class="language-html highlight"><span class="filename">The current_target utility</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cm">&lt;!-- current_target(): explicit-id --&gt;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">&lt;</span><span class="nt">mpy-script</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;explicit-id&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    from pyscript import display, current_target
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    display(f&quot;current_target(): {current_target()}&quot;)
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">&lt;/</span><span class="nt">mpy-script</span><span class="p">&gt;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="cm">&lt;!-- current_target(): mpy-0 --&gt;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">&lt;</span><span class="nt">mpy-script</span><span class="p">&gt;</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    from pyscript import display, current_target
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    display(f&quot;current_target(): {current_target()}&quot;)
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="p">&lt;/</span><span class="nt">mpy-script</span><span class="p">&gt;</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="cm">&lt;!-- current_target(): mpy-1 --&gt;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="cm">&lt;!-- creates right after the &lt;script&gt;:</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="cm">    &lt;script-py id=&quot;mpy-1&quot;&gt;</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="cm">        &lt;div&gt;current_target(): mpy-1&lt;/div&gt;</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="cm">    &lt;/script-py&gt;</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="cm">--&gt;</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">display</span><span class="p">,</span><span class="w"> </span><span class="nx">current_target</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="nx">display</span><span class="p">(</span><span class="nx">f</span><span class="s2">&quot;current_target(): {current_target()}&quot;</span><span class="p">)</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that <code>current_target()</code> points at a visible element on the page,
+<strong>not</strong> at the current <code>&lt;script&gt;</code> that is executing the code.
+If you need to explicitly reach the <code>&lt;script&gt;</code> element, you can always assign
+an <code>id</code> to it so that at any time, within any listener or functionality,
+you can <code>document.getElementById(script_id)</code> to reach out that element:
+<code>&lt;script type="mpy" id="unique-id"&gt;...&lt;/script&gt;</code></p>
+</div>
+<h3 id="pyscripthtml"><code>pyscript.HTML</code></h3>
+<p>A class utility able to wrap a generic content and display it on the page.
+The content can be any of these mime types:</p>
+<ul>
+<li><code>text/plain</code> to show the content as text</li>
+<li><code>text/html</code> to show the content as <em>HTML</em></li>
+<li><code>image/png</code> to show the content as <code>&lt;img&gt;</code></li>
+<li><code>image/jpeg</code> to show the content as <code>&lt;img&gt;</code></li>
+<li><code>image/svg+xml</code> to show the content as <code>&lt;svg&gt;</code></li>
+<li><code>application/json</code> to show the content as <em>JSON</em></li>
+<li><code>application/javascript</code> to put the content in <code>&lt;script&gt;</code> (discouraged)</li>
+</ul>
+<div class="language-html highlight"><span class="filename">The HTML class</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cm">&lt;!-- display escaped text:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="cm">    &amp;lt;em&amp;gt;em&amp;lt;/em&amp;gt;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="cm">--&gt;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">display</span><span class="p">,</span><span class="w"> </span><span class="nx">HTML</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nx">display</span><span class="p">(</span><span class="s2">&quot;&lt;em&gt;em&lt;/em&gt;&quot;</span><span class="p">)</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="cm">&lt;!-- display exactly this HTML:</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="cm">    &lt;em&gt;em&lt;/em&gt;</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="cm">--&gt;</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">display</span><span class="p">,</span><span class="w"> </span><span class="nx">HTML</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nx">display</span><span class="p">(</span><span class="nx">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;em&gt;em&lt;/em&gt;&quot;</span><span class="p">))</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="pyscriptrunning_in_worker"><code>pyscript.RUNNING_IN_WORKER</code></h3>
+<p>This constant indicates when the current code is running within a <em>worker</em> or within the <em>main</em> thread.</p>
+<p>It is <code>True</code> when the current code is executing in a <em>worker</em>, <code>False</code> when the code is running on <em>main</em>.</p>
 <h2 id="main-thread-only-features">Main-thread only features</h2>
 <h3 id="pyscriptpyworker"><code>pyscript.PyWorker</code></h3>
 <p>A class used to instantiate a new worker from within Python.</p>
-<div class="admonition danger">
-<p class="admonition-title">Danger</p>
-<p>Currently this only works with Pyodide.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We currently changed names within the JS module's exports to
+bootstrap and disambiguate <code>PyWorker</code> from <code>MPWorker</code> and
+automatically use the right interpreter behind the scene.
+The Python class currently is always named <code>PyWorker</code> and
+it requires at least a valid <code>type</code> option, <a href="https://pyscript.github.io/polyscript/#xworker-options">among others</a>,
+which must be either <code>micropython</code> or <code>pyodide</code>.
+We will keep this feature alive but in the future this might default
+to <code>pyodide</code> unless a new <code>MPWorker</code> class is also exported which will
+default to <code>micropython</code> instead. The explicit <code>type</code> would still exist.</p>
 </div>
 <p>The following fragment demonstrates who to start the Python code in the file
 <code>worker.py</code> on a new worker from within Python.</p>
-<div class="language-python highlight"><span class="filename">Starting a new worker from Python</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">a_worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
+<div class="language-html highlight"><span class="filename">Starting a new worker from Python</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">PyWorker</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">type</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">be</span><span class="w"> </span><span class="nx">either</span><span class="w"> </span><span class="sb">`micropython`</span><span class="w"> </span><span class="nx">or</span><span class="w"> </span><span class="sb">`pyodide`</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nx">PyWorker</span><span class="p">(</span><span class="s2">&quot;worker.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">type</span><span class="o">=</span><span class="s2">&quot;micropython&quot;</span><span class="p">)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;output&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-python highlight"><span class="filename">the worker.py content</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">RUNNING_IN_WORKER</span><span class="p">,</span> <span class="n">display</span><span class="p">,</span> <span class="n">sync</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">display</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># will log into devtools console</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">RUNNING_IN_WORKER</span><span class="p">)</span>  <span class="c1"># True</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sleeping&quot;</span><span class="p">)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">sync</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;awake&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="worker-only-features">Worker only features</h2>
 <h3 id="pyscriptsync"><code>pyscript.sync</code></h3>
 <p>A function used to pass serializable data from workers to the main thread. </p>
 <p>Imagine you have this code on the main thread:</p>
-<div class="language-python highlight"><span class="filename">Python code on the main thread</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">):</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">worker</span><span class="o">.</span><span class="n">sync</span><span class="o">.</span><span class="n">hello</span> <span class="o">=</span> <span class="n">hello</span>
+<div class="language-python highlight"><span class="filename">Python code on the main thread</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">PyWorker</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;world&quot;</span><span class="p">):</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">worker</span> <span class="o">=</span> <span class="n">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">worker</span><span class="o">.</span><span class="n">sync</span><span class="o">.</span><span class="n">hello</span> <span class="o">=</span> <span class="n">hello</span>
 </span></code></pre></div>
 <p>In the code on the worker, you can pass data back to handler functions like
 this:</p>
-<div class="language-python highlight"><span class="filename">Pass data back to the main thread from a worker</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">sync</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">sync</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">)</span>
+<div class="language-python highlight"><span class="filename">Pass data back to the main thread from a worker</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">sync</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">sync</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&quot;PyScript&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="html-attributes">HTML attributes</h2>
 <p>As a convenience, and to ensure backwards compatibility, PyScript allows the
@@ -1152,24 +1330,24 @@ considered good practice in web development circles.</p>
 Mozilla <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these">have a good explanation</a>
 of why this is currently considered bad practice.</p>
 </div>
-<p>These attributes are expressed as <code>py-*</code> attributes of an HTML element that
+<p>These attributes are expressed as <code>py-*</code> or <code>mpy-*</code> attributes of an HTML element that
 reference the name of a Python function to run when the event is fired. You
-should replace the <code>*</code> with the <em>actual name of an event</em> (e.g. <code>py-click</code>).
+should replace the <code>*</code> with the <em>actual name of an event</em> (e.g. <code>py-click</code> or <code>mpy-click</code>).
 This is similar to how all
 <a href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers-on-elements,-document-objects,-and-window-objects">event handlers on elements</a>
 start with <code>on</code> in standard HTML (e.g. <code>onclick</code>). The rule of thumb is to
 simply replace <code>on</code> with <code>py-</code> and then reference the name of a Python
 function.</p>
-<div class="language-html highlight"><span class="filename">A py-click event on an HTML button element.</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">py-click</span><span class="o">=</span><span class="s">&quot;handle_click&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my_button&quot;</span><span class="p">&gt;</span>Click me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<div class="language-html highlight"><span class="filename">A py-click event on an HTML button element.</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">py-click</span><span class="o">=</span><span class="s">&quot;handle_click&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my_button&quot;</span><span class="p">&gt;</span>Click me!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
 </span></code></pre></div>
-<div class="language-python highlight"><span class="filename">The related Python function.</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">def</span> <span class="nf">handle_click</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="sd">    Simply log the click event to the browser&#39;s console.</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">window</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>    
+<div class="language-python highlight"><span class="filename">The related Python function.</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="k">def</span> <span class="nf">handle_click</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="sd">    Simply log the click event to the browser&#39;s console.</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="n">window</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>    
 </span></code></pre></div>
 <p>Under the hood, the <a href="#pyscriptwhen"><code>pyscript.when</code></a> decorator is used to
 enable this behaviour.</p>
