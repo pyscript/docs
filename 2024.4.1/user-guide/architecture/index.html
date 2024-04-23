@@ -489,6 +489,26 @@
     PolyScript
   </a>
   
+    <nav class="md-nav" aria-label="PolyScript">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-contribute" class="md-nav__link">
+    How to contribute
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coincident" class="md-nav__link">
+    Coincident
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -792,6 +812,26 @@
     PolyScript
   </a>
   
+    <nav class="md-nav" aria-label="PolyScript">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-contribute" class="md-nav__link">
+    How to contribute
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coincident" class="md-nav__link">
+    Coincident
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -922,6 +962,35 @@ features, helper functions and easy-to-use yet powerful capabilities.</p>
   (in addition to Pyodide and MicroPython, PolyScript works with Lua and Ruby -
   although these are beyond the scope of this project).</li>
 </ul>
+<h4 id="how-to-contribute">How to contribute</h4>
+<p>The <em>Polyscript</em> scope can then be summarized as such:</p>
+<ul>
+<li>provide as little as possible abstraction to bootstrap different interpreters (Pyodide, MicroPython, R, Lua, Ruby, others ...) without affecting <em>PyScript</em> goal</li>
+<li>simplify the bootstrap of any interpreter through DOM primitives (script, custom-elements, or both ...)</li>
+<li>understand and parse any explicit configuration option (being this a file to parse or an already parsed object literal)</li>
+<li>forward any defined <strong>hook</strong> to the interpreter, either main or worker thread, so that code before, or right after, can be transparently executed</li>
+<li>orchestrate a single bootstrap per each involved element, being this a script or a <code>&lt;custom-script&gt;</code> on the living page</li>
+<li>ensure a <em>Worker</em>, optionally <em>Atomics</em> and <em>SharedArrayBuffer</em> based, stand-alone environment can be bootstrapped and available for at least not experimental runtime (Lua, Ruby, <a href="https://pyscript.github.io/polyscript/#interpreter-features">others</a>)</li>
+</ul>
+<p>While this is a simplification of all the things polyscript does behind the scene, the rule of thumb to "<em>blame</em>" <em>polyscript</em> for anything affecting your project/idea is likely:</p>
+<ul>
+<li>is my interpreter not loading?</li>
+<li>where are errors around my interpreter not loading?</li>
+<li>is my <em>HTML</em> event not triggering? (<code>py-*</code> or <code>mpy-*</code> or ...)</li>
+<li>how come this feature handled explicitly by <em>polyscript</em> is not reflected in my <em>PyScript</em> project? (this is likely and advanced issue/use case, but it's always OK to ask <em>why</em> in polyscript, and answers will flow accordingly)</li>
+</ul>
+<p>To summarize, as much as <em>PyScript</em> users should never encounter one of these issues, it is possible some specific feature request or issue might be enabled in polyscript first to land then in PyScript.</p>
+<h4 id="coincident">Coincident</h4>
+<p>At the core of <em>polyscript</em> project there is one extra project enabling all the seamless worker to main, and vice-versa, features called <a href="https://github.com/WebReflection/coincident#readme">coincident</a>.</p>
+<p>The purpose of this project is to enable, in a memory / garbage collector friendly way, a communication channel between one thread and another, handling the main thread dealing with workers references, or the other way around, as its best core feature.</p>
+<p>Anything strictly related to <em>SharedArrayBuffer</em> issues is then an orchestration <em>coincident</em> is handling, and to some extend also anything memory leak related could as well fall down to this module purpose and scope.</p>
+<p>In a nutshell, this project takes care of, and is responsible for, the following patterns:</p>
+<ul>
+<li>invoking something from a worker that refers the main thread somehow fails</li>
+<li>there is a reproducible and cross platform (browsers) memory leak to tackle</li>
+<li>some function invoke with some specific argument from a worker doesn't produce the expected result</li>
+</ul>
+<p>All these scenarios are unlikely to happen with <em>PyScript</em> project, as these are all battle tested and covered with such general purpose cross-env/realm oriented project way before landing in <em>PyScript</em>, but if you feel something is really off, leaking, or badly broken, please feel free to file an issue in this project and, once again, there is never a silly question about it so that, as long as you can provide any minimal reproducible issue, all questions and issues are more than welcome!</p>
 <h3 id="the-stack">The stack</h3>
 <p>The stack describes how the different building blocks <em>inside</em> a PyScript
 application relate to each other:</p>
