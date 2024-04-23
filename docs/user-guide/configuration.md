@@ -408,7 +408,7 @@ context:
 }
 ```
 
-However, `from polyscript.js_modules import html_escaper` would then only work
+However, `from pyscript.js_modules import html_escaper` would then only work
 within the context of Python code **running on a worker**.
 
 ### Custom 
