@@ -96,3 +96,22 @@ editor will be rendered:
 </script>
 <div id="editor"></div> <!-- will eventually contain the Python editor -->
 ```
+
+## Editor VS Terminal
+
+The main difference between these two core plugins is that a *py-editor*, or *mpy-editor*, is a custom orchestration a part and editors run in workers by default, mostly to prevent accidental blocking evaluation that could otherwise freeze the main thread UI (infinite loops or similar deadlocks).
+
+Because an editor is detached from the regular orchestration that happens with just *py* or *mpy* scripts, one should not expect the same behavior regular *PyScript* elements follow, most notably:
+
+  * the whole editor is based on [CodeMirror](https://codemirror.net/) and not on *XTerm.js* as it is for the *terminal*
+  * the code is evaluated all at once and *always async* when the *Run* button is pressed, not per each line
+  * the editor has listeners for `Ctrl-Enter`, or `Cmd-Enter`, plus `Shift-Enter` to shortcut the execution of the code. These shortcuts make no sense in the *terminal* as each line matters
+  * there is a clear separation of the input and the resulting output
+  * simple to complex programs can be written without executing
+  * there is no special reference to the underlying editor instance, while there is both `script.terminal` or `__terminal__` in the *terminal* case
+
+## Still missing
+
+As mentioned at the top of this section, the *PyEditor* is currently under further development and refinement, and it might land also as explicit custom element such as `<py-editor>` or `<mpy-editor>`, somehow simplifying the bootstrap through its content-aware element nature but right now these variants are *not* supported.
+
+Last, but not least, we currently don't have a mechanism to destroy a terminal or kill its execution from the worker so in case of infinite loops, the easy way out is to refresh the current page so that previous worker would get killed. We will eventually provide an easier way to kill and start fresh in the future.
