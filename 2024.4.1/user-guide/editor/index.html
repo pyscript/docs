@@ -580,6 +580,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -589,6 +600,39 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#editor-vs-terminal" class="md-nav__link">
+    Editor VS Terminal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-missing" class="md-nav__link">
+    Still missing
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -682,6 +726,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#editor-vs-terminal" class="md-nav__link">
+    Editor VS Terminal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-missing" class="md-nav__link">
+    Still missing
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -774,6 +840,20 @@ editor will be rendered:</p>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;editor&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span> <span class="cm">&lt;!-- will eventually contain the Python editor --&gt;</span>
 </span></code></pre></div>
+<h2 id="editor-vs-terminal">Editor VS Terminal</h2>
+<p>The main difference between these two core plugins is that a <em>py-editor</em>, or <em>mpy-editor</em>, is a custom orchestration a part and editors run in workers by default, mostly to prevent accidental blocking evaluation that could otherwise freeze the main thread UI (infinite loops or similar deadlocks).</p>
+<p>Because an editor is detached from the regular orchestration that happens with just <em>py</em> or <em>mpy</em> scripts, one should not expect the same behavior regular <em>PyScript</em> elements follow, most notably:</p>
+<ul>
+<li>the whole editor is based on <a href="https://codemirror.net/">CodeMirror</a> and not on <em>XTerm.js</em> as it is for the <em>terminal</em></li>
+<li>the code is evaluated all at once and <em>always async</em> when the <em>Run</em> button is pressed, not per each line</li>
+<li>the editor has listeners for <code>Ctrl-Enter</code>, or <code>Cmd-Enter</code>, plus <code>Shift-Enter</code> to shortcut the execution of the code. These shortcuts make no sense in the <em>terminal</em> as each line matters</li>
+<li>there is a clear separation of the input and the resulting output</li>
+<li>simple to complex programs can be written without executing</li>
+<li>there is no special reference to the underlying editor instance, while there is both <code>script.terminal</code> or <code>__terminal__</code> in the <em>terminal</em> case</li>
+</ul>
+<h2 id="still-missing">Still missing</h2>
+<p>As mentioned at the top of this section, the <em>PyEditor</em> is currently under further development and refinement, and it might land also as explicit custom element such as <code>&lt;py-editor&gt;</code> or <code>&lt;mpy-editor&gt;</code>, somehow simplifying the bootstrap through its content-aware element nature but right now these variants are <em>not</em> supported.</p>
+<p>Last, but not least, we currently don't have a mechanism to destroy a terminal or kill its execution from the worker so in case of infinite loops, the easy way out is to refresh the current page so that previous worker would get killed. We will eventually provide an easier way to kill and start fresh in the future.</p>
 
 
 
