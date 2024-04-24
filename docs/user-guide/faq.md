@@ -180,6 +180,10 @@ The same applies when the error is shown in devtools/console where unfortunately
 
 This area contains most common questions, hacks, or hints we provide to the community.
 
+!!! Note
+
+    We have a lovely *PyScript* contributor, namely [Jeff Glass](https://github.com/jeffersglass), who is maintaining an awesome blog full of [PyScript Recipes](https://pyscript.recipes/) with even more use cases and solutions. If you cannot find what you are looking for in here, please do check over there as it's very likely there is something close to the answer you are looking for.
+
 ### PyScript latest
 
 For various reasons previously discussed at length, we decided to remove our `latest` channel from our own CDN.
@@ -361,4 +365,67 @@ In this example we'll see MicroPython waving before Pyodide and finally an *ever
 </script>
 ```
 
+### Python Modules
 
+There are a few ways to host or include other modules in *PyScript*:
+
+  * having the module already part of either *Pyodide* or *MicroPython* distribution
+  * hosting on *GitHub* some file that need to be discovered and fetched at runtime as *package*
+  * provide your own `module.py` as single file to include in the File System
+  * create a folder with structured files and sub folders that can easily be *zipped* or *tar.gz* as unique entry, and let the File System do the rest
+
+#### Hosting on GitHub
+
+Beside modules already available behind the interpreter packages manager, it is possible to point directly at files in GitHub (or GitLab, or anywhere else the file can be downloaded without issues):
+
+```python title="MicroPython mip example"
+# Install default version from micropython-lib
+mip.install("keyword")
+
+# Install from raw URL
+mip.install("https://raw.githubusercontent.com/micropython/micropython-lib/master/python-stdlib/bisect/bisect.py")
+
+# Install from GitHub shortcut
+mip.install("github:jeffersglass/some-project/foo.py")
+```
+
+These URLs are recognized as *packages* entries in the *config* and as long as the URL allows *CORS* (fetching files from other domains) everything should be fine.
+
+#### Provide your own file
+
+Instead of using the *config* to define packages one can use the `files` field to bring modules in the runtime.
+
+```html title="Module as File"
+<mpy-config>
+[files]
+"./modules/bisect.py" = "./bisect.py"
+</mpy-config>
+<script type="mpy">
+  import bisect
+</script>
+```
+
+#### Zip or Tar Gz Modules
+
+With this approach it's possible to archive in a compressed way the module content with a simple to complex structure:
+
+```
+my_module/__init__.py
+my_module/util.py
+my_module/sub/sub_util.py
+```
+
+Once archived as `.zip` or as `.tar.gz` in a way that contains the *my_module* folder and its content, it's possible to host this remotely or simply have it reachable locally:
+
+```html title="Module as File"
+<mpy-config>
+[files]
+"./my_module.zip" = "./*"
+</mpy-config>
+<script type="mpy">
+  from my_module import util
+  from my_module.sub import sub_util
+</script>
+```
+
+Please **note** the `./*` convention, through a `.zip` or `.tar.gz` source, where the target folder with a star `*` will contain anything present in the source archive, in this example the whole *my_module* folder.
