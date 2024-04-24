@@ -275,3 +275,90 @@ class Modern {}
 // throws error: it requires `new Modern`
 Modern()
 ```
+
+### PyScript Events
+
+Beside *hooks*' lifecycle, *PyScript* also dispatches specific events that might help users to work around its state:
+
+#### m/py:ready
+
+Both `mpy:ready` and `py:ready` events are dispatched per every *PyScript* related element found on the page, being this a `<script type="py">`, a `<py-script>` or any *mpy* counterpart.
+
+Please **note** that these events are dispatched *right before* the code gets eventually executed, hence before the interpreter got a chance to run the code but always *after* the interpreter has already been bootstrapped.
+
+```html title="A py:ready example"
+<script>
+    addEventListener("py:ready", () => {
+        // show running for an instance
+        const status = document.getElementById("status");
+        status.textContent = 'running';
+    });
+</script>
+<!-- show bootstrapping right away -->
+<div id="status">bootstrapping</div>
+<script type="py" worker>
+    from pyscript import document
+
+    # show done after running
+    status = document.getElementById("status")
+    status.textContent = "done"
+</script>
+```
+
+As a matter of fact, if you are missing the previous *modal* showing a spinner while *pyodide* bootstrapped, it is fairly easy to provide a similar experience through this event: show a modal first, then close it once `py:ready` is triggered.
+
+!!! warning
+
+    On the *main* thread, *pyodide* blocks the *UI* until it's finished bootstrapping itself.
+    This means that previous example without `worker` attribute will skip rendering `running` text because it happens at the same *UI* update that happens after the code has been executed.
+    If needed, one can always `console.log` instead to be sure that event happened.
+
+#### m/py:done
+
+As the name might suggest, `mpy:done` and `py:done` events events are dispatched *after* the *sync* or *async* code has finished its execution.
+
+```html title="A py:done example"
+<script>
+    addEventListener("py:ready", () => {
+        // show running for an instance
+        const status = document.getElementById("status");
+        status.textContent = 'running';
+    });
+    addEventListener("py:done", () => {
+        // show done after logging "Hello 👋"
+        const status = document.getElementById("status");
+        status.textContent = 'done';
+    });
+</script>
+<!-- show bootstrapping right away -->
+<div id="status">bootstrapping</div>
+<script type="py" worker>
+    print("Hello 👋")
+</script>
+```
+
+!!! warning
+
+    If your async code never exits due some infinite loop or it uses some orchestration that keeps it running forever, such as `code` and `code.interact()` these events might never get triggered because the code actually is never really *done* so it cannot reach its own end of execution.
+
+#### py:all-done
+
+This event is special because it really groups all possible *mpy* or *py* scripts found on the page, no matter the interpreter.
+
+In this example we'll see MicroPython waving before Pyodide and finally an *everything is done* message in *devtools*.
+
+```html title="A py:all-done example"
+<script>
+    addEventListener("py:all-done", () => {
+        console.log("everything is done");
+    });
+</script>
+<script type="mpy" worker>
+    print("MicroPython 👋")
+</script>
+<script type="py" worker>
+    print("Pyodide 👋")
+</script>
+```
+
+
