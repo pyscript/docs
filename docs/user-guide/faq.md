@@ -190,7 +190,7 @@ For various reasons previously discussed at length, we decided to remove our `la
 
 We were not super proud of users trusting that channel coming back with suddenly broken projects so we now [release only official versions](https://github.com/pyscript/pyscript/releases) everyone can pin-point in time.
 
-We are also developing behind the scene through *npm* to be able to test in the wild breaking changes and what's not and it's no secret that *CDNs* could also deliver our "*canary*" or "*development*" channel so that we're better off telling you exactly which links one should use to have the latest, whenever latest lands on the *CDN* which is usually within 24 hours from the last *npm* version change.
+We are also developing behind the scene through *npm* to be able to test in the wild breaking changes and whatnot and it's no secret that *CDNs* could also deliver our "*canary*" or "*development*" channel so that we're better off telling you exactly which links one should use to have the latest, whenever latest lands on the *CDN* which is usually within 24 hours from the last *npm* version change.
 
 We still **do not guarantee any stability** around this channel so be aware this is never a good idea to use in production, documentation might lack behind landed changes, APIs might break or change too, and so on.
 
@@ -429,3 +429,104 @@ Once archived as `.zip` or as `.tar.gz` in a way that contains the *my_module* f
 ```
 
 Please **note** the `./*` convention, through a `.zip` or `.tar.gz` source, where the target folder with a star `*` will contain anything present in the source archive, in this example the whole *my_module* folder.
+
+### File System
+
+The first thing to understand about *PyScript* File System operations is that each interpreter provides *its own* *Virtual File System* that works **only in memory**.
+
+!!! Note
+
+    We don't have yet a way to provide a shared, user's browser persistent, File System, so that any time we load or store and then read files we're doing that through the *RAM* and the current session: nothing is shared, nothing is stored, nothing persists!
+
+#### Read/Write Content
+
+The easiest way to add content to the virtual *FS* is by using native *Python* files operations:
+
+```python title="Writing to a text file"
+with open("./test.txt", "w") as dest:
+    dest.write("hello vFS")
+    dest.close()
+
+# read the written content
+source = open("./test.txt", "r")
+print(source.read())
+source.close()
+```
+
+Combined with our `pyscript.fetch` utility, it's also possible to store from the web more complex data.
+
+```python title="Writing file as binary"
+# assume an `async` attribute / execution
+from pyscript import fetch, window
+
+href = window.location.href
+
+with open("./page.html", "wb") as dest:
+    dest.write(await fetch(href).bytearray())
+    dest.close()
+
+# read the current HTML page
+source = open("./page.html", "r")
+print(source.read())
+source.close()
+```
+
+#### Upload Content
+
+Through the DOM API it's possible to also upload a file and store it into the virtual *FS*.
+
+The following example is just one of the ways one can do that, but it's a pretty simple one and based on the very same code and logic already seen in the previous paragraph:
+
+```html title="Upload file into vFS"
+<input type="file">
+<script type="mpy">
+    from pyscript import document, fetch, window
+
+    async def on_change(event):
+        # per each file
+        for file in input.files:
+            # create a temporary URL
+            tmp = window.URL.createObjectURL(file)
+            # fetch and save its content somewhere
+            with open(f"./{file.name}", "wb") as dest:
+                dest.write(await fetch(tmp).bytearray())
+                dest.close()
+            # revoke the tmp URL
+            window.URL.revokeObjectURL(tmp)
+
+    input = document.querySelector("input[type=file]")
+    input.onchange = on_change
+</script>
+```
+
+#### Download Content
+
+Once a file is present in the virtual File System, it's always possible to create a temporary link which goal is to download such file:
+
+```python title="Download file from vFS"
+def download_file(path, mime_type):
+    from pyscript import document, ffi, window
+    import os
+    name = os.path.basename(path)
+    with open(path, "rb") as source:
+        data = source.read()
+
+        # this is Pyodide specific
+        buffer = window.Uint8Array.from_(data)
+        details = ffi.to_js({"type": mime_type})
+
+        # this is JS specific
+        file = window.File.new([buffer], name, details)
+        tmp = window.URL.createObjectURL(file)
+        dest = document.createElement("a")
+        dest.setAttribute("download", name)
+        dest.setAttribute("href", tmp)
+        dest.click()
+
+        # here a timeout to window.URL.revokeObjectURL(tmp)
+        # should keep the memory clear for the session
+```
+
+!!! warning
+
+    The presented utility works only on *Pyodide* at the moment, as there is no `from_` or `assign` convention in *MicroPython*. Once this is fixed or a better example is discovered the example will be updated too so that all of them should work in both interpreters.
