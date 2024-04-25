@@ -873,6 +873,67 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#create_proxy" class="md-nav__link">
+    create_proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="create_proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-pyodide" class="md-nav__link">
+    In Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-micropython" class="md-nav__link">
+    In MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_js" class="md-nav__link">
+    to_js
+  </a>
+  
+    <nav class="md-nav" aria-label="to_js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background_1" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    Caveats
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1090,6 +1151,67 @@
           <li class="md-nav__item">
   <a href="#download-content" class="md-nav__link">
     Download Content
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_proxy" class="md-nav__link">
+    create_proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="create_proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-pyodide" class="md-nav__link">
+    In Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-micropython" class="md-nav__link">
+    In MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_js" class="md-nav__link">
+    to_js
+  </a>
+  
+    <nav class="md-nav" aria-label="to_js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background_1" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    Caveats
   </a>
   
 </li>
@@ -1525,6 +1647,149 @@ If needed, one can always <code>console.log</code> instead to be sure that event
 <p class="admonition-title">Warning</p>
 <p>The presented utility works only on <em>Pyodide</em> at the moment, as there is no <code>from_</code> or <code>assign</code> convention in <em>MicroPython</em>. Once this is fixed or a better example is discovered the example will be updated too so that all of them should work in both interpreters.</p>
 </div>
+<h3 id="create_proxy">create_proxy</h3>
+<p>Explained in details <a href="../ffi/">in the ffi page</a>, it's probably useful to cover the <em>when</em> <code>create_proxy</code> is needed at all.</p>
+<p>To start with, there's a subtle difference between <em>Pyodide</em> and <em>MicroPython</em> around this topic, with or without using our <code>pyscript.ffi</code>, as it just forwards the utility behind scene.</p>
+<h5 id="background">Background</h5>
+<p>A <em>Python</em> function executed in the <em>JS</em> world inevitably needs to be wrapped in a way that, once executed, both its native (<em>Python</em>) function reference and any passed argument/parameter to such function can be normalized to <em>Python</em> references before such invocation happens.</p>
+<p>The <em>JS</em> primitive to do so is the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy</a> one, which enables "<em>traps</em>" such as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/apply">apply</a> to do extra work before any result is actually returned from such invocation.</p>
+<p>Once the <code>apply(target, self, args)</code> trap is invoked:</p>
+<ul>
+<li>the interpreter must find which <code>target</code> in the current <em>WASM</em> running code that needs to be invoked</li>
+<li>the <code>self</code> context for regular functions is likely ignored for common cases, but it's likely desired to eventually define <code>python.method()</code> invokes when these happen in the <em>JS</em> world</li>
+<li>the <code>args</code> is a list of passed arguments where any proxy coming from <em>Python</em> must be resolved as reference, any primitive might be eventually converted into its <em>Python</em> primitive representation, if needed, and any <em>JS</em> reference must be translated into <em>Python</em> like objects / references</li>
+</ul>
+<p>This orchestration might feel convoluted for many or obvious for others, yet the detail behind the scene is that such <code>target</code> reference <em>needs to exist</em> on the <em>WASM</em> runtime in order to be executed when the <em>JS</em> world asks for it ... so here the caveat: globally available functions might outlive any <em>JS</em> runtime interoperability in the <em>WASM</em> world but locally scoped or runtime functions cannot be retained forever!</p>
+<div class="language-python highlight"><span class="filename">A basic Python to JS callback</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">import</span> <span class="nn">js</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">js</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>  <span class="s2">&quot;custom:event&quot;</span><span class="p">,</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>  <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>In this scenario that <code>lambda</code> has no meaning or references in the running <em>Python</em> code, it's just delegated to the <em>JS</em> runtime / environment but it <em>must exist</em> whenever that <code>custom_event</code> is dispatched, hence triggered, or emitted, in the <em>JS</em> world.</p>
+<p>From a pure architectural point of view there is literally nothing that defines in that user explicit intent how long that <code>lambda</code> should be kept alive in the current <em>Python</em> program while from the <em>JS</em> point of view that callback might never even be needed or invoked (i.e. the <code>custom:event</code> never happens ... which is a forever pending <em>lambda</em> use case).</p>
+<p>Because all interpreters do care about memory consumption and have some <em>WASM</em> memory constrain to deal with, <code>create_proxy</code> (or any similar API) has been provided to delegate the responsibility to kill those references to the user, specially for unknown, in time, invocations scenarios like the one described in here.</p>
+<p><strong>On the other hand</strong>, when a <em>Python</em> callback is attached, as opposite of being just passed as argument, to a specific foreign instance, it is fairly easy for the <em>WASM</em> runtime to know when such <code>lambda</code> function, or any other non global function, could be freed from the memory.</p>
+<div class="language-python highlight"><span class="filename">A sticky lambda</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1"># logs &quot;click&quot; if nothing else stopped propagation</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">document</span><span class="o">.</span><span class="n">onclick</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span></code></pre></div>
+<p>"<em>How is that easy?</em>" is a valid question and the answer is that if the runtime has <em>JS</em> bindings, hence it's capable of dealing with <em>JS</em> references, that <code>document</code> would be a well known <em>JSProxy</em> that points to some underlying <em>JS</em> reference.</p>
+<p>In this case there's usually no need to use <code>create_proxy</code> because that reference is well understood and the interpreter can use the <em>FinalizationRegistry</em> to simply destroy that lambda, or decrease its reference counting, whenever the underlying <em>JS</em> reference is not needed anymore, hence finalized after its own release from <em>JS</em>.</p>
+<p>Sure thing this example is fairly poor, because a <code>document</code> reference in the <em>JS</em> world would live "<em>forever</em>", but if instead of a <code>document</code> there was a live DOM element, as soon as that element gets replaced and it's both not live or referenced anymore, the <em>FinalizationRegistry</em> would inform the <em>WASM</em> based runtime that such reference is gone, and whatever was attached to it behind the scene can be gone too.</p>
+<h4 id="in-pyodide">In Pyodide</h4>
+<p>The <code>create_proxy</code> utility is exported <a href="https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers">among others</a> to smooth out and circumvent memory leaks in the long run.</p>
+<p>Using it separately from other utilities though requires some special care, most importantly, it requires that the user invokes that <code>destroy()</code> method when such callback is not needed anymore, hence it requires users to mentally track callbacks lifecycle, but that's not always possible for at least these reasons:</p>
+<ul>
+<li>if the callback is passed to 3rd party libraries, the reference is kinda "<em>lost in a limbo</em>" where who knows when that reference could be actually freed</li>
+<li>if the callback is passed to listeners or timers, or even promises based operations, it's pretty unpredictable and counter intuitive, also a bad <em>DX</em>, to try to track those cases</li>
+</ul>
+<p>Luckily enough, the <em>Promise</em> use case is automatically handled by <em>Pyodide</em> runtime, but we're left with other cases:</p>
+<div class="language-python highlight"><span class="filename">Pyodide VS create_proxy</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># this is needed even if `print` won&#39;t ever need</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># to be freed from the Python runtime</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">create_proxy</span><span class="p">(</span><span class="nb">print</span><span class="p">),</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>  <span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>  <span class="s2">&quot;print&quot;</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="p">)</span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="c1"># this is needed not because `print` is used</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="c1"># but because otherwise the lambda is gone</span>
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span>
+</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">create_proxy</span><span class="p">(</span>
+</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>  <span class="p">),</span>
+</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>  <span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-22-18"><a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>  <span class="s2">&quot;lambda&quot;</span>
+</span><span id="__span-22-19"><a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="p">)</span>
+</span><span id="__span-22-20"><a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>
+</span><span id="__span-22-21"><a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a><span class="k">def</span> <span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-22-22"><a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span><span id="__span-22-23"><a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>
+</span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a><span class="c1"># this is needed even if `print_type`</span>
+</span><span id="__span-22-25"><a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a><span class="c1"># is not a scoped / local function, rather</span>
+</span><span id="__span-22-26"><a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a><span class="c1"># a never freed global reference in this Python code</span>
+</span><span id="__span-22-27"><a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a><span class="n">window</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
+</span><span id="__span-22-28"><a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a>  <span class="s2">&quot;some:event&quot;</span><span class="p">,</span>
+</span><span id="__span-22-29"><a id="__codelineno-22-29" name="__codelineno-22-29" href="#__codelineno-22-29"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">create_proxy</span><span class="p">(</span><span class="n">print_type</span><span class="p">),</span>
+</span><span id="__span-22-30"><a id="__codelineno-22-30" name="__codelineno-22-30" href="#__codelineno-22-30"></a>  <span class="c1"># despite this intent, the proxy</span>
+</span><span id="__span-22-31"><a id="__codelineno-22-31" name="__codelineno-22-31" href="#__codelineno-22-31"></a>  <span class="c1"># will be trapped forever if not destroyed</span>
+</span><span id="__span-22-32"><a id="__codelineno-22-32" name="__codelineno-22-32" href="#__codelineno-22-32"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">to_js</span><span class="p">({</span><span class="s2">&quot;once&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</span><span id="__span-22-33"><a id="__codelineno-22-33" name="__codelineno-22-33" href="#__codelineno-22-33"></a><span class="p">)</span>
+</span><span id="__span-22-34"><a id="__codelineno-22-34" name="__codelineno-22-34" href="#__codelineno-22-34"></a>
+</span><span id="__span-22-35"><a id="__codelineno-22-35" name="__codelineno-22-35" href="#__codelineno-22-35"></a><span class="c1"># this does NOT need create_function as it is</span>
+</span><span id="__span-22-36"><a id="__codelineno-22-36" name="__codelineno-22-36" href="#__codelineno-22-36"></a><span class="c1"># attached to an object reference, hence observed to free</span>
+</span><span id="__span-22-37"><a id="__codelineno-22-37" name="__codelineno-22-37" href="#__codelineno-22-37"></a><span class="n">window</span><span class="o">.</span><span class="n">Object</span><span class="p">()</span><span class="o">.</span><span class="n">no_create_function</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>To simplify some of this orchestration we landed the <code>experimental_create_proxy = "auto"</code> flag which goal is to intercept <em>JS</em> world callbacks invocation, and automatically proxy and destroy any proxy that is not needed or used anymore in the <em>JS</em> environment.</p>
+<p>Please give it a try and actually try to <em>not</em> ever use, or need, <code>create_proxy</code> at all, and tell us when it's needed instead, than you!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When it comes to <em>worker</em> based code, no <em>Proxy</em> can survive a roundtrip to the <em>main</em> thread and back.
+In this scenario we inevitably need to orchestrate the dance differently and reference instead <em>Python</em> callbacks, or een <em>JS</em> one, as these travel by their unique <em>id</em>, not their identity on the <em>worker</em>.
+We orchestrate the <em>free</em> dance automatically because nothing would work otherwise so that long story short, if your <em>pyodide</em> code runs from a <em>worker</em>, you likely never need to use <code>create_proxy</code> at all.</p>
+</div>
+<h4 id="in-micropython">In MicroPython</h4>
+<p>Things are definitively easier to reason about in this environment, but mostly because it doesn't expose (yet?) a <code>destroy()</code> utility for created proxies.</p>
+<p>Accordingly, using <code>create_proxy</code> in <em>micropython</em> might be needed only to have portable code, as proxies are created anyway when <em>Python</em> code refers to a callback and is passed to any <em>JS</em> utility, plus proxies won't be created multiple times if these were already proxy of some <em>Python</em> callback.</p>
+<p>All the examples that require <code>create_proxy</code> in <em>Pyodide</em>, won't bother <em>MicroPython</em> but these would be also kinda not needed in general.</p>
+<div class="language-python highlight"><span class="filename">MicroPython VS create_proxy</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># this works</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;print&quot;</span><span class="p">)</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># this also works</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">)</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="k">def</span> <span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="c1"># this works too</span>
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="n">window</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>  <span class="s2">&quot;some:event&quot;</span><span class="p">,</span>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>  <span class="n">print_type</span><span class="p">,</span>
+</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">to_js</span><span class="p">({</span><span class="s2">&quot;once&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</span><span id="__span-23-17"><a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="p">)</span>
+</span><span id="__span-23-18"><a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a>
+</span><span id="__span-23-19"><a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="c1"># and so does this</span>
+</span><span id="__span-23-20"><a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a><span class="n">window</span><span class="o">.</span><span class="n">Object</span><span class="p">()</span><span class="o">.</span><span class="n">no_create_function</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently <em>MicroPython</em> doesn't provide a <code>destroy()</code> method so it's actually preferred, in <em>MicroPython</em> projects, to not use or need the <code>create_proxy</code> because it lacks control over destroying it while it's up to the interpreter to decide when or how proxies can be destroyed.</p>
+</div>
+<h3 id="to_js">to_js</h3>
+<p>Also xplained in details <a href="../ffi/">in the ffi page</a>, it's probably useful to cover the <em>when</em> <code>to_js</code> is needed at all.</p>
+<h5 id="background_1">Background</h5>
+<p>Despite their similar look on the surface, <em>Python</em> dictionaries and <em>JS</em> object literals are very different primitives:</p>
+<div class="language-python highlight"><span class="filename">A Python dict</span><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">ref</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;some&quot;</span><span class="p">:</span> <span class="s2">&quot;thing&quot;</span><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-js highlight"><span class="filename">A JS literal</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">some</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;thing&quot;</span><span class="p">};</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="c1">// equally valid as ...</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;some&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;thing&quot;</span><span class="p">};</span>
+</span></code></pre></div>
+<p>In both worlds accessing <code>ref["some"]</code> would also produce the same result: pointing at <code>"value"</code> string as result. However, in <em>JS</em> <code>ref.some</code> would also return the very same <code>"value"</code> and while in <em>Python</em> <code>ref.get("some")</code> would do the same, some interpreter preferred to map dictionaries to <em>JS</em> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a> instead, probably because <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get">Map.get</a> is really close to what <em>Python</em> dictionaries expect.</p>
+<p>Long story short, <em>Pyodide</em> opted for that default conversion but unfortunately all <em>JS</em> APIs are usually expecting object literals, and <em>JS</em> maps don't really work seamlessly the same, so that it's possible to define a different <code>dict_converter</code> in <em>Pyodide</em>, but that definition is verbose and not too <em>DX</em> friendly:</p>
+<div class="language-python highlight"><span class="filename">A common Pyodide converter</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">import</span> <span class="nn">js</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="kn">from</span> <span class="nn">pyodide.ffi</span> <span class="kn">import</span> <span class="n">to_js</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="n">js</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">to_js</span><span class="p">(</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>        <span class="p">{</span><span class="s2">&quot;async&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>        <span class="c1"># transform a Map into an object literal</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>        <span class="n">dict_converter</span><span class="o">=</span><span class="n">js</span><span class="o">.</span><span class="n">Object</span><span class="o">.</span><span class="n">fromEntries</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>    <span class="p">)</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Beside the fact that <em>MicroPython</em> <code>to_js</code> implementation already converts, by default, <em>Python</em> dictionaries to <em>JS</em> literal, after some experience with common use cases around <em>Python</em> and <em>JS</em> interoperability, we decided to automatically provide an <code>ffi</code> that always results into a <em>JS</em> object literal, so that no converter, unless explicitly defined, would be needed to have the desired result out of the box.</p>
+<h4 id="caveats">Caveats</h4>
+<p>One fundamental thing to consider when <code>to_js</code> is used, is that it detaches the created reference from its original "<em>source</em>", in this case the <em>Python</em> dictionary, so that any change applied elsewhere to such reference won't ever be reflected to its original counterpart.</p>
+<p>This is probably one of the main reasons <em>Pyodide</em> sticked with the dictionary like proxy when it passes its reference to <em>JS</em> callbacks but at the same time no <em>JS</em> callback usually expect a foreign runtime reference to deal with, being this a <em>Python</em> one or any other programming language.</p>
+<p>Accordingly, if your <em>JS</em> code is written to explicitly target <em>Pyodide</em> kind of proxies, you probably never need to use <code>to_js</code> as that won't reflect changes to the <em>Python</em> runtime, if changes ever happen within the callback receiving such reference, but if you are just passing <em>data</em> around, data that can be represented as <em>JSON</em>, as example, to configure or pass some option argument to <em>JS</em>, you can simply use our <code>pyscript.ffi.to_js</code> utility and forget about all these details around the conversion: dictionaries will be object literals and lists or tuples will be arrays, that's all you need to remember!</p>
 
 
 
