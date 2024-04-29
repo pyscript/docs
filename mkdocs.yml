@@ -60,10 +60,7 @@ plugins:
 nav:
   - Home: index.md
   - Beginning PyScript: beginning-pyscript.md
-  - Code of Conduct: conduct.md
-  - Contributing: contributing.md
-  - Developer Guide: developers.md
-  - License: license.md
+  - Examples: examples.md
   - User guide:
     - Introduction: user-guide/index.md
     - What is PyScript?: user-guide/what.md
@@ -79,5 +76,8 @@ nav:
     - Python editor: user-guide/editor.md
     - Plugins: user-guide/plugins.md
     - Use Offline: user-guide/offline.md
-    - Example apps: user-guide/examples.md
-    - F.A.Q.: user-guide/faq.md
+  - FAQ: faq.md
+  - Contributing: contributing.md
+  - Developer Guide: developers.md
+  - Code of Conduct: conduct.md
+  - License: license.md

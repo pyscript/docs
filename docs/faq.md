@@ -1,4 +1,4 @@
-# F.A.Q.
+# FAQ
 
 This page contains most common questions and "*gotchas*" asked in [our Discord channel](https://discord.com/channels/972017612454232116/972017612454232119) or within our community.
 

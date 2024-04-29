@@ -2,12 +2,14 @@
 
 ## Core concepts 
 
-PyScript's architecture has two core concepts:
+PyScript's architecture has three core concepts:
 
 1. A small, efficient and powerful kernel called
    [PolyScript](https://github.com/pyscript/polyscript) is the foundation
    upon which PyScript and plugins are built.
-2. The PyScript [stack](https://en.wikipedia.org/wiki/Solution_stack) inside
+2. A library called [coincident](https://github.com/WebReflection/coincident#readme)
+   that simplifies and coordinates interactions with web workers.
+3. The PyScript [stack](https://en.wikipedia.org/wiki/Solution_stack) inside
    the browser is simple and clearly defined.
 
 ### PolyScript
@@ -24,7 +26,7 @@ core capabilities. Setting aside PyScript for a moment, to use
 *just PolyScript* requires a `<script>` reference to it, along with a further
 `<script>` tag defining how to run your code.
 
-```html title="Bootstrapping with PolyScript"
+```html title="Bootstrapping with just PolyScript"
 <!doctype html>
 <html>
     <head>
@@ -74,41 +76,53 @@ PolyScript's capabilities, upon which PyScript is built, can be summarised as:
   (in addition to Pyodide and MicroPython, PolyScript works with Lua and Ruby -
   although these are beyond the scope of this project).
 
-#### How to contribute
+PolyScript may become important if you encounter problems with PyScript. You
+should investigate PolyScript if any of the following is true about your
+problem:
 
-The *Polyscript* scope can then be summarized as such:
+* The interpreter fails to load.
+* There are errors about the interpreter starting.
+* HTML events (e.g. `py-*` or `mpy-*`) are not triggered.
+* An explicit feature of PolyScript is not reflected in PyScript.
 
-  * provide as little as possible abstraction to bootstrap different interpreters (Pyodide, MicroPython, R, Lua, Ruby, others ...) without affecting *PyScript* goal
-  * simplify the bootstrap of any interpreter through DOM primitives (script, custom-elements, or both ...)
-  * understand and parse any explicit configuration option (being this a file to parse or an already parsed object literal)
-  * forward any defined **hook** to the interpreter, either main or worker thread, so that code before, or right after, can be transparently executed
-  * orchestrate a single bootstrap per each involved element, being this a script or a `<custom-script>` on the living page
-  * ensure a *Worker*, optionally *Atomics* and *SharedArrayBuffer* based, stand-alone environment can be bootstrapped and available for at least not experimental runtime (Lua, Ruby, [others](https://pyscript.github.io/polyscript/#interpreter-features))
+We encourage you to engage and ask questions about PolyScript on our
+[discord server](https://discord.gg/HxvBtukrg2). But in summary, as a user of
+PyScript you should probably never encounter PolyScript. However, please be
+aware that specific features of bug fixes my happen in the PolyScript layer in
+order to then land in PyScript.
 
-While this is a simplification of all the things polyscript does behind the scene, the rule of thumb to "*blame*" *polyscript* for anything affecting your project/idea is likely:
+### Coincident
 
-  * is my interpreter not loading?
-  * where are errors around my interpreter not loading?
-  * is my *HTML* event not triggering? (`py-*` or `mpy-*` or ...)
-  * how come this feature handled explicitly by *polyscript* is not reflected in my *PyScript* project? (this is likely and advanced issue/use case, but it's always OK to ask *why* in polyscript, and answers will flow accordingly)
+!!! danger 
 
-To summarize, as much as *PyScript* users should never encounter one of these issues, it is possible some specific feature request or issue might be enabled in polyscript first to land then in PyScript.
+    Unless you are an advanced user, you only need to know that coincident
+    exists, and it can be safely ignored. As with PolyScript, we include these
+    details only for those interested in the more fundamental aspects of
+    PyScript.
 
-#### Coincident
+PolyScript uses the
+[coincident](https://github.com/WebReflection/coincident#readme) library to
+seamlessly interact with web workers and coordinate interactions between the
+browser's main thread and such workers.
 
-At the core of *polyscript* project there is one extra project enabling all the seamless worker to main, and vice-versa, features called [coincident](https://github.com/WebReflection/coincident#readme).
+Any `SharedArrayBuffer` issues are the responsibility of coincident and, to
+some extent, anything related to memory leaks.
 
-The purpose of this project is to enable, in a memory / garbage collector friendly way, a communication channel between one thread and another, handling the main thread dealing with workers references, or the other way around, as its best core feature.
+In a nutshell, this project is likely responsible for the following modes of
+failure:
 
-Anything strictly related to *SharedArrayBuffer* issues is then an orchestration *coincident* is handling, and to some extend also anything memory leak related could as well fall down to this module purpose and scope.
+* Failing to invoke something from a worker that refers to the main thread.
+* A reproducible and cross platform (browser based) memory leak.
+* Invoking a function with a specific argument from a worker that doesn't
+  produce the expected result.
 
-In a nutshell, this project takes care of, and is responsible for, the following patterns:
-
-  * invoking something from a worker that refers the main thread somehow fails
-  * there is a reproducible and cross platform (browsers) memory leak to tackle
-  * some function invoke with some specific argument from a worker doesn't produce the expected result
-
-All these scenarios are unlikely to happen with *PyScript* project, as these are all battle tested and covered with such general purpose cross-env/realm oriented project way before landing in *PyScript*, but if you feel something is really off, leaking, or badly broken, please feel free to file an issue in this project and, once again, there is never a silly question about it so that, as long as you can provide any minimal reproducible issue, all questions and issues are more than welcome!
+We hope all these scenarios are unlikely to happen within a *PyScript* project.
+They are all battle tested and covered with general purpose cross-environment
+testing before landing in *PyScript*. But, if you feel something is odd,
+leaking, or badly broken, please feel free to file an issue in
+[the coincident project](https://github.com/WebReflection/coincident/issues).
+As usual, there is never a silly question, so long as you provide a minimal
+reproducible example in your bug reports or query.
 
 ### The stack
 
@@ -123,8 +137,7 @@ application relate to each other:
 
 !!! failure
 
-    PyScript is simply Python running in the browser. It is an unfamiliar
-    concept that some fail to remember.
+    PyScript is simply Python running in the browser. **Please remember**:
 
     * PyScript isn't running on a server hosted in the cloud.
     * PyScript doesn't use the version of Python running natively on the user's
@@ -165,8 +178,8 @@ Here's how PyScript unfolds through time:
        attribute of a `<script>`, `<py-script>` or `<mpy-script>` tag).
     3. Given the detected configuration, download the required interpreter.
     4. Setup the interpreter's environment. This includes any
-       [plugins](configuration.md/#plugins), [packages](configuration.md/#packages), [files](configuration.md/#files) or [JavaScript modules](configuration.md/#javascript-modules)that need
-       to be loaded.
+       [plugins](configuration.md/#plugins), [packages](configuration.md/#packages), [files](configuration.md/#files) or [JavaScript modules](configuration.md/#javascript-modules) 
+       that need to be loaded.
     5. Make available various
        [builtin helper objects and functions](builtins.md) to the
        interpreter's environment (accessed via the `pyscript` module).
@@ -200,7 +213,7 @@ behaviour of PyScript. The hooks, and how to use them, are explored further in
 
 Python is an interpreted language, and thus needs an interpreter to work.
 
-PyScript supports two versions of the Python interpreter that have
+PyScript currently supports two versions of the Python interpreter that have
 been compiled to WASM: Pyodide and MicroPython. You should select which one to
 use depending on your use case and acceptable trade-offs.
 
@@ -281,7 +294,8 @@ with these devices often uses (slower) mobile internet connections.
 Furthermore, because MicroPython is lean and efficient it still performs
 exceptionally well on these relatively underpowered devices.
 
-Thanks to collaboration between the MicroPython and PyScript projects, there is
-a foreign function interface for MicroPython. The MicroPython FFI deliberately
-copies the API of the FFI originally written for Pyodide - meaning it is
-relatively easy to migrate between the two supported interpreters.
+Thanks to collaboration between the MicroPython, Pyodide and PyScript projects,
+there is a foreign function interface for MicroPython. The MicroPython FFI
+deliberately copies the API of the FFI originally written for Pyodide - meaning
+it is relatively easy to migrate between the two supported interpreters via the
+`pyscript.ffi` namespace.

@@ -12,12 +12,12 @@
 
     We [welcome constructive feedback](https://github.com/pyscript/docs/issues).
 
-This guide has three aims:
+Our docs have three aims:
 
 1. A [clear overview](what.md) of all things PyScript.
 2. [Exploration of PyScript](architecture.md) in substantial technical detail.
 3. Demonstration of the features of PyScript working together in
-   [real-world example applications](examples.md).
+   [real-world example applications](../examples.md).
 
 _Read this user guide in full_: it is a short but comprehensive overview of the
 PyScript platform.
@@ -29,7 +29,7 @@ projects with PyScript. Should you wish to engage with the development of
 PyScript, you are welcome to contribute via 
 [the project's GitHub organisation](https://github.com/pyscript).
 
-Finally, the projects at the end of this guide are all freely available
+Finally, the example projects referenced in our docs are all freely available
 and copiously commented on [pyscript.com](https://pyscript.com).
 
 !!! note

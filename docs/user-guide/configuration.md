@@ -260,12 +260,15 @@ installer.
 !!! warning
 
     Because `micropip` is a Pyodide-only feature, and MicroPython doesn't
-    support code packaged on PyPI, **the `packages` option is only available
-    for use with Pyodide**.
+    support code packaged on PyPI, **the `packages` option only works with PyPI
+    with Pyodide**.
 
-    If you need **Python modules for MicroPython**, use the
-    [files](#files) option to manually copy the source code onto the
-    file system.
+    If you need **Python modules for MicroPython**, you have two options:
+
+    1. Use the [files](#files) option to manually copy the source code for a
+       package onto the file system.
+    2. Use a URL referencing a MicroPython friendly package instead of PyPI
+       package name.
 
 The following two examples are equivalent:
 
@@ -279,7 +282,8 @@ packages = ["arrr", "numberwang", "snowballstemmer>=2.2.0" ]
 }
 ```
 
-The names in the list of `packages` can be any of the following valid forms:
+When using Pyodide, the names in the list of `packages` can be any of the
+following valid forms:
 
 * A name of a package on PyPI: `"snowballstemmer"`
 * A name for a package on PyPI with additional constraints:
@@ -318,9 +322,10 @@ plugins = ["custom_plugin", "!error"]
 
 It's easy to import and use JavaScript modules in your Python code. This
 section of the docs examines the configuration needed to make this work. How
-to make use of JavaScript is dealt with [elsewhere](../dom/#working-with-javascript).
+to make use of JavaScript is dealt with
+[elsewhere](../dom/#working-with-javascript).
 
-To do so, requires telling PyScript about the JavaScript modules you want to
+We need to tell PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
 
 There are two fields:
@@ -331,7 +336,7 @@ There are two fields:
   need CSS files to work, and these can also be specified.
 * `js_modules.worker` defines JavaScript modules loaded into the context of
   the web worker. Such modules **must not expect** `document` or `window`
-  references (if this is the case,you must load them via `js_modules.main` and
+  references (if this is the case, you must load them via `js_modules.main` and
   use them from the worker). However, if the JavaScript module could work
   without such references, then performance is better if defined on a worker.
   Because CSS is meaningless in the context of a worker, it is not possible to
@@ -410,6 +415,34 @@ context:
 
 However, `from pyscript.js_modules import html_escaper` would then only work
 within the context of Python code **running on a worker**.
+
+### experimental_create_proxy
+
+Knowing when to use the `pyscript.ffi.create_proxy` method when using Pyodide
+can be confusing at the best of times and full of
+[technical "magic"](../ffi#create_proxy).
+
+This _experimental_ flag, when set to `"auto"` will cause PyScript to try to
+automatically handle such situations, and should "just work".
+
+```TOML title="Using the experimental_create_proxy flag in TOML."
+experimental_create_proxy = "auto"
+```
+
+```JSON title="Using the experimental_create_proxy flag in JSON."
+{
+    "experimental_create_proxy": "auto"
+}
+```
+
+!!! warning
+
+    **This feature is _experimental_ and only needs to be used with Pyodide.**
+
+    Should you encounter problems (such as problematic memory leaks) when using
+    this flag with Pyodide, please don't hesitate to
+    [raise an issue](https://github.com/pyscript/pyscript/issues) with a
+    reproducable example, and we'll investigate.
 
 ### Custom 
 

@@ -74,8 +74,8 @@
 
     <p>This approach ensures a clear separation of concerns: PolyScript
     can focus on being small, efficient and powerful, whereas the PyScript
-    related plugins allow us to build upon the solid foundations of
-    PolyScript.</p>
+    related plugins allow us to Pythonically build upon the solid foundations
+    of PolyScript.</p>
 
     <p>Because there is a plugin system, folks
     <em>independent of the PyScript core team</em> have a way to create and

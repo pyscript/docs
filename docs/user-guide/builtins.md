@@ -1,7 +1,6 @@
 # Builtin helpers
 
-PyScript makes available convenience objects and functions inside
-Python as well as custom attributes in HTML.
+PyScript makes available convenience objects, functions and attributes.
 
 In Python this is done via the `pyscript` module:
 
@@ -9,7 +8,8 @@ In Python this is done via the `pyscript` module:
 from pyscript import document
 ```
 
-In HTML this is done via `py-*` attributes:
+In HTML this is done via `py-*` and `mpy-*` attributes (depending on the
+interpreter you're using):
 
 ```html title="An example of a py-click handler"
 <button id="foo" py-click="handler_defined_in_python">Click me</button>
@@ -22,17 +22,22 @@ code running on a web worker:
 
 ### `pyscript.window`
 
-On the main thread, this object is a direct reference to the `import js` module which, in turn, is a proxy of the [globalThis](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis).
+On the main thread, this object is exactly the same as `import js` which, in
+turn, is a proxy of JavaScript's
+[globalThis](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)
+object.
 
 On a worker thread, this object is a proxy for the web page's
 [global window context](https://developer.mozilla.org/en-US/docs/Web/API/Window).
 
 !!! warning
 
-    Please note that in workers, this is still the main window, not the
-    worker's own global context. A worker's global context is always reachable
-    instead via `import js` (the `js` object being a proxy for the worker's
-    `globalThis`).
+    The reference for `pyscript.window` is **always** a reference to the main
+    thread's global window context.
+
+    If you're running code in a worker this is **not the worker's own global
+    context**. A worker's global context is always reachable via `import js`
+    (the `js` object being a proxy for the worker's `globalThis`).
 
 ### `pyscript.document`
 
@@ -46,7 +51,15 @@ and can be used to read or manipulate the content of the web page.
 
 A function used to display content. The function is intelligent enough to
 introspect the object[s] it is passed and work out how to correctly display the
-object[s] in the web page.
+object[s] in the web page based on the following mime types:
+
+* `text/plain` to show the content as text
+* `text/html` to show the content as *HTML*
+* `image/png` to show the content as `<img>`
+* `image/jpeg` to show the content as `<img>`
+* `image/svg+xml` to show the content as `<svg>`
+* `application/json` to show the content as *JSON*
+* `application/javascript` to put the content in `<script>` (discouraged)
 
 The `display` function takes a list of `*values` as its first argument, and has
 two optional named arguments:
@@ -72,7 +85,7 @@ There are some caveats:
   behaviour.
 
 
-```html title="Some display example"
+```html title="Various display examples"
 <!-- will produce
     <py-script>PyScript</py-script>
 -->
@@ -197,26 +210,39 @@ data = await fetch("https://example.com").text()
 The following awaitable methods are available to you to access the data
 returned from the server:
 
-* `arrayBuffer()` returns a Python [memoryview](https://docs.python.org/3/library/stdtypes.html#memoryview) of the response. This is equivalent to the [`arrayBuffer()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer) in the browser based `fetch` API.
-* `blob()` returns a JavaScript [`blob`](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) version of the response. This is equivalent
-to the [`blob()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob) in the browser based `fetch` API.
-* `bytearray()` returns a Python [`bytearray`](https://docs.python.org/3/library/stdtypes.html#bytearray) version of the response.
-* `json()` returns a Python datastructure representing a JSON serialised payload in the response.
+* `arrayBuffer()` returns a Python
+  [memoryview](https://docs.python.org/3/library/stdtypes.html#memoryview) of
+  the response. This is equivalent to the
+  [`arrayBuffer()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/arrayBuffer)
+  in the browser based `fetch` API.
+* `blob()` returns a JavaScript
+  [`blob`](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob)
+  version of the response. This is equivalent to the
+  [`blob()` method](https://developer.mozilla.org/en-US/docs/Web/API/Response/blob)
+  in the browser based `fetch` API.
+* `bytearray()` returns a Python
+  [`bytearray`](https://docs.python.org/3/library/stdtypes.html#bytearray)
+  version of the response.
+* `json()` returns a Python datastructure representing a JSON serialised
+  payload in the response.
 * `text()` returns a Python string version of the response.
 
-The underlying browser `fetch` API has [many request options](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options)
+The underlying browser `fetch` API has
+[many request options](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options)
 that you should simply pass in as keyword arguments like this:
 
 ```python title="Supplying request options."
 from pyscript import fetch
 
 
-response = await fetch("https://example.com", method="POST", body="HELLO").text()
+result = await fetch("https://example.com", method="POST", body="HELLO").text()
 ```
 
 !!! Danger
 
-    You may encounter [CORS](https://developer.mozilla.org/en-US/docs/Glossary/CORS) errors (especially with reference to a missing
+    You may encounter
+    [CORS](https://developer.mozilla.org/en-US/docs/Glossary/CORS)
+    errors (especially with reference to a missing
     [Access-Control-Allow-Origin header](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin).
 
     This is a security feature of modern browsers where the site to which you
@@ -238,6 +264,8 @@ equivalents. For example, a Python dictionary is converted into a JavaScript
 object literal (rather than a JavaScript `Map`), unless a `dict_converter`
 is explicitly specified and the runtime is Pyodide.
 
+The technical details of how this works are [described here](../ffi#to_js).
+
 ### `pyscript.ffi.create_proxy`
 
 A utility function explicitly for when a callback function is added via an
@@ -248,22 +276,32 @@ event.
 
 !!! warning
 
-    In *Pyodide* it's expected that the created proxy is explicitly destroyed
-    when it's not needed / used anymore but that `proxy.destroy()` method has
-    not been implemented in *MicroPython* (yet).
-    To try simplifying this dance and automatically destroy proxies, based on
-    JS Garbage Collector heuristics, we have introduced an **experimental flag**
-    called `experimental_create_proxy = "auto"` which currently tries to be
-    smart enough to orchestrate the whole proxy creation and destruction dance
-    out of the box.
-    If you'd like to try that flag keep in mind you should never need or care about
-    using explictly *create_proxy* but like it is with everything experimental,
-    there might be edge cases we have not (yet) tackled.
+    There is some technical complexity to this situation, and we have attempted
+    to create a mechanism where `create_proxy` is never needed.
+
+    *Pyodide* expects the created proxy to be explicitly destroyed when it's
+    not needed / used anymore. However, the underlying `proxy.destroy()` method
+    has not been implemented in *MicroPython* (yet).
+
+    To simplify this situation and automatically destroy proxies based on
+    JavaScript memory management (garbage collection) heuristics, we have
+    introduced an **experimental flag**:
+
+    ```toml
+    experimental_create_proxy = "auto"
+    ```
+
+    This flag ensures the proxy creation and destruction process is managed for
+    you. When using this flag you should never need to explicitly call
+    `create_proxy`.
+
+The technical details of how this works are
+[described here](../ffi#create_proxy).
 
 ### `pyscript.current_target`
 
 A utility function to retrieve the unique identifier of the element used
-to display content. If the element is not a `<script>` and it has already
+to display content. If the element is not a `<script>` and it already has
 an `id`, that `id` will be returned.
 
 ```html title="The current_target utility"
@@ -293,49 +331,42 @@ an `id`, that `id` will be returned.
 
 !!! Note
 
-    Please note that `current_target()` points at a visible element on the page,
-    **not** at the current `<script>` that is executing the code.
-    If you need to explicitly reach the `<script>` element, you can always assign
-    an `id` to it so that at any time, within any listener or functionality,
-    you can `document.getElementById(script_id)` to reach out that element:
-    `<script type="mpy" id="unique-id">...</script>`
+    The return value of `current_target()` always references a visible element
+    on the page, **not** at the current `<script>` that is executing the code.
+
+    To reference the `<script>` element executing the code, assign it an `id`:
+
+    ```html
+    <script type="mpy" id="unique-id">...</script>
+    ```
+
+    Then use the standard `document.getElementById(script_id)` function to
+    return a reference to it in your code.
 
 ### `pyscript.HTML`
 
-A class utility able to wrap a generic content and display it on the page.
-The content can be any of these mime types:
-
-  * `text/plain` to show the content as text
-  * `text/html` to show the content as *HTML*
-  * `image/png` to show the content as `<img>`
-  * `image/jpeg` to show the content as `<img>`
-  * `image/svg+xml` to show the content as `<svg>`
-  * `application/json` to show the content as *JSON*
-  * `application/javascript` to put the content in `<script>` (discouraged)
+A class to wrap generic content and display it as un-escaped HTML on the page.
 
 ```html title="The HTML class"
-<!-- display escaped text:
-    &lt;em&gt;em&lt;/em&gt;
--->
 <script type="mpy">
     from pyscript import display, HTML
-    display("<em>em</em>")
+
+    # Escaped by default:
+    display("<em>em</em>")  # &lt;em&gt;em&lt;/em&gt;
 </script>
 
-<!-- display exactly this HTML:
-    <em>em</em>
--->
 <script type="mpy">
     from pyscript import display, HTML
-    display(HTML("<em>em</em>"))
+
+    # Un-escaped raw content inserted into the page:
+    display(HTML("<em>em</em>"))  # <em>em</em>
 </script>
 ```
 
 ### `pyscript.RUNNING_IN_WORKER`
 
-This constant indicates when the current code is running within a *worker* or within the *main* thread.
-
-It is `True` when the current code is executing in a *worker*, `False` when the code is running on *main*.
+This constant flag is `True` when the current code is running within a
+*worker*. It is `False` when the code is running within the *main* thread.
 
 ## Main-thread only features
 
@@ -345,30 +376,16 @@ A class used to instantiate a new worker from within Python.
 
 !!! Note
 
-    We currently changed names within the JS module's exports to
-    bootstrap and disambiguate `PyWorker` from `MPWorker` and
-    automatically use the right interpreter behind the scene.
-    The Python class currently is always named `PyWorker` and
-    it requires at least a valid `type` option, [among others](https://pyscript.github.io/polyscript/#xworker-options),
-    which must be either `micropython` or `pyodide`.
-    We will keep this feature alive but in the future this might default
-    to `pyodide` unless a new `MPWorker` class is also exported which will
-    default to `micropython` instead. The explicit `type` would still exist.
+    Sometimes we disambiguate between interpreters through naming conventions
+    (e.g. `py` or `mpy`).
 
-The following fragment demonstrates who to start the Python code in the file
-`worker.py` on a new worker from within Python.
+    However, it is always `PyWorker` and the desired interpreter is specified
+    via a `type` option which must be either `micropython` or `pyodide`.
 
-```html title="Starting a new worker from Python"
-<script type="mpy">
-    from pyscript import PyWorker
+The following fragments demonstrate how to evaluate the file `worker.py` on a
+new worker from within Python.
 
-    # type can be either `micropython` or `pyodide`
-    PyWorker("worker.py", type="micropython")
-</script>
-<div id="output"></div>
-```
-
-```python title="the worker.py content"
+```python title="worker.py - the file to run in the worker."
 from pyscript import RUNNING_IN_WORKER, display, sync
 
 display("Hello World", target="output", append=True)
@@ -378,6 +395,18 @@ print(RUNNING_IN_WORKER)  # True
 print("sleeping")
 sync.sleep(1)
 print("awake")
+```
+
+```python title="main.py - starts a new worker in Python."
+from pyscript import PyWorker
+
+# type can be either `micropython` or `pyodide`
+PyWorker("worker.py", type="micropython")
+```
+
+```html title="The HTML context for the worker."
+<script type="mpy" src="./main.py">
+<div id="output"></div>  <!-- The display target -->
 ```
 
 ## Worker only features
@@ -421,14 +450,14 @@ use of inline event handlers via custom HTML attributes.
     Mozilla [have a good explanation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these)
     of why this is currently considered bad practice.
 
-These attributes are expressed as `py-*` or `mpy-*` attributes of an HTML element that
+These attributes, expressed as `py-*` or `mpy-*` attributes of an HTML element,
 reference the name of a Python function to run when the event is fired. You
-should replace the `*` with the _actual name of an event_ (e.g. `py-click` or `mpy-click`).
-This is similar to how all
+should replace the `*` with the _actual name of an event_ (e.g. `py-click` or
+`mpy-click`). This is similar to how all
 [event handlers on elements](https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers-on-elements,-document-objects,-and-window-objects)
 start with `on` in standard HTML (e.g. `onclick`). The rule of thumb is to
-simply replace `on` with `py-` and then reference the name of a Python
-function.
+simply replace `on` with `py-` or `mpy-` and then reference the name of a
+Python function.
 
 ```html title="A py-click event on an HTML button element."
 <button py-click="handle_click" id="my_button">Click me!</button>

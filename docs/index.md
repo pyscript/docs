@@ -1,6 +1,6 @@
 ![PyScript Logo](assets/images/pyscript.svg)
 
-<h1 style="text-align: center; font-weight: bold;">A platform for Python in the browser.</h1>
+<h1 style="text-align: center; font-weight: bold;">PyScript is a platform for Python in the browser.</h1>
 
 ## PyScript is...
 
@@ -13,8 +13,8 @@
 * **Shareable**: applications are just a URL on the web. That's it!
 * **Universal**: your code runs anywhere a browser runs... which is
   _everywhere_!
-* **Secure**: PyScript runs in the world's most battle-tested secure platform,
-  the browser!
+* **Secure**: PyScript runs in the world's most battle-tested computing 
+  platform, the browser!
 * **Powerful**: the best of the web and Python, together at last.
 
 ## What's next?
@@ -30,22 +30,28 @@
   <dt><strong>I'm already technical...</strong></dt>
   <dd>The beginner docs will set you up with a simple coding environment. For
   more in-depth technical coverage of PyScript, consult the
-  <a href="user-guide">user guide</a>.</dd>
+  <a href="user-guide">user guide</a>. The
+  <a href="examples">example applications</a> demonstrate many of the features
+  of PyScript.</dd>
   <dt><strong>I want to contribute...</strong></dt>
   <dd>
     <p>Welcome, friend!
-    PyScript is an <a href="license/">open source project</a>, we expect participants to act in
-    the spirit of our <a href="conduct/">code of conduct</a> and we have many 
+    PyScript is an <a href="license/">open source project</a>, we expect
+    participants to act in the spirit of our
+    <a href="conduct/">code of conduct</a> and we have many 
     ways in which <a href="contributing/"><u>you</u> can contribute</a>.
     Our <a href="developers/">developer guide</a> explains how to set
     up a working development environment for PyScript.</p>
   </dd>
   <dt><strong>Just show me...</strong></dt>
   <dd>That's easy! Just take a look around
-  <a href="https://pyscript.com/" target="_blank">pyscript.com</a>.</dd>
-  <dt><strong>I want more support...</strong></dt>
+  <a href="https://pyscript.com/" target="_blank">pyscript.com</a> - our
+  platform for developing and hosting PyScript applications. By using
+  using this service you help to support and sustain the development and growth
+  of the open-source PyScript project.</dd>
+  <dt><strong>I want support...</strong></dt>
   <dd>
-    <p>Join in with the conversation on our
+    <p>Join the conversation on our
     <a href="https://discord.gg/HxvBtukrg2" target="_blank">discord server</a>,
     for realtime chat with core maintainers and fellow users of PyScript.
     Explore

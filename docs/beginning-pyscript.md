@@ -1,11 +1,14 @@
 # Beginning PyScript
 
-PyScript is a platform for running Python in modern web browsers.
+PyScript is a platform for running
+<a href="https://python.org/" target="_blank">Python</a>
+in modern web browsers.
 
-Create apps with a PyScript development environment: write code, curate the
-project's assets, and test your application.
+Create apps with a
+<a href="https://pyscript.com/" target="_blank">PyScript development environment</a>:
+write code, curate the project's assets, and test your application.
 
-To distribute a PyScript application, host it as a static web site, then click
+To distribute a PyScript application, host it on the web, then click
 on the link to your application. PyScript and the browser do the rest.
 
 This page covers these core aspects of PyScript in a beginner friendly manner.
@@ -38,12 +41,6 @@ Create these files with your favourite code editor on your local file system.
 Alternatively, [pyscript.com](https://pyscript.com) will take away all the pain
 of organising, previewing and deploying your application.
 
-If you decide to use [pyscript.com](https://pyscript.com) (recommended for first
-steps), once signed in, create a new project by pressing the "+" button on the
-left hand side below the site's logo. You'll be presented with a page
-containing three columns (listing your files, showing your code and previewing
-the app). The "save" and "run" buttons do exactly what you'd expect.
-
 If you're using your local file system, you'll need a way to view your
 application in your browser. If you already have Python installed on
 your local machine, serve your files with the following command run from your
@@ -62,13 +59,21 @@ refresh the page (`CTRL-R`) to see any updates you may have made.
     [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
     can be used to reload the page as you edit your files.
 
+If you decide to use [pyscript.com](https://pyscript.com) (recommended for
+first steps), once signed in, create a new project by pressing the "+" button
+on the left hand side below the site's logo. You'll be presented with a page
+containing three columns (listing your files, showing your code and previewing
+the app). The "save" and "run" buttons do exactly what you'd expect.
+
+![PyScript.com](assets/images/pyscript.com.png)
+
 Let's build a simple PyScript application that translates English 🇬🇧 into
 Pirate 🏴‍☠️  speak. In order to do this we'll make use of the
 [arrr](https://arrr.readthedocs.io/en/latest/) library. By building this app
 you'll be introduced to all the core concepts of PyScript at an introductory
 level.
 
-You can see this application embedded into the page below:
+You can see this application embedded into the page below (try it out!):
 
 <iframe src="https://ntoll.pyscriptapps.com/piratical/v5/" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
@@ -76,8 +81,9 @@ Let's explore each of the three files that make this app work.
 
 ### pyscript.json
 
-This file tells PyScript and your browser about various configurable aspects of
-your application. Put simply, it tells PyScript what it needs in order to run
+This file tells PyScript and your browser about various
+[configurable aspects](../user-guide/configuration)
+of your application. Put simply, it tells PyScript what it needs in order to run
 your application. The only thing we need to show is that we require the third
 party `arrr` module to do the
 [actual translation](https://arrr.readthedocs.io/en/latest/).
@@ -232,7 +238,7 @@ Pirate-ish.
 Alternatively, [click here to see a working example of this app](https://ntoll.pyscriptapps.com/piratical/v5/).
 Notice that the bottom right hand corner contains a link to view the code on
 [pyscript.com](https://pyscript.com). Why not explore the code, copy it to your own
-account and change it to your satisfaction.
+account and change it to your satisfaction?
 
 ### From a web server
 
@@ -261,4 +267,5 @@ needed to build yet more interesting things of your own.
 
 PyScript is extremely powerful, and these beginner steps only just scratch the
 surface. To learn about PyScript in more depth, check out
-[our user guide](user-guide/index.md).
+[our user guide](user-guide/index.md) or
+[explore our example applications](../examples).

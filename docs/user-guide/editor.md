@@ -54,6 +54,13 @@ The outcome of these code fragments should look something like this:
 
 <img src="../../assets/images/pyeditor1.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
 
+!!! info
+
+    Notice that the interpreter type, and optional environment name is shown
+    at the top right above the Python editor.
+
+    Hovering over the Python editor reveals the "run" button.
+
 Sometimes you need to create a pre-baked Pythonic context for a shared
 environment used by an editor. This need is especially helpful in educational
 situations where boilerplate code can be run, with just the important salient
@@ -79,13 +86,6 @@ print(a)
 </script>
 ```
 
-!!! info
-
-    Notice that the interpreter type, and optional environment name is shown
-    at the top right above the Python editor.
-
-    Hovering over the Python editor reveals the "run" button.
-
 Finally, the `target` attribute allows you to specify a node into which the
 editor will be rendered:
 
@@ -99,19 +99,38 @@ editor will be rendered:
 
 ## Editor VS Terminal
 
-The main difference between these two core plugins is that a *py-editor*, or *mpy-editor*, is a custom orchestration a part and editors run in workers by default, mostly to prevent accidental blocking evaluation that could otherwise freeze the main thread UI (infinite loops or similar deadlocks).
+The editor and terminal are commonly used to embed interactive Python code into
+a website. However, there are differences between the two plugins, of which you
+should be aware.
 
-Because an editor is detached from the regular orchestration that happens with just *py* or *mpy* scripts, one should not expect the same behavior regular *PyScript* elements follow, most notably:
+The main difference is that a `py-editor` or `mpy-editor` is an isolated
+environment (from the rest of PyScript that may be running on the page) and
+its code always runs in a web worker. We do this to prevent accidental blocking
+of the main thread that would freeze your browser's user interface.
 
-  * the whole editor is based on [CodeMirror](https://codemirror.net/) and not on *XTerm.js* as it is for the *terminal*
-  * the code is evaluated all at once and *always async* when the *Run* button is pressed, not per each line
-  * the editor has listeners for `Ctrl-Enter`, or `Cmd-Enter`, plus `Shift-Enter` to shortcut the execution of the code. These shortcuts make no sense in the *terminal* as each line matters
-  * there is a clear separation of the input and the resulting output
-  * simple to complex programs can be written without executing
-  * there is no special reference to the underlying editor instance, while there is both `script.terminal` or `__terminal__` in the *terminal* case
+Because an editor is isolated from regular *py* or *mpy* scripts, one should
+not expect the same behavior regular *PyScript* elements follow, most notably:
+
+  * The editor's user interface is based on
+    [CodeMirror](https://codemirror.net/) and not on XTerm.js
+    [as it is for the terminal](../terminal).
+  * Code is evaluated all at once and asynchronously when the *Run* button is
+    pressed (not each line at a time, as in the terminal).
+  * The editor has listeners for `Ctrl-Enter` or `Cmd-Enter`, and
+    `Shift-Enter` to shortcut the execution of all the code. These shortcuts
+    make no sense in the terminal as each line is evaluated separately.
+  * There is a clear separation between the code and any resulting output.
+  * You may not use blocking calls (like `input`) with the editor, whereas
+    these will work if running the terminal via a worker.
+  * It's an editor! So simple or complex programs can be fully written without
+    running the code until ready. In the terminal, code is evaluated one line
+    at a time as it is typed in.
+  * There is no special reference to the underlying editor instance, while
+    there is both `script.terminal` or `__terminal__` in the terminal.
 
 ## Still missing
 
-As mentioned at the top of this section, the *PyEditor* is currently under further development and refinement, and it might land also as explicit custom element such as `<py-editor>` or `<mpy-editor>`, somehow simplifying the bootstrap through its content-aware element nature but right now these variants are *not* supported.
-
-Last, but not least, we currently don't have a mechanism to destroy a terminal or kill its execution from the worker so in case of infinite loops, the easy way out is to refresh the current page so that previous worker would get killed. We will eventually provide an easier way to kill and start fresh in the future.
+The PyEditor is currently under active development and refinement, so features
+may change (depending on user feedback). For instance, there is currently no
+way to stop or kill a web worker that has got into difficulty from the editor
+(hint: refreshing the page will reset things).
