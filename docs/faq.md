@@ -1,64 +1,126 @@
 # FAQ
 
-This page contains most common questions and "*gotchas*" asked in [our Discord channel](https://discord.com/channels/972017612454232116/972017612454232119) or within our community.
+This page contains the most common questions and "*gotchas*" asked on
+[our Discord server](https://discord.gg/HxvBtukrg2), in
+[our community calls](https://www.youtube.com/@PyScriptTV), or
+within our community.
 
-There are two major areas we'd like to help with, grouped here as [common errors](#common-errors) and as [common hints](#common-hints).
+There are two major areas we'd like to explore:
+[common errors](#common-errors) and [helpful hints](#helpful-hints).
 
 ## Common Errors
 
-This area contains most common issues our users might face due technical reasons or some misconception around the topic.
+These are the most common errors users of PyScript encounter.
 
 ### SharedArrayBuffer
 
-This is not by accident the very first, and most common, error our users might encounter while developing or deploying *PyScript* projects.
+This is the first and most common error users may encounter with PyScript.
 
 !!! failure
 
+    Your application doesn't run and in
+    [your browser's console](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools)
+    you see this message:
+
+    ```
     Unable to use SharedArrayBuffer due insecure environment.
     Please read requirements in MDN: ...
+    ```
 
-The error contains [a link to MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements) but it's easy to get lost behind the amount of content provided by this topic.
+The error contains
+[a link to MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements)
+but it's the amount of content provided on this topic is overwhelming.
 
-**When**
+#### When
 
-This errors happens in one of these combined scenarios:
+This error happens when **the server delivering your PyScript application is
+incorrectly configured**. It fails to provide the correct headers to handle
+security concerns for web workers, or you're not using
+[mini-coi](https://github.com/WebReflection/mini-coi#readme) as an alternative
+solution. (These requirements are explored
+[in the worker page](../user-guide/workers#http-headers).)
 
-  * the server doesn't provide the correct headers to handle security concerns or there is no *Service Worker* able to override headers, as described [in the worker page](http://127.0.0.1:8000/user-guide/workers/) and ...
-    * there is a `worker` attribute in the *py* or *mpy* script element and the [sync_main_only](https://pyscript.github.io/polyscript/#extra-config-features) flag is not present or not `True`
-    * there is a `<script type="py-editor">` that uses a *worker* behind the scene
-    * there is an explicit *PyWorker* or *MPWorker* bootstrap
+**And** at least one of the following scenarios is true:
 
-The only exception is when the `sync_main_only = True` is part of the config with the following caveats:
+* There is a `worker` attribute in the *py* or *mpy* script element and the
+  [sync_main_only](https://pyscript.github.io/polyscript/#extra-config-features)
+  flag is not present or not `true`.
+* There is a `<script type="py-editor">` that uses a *worker* behind the
+  scenes.
+* There is an explicit `PyWorker` or `MPWorker` bootstrapping somewhere in your
+  code.
 
-  * it is not possible to manipulate the DOM or do anything meaningful on the main thread directly because *Atomics* cannot guarantee sync-like locks within *worker* ↔ *main* operations
-  * the only desired use case is to expose, from the worker, `pyscript.sync` utilities that will need to be awaited from the *main* once invoked
-  * the worker can only *await* main related references, one after the other, so that *DX* is really degraded in case one still needs to interact with main
+!!! info
 
-If your project simply bootstraps on the *main* thread, none of this is relevant because no *worker* would need special features.
+    If `sync_main_only` is `true` then interactions between the main thread and
+    workers are limited to one way calls from the main thread to methods
+    exposed by workers.
 
-**Why**
+If `sync_main_only = True`, the following caveats apply:
 
-The only way to make `document.getElementById('some-id').value` work out of a *worker* execution context is to use these two JS primitives:
+* It is not possible to manipulate the DOM or do anything meaningful on the
+  main thread **from a worker**. This is because Atomics cannot guarantee
+  sync-like locks between a worker and the main thread.
+* Only a worker's `pyscript.sync` methods are exposed, and they can only be
+  awaited from the main thread.
+* The worker can only `await` main thread references one after the other, so
+  developer experience is degraded when one needs to interact with the
+  main thread.
 
-  * **SharedArrayBuffer**, which allows multiple threads to read and / or write into a chunk of memory that is, like the name suggests, shared across threads
-  * **Atomics**, which is needed to both `wait(sab, index)` and `notify(sab, index)` to unlock the awaiting thread
+If your project simply bootstraps on the main thread, none of this is relevant
+because no worker requires such special features.
 
-While a *worker* is waiting for some operation on main to happen, this is not using the CPU, it just idles until that index of the shared buffer gets notified, effectively never blocking the *main* thread, still pausing its own execution until such buffer is notified for changes.
+#### Why
 
-As overwhelming or complicated as this might sounds, these two fundamental primitives make *main* ↔ *worker* interoperability an absolute wonder in term of *DX* so that we encourage to always prefer *workers* over *main* scripts, specially when it comes to *Pyodide* related projects with its heavier bootstrap or computation abilities, yet still delivering a *main-like* development experience.
+The only way for `document.getElementById('some-id').value` to work in a
+worker is to use these two JavaScript primitives:
 
-Unfortunately, due past security concerns and attacks to shared buffers, each server or page needs to allow extra security to prevent malicious software to also read or write into these buffers but be assured that if you own your code, your project, and you trust the modules or 3rd party code you need and use, **there are no security concerns around this topic within this project**, it's simply an unfortunate "*one rule catch all*" standard any server can either enable or disable as it pleases.
+  * **[SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)**,
+    to allow multiple threads to read and / or write into a chunk of shared
+    memory.
+  * **[Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)**,
+    to both `wait(sab, index)` (`sab` is a `SharedArrayBuffer`) and
+    `notify(sab, index)` to unlock the awaiting thread.
+
+While a worker waits for an operation on main to happen, it is not using the
+CPU. It idles until the referenced index of the shared buffer changes,
+effectively never blocking the main thread while still pausing its own
+execution until the buffer's index is changed.
+
+As overwhelming or complicated as this might sounds, these two fundamental
+primitives make main ↔ worker interoperability an absolute wonder in term of
+developer experience. Therefore, we encourage folks to prefer using workers
+over running Python in the main thread. This is especially so when using
+Pyodide related projects, because of its heavier bootstrap or computation
+requirements. Using workers ensures the main thread (and thus, the user
+interface) remains unblocked.
+
+Unfortunately, due to security concerns and potential attacks to shared
+buffers, each server or page needs to allow extra security to prevent malicious
+software to read or write into these buffers. But be assured that if you own
+your code, your project, and you trust the modules or 3rd party code you need
+and use, **there are less likely to be security concerns around this topic
+within your project**. This situation is simply an unfortunate "*one rule catch
+all*" standard any server can either enable or disable as it pleases.
 
 ### Borrowed Proxy
 
-This is another classic error that might happen with listeners, timers or any other circumstance where a *Python* callback might be lazily invoked in the *JS* side of affair:
+This is another common error that happens with listeners, timers or in any
+other situation where a Python callback is lazily invoked from JavaScript:
 
 !!! failure
 
-    Uncaught Error: This borrowed proxy was automatically destroyed at the end of a function call. Try using create_proxy or create_once_callable.
-    For more information about the cause of this error, use `pyodide.setDebug(true)`
+    Your application doesn't run and in
+    [your browser's console](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools)
+    you see this message:
 
-**When**
+    ```
+    Uncaught Error: This borrowed proxy was automatically destroyed at the end of a function call.
+    Try using create_proxy or create_once_callable.
+    For more information about the cause of this error, use `pyodide.setDebug(true)`
+    ```
+
+#### When
 
 This error usually happens in *Pyodide* only related project, and only if a *Python* callback has been directly passed along as *JS* function parameter:
 
@@ -85,7 +147,7 @@ This flag tries to intercept all *Python* proxies passed to a *JS* callback and 
 
     The [FinalizationRegistry](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry) is the primitive used to do so. It is not observable and nobody can predict when it will run to free, hence destroy, retained *Python* proxies. This means that *RAM* consumption might be slightly higher, but it's the *JS* engine responsibility to guarantee that when such *RAM* consumption is too high, that finalization registry would call and free all retained proxies, leaving room for more *RAM*.
 
-**Why**
+#### Why
 
 Most *WASM* based runtimes have their own garbage collector or memory management but when their references are passed along another programming language they cannot guarantee these references will ever be freed, or better, they lose control over that memory allocation because they cannot know when such allocation won't be needed anymore.
 
@@ -176,7 +238,7 @@ NameError: name 'failure' isn't defined
 
 The same applies when the error is shown in devtools/console where unfortunately the stack right after the error message might be a bit distracting but it's still well separated from the error message itself.
 
-## Common Hints
+## Helpful Hints
 
 This area contains most common questions, hacks, or hints we provide to the community.
 

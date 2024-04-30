@@ -54,6 +54,8 @@
     <p>Join the conversation on our
     <a href="https://discord.gg/HxvBtukrg2" target="_blank">discord server</a>,
     for realtime chat with core maintainers and fellow users of PyScript.
+    Check out <a href="https://www.youtube.com/@PyScriptTV">our YouTube
+    channel</a>, full of community calls and show and tells.
     Explore
     <a href="https://learning.anaconda.cloud/" target="_blank">educational</a>
     and
