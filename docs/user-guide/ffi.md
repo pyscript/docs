@@ -1,5 +1,9 @@
 # PyScript FFI
 
+The foreign function interface (FFI) gives Python access to JavaScript, and
+JavaScript access to Python. As a result PyScript is able to access all the
+standard APIs and capabilities provided by the browser.
+
 We provide a unified `pyscript.ffi` because
 [Pyodide's FFI](https://pyodide.org/en/stable/usage/api/python-api/ffi.html)
 is only partially implemented in MicroPython and there are some fundamental

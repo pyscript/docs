@@ -8,9 +8,43 @@ within our community.
 There are two major areas we'd like to explore:
 [common errors](#common-errors) and [helpful hints](#helpful-hints).
 
-## Common Errors
+## Common errors
 
-These are the most common errors users of PyScript encounter.
+### Reading errors
+
+If your application doesn't run, and you don't see any error messages on the
+page, you should check
+[your browser's console](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools).
+
+When reading an error message, the easy way to find out what's going on is,
+most of the time, to read the last line of the error.
+
+```text title="A Pyodide error."
+Traceback (most recent call last):
+  File "/lib/python311.zip/_pyodide/_base.py", line 501, in eval_code
+    .run(globals, locals)
+     ^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python311.zip/_pyodide/_base.py", line 339, in run
+    coroutine = eval(self.code, globals, locals)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<exec>", line 1, in <module>
+NameError: name 'failure' is not defined
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+```text title="A MicroPython error."
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'failure' isn't defined
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+In both examples, the code created a
+[`NameError`](https://docs.python.org/3/library/exceptions.html#NameError)
+because the object with the name `failure` did not exist.
+
+With this context in mind, these are the most common errors users of PyScript
+encounter.
 
 ### SharedArrayBuffer
 
@@ -103,7 +137,7 @@ and use, **there are less likely to be security concerns around this topic
 within your project**. This situation is simply an unfortunate "*one rule catch
 all*" standard any server can either enable or disable as it pleases.
 
-### Borrowed Proxy
+### Borrowed proxy
 
 This is another common error that happens with listeners, timers or in any
 other situation where a Python callback is lazily invoked from JavaScript:
@@ -122,59 +156,178 @@ other situation where a Python callback is lazily invoked from JavaScript:
 
 #### When
 
-This error usually happens in *Pyodide* only related project, and only if a *Python* callback has been directly passed along as *JS* function parameter:
+This error happens when using Pyodide as the interpreter on the main thread,
+and when a bare Python callable/function has been passed into JavaScript as a
+callback handler:
 
-```python title="An expired borrowed proxy example"
+```python title="An expired borrowed proxy example, with Pyodide on the main thread."
 import js
-# will throw the error in case
+
+
+# will throw the error
 js.setTimeout(lambda msg: print(msg), 1000, "FAIL")
 ```
 
-Please note that this error *does not happen* if the code is executed in a worker and the *JS* reference comes from the *main* thread:
+The garbage collector immediately cleans up the Python function once it is
+passed into the JavaScript context. Clearly, for the Python function to work as
+a callback at some time in the future, it should NOT be garbage collected and
+hence the error message.
 
-```python title="A worker has no borrowed issue"
-from pyscript import window
-window.setTimeout(lambda x: print(x), 1000, "OK")
-```
+!!! info
 
-In this case, because proxies cannot survive a *worker* ↔ *main* communication, the *Python* reference gets inevitably translated into a *JS* function and its unique *id* propagated and awaited to be released with a returning value, so that technically that lambda can be freed without causing any issue.
+    This error does not happen if the code is executed in a worker and the 
+    JavaScript reference comes from the main thread:
 
-We provided an experimental way to always act in a similar way on both main and workers through the `experimental_create_proxy = "auto"` *config* flag.
+    ```python title="Code running on Pyodide in a worker has no borrowed proxy issue."
+    from pyscript import window
 
-This flag tries to intercept all *Python* proxies passed to a *JS* callback and it orchestrates an automatic memory free operation through the *JS* garbage collector.
+
+    window.setTimeout(lambda x: print(x), 1000, "OK")
+    ```
+
+    Proxy objects (i.e. how Python objects appear to JavaScript, and vice
+    versa) cannot be communicated between a worker and the main thread.
+
+    Behind the scenes, PyScript ensures references are maintained between
+    workers and the main thread. It means Python functions in a worker are
+    actually represented by JavaScript proxy objects in the main thread.
+
+    As a result, such worker based Python functions are therefore **not** bare
+    Python functions, but already wrapped in a managed JavaScript proxy, thus
+    avoiding the borrowed proxy problem.
+
+If you encounter this problem you have two possible solutions:
+
+1. Manually wrap such functions with a call to
+   [`pyscript.ffi.create_proxy`](../builtins/#pyscriptfficreate_proxy).
+2. Set the
+   [`experimental_create_proxy = "auto"`](../configuration/#experimental_create_proxy)
+   flag in your application's settings. This flag intercepts Python objects
+   passed into a JavaScript callback and ensures an automatic and sensible
+   memory management operation via the JavaScript garbage collector.
 
 !!! Note
 
-    The [FinalizationRegistry](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry) is the primitive used to do so. It is not observable and nobody can predict when it will run to free, hence destroy, retained *Python* proxies. This means that *RAM* consumption might be slightly higher, but it's the *JS* engine responsibility to guarantee that when such *RAM* consumption is too high, that finalization registry would call and free all retained proxies, leaving room for more *RAM*.
+    The
+    [FinalizationRegistry](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry)
+    is the browser feature used to make this so.
+
+    By default, it is not observable and it is not possible to predict when it
+    will free, and hence destroy, retained Python proxy objects. As a result,
+    memory consumption might be slightly higher than when manually using
+    `create_proxy`. However, the JavaScript engine is responsible for memory
+    consumption, and will cause the finalization registry to free all retained
+    proxies, should memory consumption become too high.
 
 #### Why
 
-Most *WASM* based runtimes have their own garbage collector or memory management but when their references are passed along another programming language they cannot guarantee these references will ever be freed, or better, they lose control over that memory allocation because they cannot know when such allocation won't be needed anymore.
+PyScript's interpreters (Pyodide and MicroPython) both have their own garbage
+collector for automatic memory management. When references to Python objects
+are passed to JavaScript [via the FFI](../user-guide/ffi/), the Python
+interpreters cannot guarantee such references will ever be freed by
+JavaScript's own garbage collector. They may even lose control over the
+reference since there's no infallible way to know when such objects won't be
+needed by JavaScript.
 
-The theoretical solution to this is to allow users to explicitly create proxies of these references and then still explicitly invoke `proxy.destroy()` to communicate to the original *PL* that such reference and allocated can be freed, if not used internally for other reasons, effectively invalidating that *JS* reference, resulting into a "*dead reference*" that its garbage collector might get rid of when it's convenient.
+One solution is to expect users to explicitly create and destroy such proxy
+objects themselves. But this manual memory management makes automatic memory
+management pointless while raising the possibility of dead references (where
+the user explicitly destroys a Python object that's still alive in the
+JavaScript context). Put simply, this is a difficult situation.
 
-At the practical level though, there are dozen use cases where users just don't, or can't, disambiguate the need for such proxy creation or easily forget to call `destroy()` at the right time.
+Pyodide provides
+[ffi.wrappers](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers)
+to help with many of the common cases, and PyScript, through the
+`experimental_create_proxy = "auto"` configuration option, automates memory
+management via the `FinalizationRegistry` described above.
 
-To help most common use cases, *Pyodide* provide various [ffi.wrappers](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers) but in theory none of these is strictly needed if we orchestrate a *FinalizationRegistry* to automatically `destroy` those proxies when not needed anymore, moving the responsibility from the user to the running *JS* engine, which is why we have provided the `experimental_create_proxy = "auto"` *config* flag.
+### Python packages
 
-### Python Modules
+Sometimes Python packages, specified via the
+[`packages` configuration setting](../user-guide/configuration/#packages)
+don't work with PyScript's Python interpreter.
 
-There is a huge difference in what can be imported in *pyodide* VS what can be imported in *micropython* and the reason is:
+!!! failure
 
-  * *pyodide* can import modules at runtime as long as these [have been ported](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) to it
-  * *micropython* can only import at runtime *Python* only modules, or better, modules that use the same syntax and primitives allowed in *micropython* itself
+    **You are using Pyodide**.
 
-Behind the scene *pyodide* uses [micropip](https://github.com/pyodide/micropip) while *micropython* uses [mip](https://docs.micropython.org/en/latest/reference/packages.html#installing-packages-with-mip).
+    Your application doesn't run and in
+    [your browser's console](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools)
+    you see this message:
 
-Due different architecture though, *micropython* cannot expose modules that require native compilation / translation for the resulting *WASM* artifact, but we're working on a "*super charged*" version of *micropython* that would bring at least the most common requested modules too (i.e. *numpy*).
+    ```
+    ValueError: Can't find a pure Python 3 wheel for: 'package_name'
+    ```
+
+!!! failure
+
+    **You are using MicroPython**.
+
+    Your application doesn't run and in
+    [your browser's console](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools)
+    you see this message:
+
+    ```
+    Cross-Origin Request Blocked: The Same Origin Policy disallows reading the
+    remote resource at https://micropython.org/pi/v2/package/py/package_name/latest.json.
+    (Reason: CORS header ‘Access-Control-Allow-Origin’ missing).
+    Status code: 404.
+    ```
+
+#### When
+
+This is a complicated problem, but the summary is:
+
+* **Check you have used the correct name for the package you want to use**.
+  This is a remarkably common mistake to make: let's just check. :-)
+* **In Pyodide**, the error indicates that the package you are trying to
+  install has some part of it written in C, C++ or Rust. These languages are
+  compiled, and the package has not yet been compiled for web assembly. Our
+  friends in the Pyodide project and the
+  [Python packaging authority](https://www.pypa.io/en/latest/) are working
+  together to ensure web assembly is a default target for compilation. Until
+  such time, we suggest you follow
+  [Pyodide's own guidance](https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package)
+  to overcome this situation.
+* **In MicroPython**, the package you want to use has not been ported into the
+  [`micropython-lib` package repository](https://github.com/micropython/micropython-lib).
+  If you want to use a pure Python package with MicroPython, use the
+  [files configuration option](../user-guide/configuration/#files) to manually
+  copy the package onto the file system, or use a URL to reference the package.
+
+For hints and tips about packaging related aspects of PyScript read the
+[packaging pointers](#packaging-pointers) section of this FAQ.
+
+#### Why
+
+Put simply, Pyodide and MicroPython are different Python interpreters, and both
+are running in a web assembly environment. Packages built for Pyodide may not
+work for MicroPython, and vice versa. Furthermore, if a package contains
+compiled code, it may not yet have been natively compiled for web assembly.
+
+If the package you want to use is written in a version of Python that both
+Pyodide and MicroPython support (there are subtle differences between the
+interpreters), then you should be able to use the package so long as you are
+able to get it into the Python path via configuration (see above).
+
+Currently, MicroPython cannot expose modules that require native compilation,
+but PyScript is working with the MicroPython team to provide different builds
+of MicroPython that include commonly requested packages (e.g. MicroPython's
+version of `numpy` or `sqlite`).
 
 !!! warning
 
-    Accordingly to the current state, it could be hard to seamlessly port 1:1 a Pyodide project to MicroPython: expect possible issues while trying but please consider the mentioned caveats around or be sure the issue is something we could actually fix on our side or file an upstream issue otherwise, thank you!
+    Depending on the complexity of the project, it may be hard to seamlessly
+    make a 1:1 port from a Pyodide code base to MicroPython.
 
-### JS Modules
+    MicroPython has [comprehensive documentation](https://docs.micropython.org/en/latest/genrst/index.html)
+    to explain the differences between itself and "regular" CPython (i.e. the
+    version of Python Pyodide provides).
 
-In more than one occasion, since we introduced the `pyscript.js_modules` feature, our users have encountered errors like:
+### JavaScript modules
+
+When [using JavaScript modules with PyScript](../user-guide/dom/#working-with-javascript)
+you may encounter the following errors:
 
 !!! failure
 
@@ -184,13 +337,15 @@ In more than one occasion, since we introduced the `pyscript.js_modules` feature
 
     Uncaught SyntaxError: The requested module './library.js' does not provide an export named 'util'
 
-**When**
+#### When
 
-99% of the time the issue with JS modules is that what we are importing are not, effectively, JS modules.
+These errors happen because the JavaScript module you are trying to use is not
+written as a standards-compliant JavaScript module.
 
-When the file uses `module.exports` or `globalThis.util` or anything that is not standard *ECMAScript* syntax for modules, such as `export default value` or `export const util = {}`, we cannot retrieve that file content in a standard way.
-
-To **solve** this issue various *CDNs* provide a way to automatically deliver *ESM* (aka: *ECMAScript Modules*) out of the box and one of the most reliable and famous one is [esm.run](https://esm.run/).
+Happily, to **solve** this issue various content delivery networks (CDNs)
+provide a way to automatically deliver standard ESM (aka:
+[ECMAScript](https://en.wikipedia.org/wiki/ECMAScript) Modules).
+The one we recommend is [esm.run](https://esm.run/).
 
 ```html title="An example of esm.run"
 <mpy-config>
@@ -202,76 +357,104 @@ To **solve** this issue various *CDNs* provide a way to automatically deliver *E
 </script>
 ```
 
-Alternatively, please be sure any `.js` file you are importing as module actually uses `export ...` within its content and, if that's not the case, ask for an `.mjs` counter-equivalent of that library or framework or trust `esm.run` produced artifacts.
+Alternatively, ensure any JavaScript code you reference uses `export ...` or
+ask for an `.mjs` version of the code. All the various options and technical
+considerations surrounding the use of JavaScript modules in PyScript are
+[covered in our user guide](../user-guide/dom/#working-with-javascript).
 
-**Why**
+#### Why
 
-Even if standard *JS* modules have been around since 2015, a lot of old to even new libraries still produce files that are incompatible with modern *JS* expectations.
+Even though the standard for JavaScript modules has existed since 2015, many
+old and new libraries still produce files that are incompatible with such
+modern and idiomatic standards.
 
-There is no logical or simple explanation to this situation for modules that target browsers, but there are various server side related projects that still rely on the legacy, *NodeJS* only, module system (aka: *CommonJS*).
+This isn't so much a technical problem, as a human problem as folks learn to
+use the new standard and migrate old code away from previous and now
+obsolete standards.
 
-Until that legacy module system exists, be aware some module might require special care.
+While such legacy code exists, be aware that JavaScript code may require
+special care.
 
-### Reading Errors
+## Helpful hints
 
-Each interpreter might provide different error messages but the easy way to find what's going on is, most of the time, described in the last line with both *Pyodide* and *MicroPython*:
-
-```text title="A Pyodide Error"
-Traceback (most recent call last):
-  File "/lib/python311.zip/_pyodide/_base.py", line 501, in eval_code
-    .run(globals, locals)
-     ^^^^^^^^^^^^^^^^^^^^
-  File "/lib/python311.zip/_pyodide/_base.py", line 339, in run
-    coroutine = eval(self.code, globals, locals)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<exec>", line 1, in <module>
-NameError: name 'failure' is not defined
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-```text title="A MicroPython Error"
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-NameError: name 'failure' isn't defined
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-The same applies when the error is shown in devtools/console where unfortunately the stack right after the error message might be a bit distracting but it's still well separated from the error message itself.
-
-## Helpful Hints
-
-This area contains most common questions, hacks, or hints we provide to the community.
+This section contains common hacks or hints to make using PyScript easier.
 
 !!! Note
 
-    We have a lovely *PyScript* contributor, namely [Jeff Glass](https://github.com/jeffersglass), who is maintaining an awesome blog full of [PyScript Recipes](https://pyscript.recipes/) with even more use cases and solutions. If you cannot find what you are looking for in here, please do check over there as it's very likely there is something close to the answer you are looking for.
+    We have an absolutely lovely PyScript contributor called
+    [Jeff Glass](https://github.com/jeffersglass) who maintains an exceptional
+    blog full of [PyScript recipes](https://pyscript.recipes/) with even more
+    use cases, hints, tips and solutions. Jeff also has a
+    [wonderful YouTube channel](https://www.youtube.com/@CodingGlass) full of
+    very engaging PyScript related content.
 
-### PyScript latest
+    If you cannot find what you are looking for here, please check Jeff's blog
+    as it's likely he's probably covered something close to the situation in
+    which you find yourself.
 
-For various reasons previously discussed at length, we decided to remove our `latest` channel from our own CDN.
+    Of course, if ever you meet Jeff in person, please buy him a beer and
+    remember to say a big "thank you". 🍻
 
-We were not super proud of users trusting that channel coming back with suddenly broken projects so we now [release only official versions](https://github.com/pyscript/pyscript/releases) everyone can pin-point in time.
+### PyScript `latest`
 
-We are also developing behind the scene through *npm* to be able to test in the wild breaking changes and whatnot and it's no secret that *CDNs* could also deliver our "*canary*" or "*development*" channel so that we're better off telling you exactly which links one should use to have the latest, whenever latest lands on the *CDN* which is usually within 24 hours from the last *npm* version change.
+PyScript follows the [CalVer](https://calver.org/) convention for version
+numbering.
 
-We still **do not guarantee any stability** around this channel so be aware this is never a good idea to use in production, documentation might lack behind landed changes, APIs might break or change too, and so on.
+Put simply, it means each version is numbered according to when, in the
+calendar, it was released. For instance, version `2024.4.2` was the _second_
+release in the month of April in the year 2024 (**not** the release on the 2nd
+of April but the second release **in** April).
 
-If you are still reading though, this is the template to have *latest*:
+It used to be possible to reference PyScript via a version called `latest`,
+which would guarantee you always got the latest release.
 
-```html title="PyScript latest"
+However, at the end of 2023, we decided to **stop supporting `latest` as a
+way to reference PyScript**. We did this for two broad reasons:
+
+1. In the autumn of 2023, we release a completely updated version of PyScript
+   with some breaking changes. Folks who wrote for the old version, yet still
+   referenced `latest`, found their applications broke. We want to avoid this
+   at all costs.
+2. Our release cadence is more regular, with around two or three releases a
+   month. Having transitioned to the new version of PyScript, we aim to avoid
+   breaking changes. However, we are refining and adding features as we adapt
+   to our users' invaluable feedback.
+
+Therefore,
+[pinning your app's version of PyScript to a specific release](https://github.com/pyscript/pyscript/releases)
+(rather than `latest`) ensures you get exactly the version of PyScript you
+used when writing your code.
+
+However, as we continue to develop PyScript it _is_ possible to get our latest
+development version of PyScript via `npm` and we could (should there be enough
+interest) deliver our work-in-progress via a CDN's "canary" or "development"
+channel. **We do not guarantee the stability of such versions of PyScript**,
+so never use them in production, and our documentation may not reflect the
+development version.
+
+If you require the development version of PyScript, these are the URLs to use:
+
+```html title="PyScript development. ⚠️⚠️⚠️ WARNING: HANDLE WITH CARE! ⚠️⚠️⚠️"
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css">
 <script type="module" src="https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.js"></script>
 ```
 
 !!! warning
 
-    Do not use shorter urls or other CDNs because the project needs both the correct headers to eventually run in *workers* and it needs to find its own assets at runtime so that other CDN links might result into a **broken experience** out of the box.
+    ***Do not use shorter urls or other CDNs.***
 
-### Worker Bootstrap
+    PyScript needs both the correct headers to use workers and to find its own
+    assets at runtime. Other CDN links might result into a **broken
+    experience**.
 
-In some occasion users asked to bootstrap a *pyodide* or *micropython* worker directly via *JS*.
+### Workers via JavaScript 
 
-```html title="PyScript Worker in JS"
+Sometimes you want to start a Pyodide or MicroPython web worker from
+JavaScript.
+
+Here's how:
+
+```html title="Starting a PyScript worker from JavaScript."
 <script type="module">
   // use sourceMap for @pyscript/core or change to a CDN
   import {
@@ -301,58 +484,59 @@ from pyscript import sync
 def do_stuff():
   print("heavy computation")
 
+# Note: this reference is awaited in the JavaScript code.
 sync.doStuff = do_stuff
 ```
 
-### About Class.new
+### JavaScript `Class.new()`
 
-In more than one occasion users asked why there's the need to write `Class.new()`, when the class comes from the *JS* world, as opposite of just typing `Class()` like it is for *Python*.
+When using Python to instantiate a class defined in JavaScript, one needs to
+use the class's `new()` method, rather than just using `Class()` (as in
+Python).
 
-The reason is very technical and related to *JS* history and poor introspection ability in this regard:
+Why?
 
-  * `typeof function () {}` and `typeof class {}` produce the same outcome: **function**, making it very hard to disambiguate the intention as both are valid and, strawberry on top, legacy *JS* used `function` to create instances, not `class`, so that legacy code might still use that good'ol convention
-  * the *JS* proxy has `apply` and `construct` traps but because of the previous point, it's not possible to be sure that `apply` meant to `construct` the instance
-  * diffrently from *Python*, just invoking `Class()` throws an error in *JS* if that is actually defined as `class {}` so that `new` is mandatory in the that case
-  * the `new Class()` is invalid syntax in *Python*, there is a need to disambiguate the intent
-  * the capitalized naming convention is lost once the code gets minified on the *JS* side, hence it's unreliable as convention
-  * the `Class.new()` explicitly describe the intent ... it's true that it's ugly, when mixed up with *Python* classes too, but at least it clearly indicates that such `Class` is a *JS* one, not a *Python* thing
+The reason is technical, related to JavaScript's history and its relatively
+poor introspection capabilities:
 
-As summary, we all agree that in an ideal world just having `Class()` all over would be cool, but unless the *JS* code has been created via quite outdated artifacts we need to use the `.new()` convention which is adopted by both *pyodide* and *micropython*.
+* In JavaScript, `typeof function () {}` and `typeof class {}` produce the
+  same outcome: `function`. This makes it **very hard to disambiguate the
+  intent of the caller** as both are valid, JavaScript used to use
+  `function` (rather than `class`) to instantiate objects, and the class you're
+  using may not use the modern, `class` based, idiom.
+* In the FFI, the JavaScript proxy has traps to intercept the use of the
+  `apply` and `construct` methods used during instantiation. However, because
+  of the previous point, it's not possible to be sure that `apply` is meant to
+  `construct` an instance or call a function.
+* Unlike Python, just invoking a `Class()` in JavaScript (without
+  [the `new` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new))
+  throws an error.
+* Using `new Class()` is invalid syntax in Python. So there is still a need to
+  somehow disambiguate the intent to call a function or instantiate a class.
+* Making use of the capitalized-name-for-classes convention is brittle because
+  when JavaScript code is minified the class name can sometimes change.
+* This leaves our convention of `Class.new()` to explicitly signal the intent
+  to instantiate a JavaScript class. While not idea it is clear and
+  unambiguous.
 
-To close this paragraph, here an example of how it was possible before to avoid `new` *VS* now:
+### PyScript events
 
-```js title="Legacy VS Modern JS"
-// legacy pseudo pattern: it allows just Legacy()
-// with or without `new Legacy` requirement
-function Legacy(name) {
-  if (!(this instanceof Legacy))
-    return new Legacy(name);
-  // bootstrap the instance
-  this.name = name;
-}
+PyScript uses hooks during the lifecycle of the application to facilitate the
+[creation of plugins](../user-guide/plugins/).
 
-// legacy way to define classes
-Legacy.prototype = {...};
-
-// modern JS classes: private fields, own fields,
-// super and other goodness available to devs
-class Modern {}
-
-// throws error: it requires `new Modern`
-Modern()
-```
-
-### PyScript Events
-
-Beside *hooks*' lifecycle, *PyScript* also dispatches specific events that might help users to work around its state:
+Beside hooks, PyScript also dispatches events at specific moments in the
+lifecycle of the app, so users can react to changes in state:
 
 #### m/py:ready
 
-Both `mpy:ready` and `py:ready` events are dispatched per every *PyScript* related element found on the page, being this a `<script type="py">`, a `<py-script>` or any *mpy* counterpart.
+Both the `mpy:ready` and `py:ready` events are dispatched for every PyScript
+related element found on the page. This includes `<script type="py">`,
+`<py-script>` or any MicroPython/`mpy` counterpart.
 
-Please **note** that these events are dispatched *right before* the code gets eventually executed, hence before the interpreter got a chance to run the code but always *after* the interpreter has already been bootstrapped.
+The `m/py:ready` events dispatch **immediately before** the code is executed,
+but after the interpreter is bootstrapped.
 
-```html title="A py:ready example"
+```html title="A py:ready example."
 <script>
     addEventListener("py:ready", () => {
         // show running for an instance
@@ -371,19 +555,22 @@ Please **note** that these events are dispatched *right before* the code gets ev
 </script>
 ```
 
-As a matter of fact, if you are missing the previous *modal* showing a spinner while *pyodide* bootstrapped, it is fairly easy to provide a similar experience through this event: show a modal first, then close it once `py:ready` is triggered.
+A classic use case for this event is to recreate the "starting up"
+spinner that used to be displayed when PyScript bootstrapped. Just show the
+spinner first, then close it once `py:ready` is triggered!
 
 !!! warning
 
-    On the *main* thread, *pyodide* blocks the *UI* until it's finished bootstrapping itself.
-    This means that previous example without `worker` attribute will skip rendering `running` text because it happens at the same *UI* update that happens after the code has been executed.
-    If needed, one can always `console.log` instead to be sure that event happened.
+    If using Pyodide on the main thread, the UI will block until Pyodide has
+    finished bootstrapping. The "starting up" spinner won't work unless Pyodide
+    is started on a worker instead.
 
 #### m/py:done
 
-As the name might suggest, `mpy:done` and `py:done` events events are dispatched *after* the *sync* or *async* code has finished its execution.
+The `mpy:done` and `py:done` events dispatch after the either the synchronous
+or asynchronous code has finished execution.
 
-```html title="A py:done example"
+```html title="A py:done example."
 <script>
     addEventListener("py:ready", () => {
         // show running for an instance
@@ -396,6 +583,7 @@ As the name might suggest, `mpy:done` and `py:done` events events are dispatched
         status.textContent = 'done';
     });
 </script>
+
 <!-- show bootstrapping right away -->
 <div id="status">bootstrapping</div>
 <script type="py" worker>
@@ -405,15 +593,21 @@ As the name might suggest, `mpy:done` and `py:done` events events are dispatched
 
 !!! warning
 
-    If your async code never exits due some infinite loop or it uses some orchestration that keeps it running forever, such as `code` and `code.interact()` these events might never get triggered because the code actually is never really *done* so it cannot reach its own end of execution.
+    If `async` code contains an infinite loop or some orchestration that keeps
+    it running forever, then these events may never trigger because the code
+    never really finishes.
 
 #### py:all-done
 
-This event is special because it really groups all possible *mpy* or *py* scripts found on the page, no matter the interpreter.
+The `py:all-done` event dispatches when all code is finished executing.
 
-In this example we'll see MicroPython waving before Pyodide and finally an *everything is done* message in *devtools*.
+This event is special because it depends upon all the MicroPython and Pyodide
+scripts found on the page, no matter the interpreter.
 
-```html title="A py:all-done example"
+In this example, MicroPython waves before Pyodide before the `"everything is
+done"` message is written to the browser's console. 
+
+```html title="A py:all-done example."
 <script>
     addEventListener("py:all-done", () => {
         console.log("everything is done");
@@ -427,20 +621,48 @@ In this example we'll see MicroPython waving before Pyodide and finally an *ever
 </script>
 ```
 
-### Python Modules
+### Packaging pointers
 
-There are a few ways to host or include other modules in *PyScript*:
+Applications need third party packages and [PyScript can be configured to
+automatically install packages for you](user-guide/configuration/#packages).
+Yet [packaging can be a complicated beast](#python-packages), so here are some
+hints for a painless packaging experience with PyScript.
 
-  * having the module already part of either *Pyodide* or *MicroPython* distribution
-  * hosting on *GitHub* some file that need to be discovered and fetched at runtime as *package*
-  * provide your own `module.py` as single file to include in the File System
-  * create a folder with structured files and sub folders that can easily be *zipped* or *tar.gz* as unique entry, and let the File System do the rest
+There are essentially four ways in which a third party package can become
+available in PyScript.
 
-#### Hosting on GitHub
+1. The module is already part of either the Pyodide or MicroPython
+   distribution. For instance, Pyodide includes numpy, pandas, scipy,
+   matplotlib and scikit-learn as pre-built packages you need only activate
+   via the [`packages` setting](../user-guide/configuration/#packages) in
+   PyScript. There are plans for MicroPython to offer different builds for
+   PyScript, some to include MicroPython's version of numpy or the API for
+   sqlite.
+2. Host a standard Python package somewhere (such as
+   [PyScript.com](https://pyscript.com) or in a GitHub repository) so it can
+   be fetched as a package via a URL at runtime.
+3. Reference hosted Python source files, to be included on the file
+   system, via the [`files` setting](../user-guide/configuration/#files).
+4. Create a folder containing the package's files and sub folders, and create
+   a hosted `.zip` or `.tgz`/`.tar.gz` archive to be decompressed into the file
+   system (again, via the
+   [`files` setting](../user-guide/configuration/#files)).
 
-Beside modules already available behind the interpreter packages manager, it is possible to point directly at files in GitHub (or GitLab, or anywhere else the file can be downloaded without issues):
+#### Host a package
 
-```python title="MicroPython mip example"
+Just put the package you need somewhere it can be served (like
+[PyScript.com](https://pyscript.com/)) and reference the URL in the
+[`packages` setting](../user-guide/configuration/#packages). So long as the
+server at which you are hosting the package
+[allows CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+(fetching files from other domains) everything should just work.
+
+It is even possible to install such packages at runtime, as this example using
+MicroPython's [`mip` tool](https://docs.micropython.org/en/latest/reference/packages.html)
+demonstrates (the equivalent can be achieved with Pyodide
+[via `micropip`](https://micropip.pyodide.org/en/stable/)).
+
+```python title="MicroPython mip example."
 # Install default version from micropython-lib
 mip.install("keyword")
 
@@ -451,13 +673,12 @@ mip.install("https://raw.githubusercontent.com/micropython/micropython-lib/maste
 mip.install("github:jeffersglass/some-project/foo.py")
 ```
 
-These URLs are recognized as *packages* entries in the *config* and as long as the URL allows *CORS* (fetching files from other domains) everything should be fine.
-
 #### Provide your own file
 
-Instead of using the *config* to define packages one can use the `files` field to bring modules in the runtime.
+One can use the [`files` setting](../user-guide/configuration/#files) to copy
+packages onto the Python path:
 
-```html title="Module as File"
+```html title="A file copied into the Python path."
 <mpy-config>
 [files]
 "./modules/bisect.py" = "./bisect.py"
@@ -467,9 +688,14 @@ Instead of using the *config* to define packages one can use the `files` field t
 </script>
 ```
 
-#### Zip or Tar Gz Modules
+#### Code archive (`zip` / `tgz`) 
 
-With this approach it's possible to archive in a compressed way the module content with a simple to complex structure:
+Compress all the code you want into an archive (using either either `zip` or
+`tgz`/`tar.gz`). Host the resulting archive and use the
+[`files` setting](../user-guide/configuration/#files) to decompress it onto
+the Python interpreter's file system.
+
+Consider the following file structure:
 
 ```
 my_module/__init__.py
@@ -477,20 +703,24 @@ my_module/util.py
 my_module/sub/sub_util.py
 ```
 
-Once archived as `.zip` or as `.tar.gz` in a way that contains the *my_module* folder and its content, it's possible to host this remotely or simply have it reachable locally:
+Host it somewhere, and decompress it into the home directory of the Python
+interpreter:
 
-```html title="Module as File"
+```html title="A code archive."
 <mpy-config>
 [files]
 "./my_module.zip" = "./*"
 </mpy-config>
+
 <script type="mpy">
   from my_module import util
   from my_module.sub import sub_util
 </script>
 ```
 
-Please **note** the `./*` convention, through a `.zip` or `.tar.gz` source, where the target folder with a star `*` will contain anything present in the source archive, in this example the whole *my_module* folder.
+Please note, the target folder must end with a star (`*`), and will contain
+everything in the archive. For example, `"./*"` refers to the home folder for
+the interpreter.
 
 ### File System
 

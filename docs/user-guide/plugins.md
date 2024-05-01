@@ -5,9 +5,8 @@ new features and distribute them as plugins.
 
 PyScript only supports plugins written in Javascript (although causing the
 evaluation of bespoke Python code can be a part of this process). The plugin's
-JavaScript code should be included on the web page via a `<script>` tag, then
-the plugin's name should be listed in the
-[plugins section of the configuration](../configuration/#plugins).
+JavaScript code should be included on the web page via a
+`<script type="module">` tag **before PyScript is included in the web page**.
 
 The PyScript plugin API defines hooks that intercept named events in the
 lifecycle of a PyScript application, so you can modify how the platform
@@ -92,39 +91,30 @@ For example, this will work because all references are contained within the
 registered function:
 
 ```js
-define('pl', {
-  interpreter: 'programming-lang',
-  hooks: {
-    worker: {
-      onReady() {
-        // NOT suggested, just as example!
-        if (!('i' in globalThis))
-          globalThis.i = 0;
-        console.log(++i);
-      }
-    }
-  }
+import { hooks } from "https://pyscript.net/releases/2024.4.2/core.js";
+
+hooks.worker.onReady.add(() => {
+    // NOT suggested, just an example!
+    // This code simply defines a global `i` reference if it doesn't exist.
+    if (!('i' in globalThis))
+        globalThis.i = 0;
+    console.log(++i);
 });
 ```
 
 However, due to the outer reference to the variable `i`, this will fail:
 
 ```js
+import { hooks } from "https://pyscript.net/releases/2024.4.2/core.js";
+
 // NO NO NO NO NO! ☠️
 let i = 0;
 
-define('pl', {
-  interpreter: 'programming-lang',
-  hooks: {
-    worker: {
-      onReady() {
-        // that outer-scope `i` is nowhere understood
-        // whenever this code executes in the worker
-        // as this function gets stringified and re-evaluated
-        console.log(++i);
-      }
-    }
-  }
+hooks.worker.onReady.add(() => {
+    // The `i` in the outer-scope will cause an error if
+    // this code executes in the worker because only the
+    // body of this function gets stringified and re-evaluated
+    console.log(++i);
 });
 ```
 
@@ -143,10 +133,10 @@ web worker is exactly
 ### Example plugin
 
 Here's a contrived example, written in JavaScript, that should be added to the
-web page via a `<script>` tag and enabled via
-the [plugins section of the configuration](../configuration/#plugins):
+web page via a `<script type="module">` tag before PyScript is included in
+the page.
 
-```js title="my_plugin.js - a plugin that simply logs to the console."
+```js title="log.js - a plugin that simply logs to the console."
 // import the hooks from PyScript first...
 import { hooks } from "https://pyscript.net/releases/2024.4.2/core.js";
 
@@ -189,20 +179,22 @@ hooks.worker.onAfterRun.add(() => {
 });
 ```
 
-```html title="Include the plugin in the web page."
-<html>
+```html title="Include the plugin in the web page before including PyScript."
+<!DOCTYPE html>
+<html lang="en">
     <head>
-      ...
-      <script src="my_plugin.js"></script>
-      ...
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- JS plugins should be available before PyScript bootstraps -->
+        <script type="module" src="./log.js"></script>
+        <!-- PyScript -->
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.2/core.css">
+        <script type="module" src="https://pyscript.net/releases/2024.4.2/core.js"></script>
     </head>
     <body>
-      ...
-      <script type="mpy" src="main.py" config="conf.toml"></script>
+        <script type="mpy">
+            print("ACTUAL CODE")
+        </script>
     </body>
 </html>
-```
-
-``` toml title="The associated plugin configuration in conf.toml."
-plugins = ["my_plugin" ]
 ```
