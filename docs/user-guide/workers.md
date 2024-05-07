@@ -55,7 +55,7 @@ attribute flag:
 ```
 
 Alternatively, to launch a worker from within Python running on the main thread
-use the [pyscript.PyWorker](../builtins/#pyscriptpyworker) class and must
+use the [pyscript.PyWorker](../builtins/#pyscriptpyworker) class and you must
 reference both the target Python script and interpreter type:
 
 ```python title="Launch a worker from within Python"
