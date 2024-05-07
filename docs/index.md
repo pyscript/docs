@@ -26,13 +26,14 @@
   <a href="beginning-pyscript">beginning PyScript guide</a>
   and then using 
   <a href="https://pyscript.com/" target="_blank">pyscript.com</a>
-  to create your first apps.</dd>
+  to create your first apps. Having problems? Check out our
+  <a href="faq">frequently asked questions</a>.</dd>
   <dt><strong>I'm already technical...</strong></dt>
   <dd>The beginner docs will set you up with a simple coding environment. For
   more in-depth technical coverage of PyScript, consult the
   <a href="user-guide">user guide</a>. The
   <a href="examples">example applications</a> demonstrate many of the features
-  of PyScript.</dd>
+  of PyScript. The <a href="faq">FAQ</a> contains lots of technical detail.</dd>
   <dt><strong>I want to contribute...</strong></dt>
   <dd>
     <p>Welcome, friend!

@@ -517,7 +517,7 @@ poor introspection capabilities:
 * Making use of the capitalized-name-for-classes convention is brittle because
   when JavaScript code is minified the class name can sometimes change.
 * This leaves our convention of `Class.new()` to explicitly signal the intent
-  to instantiate a JavaScript class. While not idea it is clear and
+  to instantiate a JavaScript class. While not ideal it is clear and
   unambiguous.
 
 ### PyScript events
@@ -838,11 +838,6 @@ def download_file(path, mime_type):
         # should keep the memory clear for the session
 ```
 
-!!! warning
-
-    This currently only works with Pyodide due to a bug instantiating
-    `window.File` in MicroPython.
-
 ### create_proxy
 
 The `create_proxy` function is described in great detail
@@ -1148,15 +1143,9 @@ you're using Pyodide or MicroPython as your interpreter.
     **When using `pyscript.to_js`, the result is detached from the original
     Python dictionary.**
 
-    Any change to the JavaScript object **will not be reflected in the original
-    Python object**. For the vast majority of use cases, this is a desirable
-    trade-off. But it's important to note this detachment.
-
-The ability for a `Map` to remain attached to the related Python `dict` is
-perhaps an important reason Pyodide chose this implementation detail.
-Therefore, if you have JavaScript code that requires changes of state to be
-reflected in the Python world you should use the underlying `pyodide.ffi.to_js`
-API.
+Any change to the JavaScript object **will not be reflected in the original
+Python object**. For the vast majority of use cases, this is a desirable
+trade-off. But it's important to note this detachment.
 
 If you're simply passing data around, `pyscript.ffi.to_js` will fulfil your
 requirements in a simple and idiomatic manner.
