@@ -1860,7 +1860,7 @@ poor introspection capabilities:</p>
 <li>Making use of the capitalized-name-for-classes convention is brittle because
   when JavaScript code is minified the class name can sometimes change.</li>
 <li>This leaves our convention of <code>Class.new()</code> to explicitly signal the intent
-  to instantiate a JavaScript class. While not idea it is clear and
+  to instantiate a JavaScript class. While not ideal it is clear and
   unambiguous.</li>
 </ul>
 <h3 id="pyscript-events">PyScript events</h3>
@@ -2122,11 +2122,6 @@ files present on the interpreter's virtual file system.</p>
 </span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>        <span class="c1"># here a timeout to window.URL.revokeObjectURL(tmp)</span>
 </span><span id="__span-22-25"><a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>        <span class="c1"># should keep the memory clear for the session</span>
 </span></code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This currently only works with Pyodide due to a bug instantiating
-<code>window.File</code> in MicroPython.</p>
-</div>
 <h3 id="create_proxy">create_proxy</h3>
 <p>The <code>create_proxy</code> function is described in great detail
 <a href="../ffi/">on the FFI page</a>, but it's also useful to explain <em>when</em>
@@ -2379,15 +2374,10 @@ you're using Pyodide or MicroPython as your interpreter.</p>
 <p class="admonition-title">Warning</p>
 <p><strong>When using <code>pyscript.to_js</code>, the result is detached from the original
 Python dictionary.</strong></p>
+</div>
 <p>Any change to the JavaScript object <strong>will not be reflected in the original
 Python object</strong>. For the vast majority of use cases, this is a desirable
 trade-off. But it's important to note this detachment.</p>
-</div>
-<p>The ability for a <code>Map</code> to remain attached to the related Python <code>dict</code> is
-perhaps an important reason Pyodide chose this implementation detail.
-Therefore, if you have JavaScript code that requires changes of state to be
-reflected in the Python world you should use the underlying <code>pyodide.ffi.to_js</code>
-API.</p>
 <p>If you're simply passing data around, <code>pyscript.ffi.to_js</code> will fulfil your
 requirements in a simple and idiomatic manner.</p>
 
