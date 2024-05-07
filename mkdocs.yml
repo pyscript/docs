@@ -51,6 +51,7 @@ extra:
     provider: mike
 
 plugins:
+  - search
   - mike:
       version_selector: true
       css_dir: css
@@ -60,24 +61,24 @@ plugins:
 nav:
   - Home: index.md
   - Beginning PyScript: beginning-pyscript.md
-  - Code of Conduct: conduct.md
-  - Contributing: contributing.md
-  - Developer Guide: developers.md
-  - License: license.md
+  - Example Applications: examples.md
   - User guide:
     - Introduction: user-guide/index.md
     - What is PyScript?: user-guide/what.md
     - Features: user-guide/features.md
     - First steps: user-guide/first-steps.md
     - Architecture: user-guide/architecture.md
-    - Configuration: user-guide/configuration.md
+    - Configure PyScript: user-guide/configuration.md
     - The DOM &amp; JavaScript: user-guide/dom.md
-    - Workers: user-guide/workers.md
+    - Web Workers: user-guide/workers.md
     - Builtin helpers: user-guide/builtins.md
-    - FFI in detail: user-guide/ffi.md
+    - The FFI in detail: user-guide/ffi.md
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
     - Plugins: user-guide/plugins.md
     - Use Offline: user-guide/offline.md
-    - Example apps: user-guide/examples.md
-    - F.A.Q.: user-guide/faq.md
+  - FAQ: faq.md
+  - Contributing: contributing.md
+  - Developer Guide: developers.md
+  - Code of Conduct: conduct.md
+  - License: license.md

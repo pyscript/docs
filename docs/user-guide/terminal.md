@@ -64,7 +64,7 @@ this is very easy.
 Consider this fragment:
 
 ```html
-<script id="my_script" type="mpy" terminal worker>
+<script id="my_script" type="mpy" terminal worker></script>
 ```
 
 Get a reference to the element, and just call the `process` method on
@@ -77,9 +77,13 @@ await myterm.process('print("Hello world!")');
 
 ## XTerm reference
 
-Each *terminal* has a reachable reference to the [Terminal](https://xtermjs.org/docs/api/terminal/classes/terminal/) instance used to bootstrap the current terminal.
+Each terminal has a reference to the
+[Terminal](https://xtermjs.org/docs/api/terminal/classes/terminal/)
+instance used to bootstrap the current terminal.
 
-On the *JS* side, it's a `script.terminal` property while on the *Python* side, it's a `__terminal__` special reference that guarantees to provide the very same `script.terminal`:
+On the JavaScript side, it's a `script.terminal` property while on the Python
+side, it's a `__terminal__` special reference that guarantees to provide the
+very same `script.terminal`:
 
 ```html title="How to reach the XTerm Terminal"
 <script id="py-terminal" type="py" terminal worker>
@@ -96,7 +100,7 @@ On the *JS* side, it's a `script.terminal` property while on the *Python* side, 
 
 ### Clear the terminal
 
-As part of the API, it's very simple to clear a PyTerminal:
+It's very simple to clear a PyTerminal:
 
 ```html title="Clearing the terminal"
 <script type="mpy" terminal worker>
@@ -109,7 +113,10 @@ As part of the API, it's very simple to clear a PyTerminal:
 
 ### Terminal colors
 
-Not just colors, most special characters combination would work similarly to **bold** the text or make it **green**, or you can use `print('\033[2J')` to clear it, instead of using the exposed `clear()` method:
+Colors and most special characters work so you can make the text **bold** or
+turn it <span style="color: green">green</span>. You could even use a control
+character to `print('\033[2J')` and clear the terminal, instead of using the
+exposed `clear()` method:
 
 ```html title="Terminal colors"
 <script type="mpy" terminal worker>
@@ -121,7 +128,7 @@ Not just colors, most special characters combination would work similarly to **b
 
 ### Terminal addons
 
-Because there is always a reference to the terminal, it's also possible to add any addon to it:
+It's possible [use XTerm.js addons](https://xtermjs.org/docs/guides/using-addons/):
 
 ```html title="Terminal addons"
 <py-config>
@@ -138,4 +145,8 @@ Because there is always a reference to the terminal, it's also possible to add a
 </script>
 ```
 
-Although it's worth mentioning that the `WebLinksAddon` is already part of the default terminal distribution in *PyScript*, but that's basically what we do behind the scene to enable it and [any other addon](https://github.com/xtermjs/xterm.js/tree/master/addons/) could work the same.
+By default we enable the `WebLinksAddon` addon (so URLs displayed in the
+terminal automatically become links). Behind the scenes is the example code
+shown above, and this approach will work for
+[any other addon](https://github.com/xtermjs/xterm.js/tree/master/addons/) you
+may wish to use.

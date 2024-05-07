@@ -11,8 +11,8 @@ PyScript looks after for you).
 We need to tell PyScript how we want such Python environments to be configured.
 This works in the same way for both the main thread and for web workers. Such
 configuration ensures we get the expected resources ready before our Python
-code is evaluated (resources such as arbitrary data files, third party Python
-packages and PyScript plugins).
+code is evaluated (resources such as arbitrary data files and third party
+Python packages).
 
 ## TOML or JSON
 
@@ -79,9 +79,11 @@ specification of configuration information via a _single_ `<py-config>` or
 
 ## Options
 
-There are five core options ([`interpreter`](#interpreter), [`files`](#files),
-[`packages`](#packages), [`plugins`](#plugins) and
-[`js_modules`](#javascript-modules).) The user is free to define
+There are four core options ([`interpreter`](#interpreter), [`files`](#files),
+[`packages`](#packages), and
+[`js_modules`](#javascript-modules)) and an experimental flag
+([experimental_create_proxy](#experimental_create_proxy)) that can be used in
+the configuration of PyScript. The user is also free to define
 arbitrary additional configuration options that plugins or an app may require
 for their own reasons.
 
@@ -252,20 +254,36 @@ For example, the end of the previous config file could be:
 
 ### Packages
 
-The `packages` option defines a list of Python `packages` to be installed from
-[PyPI](https://pypi.org/) onto the filesystem by Pyodide's 
-[micropip](https://micropip.pyodide.org/en/stable/index.html) package
-installer.
+The `packages` option lists
+[Python packages](https://packaging.python.org/en/latest/)
+to be installed onto the Python path.
 
-!!! warning
+!!! info 
+
+    Pyodide uses a
+    [utility called `micropip`](https://micropip.pyodide.org/en/stable/index.html)
+    to install packages [from PyPI](https://pypi.org/).
 
     Because `micropip` is a Pyodide-only feature, and MicroPython doesn't
-    support code packaged on PyPI, **the `packages` option is only available
-    for use with Pyodide**.
+    support code packaged on PyPI, **the `packages` option only works with
+    packages hosted on PyPI when using Pyodide**.
 
-    If you need **Python modules for MicroPython**, use the
-    [files](#files) option to manually copy the source code onto the
-    file system.
+    MicroPython's equivalent utility,
+    [`mip`](https://docs.micropython.org/en/latest/reference/packages.html),
+    **uses a separate repository of available packages called
+    [`micropython-lib`](https://github.com/micropython/micropython-lib)**.
+    When you use the `packages` option with MicroPython, it is this repository
+    (not PyPI) that is used to find available packages. Many of the packages
+    in `micropython-lib` are for microcontroller based activities and
+    **may not work with the web assembly port** of MicroPython.
+
+    If you need **pure Python modules for MicroPython**, you have two further
+    options:
+
+    1. Use the [files](#files) option to manually copy the source code for a
+       package onto the file system.
+    2. Use a URL referencing a MicroPython friendly package instead of PyPI
+       package name.
 
 The following two examples are equivalent:
 
@@ -279,7 +297,8 @@ packages = ["arrr", "numberwang", "snowballstemmer>=2.2.0" ]
 }
 ```
 
-The names in the list of `packages` can be any of the following valid forms:
+When using Pyodide, the names in the list of `packages` can be any of the
+following valid forms:
 
 * A name of a package on PyPI: `"snowballstemmer"`
 * A name for a package on PyPI with additional constraints:
@@ -287,40 +306,14 @@ The names in the list of `packages` can be any of the following valid forms:
 * An arbitrary URL to a Python package: `"https://.../package.whl"`
 * A file copied onto the browser based file system: `"emfs://.../package.whl"`
 
-### Plugins
-
-The `plugins` option lists plugins enabled by PyScript to add extra
-functionality to the platform.
-
-Each plugin should be included on the web page, as described in the
-[plugins](plugins.md) section. Then the plugin's name should be listed.
-
-```TOML title="A list of plugins in TOML"
-plugins = ["custom_plugin", "!error"]
-```
-
-```JSON title="A list of plugins in JSON"
-{
-    "plugins": ["custom_plugin", "!error"]
-}
-```
-
-!!! info
-
-    The `"!error"` syntax is a way to turn off a plugin built into PyScript
-    that is enabled by default.
-
-    Currently, the only built-in plugin is the `error` plugin to display a
-    stack trace and error messages in the DOM. More may be added at a later
-    date.
-
 ### JavaScript modules
 
 It's easy to import and use JavaScript modules in your Python code. This
 section of the docs examines the configuration needed to make this work. How
-to make use of JavaScript is dealt with [elsewhere](../dom/#working-with-javascript).
+to make use of JavaScript is dealt with
+[elsewhere](../dom/#working-with-javascript).
 
-To do so, requires telling PyScript about the JavaScript modules you want to
+We need to tell PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
 
 There are two fields:
@@ -331,7 +324,7 @@ There are two fields:
   need CSS files to work, and these can also be specified.
 * `js_modules.worker` defines JavaScript modules loaded into the context of
   the web worker. Such modules **must not expect** `document` or `window`
-  references (if this is the case,you must load them via `js_modules.main` and
+  references (if this is the case, you must load them via `js_modules.main` and
   use them from the worker). However, if the JavaScript module could work
   without such references, then performance is better if defined on a worker.
   Because CSS is meaningless in the context of a worker, it is not possible to
@@ -411,6 +404,34 @@ context:
 However, `from pyscript.js_modules import html_escaper` would then only work
 within the context of Python code **running on a worker**.
 
+### experimental_create_proxy
+
+Knowing when to use the `pyscript.ffi.create_proxy` method when using Pyodide
+can be confusing at the best of times and full of
+[technical "magic"](../ffi#create_proxy).
+
+This _experimental_ flag, when set to `"auto"` will cause PyScript to try to
+automatically handle such situations, and should "just work".
+
+```TOML title="Using the experimental_create_proxy flag in TOML."
+experimental_create_proxy = "auto"
+```
+
+```JSON title="Using the experimental_create_proxy flag in JSON."
+{
+    "experimental_create_proxy": "auto"
+}
+```
+
+!!! warning
+
+    **This feature is _experimental_ and only needs to be used with Pyodide.**
+
+    Should you encounter problems (such as problematic memory leaks) when using
+    this flag with Pyodide, please don't hesitate to
+    [raise an issue](https://github.com/pyscript/pyscript/issues) with a
+    reproducable example, and we'll investigate.
+
 ### Custom 
 
 Sometimes plugins or apps need bespoke configuration options.
@@ -419,6 +440,18 @@ So long as you don't cause a name collision with the built-in option names then
 you are free to use any valid data structure that works with both TOML and JSON
 to express your configuration needs.
 
-**TODO: explain how to programmatically get access to an object representing
-the config.**
+Access the current configuration via `pyscript.config`, a Python `dict`
+representing the configuration:
 
+```python title="Reading the current configuration."
+from pyscript import config
+
+
+# It's just a dict.
+print(config.get("files"))
+```
+
+!!! note
+
+    Changing the `config` dictionary at runtime doesn't change the actual
+    configuration.

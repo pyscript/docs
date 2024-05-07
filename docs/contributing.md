@@ -18,7 +18,7 @@ Bugs are tracked on the
 
 !!! warning "Check first"
 
-    Please check your bug has not already been reported by someone else byi
+    Please check your bug has not already been reported by someone else by
     searching the existing issues before filing a new one. Once your issue is
     filed, it will be triaged by another contributor or maintainer. If there
     are questions raised about your issue, please respond promptly.
@@ -50,6 +50,9 @@ If you have an interesting project, a cool hack, or an innovative way to
 implement a new capability or feature, please share your work and tell us about
 it so we can celebrate and amplify your contribution.
 
+- Show off your creation at our fortnightly
+  [PyScript FUN](https://discord.com/events/972017612454232116/1227275336115556402)
+  community call on discord.
 - Write up your creation in a blog post.
 - Share it on social media.
 - Create a demo video.
@@ -63,11 +66,16 @@ Please reach out to us if you'd like advice and feedback.
 As an open source project, PyScript has community at its core. In addition to
 the ways to engage already outlined, you could join our live community calls.
 
-- PyScript Community Call - weekly on Tuesdays. A coordination call for anyone
-  participating in the PyScript project.
-- PyScript FUN - held every two weeks on a Thursday, this call is an informal,
+- [PyScript Community Call](https://discord.com/events/972017612454232116/1227274094366556279)
+  - weekly on Tuesdays. A coordination call for anyone participating in the
+  PyScript project.
+- [Community Engagement Call](https://discord.com/events/972017612454232116/1227275045965922376)
+  - weekly on Wednesdays. A non-technical meeting where we coordinate how the
+  PyScript project engages with, nourishes and grows our wonderful community.
+- [PyScript FUN](https://discord.com/events/972017612454232116/1227275336115556402)
+  - held every two weeks on a Thursday, this call is an informal,
   supportive and often humorous "show and tell" of community created projects,
-  hacks and plugins.
+  hacks, feedback and plugins.
 
 Announcement of connection details is made via the PyScript
 [discord server](https://discord.gg/HxvBtukrg2).
@@ -117,7 +125,9 @@ git remote add upstream https://github.com/pyscript/pyscript.git
 git pull upstream main
 ```
 
-* ???
+* Contribute changes using the
+  [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow)
+  model of coding collaboration.
 
 ### License terms for contributions
 
@@ -140,9 +150,3 @@ the existing maintainers.
 
 The Project abides by the Organization's
 [trademark policy](https://github.com/pyscript/governance/blob/main/TRADEMARKS.md).
-
----
-
-Part of MVG-0.1-beta.
-Made with love by GitHub. Licensed under the
-[CC-BY 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/).

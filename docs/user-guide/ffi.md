@@ -1,21 +1,53 @@
 # PyScript FFI
 
-The reason we decided to incrementally provide a unified *pyscript.ffi* utility is that [Pyodide](https://pyodide.org/en/stable/usage/api/python-api/ffi.html)'s *ffi* is only partially implemented in *MicroPython* but there are fundamental differences even with the few common utilities both projects provide, hence our intention to smooth out their usage with all the features or caveats one needs to be aware of.
+The foreign function interface (FFI) gives Python access to JavaScript, and
+JavaScript access to Python. As a result PyScript is able to access all the
+standard APIs and capabilities provided by the browser.
+
+We provide a unified `pyscript.ffi` because
+[Pyodide's FFI](https://pyodide.org/en/stable/usage/api/python-api/ffi.html)
+is only partially implemented in MicroPython and there are some fundamental
+differences. The `pyscript.ffi` namespace smooths out such differences into
+a uniform and consistent API.
 
 Our `pyscript.ffi` offers the following utilities:
 
-  * `ffi.to_js(reference)` to convert any Python reference to its *JS* counterpart
-  * `ffi.create_proxy(def_or_lambda)` to proxy a generic Python's function into a *JS* one, without destroying its reference right away
+* `ffi.to_js(reference)` converts a Python object into its JavaScript
+  counterpart.
+* `ffi.create_proxy(def_or_lambda)` proxies a generic Python function into a
+  JavaScript one, without destroying its reference right away.
+
+Should you require access to Pyodide or MicroPython's specific version of the
+FFI you'll find them under the `pyodide.ffi` and `micropython.ffi` namespaces.
+Please refer to the documentation for those projects for further information.
 
 ## to_js
 
-In the [Pyodide project](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.to_js), this utility converts Python dictionaries into a *Map*. The *Map* object more accurately reflects the `obj.get(field)` native Python way to retrieve a value from a dictionary.
+In the
+[Pyodide project](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.to_js),
+this utility converts Python dictionaries into
+[JavaScript `Map` objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
+Such `Map` objects reflect the `obj.get(field)` semantics native to Python's
+way of retrieving a value from a dictionary.
 
-However, we have noticed that this default conversion plays very badly with pretty much any native or user made *JS* API, so that most of the code around `to_js` needs to explicitly define a `dict_converter=js.Object.fromEntries` instead of mapping Python's dictionaries directly as JS' objects literal.
+Unfortunately, this default conversion breaks the vast majority of native and
+third party JavaScript APIs. This is because the convention in idiomatic
+JavaScript is to use an [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
+for such key/value data structures (not a `Map` instance).
 
-On top of that, in *MicroPython* the default conversion already produces *object literals*, making the need to specify a different converter pretty pointless.
+A common complaint has been the repeated need to call `to_js` with the long
+winded argument `dict_converter=js.Object.fromEntries`. It turns out, most
+people most of the time simply want to map a Python `dict` to a JavaScript
+`object` (not a `Map`).
 
-As we all known though, *explicit is better than implicit*, so whenever an object literal is expected and no reason to hold a Python reference in the JS world is needed, using `to_js(python_dictionary)` will guarantee the entity to be copied or passed as *object literal* to the consumer of that dictionary.
+Furthermore, in MicroPython the default Python `dict` conversion is to the
+idiomatic and sensible JavaScript `object`, making the need to specify a
+dictionary converter pointless.
+
+Therefore, if there is no reason to hold a Python reference in a JavaScript
+context (which is 99% of the time, for common usage of PyScript) then use the
+`pyscript.ffi.to_js` function, on both Pyodide and MicroPython, to always
+convert a Python `dict` to a JavaScript `object`.
 
 ```html title="to_js: pyodide.ffi VS pyscript.ffi"
 <!-- works on Pyodide (type py) only -->
@@ -39,28 +71,93 @@ As we all known though, *explicit is better than implicit*, so whenever an objec
 
     It is still possible to specify a different `dict_converter` or use Pyodide
     specific features while converting Python references by simply overriding
-    the explicit field for `dict_converter`. However, we cannot guarantee
-    all fields and features provided by Pyodide will work the same on MicroPython.
+    the explicit field for `dict_converter`.
+
+    However, we cannot guarantee all fields and features provided by Pyodide
+    will work in the same way on MicroPython.
 
 ## create_proxy
 
-In the [Pyodide project](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.create_proxy), this utility guarantees that a Python lambda or callback won't be garbage collected immediately after.
+In the
+[Pyodide project](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.create_proxy),
+this function ensures that a Python callable associated with an event listener,
+won't be garbage collected immediately after the function is assigned to the
+event. Therefore, in Pyodide, if you do not wrap your Python function, it is
+immediately garbage collected after being associated with an event listener.
 
-There are, still in *Pyodide*, dozens ad-hoc utilities that work around that implementation detail, such as `create_once_callable` or `pyodide.ffi.wrappers.add_event_listener` or `pyodide.ffi.wrappers.set_timeout` and others, all methods whose goal is to automatically handle the lifetime of the passed callback.
+This is so common a gotcha (see the FAQ for
+[more on this](../../faq#borrowed-proxy)) that the Pyodide project have already
+created many work-arounds to address this situation. For example, the
+`create_once_callable`, `pyodide.ffi.wrappers.add_event_listener` and
+`pyodide.ffi.set_timeout` are all methods whose goal is to automatically manage
+the lifetime of the passed in Python callback.
 
-There are also implicit helpers like in `Promise` where `.then` or `.catch` callbacks are implicitly handled a part to guarantee no leaks once executed.
+Add to this situation methods connected to the JavaScript `Promise` object
+(`.then` and `.catch` callbacks that are implicitly handled to guarantee no
+leaks once executed) and things start to get confusing and overwhelming with
+many ways to achieve a common end result.
 
-Because the amount of details could be easily overwhelming, we decided to provide an `experimental_create_proxy = "auto"` configuration option that should never require our users to care about all these details while all the generic APIs in the *JS* world should "*just work*".
+Ultimately, user feedback suggests folks simply want to do something like this,
+as they write their Python code:
 
-This flag is strictly coupled with the *JS* garbage collector and it will eventually destroy all proxies that were previously created through the [FinalizationRegistry](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry) native utility.
+```python title="Define a callback without create_proxy."
+import js
+from pyscript import window
 
-This flag also won't affect *MicroPython* because it rarely needs a `create_proxy` at all, when Python functions are passed to JS, but there are still cases where that conversion might be needed or explicit.
 
-For these reasons we expose also the `create_proxy` utility which does not change much in the *MicroPython* world or code, but it might be still needed in the *Pyodide* runtime.
+def callback(msg):
+    """
+    A Python callable that logs a message.
+    """
+    window.console.log(msg)
 
-The main difference with these two different runtime is that *MicroPython* doesn't provide (yet) a way to explicitly destroy the proxy reference, while in *Pyodide* it's still desirable to explicitly invoke that `proxy.destroy()` when the function is not needed/called anymore.
 
-```html title="A classic Pyodide failure VS MicroPython"
+# Use the callback without having to explicitly create_proxy.
+js.setTimeout(callback, 1000, 'success')
+```
+
+Therefore, PyScript provides an experimental configuration flag called
+`experimental_create_proxy = "auto"`. When set, you should never have to care
+about these technical details nor use the `create_proxy` method and all the
+JavaScript callback APIs should just work.
+
+Under the hood, the flag is strictly coupled with the JavaScript garbage
+collector that will eventually destroy all proxy objects created via the
+[FinalizationRegistry](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry)
+built into the browser.
+
+This flag also won't affect MicroPython because it rarely needs a
+`create_proxy` at all when Python functions are passed to JavaScript event
+handlers. MicroPython automatically handles this situation. However,
+there might still be rare and niche cases in MicroPython where such a
+conversion might be needed.
+
+Hence, PyScript retains the `create_proxy` method, even though it does not
+change much in the MicroPython world, although it might be still needed with
+the Pyodide runtime is you don't use the `experimental_create_proxy = "auto"`
+flag.
+
+At a more fundamental level, MicroPython doesn't provide (yet) a way to
+explicitly destroy a proxy reference, whereas Pyodide still expects to
+explicitly invoke `proxy.destroy()` when the function is not needed.
+
+!!! warning
+
+    In MicroPython proxies might leak due to the lack of a `destroy()` method.
+
+    Happily, proxies are usually created explicitly for event listeners or
+    other utilities that won't need to be destroyed in the future. So the lack
+    of a `destroy()` method in MicroPython is not a problem in this specific,
+    and most common, situation.
+
+    Until we have a `destroy()` in MicroPython, we suggest testing the
+    `experimental_create_proxy` flag with Pyodide so both runtimes handle
+    possible leaks automatically.
+
+For completeness, the following examples illustrate the differences in
+behaviour between Pyodide and MicroPython:
+
+```html title="A classic Pyodide gotcha VS MicroPython"
 <!-- Throws:
 Uncaught Error: This borrowed proxy was automatically destroyed
 at the end of a function call. Try using create_proxy or create_once_callable.
@@ -77,21 +174,23 @@ at the end of a function call. Try using create_proxy or create_once_callable.
 </script>
 ```
 
-To address the difference in Pyodide's behaviour, we can use the experimental flag:
+To address the difference in Pyodide's behaviour, we can use the experimental
+flag:
 
 ```html title="experimental create_proxy"
 <py-config>
     experimental_create_proxy = "auto"
 </py-config>
 
-<!-- logs "success" after a second -->
+<!-- logs "success" after a second in both Pyodide and MicroPython -->
 <script type="py">
     import js
     js.setTimeout(lambda x: print(x), 1000, "success");
 </script>
 ```
 
-Alternatively, it is possible to create a proxy via our *ffi* in both interpreters, but only in Pyodide can we then destroy such proxy:
+Alternatively, `create_proxy` via the `pyscript.ffi` in both interpreters, but
+only in Pyodide can we then destroy such proxy:
 
 ```html title="pyscript.ffi.create_proxy"
 <!-- success in both Pyodide and MicroPython -->
@@ -103,20 +202,10 @@ Alternatively, it is possible to create a proxy via our *ffi* in both interprete
         try:
             proxy.destroy()
         except:
-            pass # MicroPython
-
+            pass  # MicroPython
         print(x)
 
     proxy = create_proxy(log)
     js.setTimeout(proxy, 1000, "success");
 </script>
 ```
-
-!!! warning
-
-    In MicroPython proxies might leak due to the lack of a `destroy()` method.
-    Usually proxies are better off created explicitly for event listeners
-    or other utilities that won't need to be destroyed in the future.
-    Until we have a `destroy()` in MicroPython, it's still suggested to try
-    and test if the experimental flag is good enough for Pyodide and let
-    both runtime handle possible leaks behind the scene automatically.

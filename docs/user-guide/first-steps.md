@@ -20,22 +20,15 @@ CSS:
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <!-- PyScript CSS -->
-        <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.1/core.css">
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.1/core.css">
         <!-- This script tag bootstraps PyScript -->
-        <script type="module" src="https://pyscript.net/releases/2024.4.1/core.js"></script>
+        <script type="module" src="https://pyscript.net/releases/2024.5.1/core.js"></script>
     </head>
     <body>
         <!-- your code goes here... -->
     </body>
 </html>
 ```
-
-!!! warning
-
-    Since release `2023.11.1` the `https://pyscript.net/latest/` path has been deprecated and will be
-    completely removed from release >= `2023.12.x`. If you've been using `/latest` as a path we
-    highly encourage you to pin your application to a specific version to avoid breaking your
-    application.
 
 There are two ways to tell PyScript how to find your code.
 
@@ -97,15 +90,15 @@ attributes:
 
 !!! warning
 
-    The `packages` setting used in the example configuration shown above is a
-    **Pyodide-only feature** because MicroPython doesn't support code packaged
-    on PyPI.
+    The `packages` setting used in the example configuration shown above is
+    **for Pyodide** using PyPI.
+
+    When using MicroPython, and because MicroPython doesn't support code
+    packaged on PyPI, you should use a valid URL to a _MicroPython friendly_
+    package.
 
     For more information please refer to the [packages section](configuration.md/#packages) of
     this user guide.
-
-    The `terminal` flag is currently a **Pyodide-only feature**, but this will
-    change _very soon_ with a new version of MicroPython.
 
 !!! question
 

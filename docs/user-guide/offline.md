@@ -3,11 +3,11 @@
 Sometimes you want to run PyScript applications offline.
 
 Both PyScript core and the interpreter used to run code need to be served with
-the application itself. Two requirements are needed to create an
-offline PyScript are:
+the application itself. The two requirements needed to create an offline
+version of PyScript are:
 
-* Download and include PyScript core.
-* Download and include the Python interpreters used in your application.
+1. Download and include PyScript core.
+2. Download and include the Python interpreters used in your application.
 
 ## Get PyScript core
 
