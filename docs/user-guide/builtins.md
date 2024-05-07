@@ -41,7 +41,7 @@ On a worker thread, this object is a proxy for the web page's
 
 ### `pyscript.document`
 
-On both main and worker threads, this object is a proxy for the the web page's
+On both main and worker threads, this object is a proxy for the web page's
 [document object](https://developer.mozilla.org/en-US/docs/Web/API/Document).
 The `document` is a representation of the
 [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_Document_Object_Model)
@@ -257,6 +257,121 @@ result = await fetch("https://example.com", method="POST", body="HELLO").text()
     bug). However, you could use a pass-through proxy service to get around
     this limitation (i.e. the proxy service makes the call on your behalf).
 
+### `pyscript.WebSocket`
+
+If a `pyscript.fetch` results in a call and response HTTP interaction with a
+web server, the `pyscript.Websocket` class provides a way to use
+[websockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+for two-way sending and receiving of data via a long term connection with a
+web server.
+
+PyScript's implementation, available in both the main thread and a web worker,
+closely follows the browser's own 
+[WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) class.
+
+This class accepts the following named arguments:
+
+* A `url` pointing at the _ws_ or _wss_ address. E.g.:
+  `WebSocket(url="ws://localhost:5037/")`
+* Some `protocols`, an optional string or a list of strings as
+  [described here](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket#parameters).
+
+The `WebSocket` class also provides these convenient static constants:
+
+* `WebSocket.CONNECTING` (`0`) - the `ws.readyState` value when a web socket
+  has just been created.
+* `WebSocket.OPEN` (`1`) - the `ws.readyState` value once the socket is open.
+* `WebSocket.CLOSING` (`2`) - the `ws.readyState` after `ws.close()` is
+  explicitly invoked to stop the connection.
+* `WebSocket.CLOSED` (`3`) - the `ws.readyState` once closed.
+
+A `WebSocket` instance has only 2 methods:
+
+* `ws.send(data)` - where `data` is either a string or a Python buffer,
+  automatically converted into a JavaScript typed array. This sends data via
+  the socket to the connected web server.
+* `ws.close(code=0, reason="because")` - which optionally accepts `code` and
+  `reason` as named arguments to signal some specific status or cause for
+  closing the web socket. Otherwise `ws.close()` works with the default
+  standard values.
+
+A `WebSocket` instance also has the fields that the JavaScript
+`WebSocket` instance will have:
+
+* [binaryType](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/binaryType) -
+  the type of binary data being received over the WebSocket connection.
+* [bufferedAmount](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/bufferedAmount) -
+  a read-only property that returns the number of bytes of data that have been
+  queued using calls to `send()` but not yet transmitted to the network.
+* [extensions](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/extensions) -
+  a read-only property that returns the extensions selected by the server.
+* [protocol](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/protocol) -
+  a read-only property that returns the name of the sub-protocol the server
+  selected.
+* [readyState](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState) -
+  a read-only property that returns the current state of the WebSocket
+  connection as one of the `WebSocket` static constants (`CONNECTING`, `OPEN`,
+  etc...).
+* [url](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/url) -
+  a read-only property that returns the absolute URL of the `WebSocket`
+  instance.
+
+A `WebSocket` instance can have the following listeners. Directly attach
+handler functions to them. Such functions will always receive a single
+`event` object.
+
+* [onclose](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close_event) -
+  fired when the `WebSocket`'s connection is closed.
+* [onerror](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/error_event) -
+  fired when the connection is closed due to an error.
+* [onmessage](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/message_event) -
+  fired when data is received via the `WebSocket`. If the `event.data` is a
+  JavaScript typed array instead of a string, the reference it will point
+  directly to a _memoryview_ of the underlying `bytearray` data.
+* [onopen](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/open_event) -
+  fired when the connection is opened.
+
+The following code demonstrates a `pyscript.WebSocket` in action.
+
+```html
+<script type="mpy" worker>
+    from pyscript import WebSocket
+
+    def onopen(event):
+        print(event.type)
+        ws.send("hello")
+
+    def onmessage(event):
+        print(event.type, event.data)
+        ws.close()
+
+    def onclose(event):
+        print(event.type)
+
+    ws = WebSocket(url="ws://localhost:5037/")
+    ws.onopen = onopen
+    ws.onmessage = onmessage
+    ws.onclose = onclose
+</script>
+```
+
+!!! info
+
+    It's also possible to pass in any handler functions as named arguments when
+    you instantiate the `pyscript.WebSocket` class:
+
+    ```python
+    from pyscript import WebSocket
+
+
+    def onmessage(event):
+        print(event.type, event.data)
+        ws.close()
+
+
+    ws = WebSocket(url="ws://example.com/socket", onmessage=onmessage)
+    ```
+
 ### `pyscript.ffi.to_js`
 
 A utility function to convert Python references into their JavaScript
@@ -343,6 +458,25 @@ an `id`, that `id` will be returned.
     Then use the standard `document.getElementById(script_id)` function to
     return a reference to it in your code.
 
+### `pyscript.config`
+
+A Python dictionary representing the configuration for the interpreter.
+
+```python title="Reading the current configuration."
+from pyscript import config
+
+
+# It's just a dict.
+print(config.get("files"))
+```
+
+!!! warning
+
+    Changing the `config` dictionary at runtime has no effect on the actual
+    configuration.
+
+    It's just a convenience to **read the configuration** at run time.
+
 ### `pyscript.HTML`
 
 A class to wrap generic content and display it as un-escaped HTML on the page.
@@ -379,8 +513,9 @@ A class used to instantiate a new worker from within Python.
     Sometimes we disambiguate between interpreters through naming conventions
     (e.g. `py` or `mpy`).
 
-    However, it is always `PyWorker` and the desired interpreter is specified
-    via a `type` option which must be either `micropython` or `pyodide`.
+    However, this class is always `PyWorker` and **the desired interpreter 
+    MUST be specified via a `type` option**. Valid values for the type of
+    interpreter are either `micropython` or `pyodide`.
 
 The following fragments demonstrate how to evaluate the file `worker.py` on a
 new worker from within Python.
@@ -400,7 +535,7 @@ print("awake")
 ```python title="main.py - starts a new worker in Python."
 from pyscript import PyWorker
 
-# type can be either `micropython` or `pyodide`
+# type MUST be either `micropython` or `pyodide`
 PyWorker("worker.py", type="micropython")
 ```
 

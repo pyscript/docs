@@ -1,10 +1,10 @@
 # Plugins
 
-PyScript offers a plugin API to extend its functionality. It means you can add
-new features and distribute them as plugins.
+PyScript offers a plugin API _so anyone can extend its functionality and
+share their modifications_.
 
 PyScript only supports plugins written in Javascript (although causing the
-evaluation of bespoke Python code can be a part of this process). The plugin's
+evaluation of bespoke Python code can be a part of such plugins). The plugin's
 JavaScript code should be included on the web page via a
 `<script type="module">` tag **before PyScript is included in the web page**.
 
@@ -19,7 +19,7 @@ PyScript emits events that capture the beginning or the end of specific stages
 in the application's life. No matter if code is running in the main thread or
 on a web worker, the exact same sequence of steps takes place:
 
-  * **ready** - the browser recognized the PyScript `script` or tag and the
+  * **ready** - the browser recognizes the PyScript `script` or tag, and the
     associated Python interpreter is ready to work. A JavaScript callback can
     be used to instrument the interpreter before anything else happens.
   * **before run** - some Python code is about to be evaluated. A JavaScript
@@ -53,14 +53,22 @@ lifecycle events. When such events happen, your code will be called by
 PyScript.
 
 The available hooks depend upon where your code is running: on the browser's
-(blocking) main thread or on a (non-blocking) web worker.
+(blocking) main thread or on a (non-blocking) web worker. These are defined via
+the `hooks.main` and `hooks.worker` namespaces in JavaScript.
 
 
 #### Main Hooks
 
-Callbacks registered via hooks on the main thread will receive a wrapper of
-the interpreter with its utilities, along with a reference to the element on
-the page from where the code was derived.
+Callbacks registered via hooks on the main thread will usually receive a
+wrapper of the interpreter with its unique-to-that-interpreter utilities, along
+with a reference to the element on the page from where the code was derived.
+
+Please refer to the documentation for the interpreter you're using (Pyodide or
+MicroPython) to learn about its implementation details and the potential
+capabilities made available via the wrapper.
+
+Callbacks whose purpose is simply to run raw contextual Python code, don't
+receive interpreter or element arguments. 
 
 This table lists all possible, **yet optional**, hooks a plugin can register on
 the main thread:
@@ -91,7 +99,7 @@ For example, this will work because all references are contained within the
 registered function:
 
 ```js
-import { hooks } from "https://pyscript.net/releases/2024.4.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.5.1/core.js";
 
 hooks.worker.onReady.add(() => {
     // NOT suggested, just an example!
@@ -105,7 +113,7 @@ hooks.worker.onReady.add(() => {
 However, due to the outer reference to the variable `i`, this will fail:
 
 ```js
-import { hooks } from "https://pyscript.net/releases/2024.4.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.5.1/core.js";
 
 // NO NO NO NO NO! ☠️
 let i = 0;
@@ -138,7 +146,7 @@ the page.
 
 ```js title="log.js - a plugin that simply logs to the console."
 // import the hooks from PyScript first...
-import { hooks } from "https://pyscript.net/releases/2024.4.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.5.1/core.js";
 
 // The `hooks.main` attribute defines plugins that run on the main thread.
 hooks.main.onReady.add((wrap, element) => {
@@ -188,8 +196,8 @@ hooks.worker.onAfterRun.add(() => {
         <!-- JS plugins should be available before PyScript bootstraps -->
         <script type="module" src="./log.js"></script>
         <!-- PyScript -->
-        <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.2/core.css">
-        <script type="module" src="https://pyscript.net/releases/2024.4.2/core.js"></script>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.1/core.css">
+        <script type="module" src="https://pyscript.net/releases/2024.5.1/core.js"></script>
     </head>
     <body>
         <script type="mpy">

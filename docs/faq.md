@@ -16,8 +16,8 @@ If your application doesn't run, and you don't see any error messages on the
 page, you should check
 [your browser's console](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools).
 
-When reading an error message, the easy way to find out what's going on is,
-most of the time, to read the last line of the error.
+When reading an error message, the easy way to find out what's going on,
+most of the time, is to read the last line of the error.
 
 ```text title="A Pyodide error."
 Traceback (most recent call last):
@@ -41,7 +41,8 @@ NameError: name 'failure' isn't defined
 
 In both examples, the code created a
 [`NameError`](https://docs.python.org/3/library/exceptions.html#NameError)
-because the object with the name `failure` did not exist.
+because the object with the name `failure` did not exist. Everything above the
+error message is potentially useful technical detail.
 
 With this context in mind, these are the most common errors users of PyScript
 encounter.
@@ -688,7 +689,7 @@ packages onto the Python path:
 </script>
 ```
 
-#### Code archive (`zip` / `tgz`) 
+#### Code archive (`zip`/`tgz`) 
 
 Compress all the code you want into an archive (using either either `zip` or
 `tgz`/`tar.gz`). Host the resulting archive and use the
@@ -724,90 +725,108 @@ the interpreter.
 
 ### File System
 
-The first thing to understand about *PyScript* File System operations is that each interpreter provides *its own* *Virtual File System* that works **only in memory**.
+Python expects a file system. In PyScript each interpreter provides its own
+in-memory **virtual** file system. **This is not the same as the filesystem
+on the user's device**, but is simply a block of memory in the browser.
 
-!!! Note
+!!! warning 
 
-    We don't have yet a way to provide a shared, user's browser persistent, File System, so that any time we load or store and then read files we're doing that through the *RAM* and the current session: nothing is shared, nothing is stored, nothing persists!
+    **The file system is not persistent nor shareable** (yet).
 
-#### Read/Write Content
+    Every time a user loads or stores files, it is done in ephemeral memory
+    associated with the current browser session. Beyond the life of the
+    session, nothing is shared, nothing is stored, nothing persists!
 
-The easiest way to add content to the virtual *FS* is by using native *Python* files operations:
+#### Read/Write
 
-```python title="Writing to a text file"
+The easiest way to add content to the virtual file system is by using native
+Python file operations:
+
+```python title="Writing to a text file."
 with open("./test.txt", "w") as dest:
     dest.write("hello vFS")
     dest.close()
 
-# read the written content
-source = open("./test.txt", "r")
-print(source.read())
-source.close()
+# Read and print the written content.
+with open("./test.txt", "r") as f:
+    content = f.read()
+    print(content)
 ```
 
-Combined with our `pyscript.fetch` utility, it's also possible to store from the web more complex data.
+Combined with our `pyscript.fetch` utility, it's also possible to store more
+complex data from the web.
 
-```python title="Writing file as binary"
-# assume an `async` attribute / execution
+```python title="Writing a binary file."
+# Assume an `async` attribute / execution.
 from pyscript import fetch, window
 
 href = window.location.href
 
 with open("./page.html", "wb") as dest:
     dest.write(await fetch(href).bytearray())
-    dest.close()
 
-# read the current HTML page
-source = open("./page.html", "r")
-print(source.read())
-source.close()
+# Read and print the current HTML page.
+with open("./page.html", "r") as source:
+    print(source.read())
 ```
 
-#### Upload Content
+#### Upload
 
-Through the DOM API it's possible to also upload a file and store it into the virtual *FS*.
+It's possible to upload a file onto the virtual file system from the browser
+(`<input type="file">`), and using the DOM API.
 
-The following example is just one of the ways one can do that, but it's a pretty simple one and based on the very same code and logic already seen in the previous paragraph:
+The following fragment is just one way to achieve this. It's very simple and
+builds on the file system examples already seen.
 
-```html title="Upload file into vFS"
+```html title="Upload files onto the virtual file system via the browser."
+<!-- Creates a file upload element on the web page. -->
 <input type="file">
+
+<!-- Python code to handle file uploads via the HTML input element. -->
 <script type="mpy">
     from pyscript import document, fetch, window
 
     async def on_change(event):
-        # per each file
+        # For each file the user has selected to upload...
         for file in input.files:
-            # create a temporary URL
+            # create a temporary URL,
             tmp = window.URL.createObjectURL(file)
-            # fetch and save its content somewhere
+            # fetch and save its content somewhere,
             with open(f"./{file.name}", "wb") as dest:
                 dest.write(await fetch(tmp).bytearray())
-                dest.close()
-            # revoke the tmp URL
+            # then revoke the tmp URL.
             window.URL.revokeObjectURL(tmp)
 
+    # Grab a reference to the file upload input element and add
+    # the on_change handler (defined above) to process the files.
     input = document.querySelector("input[type=file]")
     input.onchange = on_change
 </script>
 ```
 
-#### Download Content
+#### Download
 
-Once a file is present in the virtual File System, it's always possible to create a temporary link which goal is to download such file:
+It is also possible to create a temporary link through which you can download
+files present on the interpreter's virtual file system.
 
-```python title="Download file from vFS"
+
+```python title="Download file from the virtual file system."
+from pyscript import document, ffi, window
+import os
+
+
 def download_file(path, mime_type):
-    from pyscript import document, ffi, window
-    import os
     name = os.path.basename(path)
     with open(path, "rb") as source:
         data = source.read()
 
-        # this is Pyodide specific
-        buffer = window.Uint8Array.from_(data)
+        # Populate the buffer.
+        buffer = window.Uint8Array.new(len(data))
+        for pos, b in enumerate(data):
+            buffer[pos] = b
         details = ffi.to_js({"type": mime_type})
 
-        # this is JS specific
+        # This is JS specific
         file = window.File.new([buffer], name, details)
         tmp = window.URL.createObjectURL(file)
         dest = document.createElement("a")
@@ -821,29 +840,47 @@ def download_file(path, mime_type):
 
 !!! warning
 
-    The presented utility works only on *Pyodide* at the moment, as there is no `from_` or `assign` convention in *MicroPython*. Once this is fixed or a better example is discovered the example will be updated too so that all of them should work in both interpreters.
+    This currently only works with Pyodide due to a bug instantiating
+    `window.File` in MicroPython.
 
 ### create_proxy
 
-Explained in details [in the ffi page](../ffi/), it's probably useful to cover the *when* `create_proxy` is needed at all.
+The `create_proxy` function is described in great detail
+[on the FFI page](../ffi/), but it's also useful to explain _when_
+`create_proxy` is needed and the subtle differences between Pyodide and
+MicroPython.
 
-To start with, there's a subtle difference between *Pyodide* and *MicroPython* around this topic, with or without using our `pyscript.ffi`, as it just forwards the utility behind scene.
+#### Background
 
-##### Background
+To call a Python function from JavaScript, the native Python function needs
+to be wrapped in a JavaScript object that JavaScript can use. This JavaScript
+object converts and normalises arguments passed into the function before
+handing off to the native Python function. It also reverses this process with
+any results from the Python function, and so converts and normalises values
+before returning the result to JavaScript.
 
-A *Python* function executed in the *JS* world inevitably needs to be wrapped in a way that, once executed, both its native (*Python*) function reference and any passed argument/parameter to such function can be normalized to *Python* references before such invocation happens.
-
-The *JS* primitive to do so is the [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) one, which enables "*traps*" such as [apply](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/apply) to do extra work before any result is actually returned from such invocation.
+The JavaScript primitive used for this purpose is the
+[Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
+It enables "traps", such as
+[apply](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/apply),
+so the extra work required to call the Python function can happen.
 
 Once the `apply(target, self, args)` trap is invoked:
 
-  * the interpreter must find which `target` in the current *WASM* running code that needs to be invoked
-  * the `self` context for regular functions is likely ignored for common cases, but it's likely desired to eventually define `python.method()` invokes when these happen in the *JS* world
-  * the `args` is a list of passed arguments where any proxy coming from *Python* must be resolved as reference, any primitive might be eventually converted into its *Python* primitive representation, if needed, and any *JS* reference must be translated into *Python* like objects / references
+* JavaScript must find the correct Python interpreter to evaluate the code.
+* In JavaScript, the `self` argument for `apply` is probably ignored for most
+  common cases.
+* All the `args` must be resolved and converted into their Python primitive
+  representations or associated Python objects.
 
-This orchestration might feel convoluted for many or obvious for others, yet the detail behind the scene is that such `target` reference *needs to exist* on the *WASM* runtime in order to be executed when the *JS* world asks for it ... so here the caveat: globally available functions might outlive any *JS* runtime interoperability in the *WASM* world but locally scoped or runtime functions cannot be retained forever!
+Ultimately, the targets referenced in the `apply` **must exist** in the Python
+context so they are ready when the JavaScript `apply` method calls into the
+Python context.
 
-```python title="A basic Python to JS callback"
+**Here's the important caveat**: locally scoped Python functions, or functions
+created at run time cannot be retained forever.
+
+```python title="A basic Python to JavaScript callback."
 import js
 
 js.addEventListener(
@@ -852,51 +889,98 @@ js.addEventListener(
 )
 ```
 
-In this scenario that `lambda` has no meaning or references in the running *Python* code, it's just delegated to the *JS* runtime / environment but it *must exist* whenever that `custom_event` is dispatched, hence triggered, or emitted, in the *JS* world.
+In this example, the anonymous `lambda` function has no reference in the Python
+context. It's just delegated to the JavaScript runtime via `addEventListener`,
+and then Python immediately garbage collects it. However, as previously
+mentioned, such a Python object must exist for when the `custom:event` is
+dispatched.
 
-From a pure architectural point of view there is literally nothing that defines in that user explicit intent how long that `lambda` should be kept alive in the current *Python* program while from the *JS* point of view that callback might never even be needed or invoked (i.e. the `custom:event` never happens ... which is a forever pending *lambda* use case).
+Furthermore, there is no way to define how long the `lambda` should be kept
+alive in the Python environment, nor any way to discover if the `custom:event`
+callback will ever dispatch (so the `lambda` is forever pending). PyScript, the
+browser and the Python interpreters can only work within a finite amount of
+memory, so memory management and the "aliveness" of objects is important.
 
-Because all interpreters do care about memory consumption and have some *WASM* memory constrain to deal with, `create_proxy` (or any similar API) has been provided to delegate the responsibility to kill those references to the user, specially for unknown, in time, invocations scenarios like the one described in here.
+Therefore, `create_proxy` is provided to delegate responsibility for the
+lifecycle of an object to the author of the code. In other words, wrapping the
+`lambda` in a call to `create_proxy` would ensure the Python interpreter
+retains a reference to the anonymous function for future use.
 
-**On the other hand**, when a *Python* callback is attached, as opposite of being just passed as argument, to a specific foreign instance, it is fairly easy for the *WASM* runtime to know when such `lambda` function, or any other non global function, could be freed from the memory.
+!!! info 
 
-```python title="A sticky lambda"
+    This probably feels strange! An implementation detail of how the Python
+    and JavaScript worlds interact with each other is bleeding into your code
+    via `create_proxy`. Surely, if we always just need to create a proxy, a
+    more elegant solution would be to do this automatically?
+
+    As you'll see, this is a complicated situation with inevitable tradeoffs,
+    but ultimately, through the
+    [`experimental_create_proxy = "auto"` flag](../user-guide/configuration/#experimental_create_proxy),
+    you probably never need to use `create_proxy`. This section of
+    our docs gives you the context you need to make an informed decision.
+
+**However**, this isn't the end of the story.
+
+When a Python callback is attached to a specific JavaScript
+instance (rather than passed as argument into an event listener), it is easy
+for the Python interpreter to know when the function could be freed from the
+memory.
+
+```python title="A sticky lambda."
 from pyscript import document
 
 # logs "click" if nothing else stopped propagation
 document.onclick = lambda e: print(e.type)
 ```
 
-"*How is that easy?*" is a valid question and the answer is that if the runtime has *JS* bindings, hence it's capable of dealing with *JS* references, that `document` would be a well known *JSProxy* that points to some underlying *JS* reference.
+"**Wait, wat? This doesn't make sense at all!?!?**", is a valid
+question/response to this situation.
 
-In this case there's usually no need to use `create_proxy` because that reference is well understood and the interpreter can use the *FinalizationRegistry* to simply destroy that lambda, or decrease its reference counting, whenever the underlying *JS* reference is not needed anymore, hence finalized after its own release from *JS*.
-
-Sure thing this example is fairly poor, because a `document` reference in the *JS* world would live "*forever*", but if instead of a `document` there was a live DOM element, as soon as that element gets replaced and it's both not live or referenced anymore, the *FinalizationRegistry* would inform the *WASM* based runtime that such reference is gone, and whatever was attached to it behind the scene can be gone too.
+In this case there's
+no need to use `create_proxy` because the JavaScript reference to which the
+function is attached isn't going away and the interpreter can use the
+[`FinalizationRegistry`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry)
+to destroy the `lambda` (or decrease its reference count) when the underlying
+JavaScript reference to which it is attached is itself destroyed.
 
 #### In Pyodide
 
-The `create_proxy` utility is exported [among others](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers) to smooth out and circumvent memory leaks in the long run.
+The `create_proxy` utility was created
+([among others](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers))
+to smooth out and circumvent the afore mentioned memory issues when using
+Python callables with JavaScript event handlers.
 
-Using it separately from other utilities though requires some special care, most importantly, it requires that the user invokes that `destroy()` method when such callback is not needed anymore, hence it requires users to mentally track callbacks lifecycle, but that's not always possible for at least these reasons:
+Using it requires special care. The coder must invoke the `destroy()` method
+when the Python callback is no longer needed. It means coders must track the
+callback's lifecycle. But this is not always possible:
 
-  * if the callback is passed to 3rd party libraries, the reference is kinda "*lost in a limbo*" where who knows when that reference could be actually freed
-  * if the callback is passed to listeners or timers, or even promises based operations, it's pretty unpredictable and counter intuitive, also a bad *DX*, to try to track those cases
+* If the callback is passed into opaque third party libraries, the reference is
+  "lost in a limbo" where who-knows-when the reference should be freed.
+* If the callback is passed to listeners, timers or promises it's hard to
+  predict when the callback is no longer needed.
 
-Luckily enough, the *Promise* use case is automatically handled by *Pyodide* runtime, but we're left with other cases:
+Luckily the `Promise` use case is automatically handled by Pyodide, but we're
+still left with the other cases:
 
-```python title="Pyodide VS create_proxy"
+```python title="Different Pyodide create_proxy contexts."
 from pyscript import ffi, window
 
-# this is needed even if `print` won't ever need
-# to be freed from the Python runtime
+# The create_proxy is needed when a Python
+# function isn't attached to an object reference
+# (but is, rather, an argument passed into
+# the JavaScript context).
+
+# This is needed so a proxy is created for
+# future use, even if `print` won't ever need
+# to be freed from the Python runtime.
 window.setTimeout(
   ffi.create_proxy(print),
   100,
   "print"
 )
 
-# this is needed not because `print` is used
-# but because otherwise the lambda is gone
+# This is needed because the lambda is
+# immediately garbage collected.
 window.setTimeout(
   ffi.create_proxy(
     lambda x: print(x)
@@ -908,9 +992,8 @@ window.setTimeout(
 def print_type(event):
     print(event.type)
 
-# this is needed even if `print_type`
-# is not a scoped / local function, rather
-# a never freed global reference in this Python code
+# This is needed even if `print_type`
+# is not a scoped / local function.
 window.addEventListener(
   "some:event",
   ffi.create_proxy(print_type),
@@ -919,97 +1002,161 @@ window.addEventListener(
   ffi.to_js({"once": True})
 )
 
-# this does NOT need create_function as it is
-# attached to an object reference, hence observed to free
+# This does NOT need create_function as it is
+# attached to an object reference, hence observed to free.
 window.Object().no_create_function = lambda: print("ok")
 ```
 
-To simplify some of this orchestration we landed the `experimental_create_proxy = "auto"` flag which goal is to intercept *JS* world callbacks invocation, and automatically proxy and destroy any proxy that is not needed or used anymore in the *JS* environment.
+To simplify this complicated situation PyScript has an
+`experimental_create_proxy = "auto"` flag. When set, **PyScript intercepts
+JavaScript callback invocations, such as those in the example code above, and
+automatically proxies and destroys any references that are garbage collected
+in the JavaScript environment**.
 
-Please give it a try and actually try to *not* ever use, or need, `create_proxy` at all, and tell us when it's needed instead, than you!
+**When this flag is set to `auto` in your configuration, you should never need
+to use `create_proxy` with Pyodide**.
 
 !!! Note
 
-    When it comes to *worker* based code, no *Proxy* can survive a roundtrip to the *main* thread and back.
-    In this scenario we inevitably need to orchestrate the dance differently and reference instead *Python* callbacks, or een *JS* one, as these travel by their unique *id*, not their identity on the *worker*.
-    We orchestrate the *free* dance automatically because nothing would work otherwise so that long story short, if your *pyodide* code runs from a *worker*, you likely never need to use `create_proxy` at all.
+    When it comes code running on a web worker, due to the way browser work, no
+    Proxy can survive a round trip to the main thread and back.
+
+    In this scenario PyScript works differently and references callbacks
+    via a unique id, rather than by their identity on the worker. When running
+    on a web worker, PyScript automatically frees proxy object references, so
+    you never need to use `create_proxy` when running code on a web worker.
 
 #### In MicroPython
 
-Things are definitively easier to reason about in this environment, but mostly because it doesn't expose (yet?) a `destroy()` utility for created proxies.
+The proxy situation is definitely simpler in MicroPython. It just creates
+proxies automatically (so there is no need for a manual `create_proxy` step).
 
-Accordingly, using `create_proxy` in *micropython* might be needed only to have portable code, as proxies are created anyway when *Python* code refers to a callback and is passed to any *JS* utility, plus proxies won't be created multiple times if these were already proxy of some *Python* callback.
+This is because MicroPython doesn't (yet) have a `destroy()` method for
+proxies, rendering the use case of `create_proxy` redundant.
 
-All the examples that require `create_proxy` in *Pyodide*, won't bother *MicroPython* but these would be also kinda not needed in general.
+Accordingly, **the use of `create_proxy` in MicroPython is only needed for
+code portability purposes** between Pyodide and MicroPython. When using
+`create_proxy` in MicroPython, it's just a pass-through function and doesn't
+actually do anything.
 
-```python title="MicroPython VS create_proxy"
+All the examples that require `create_proxy` in Pyodide, don't need it in
+MicroPython:
+
+```python title="Different MicroPython create_proxy contexts."
 from pyscript import window
 
-# this works
+# This just works.
 window.setTimeout(print, 100, "print")
 
-# this also works
+# This also just works.
 window.setTimeout(lambda x: print(x), 100, "lambda")
 
 def print_type(event):
     print(event.type)
 
-# this works too
+# This just works too.
 window.addEventListener(
   "some:event",
   print_type,
   ffi.to_js({"once": True})
 )
 
-# and so does this
+# And so does this.
 window.Object().no_create_function = lambda: print("ok")
 ```
 
-!!! Note
-
-    Currently *MicroPython* doesn't provide a `destroy()` method so it's actually preferred, in *MicroPython* projects, to not use or need the `create_proxy` because it lacks control over destroying it while it's up to the interpreter to decide when or how proxies can be destroyed.
-
 ### to_js
 
-Also xplained in details [in the ffi page](../ffi/), it's probably useful to cover the *when* `to_js` is needed at all.
+Use of the `pyodide.ffi.to_js` function is described
+[in the ffi page](../user-guide/ffi/#to_js).
+But it's also useful to cover the *when* and *why* `to_js` is needed, if at
+all.
 
-##### Background
+#### Background
 
-Despite their similar look on the surface, *Python* dictionaries and *JS* object literals are very different primitives:
+Despite their apparent similarity,
+[Python dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
+and
+[JavaScript object literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
+are very different primitives:
 
-```python title="A Python dict"
+```python title="A Python dictionary."
 ref = {"some": "thing"}
+
+# Keys don't need quoting, but only when initialising a dict...
+ref = dict(some="thing")
 ```
 
-```js title="A JS literal"
-const ref = {some: "thing"};
-// equally valid as ...
+```js title="A JavaScript object literal."
 const ref = {"some": "thing"};
+
+// Keys don't need quoting, so this is as equally valid...
+const ref = {some: "thing"};
 ```
 
-In both worlds accessing `ref["some"]` would also produce the same result: pointing at `"value"` string as result. However, in *JS* `ref.some` would also return the very same `"value"` and while in *Python* `ref.get("some")` would do the same, some interpreter preferred to map dictionaries to *JS* [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) instead, probably because [Map.get](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get) is really close to what *Python* dictionaries expect.
+In both worlds, accessing `ref["some"]` would produce the same result: the
+string `"thing"`.
 
-Long story short, *Pyodide* opted for that default conversion but unfortunately all *JS* APIs are usually expecting object literals, and *JS* maps don't really work seamlessly the same, so that it's possible to define a different `dict_converter` in *Pyodide*, but that definition is verbose and not too *DX* friendly:
+However, in JavaScript `ref.some` (i.e. a dotted reference to the key) would
+also work to return the string `"thing"` (this is not the case in Python),
+while in Python `ref.get("some")` achieves the same result (and this is not the
+case in JavaScript).
 
-```python title="A common Pyodide converter"
+Perhaps because of this, Pyodide chose to convert Python dictionaries to
+JavaScript
+[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+objects that share a
+[`.get` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get)
+with Python.
+
+Unfortunately, in idiomatic JavaScript and for the vast majority of APIs, 
+an object literal (rather than a `Map`) is used to represent key/value pairs.
+Feedback from our users indicates the dissonance of using a `Map` rather than
+the expected object literal to represent a Python `dict` is the source of a
+huge amount of frustration. Sadly, the APIs for `Map` and object literals
+are sufficiently different that one cannot be a drop in replacement for
+another.
+
+Pyodide have provided a way to override the default `Map` based behaviour, but
+this results some rather esoteric code:
+
+```python title="Convert a dict to an object literal in Pyodide."
 import js
 from pyodide.ffi import to_js
 
 js.callback(
     to_js(
         {"async": False},
-        # transform a Map into an object literal
+        # Transform the default Map into an object literal.
         dict_converter=js.Object.fromEntries
     )
 )
 ```
 
-Beside the fact that *MicroPython* `to_js` implementation already converts, by default, *Python* dictionaries to *JS* literal, after some experience with common use cases around *Python* and *JS* interoperability, we decided to automatically provide an `ffi` that always results into a *JS* object literal, so that no converter, unless explicitly defined, would be needed to have the desired result out of the box.
+In addition, MicroPython's version of `to_js` takes the opposite approach (for
+many of the reasons stated above) and converts Python dictionaries to object
+literals instead of `Map` objects.
 
-#### Caveats
+As a result, **the PyScript `pyscript.ffi.to_js` ALWAYS returns a JavaScript
+object literal by default when converting a Python dictionary** no matter if
+you're using Pyodide or MicroPython as your interpreter.
 
-One fundamental thing to consider when `to_js` is used, is that it detaches the created reference from its original "*source*", in this case the *Python* dictionary, so that any change applied elsewhere to such reference won't ever be reflected to its original counterpart.
+#### Caveat
 
-This is probably one of the main reasons *Pyodide* sticked with the dictionary like proxy when it passes its reference to *JS* callbacks but at the same time no *JS* callback usually expect a foreign runtime reference to deal with, being this a *Python* one or any other programming language.
+!!! warning
 
-Accordingly, if your *JS* code is written to explicitly target *Pyodide* kind of proxies, you probably never need to use `to_js` as that won't reflect changes to the *Python* runtime, if changes ever happen within the callback receiving such reference, but if you are just passing *data* around, data that can be represented as *JSON*, as example, to configure or pass some option argument to *JS*, you can simply use our `pyscript.ffi.to_js` utility and forget about all these details around the conversion: dictionaries will be object literals and lists or tuples will be arrays, that's all you need to remember!
+    **When using `pyscript.to_js`, the result is detached from the original
+    Python dictionary.**
+
+    Any change to the JavaScript object **will not be reflected in the original
+    Python object**. For the vast majority of use cases, this is a desirable
+    trade-off. But it's important to note this detachment.
+
+The ability for a `Map` to remain attached to the related Python `dict` is
+perhaps an important reason Pyodide chose this implementation detail.
+Therefore, if you have JavaScript code that requires changes of state to be
+reflected in the Python world you should use the underlying `pyodide.ffi.to_js`
+API.
+
+If you're simply passing data around, `pyscript.ffi.to_js` will fulfil your
+requirements in a simple and idiomatic manner.

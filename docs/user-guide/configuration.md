@@ -440,6 +440,18 @@ So long as you don't cause a name collision with the built-in option names then
 you are free to use any valid data structure that works with both TOML and JSON
 to express your configuration needs.
 
-**TODO: explain how to programmatically get access to an object representing
-the config.**
+Access the current configuration via `pyscript.config`, a Python `dict`
+representing the configuration:
 
+```python title="Reading the current configuration."
+from pyscript import config
+
+
+# It's just a dict.
+print(config.get("files"))
+```
+
+!!! note
+
+    Changing the `config` dictionary at runtime doesn't change the actual
+    configuration.
