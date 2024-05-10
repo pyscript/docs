@@ -18,6 +18,7 @@ headers** (this is the default behaviour for
 [pyscript.com](https://pyscript.com)):
 
 ```
+Access-Control-Allow-Origin: *
 Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
 Cross-Origin-Resource-Policy: cross-origin

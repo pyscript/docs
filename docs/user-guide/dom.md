@@ -68,6 +68,9 @@ equivalent values: `["hello", 1, 2, 3]`.
     instantiation very differently. By explicitly calling the JavaScript
     class's `new` method PyScript both signals and honours this difference.
 
+    More technical information about instantiating JavaScript classes can be
+    [found in the FAQ](../../faq/#javascript-classnew)
+
 Should you require lower level API access to FFI features, you can find such
 builtin functions under the `pyscript.ffi` namespace in both Pyodide and
 MicroPython. The available functions are described in our section on
