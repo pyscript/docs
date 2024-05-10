@@ -844,9 +844,10 @@ uses it under the hood.</p>
 <p>For Atomics to work <strong>you must ensure your web server enables the following
 headers</strong> (this is the default behaviour for
 <a href="https://pyscript.com">pyscript.com</a>):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Cross-Origin-Opener-Policy: same-origin
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Cross-Origin-Embedder-Policy: require-corp
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Cross-Origin-Resource-Policy: cross-origin
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Access-Control-Allow-Origin: *
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Cross-Origin-Opener-Policy: same-origin
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Cross-Origin-Embedder-Policy: require-corp
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Cross-Origin-Resource-Policy: cross-origin
 </span></code></pre></div>
 <p>If you are not able to configure your server's headers, use the
 <a href="https://github.com/WebReflection/mini-coi#readme">mini-coi</a> project to
