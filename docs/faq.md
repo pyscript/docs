@@ -378,13 +378,23 @@ special care.
 
 ### Possible deadlock
 
-There are cases where users might encounter an error similar to the following one:
+Users may encounter an error message similar to the following:
 
-> 💀🔒 - Possible deadlock if proxy.xyz(...args) is awaited
+!!! failure
+
+    ```
+    💀🔒 - Possible deadlock if proxy.xyz(...args) is awaited
+    ```
 
 #### When
 
-Let's assume a worker script contains the following *Python* code:
+This error happens when your code on a worker and in the main thread are
+[in a deadlock](https://en.wikipedia.org/wiki/Deadlock). Put simply, neither
+fragment of code can proceed without waiting for the other.
+
+#### Why
+
+Let's assume a worker script contains the following Python code:
 
 ```python title="worker: a deadlock example"
 from pyscript import sync
@@ -395,7 +405,8 @@ sync.worker_task = lambda: print('🔥 this is fine 🔥')
 sync.main_task()
 ```
 
-On the *main* thread, let's instead assume this code:
+On the main thread, let's instead assume this code:
+
 ```html title="main: a deadlock example"
 <script type="mpy">
 from pyscript import PyWorker
@@ -409,23 +420,27 @@ pw.sync.main_task = main_task
 </script>
 ```
 
-When the worker bootstraps and locks itself until `main_task()` is completed, it cannot respond to anything at all: it's literally locked.
+When the worker bootstraps and calls `sync.main_task()` on the main thread, it
+blocks until the result of this call is returned. Hence it cannot respond to
+anything at all. However, in the code on the main thread, the
+`sync.worker_task()` in the worker is called, but the worker is blocked! Now
+the code on both the main thread and worker are mutually blocked and waiting
+on each other. We are in a classic 
+[deadlock](https://en.wikipedia.org/wiki/Deadlock) situation.
 
-If the *awaited* task is then asking for *worker* tasks to execute, we are in a clear [deadlock](https://en.wikipedia.org/wiki/Deadlock) situation.
+The moral of the story? Don't create such circular deadlocks!
 
-#### Workaround
+How?
 
-Beside trying to avoid deadlocks by all mean is the obvious suggestion and solution, the *blocking* part of the equation is what makes the presented exchange not possible.
+The mutually blocking calls cause the deadlock, so simply don't block.
 
-However, if the *main* task does not need to block the *worker* while executing, we can rewrite that code as such:
-
-On the *main* thread, let's instead assume this code:
+For example, on the main thread, let's instead assume this code:
 
 ```html title="main: avoiding deadlocks"
 <script type="mpy">
 from pyscript import window, PyWorker
 
-def async main_task():
+async def main_task():
     # do not await the worker,
     # just schedule it for later (as resolved)
     window.Promise.resolve(pw.sync.worker_task())
@@ -435,8 +450,10 @@ pw.sync.main_task = main_task
 </script>
 ```
 
-This way it's still possible to consume *worker* exposed utilities within *main* exposed tasks and the worker can happily unlock itself and react to any scheduled task in the meantime.
-
+By scheduling the call to the worker (rather than awaiting it), it's possible
+for the main thread to call functions defined in the worker in a non-blocking
+manner, thus allowing the worker to also work in an unblocked manner and react
+to such calls. We have resolved the mutual deadlock.
 
 ## Helpful hints
 
