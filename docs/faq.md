@@ -376,6 +376,68 @@ obsolete standards.
 While such legacy code exists, be aware that JavaScript code may require
 special care.
 
+### Possible deadlock
+
+There are cases where users might encounter an error similar to the following one:
+
+> 💀🔒 - Possible deadlock if proxy.xyz(...args) is awaited
+
+#### When
+
+Let's assume a worker script contains the following *Python* code:
+
+```python title="worker: a deadlock example"
+from pyscript import sync
+
+sync.worker_task = lambda: print('🔥 this is fine 🔥')
+
+# deadlock 💀🔒
+sync.main_task()
+```
+
+On the *main* thread, let's instead assume this code:
+```html title="main: a deadlock example"
+<script type="mpy">
+from pyscript import PyWorker
+
+def async main_task():
+    # deadlock 💀🔒
+    await pw.sync.worker_task()
+
+pw = PyWorker("./worker.py", {"type": "pyodide"})
+pw.sync.main_task = main_task
+</script>
+```
+
+When the worker bootstraps and locks itself until `main_task()` is completed, it cannot respond to anything at all: it's literally locked.
+
+If the *awaited* task is then asking for *worker* tasks to execute, we are in a clear [deadlock](https://en.wikipedia.org/wiki/Deadlock) situation.
+
+#### Workaround
+
+Beside trying to avoid deadlocks by all mean is the obvious suggestion and solution, the *blocking* part of the equation is what makes the presented exchange not possible.
+
+However, if the *main* task does not need to block the *worker* while executing, we can rewrite that code as such:
+
+On the *main* thread, let's instead assume this code:
+
+```html title="main: avoiding deadlocks"
+<script type="mpy">
+from pyscript import window, PyWorker
+
+def async main_task():
+    # do not await the worker,
+    # just schedule it for later (as resolved)
+    window.Promise.resolve(pw.sync.worker_task())
+
+pw = PyWorker("./worker.py", {"type": "pyodide"})
+pw.sync.main_task = main_task
+</script>
+```
+
+This way it's still possible to consume *worker* exposed utilities within *main* exposed tasks and the worker can happily unlock itself and react to any scheduled task in the meantime.
+
+
 ## Helpful hints
 
 This section contains common hacks or hints to make using PyScript easier.
