@@ -91,7 +91,7 @@ solution. (These requirements are explored
     workers are limited to one way calls from the main thread to methods
     exposed by workers.
 
-If `sync_main_only = True`, the following caveats apply:
+If `sync_main_only = true`, the following caveats apply:
 
 * It is not possible to manipulate the DOM or do anything meaningful on the
   main thread **from a worker**. This is because Atomics cannot guarantee
