@@ -91,7 +91,7 @@ solution. (These requirements are explored
     workers are limited to one way calls from the main thread to methods
     exposed by workers.
 
-If `sync_main_only = True`, the following caveats apply:
+If `sync_main_only = true`, the following caveats apply:
 
 * It is not possible to manipulate the DOM or do anything meaningful on the
   main thread **from a worker**. This is because Atomics cannot guarantee
@@ -375,6 +375,85 @@ obsolete standards.
 
 While such legacy code exists, be aware that JavaScript code may require
 special care.
+
+### Possible deadlock
+
+Users may encounter an error message similar to the following:
+
+!!! failure
+
+    ```
+    💀🔒 - Possible deadlock if proxy.xyz(...args) is awaited
+    ```
+
+#### When
+
+This error happens when your code on a worker and in the main thread are
+[in a deadlock](https://en.wikipedia.org/wiki/Deadlock). Put simply, neither
+fragment of code can proceed without waiting for the other.
+
+#### Why
+
+Let's assume a worker script contains the following Python code:
+
+```python title="worker: a deadlock example"
+from pyscript import sync
+
+sync.worker_task = lambda: print('🔥 this is fine 🔥')
+
+# deadlock 💀🔒
+sync.main_task()
+```
+
+On the main thread, let's instead assume this code:
+
+```html title="main: a deadlock example"
+<script type="mpy">
+from pyscript import PyWorker
+
+def async main_task():
+    # deadlock 💀🔒
+    await pw.sync.worker_task()
+
+pw = PyWorker("./worker.py", {"type": "pyodide"})
+pw.sync.main_task = main_task
+</script>
+```
+
+When the worker bootstraps and calls `sync.main_task()` on the main thread, it
+blocks until the result of this call is returned. Hence it cannot respond to
+anything at all. However, in the code on the main thread, the
+`sync.worker_task()` in the worker is called, but the worker is blocked! Now
+the code on both the main thread and worker are mutually blocked and waiting
+on each other. We are in a classic 
+[deadlock](https://en.wikipedia.org/wiki/Deadlock) situation.
+
+The moral of the story? Don't create such circular deadlocks!
+
+How?
+
+The mutually blocking calls cause the deadlock, so simply don't block.
+
+For example, on the main thread, let's instead assume this code:
+
+```html title="main: avoiding deadlocks"
+<script type="mpy">
+from pyscript import window, PyWorker
+
+async def main_task():
+    # do not await the worker,
+    # just schedule it for later (as resolved)
+    window.Promise.resolve(pw.sync.worker_task())
+
+pw = PyWorker("./worker.py", {"type": "pyodide"})
+pw.sync.main_task = main_task
+</script>
+```
+
+By scheduling the call to the worker (rather than awaiting it), it's possible
+for the main thread to call functions defined in the worker in a non-blocking
+manner, thus allowing the worker to also work in an unblocked manner and react
+to such calls. We have resolved the mutual deadlock.
 
 ## Helpful hints
 

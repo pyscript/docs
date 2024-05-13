@@ -35,11 +35,11 @@ ensure the packages [arrr](https://arrr.readthedocs.io/en/latest/) and
 [numberwang](https://numberwang.readthedocs.io/en/latest/) are installed from
 PyPI (the [Python Packaging Index](https://pypi.org/)):
 
-```TOML title="Configuration via TOML"
+```TOML title="Configuration via TOML."
 packages = ["arrr", "numberwang" ]
 ```
 
-```JSON title="Configuration via JSON"
+```JSON title="Configuration via JSON."
 {
     "packages": ["arrr", "numberwang"]
 }
@@ -56,7 +56,7 @@ reference it from the tag used to specify the Python code:
 
 If you use JSON, you can make it the value of the `config` attribute:
 
-```HTML title="JSON as the value of the config attribute"
+```HTML title="JSON as the value of the config attribute."
 <script type="mpy" src="main.py" config='{"packages":["arrr", "numberwang"]}'></script>
 ```
 
@@ -64,7 +64,7 @@ For historical and convenience reasons we still support the inline
 specification of configuration information via a _single_ `<py-config>` or
 `<mpy-config>` tag in your HTML document:
 
-```HTML title="Inline configuration via the &lt;py-config&gt; tag"
+```HTML title="Inline configuration via the &lt;py-config&gt; tag."
 <py-config>
 {
     "packages": ["arrr", "numberwang" ]
@@ -79,10 +79,10 @@ specification of configuration information via a _single_ `<py-config>` or
 
 ## Options
 
-There are four core options ([`interpreter`](#interpreter), [`files`](#files),
-[`packages`](#packages), and
-[`js_modules`](#javascript-modules)) and an experimental flag
-([experimental_create_proxy](#experimental_create_proxy)) that can be used in
+There are five core options ([`interpreter`](#interpreter), [`files`](#files),
+[`packages`](#packages), [`js_modules`](#javascript-modules) and
+[`sync_main_only`](#sync_main_only)) and an experimental flag
+([`experimental_create_proxy`](#experimental_create_proxy)) that can be used in
 the configuration of PyScript. The user is also free to define
 arbitrary additional configuration options that plugins or an app may require
 for their own reasons.
@@ -100,11 +100,11 @@ a custom version of the interpreter.
 
 The following two examples are equivalent:
 
-```TOML title="Specify the interpreter version in TOML"
+```TOML title="Specify the interpreter version in TOML."
 interpreter = "0.23.4"
 ```
 
-```JSON title="Specify the interpreter version in JSON"
+```JSON title="Specify the interpreter version in JSON."
 {
     "interpreter": "0.23.4"
 }
@@ -113,7 +113,7 @@ interpreter = "0.23.4"
 The following JSON fragment uses a fully qualified URL to point to the same
 version of Pyodide as specified in the previous examples:
 
-```JSON title="Specify the interpreter via a fully qualified URL"
+```JSON title="Specify the interpreter via a fully qualified URL."
 {
     "interpreter": "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.mjs"
 }
@@ -127,7 +127,7 @@ destination filesystem path.
 
 The following JSON and TOML are equivalent:
 
-```json title="Fetch files onto the filesystem with JSON"
+```json title="Fetch files onto the filesystem with JSON."
 {
   "files": {
     "https://example.com/data.csv": "./data.csv",
@@ -136,7 +136,7 @@ The following JSON and TOML are equivalent:
 }
 ```
 
-```toml title="Fetch files onto the filesystem with TOML"
+```toml title="Fetch files onto the filesystem with TOML."
 [files]
 "https://example.com/data.csv" = "./data.csv"
 "/code.py" = "./subdir/code.py"
@@ -147,7 +147,7 @@ URL becomes the destination filename, in the root of the filesystem, to which
 the content is copied. As a result, the `data.csv` entry from the previous
 examples could be equivalently re-written as:
 
-```json title="JSON implied filename in the root directory"
+```json title="JSON implied filename in the root directory."
 {
   "files": {
     "https://example.com/data.csv": "",
@@ -156,7 +156,7 @@ examples could be equivalently re-written as:
 }
 ```
 
-```toml title="TOML implied filename in the root directory"
+```toml title="TOML implied filename in the root directory."
 [files]
 "https://example.com/data.csv" = ""
 ... etc ...
@@ -202,7 +202,7 @@ their name is replaced with their associated value.
 
 The following JSON and TOML are equivalent:
 
-```json title="Using the template language in JSON"
+```json title="Using the template language in JSON."
 {
   "files": {
     "{DOMAIN}": "https://my-server.com",
@@ -218,7 +218,7 @@ The following JSON and TOML are equivalent:
 }
 ```
 
-```toml title="Using the template language in TOML"
+```toml title="Using the template language in TOML."
 [files]
 "{DOMAIN}" = "https://my-server.com"
 "{PATH}" = "a/path"
@@ -287,11 +287,11 @@ to be installed onto the Python path.
 
 The following two examples are equivalent:
 
-```TOML title="A packages list in TOML"
+```TOML title="A packages list in TOML."
 packages = ["arrr", "numberwang", "snowballstemmer>=2.2.0" ]
 ```
 
-```JSON title="A packages list in JSON"
+```JSON title="A packages list in JSON."
 {
     "packages": ["arrr", "numberwang", "snowballstemmer>=2.2.0" ]
 }
@@ -338,13 +338,13 @@ To specify such modules, simply provide a list of source/module name pairs.
 For example, to use the excellent [Leaflet](https://leafletjs.com/) JavaScript
 module for creating interactive maps you'd add the following lines:
 
-```TOML title="JavaScript main thread modules defined in TOML"
+```TOML title="JavaScript main thread modules defined in TOML."
 [js_modules.main]
 "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js" = "leaflet"
 "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" = "leaflet" # CSS
 ```
 
-```JSON title="JavaScript main thread modules defined in JSON"
+```JSON title="JavaScript main thread modules defined in JSON."
 {
     "js_modules": {
         "main": {
@@ -386,12 +386,12 @@ Some JavaScript modules (such as
 access to the DOM and, for efficiency reasons, can be included in the worker
 context:
 
-```TOML title="A JavaScript worker module defined in TOML"
+```TOML title="A JavaScript worker module defined in TOML."
 [js_modules.worker]
 "https://cdn.jsdelivr.net/npm/html-escaper" = "html_escaper"
 ```
 
-```JSON title="A JavaScript worker module defined in JSON"
+```JSON title="A JavaScript worker module defined in JSON."
 {
     "js_modules": {
         "worker": {
@@ -403,6 +403,40 @@ context:
 
 However, `from pyscript.js_modules import html_escaper` would then only work
 within the context of Python code **running on a worker**.
+
+### sync_main_only
+
+Sometimes you just want to start an expensive computation on a web worker
+without the need for the worker to interact with the main thread. You're simply
+awaiting the result of a method exposed from a worker.
+
+This has the advantage of not requiring the use of `SharedArrayBuffer` and
+[associated CORS related header configuration](../workers/#http-headers).
+
+If the `sync_main_only` flag is set, then **interactions between the main thread
+and workers are limited to one way calls from the main thread to methods
+exposed by the workers**.
+
+```TOML title="Setting the sync_main_only flag in TOML."
+sync_main_only = true
+```
+
+```JSON title="Setting the sync_main_only flag in JSON."
+{
+    "sync_main_only": true
+}
+```
+
+If `sync_main_only` is set, the following caveats apply:
+
+* It is not possible to manipulate the DOM or do anything meaningful on the
+  main thread **from a worker**. This is because Atomics cannot guarantee
+  sync-like locks between a worker and the main thread.
+* Only a worker's `pyscript.sync` methods are exposed, and **they can only be
+  awaited from the main thread**.
+* The worker can only `await` main thread references one after the other, so
+  developer experience is degraded when one needs to interact with the
+  main thread.
 
 ### experimental_create_proxy
 

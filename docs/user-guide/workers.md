@@ -11,6 +11,20 @@ You don't need to know about Atomics to use web workers, but the underlying
 [coincident library](http://localhost:8000/user-guide/architecture/#coincident)
 uses it under the hood.
 
+!!! info
+
+    Sometimes you only need to `await` in the main thread the result of a call
+    to a method exposed in a worker.
+
+    In such a limited case, and on the understanding that **code in the worker
+    will not be able to reach back into the main thread**, you should
+    use the [`sync_main_only` flag](../configuration/#sync_main_only) in your
+    configuration.
+
+    While this eliminates the need for the Atomics related header configuration
+    (see below), the only possible use case is to **return a serialisable
+    result from the method called on the worker**.
+
 ## HTTP headers
 
 For Atomics to work **you must ensure your web server enables the following
