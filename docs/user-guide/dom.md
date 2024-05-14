@@ -272,6 +272,33 @@ The `ElementCollection` class currently supports the following attributes:
 * `html`: changes the `html` attribute on all the elements of a collection.
 * `value`: changes the `value` attribute on all the elements of a collection.
 
+
+## PyWeb.ui
+
+Pyweb.ui is a umbrella package that focused on providing access to the extensive
+web APIs supported by the browser, with simpler, smaller and pythonic interface.
+
+### pyweb.ui.elements
+
+As mentioned in the above section about PyDom, the Standard Web APIs are massive
+and not always very user-friendly. While `PyDom` focuses on querying and interacting
+with existing elements in a web page, `pyweb.ui.elements` is a module focused
+on providing a pythonic interface to create new elements on a web page.
+
+PyWeb is build on top of the foundation, provided by PyScript and PyDom, extending
+it with features focused on creating and customizing new elements on a web page.
+These elements are a subclass of pydom.Element and are fully compattible with the
+pydom Element API.
+
+
+!!! warning
+
+    PyDom is currently a work in progress.
+
+    We welcome feedback and suggestions.
+
+
+
 ## Working with JavaScript
 
 There are three ways in which JavaScript can get into a web page.
