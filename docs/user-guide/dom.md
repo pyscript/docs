@@ -311,6 +311,24 @@ from pyweb.ui.elements import button
 btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
 ```
 
+#### Working with container elements
+
+Many elements are meant to be container elements and have children under them.
+`pyweb.ui.elements` provides 2 mains ways to add children to an element:
+
+
+##### specifing the children of an element during creation
+
+Elements that support children, like `div`, allow users to specify their children
+elements during the `Element` creation. For instance, let's modify the example above
+to create the button inside a div.
+
+```python
+from pyweb.ui.elements import button
+btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
+page_div = div([button])
+```
+
 
 ## Working with JavaScript
 
