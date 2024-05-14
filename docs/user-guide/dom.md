@@ -298,6 +298,19 @@ pydom Element API.
     We welcome feedback and suggestions.
 
 
+#### Creating a new element
+
+The element creation API provided by `pyweb.ui.elements` is focused on being simple
+and idiomatic. In fact, to create an element simply instantiate the type of element
+you need, providing all the properties supported by that element. Here's an example
+of creating a new button with a custom style
+
+```python
+# This will change the text of all H1 elements in the page
+from pyweb.ui.elements import button
+btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
+```
+
 
 ## Working with JavaScript
 
