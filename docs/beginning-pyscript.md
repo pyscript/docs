@@ -38,7 +38,7 @@ All PyScript applications need three things:
    how your application works.
 
 Create these files with your favourite code editor on your local file system.
-Alternatively, [pyscript.com](https://pyscript.com) is a cloud-hosted service 
+Alternatively, [pyscript.com](https://pyscript.com) is a free cloud-hosted service 
 by Anaconda that streamlines organising, previewing and deploying your application.
 The distinction between [pyscript.net](https://pyscript.net) and 
 [pyscript.com](https://pyscript.com) on the FAQ on [pyscript.com](https://pyscript.com).
