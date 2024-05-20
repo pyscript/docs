@@ -41,7 +41,7 @@ Create these files with your favourite code editor on your local file system.
 Alternatively, [pyscript.com](https://pyscript.com) is a free cloud-hosted service 
 by Anaconda that streamlines organising, previewing and deploying your application.
 For more information about the distinction between [pyscript.net](https://pyscript.net) and       
-[pyscript.com](https://pyscript.com) on the FAQ on [pyscript.com](https://pyscript.com).
+[pyscript.com](https://pyscript.com), check out the FAQ on [pyscript.com](https://pyscript.com).
 
 If you're using your local file system, you'll need a way to view your
 application in your browser. If you already have Python installed on
