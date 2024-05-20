@@ -8,7 +8,7 @@ Happily, PyScript makes it very easy to use workers and uses a feature recently
 added to web standards called
 [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics).
 You don't need to know about Atomics to use web workers, but the underlying
-[coincident library](http://localhost:8000/user-guide/architecture/#coincident)
+[coincident library](architecture.md#coincident)
 uses it under the hood.
 
 !!! info

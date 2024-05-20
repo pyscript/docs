@@ -38,7 +38,7 @@ cd pyscript-offline
 ### PyScipt core from source
 
 Build PyScript core by cloning the project repository and follow the
-instructions in our [developer guide](/developers)
+instructions in our [developer guide](../developers.md)
 
 Once completed, copy the `build` folder, that was been created by the build
 step, into your `pyscript-offline` folder.
