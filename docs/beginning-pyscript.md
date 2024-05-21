@@ -169,7 +169,7 @@ In the end, our HTML should look like this:
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>
     <p>Translate English into Pirate speak...</p>
-    <input type="text" id="english" placeholder="Type English here..." />
+    <input type="text" name="english" id="english" placeholder="Type English here..." />
     <button py-click="translate_english">Translate</button>
     <div id="output"></div>
     <script type="py" src="./main.py" config="./pyscript.json"></script>
