@@ -146,3 +146,82 @@ into the DOM and access some `window` based APIs.
       and produce unforeseen problematic results**. Remember, with great power
       comes great responsibility... and we've given you a bazooka (so please
       remember not to shoot yourself in the foot with it).
+
+## PyWorker
+
+It is possible to bootstrap either a *micropython* or a *pyodide* worker from either *micropython* or *pyodide* and within *Python* code.
+
+Due different bootstrap time, the most common use case that is going to be tackled in here is *MicroPython* bootstrapping *Pyodide* out of *Python* code, underlying each step within the process.
+
+#### Structure
+
+For highlight goodness and simplicity sake, we are going to use an `mpy` script on the main page, which points at a `main.py` file that bootstraps a `worker.py` file.
+
+**html**
+```HTML title="Pyodide worker via MicroPython"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.5.2/core.css">
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.5.2/core.js"></script>
+    <title>PyWorker - mpy bootstrapping pyodide example</title>
+    <!-- the async attribute is useful but not mandatory -->
+    <script type="mpy" src="main.py" async></script>
+  </head>
+</html>
+```
+
+**main.py**
+```Python title="MicroPython bootstrapping a Pyodide worker"
+from pyscript import PyWorker, document
+
+# bootstrap the pyodide worker with optional config too
+# the worker here is:
+#   * owned by this script, no JS or Pyodide code in the same page can access it
+#   * it allows pre-sync methods exposure
+#   * it exposes a ready Promise to await pyodide on the worker side
+#   * it then allows using post-sync (utilities exposed by pyodide)
+worker = PyWorker("worker.py", type="pyodide")
+
+# expose an utility that can be invoke *out of the box* in worker.py
+worker.sync.greetings = lambda: print("Pyodide bootstrapped")
+
+print("before ready")
+# await for Pyodide to complete its bootstrap
+await worker.ready
+print("after ready")
+
+# await any exposed utility exposed via Pyodide
+result = await worker.sync.heavy_computation()
+print(result)
+
+# show the result at the end of the body
+document.body.append(result)
+
+# here we free memory and get rid of everything
+worker.terminate()
+```
+
+**worker.py**
+```Python title="A Pyodide worker"
+from pyscript import sync
+
+# use any already exposed utility from main.py
+sync.greetings()
+
+# expose any method meant to be used from main
+sync.heavy_computation = lambda: 6 * 7
+```
+
+Save these files in a *tmp* folder and use `npx mini-coi ./tmp` to reach out that `index.html` and see the following outcome in *devtools*:
+
+```
+before ready
+Pyodide bootstrapped
+after ready
+42
+```

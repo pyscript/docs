@@ -16,6 +16,11 @@ or `mpy-editor` (for MicroPython), the plugin creates a visual code editor,
 with code highlighting and a "run" button to execute the editable code
 contained therein in a non-blocking worker.
 
+!!! info
+
+    Once clicked, the *Run* button will show a spinner until the code is executed. This might not be visible if the code took nothing to execute, but if the code took any measurable time longer, one will notice such spinner before results will be shown.
+
+
 The interpreter is not loaded onto the page until the run button is clicked. By
 default each editor has its own independent instance of the specified
 interpreter:
@@ -60,6 +65,8 @@ The outcome of these code fragments should look something like this:
     at the top right above the Python editor.
 
     Hovering over the Python editor reveals the "run" button.
+
+### Setup
 
 Sometimes you need to create a pre-baked Pythonic context for a shared
 environment used by an editor. This need is especially helpful in educational
@@ -127,6 +134,46 @@ not expect the same behavior regular *PyScript* elements follow, most notably:
     at a time as it is typed in.
   * There is no special reference to the underlying editor instance, while
     there is both `script.terminal` or `__terminal__` in the terminal.
+
+## Read / Write / Execute
+
+Behind the scene, we bootstrap an editor that provides:
+
+  * highlights around the Python code in it
+  * a Run button to execute the code
+  * a `target` reference where the code output lands, once printed
+
+This is all great and sound, but there is also a way to read the *editor* code, and update it with ease, that's the `code` accessor any editor gets, once bootstrapped:
+
+```python
+from pyscript import document
+
+# grab the editor script reference
+editor = document.querySelector('#editor')
+
+# output its content
+print(editor.code)
+
+# or update its content
+editor.code = """
+a = 1
+b = 2
+print(a + b)
+"""
+```
+
+To execute that new editor content a user might click the *Run* button one more time, or the driver of such editor can use `editor.process(editor.code)`, or any other arbitrary code, to actually bypass the need to click *Run* and execute the code passed along the `.process(...)` invoke.
+
+These utilities are helpful to let consumers of the editor change its view state and/or execute it out the box.
+
+## Config
+
+Differently from `<script type="py">` or `<py-script>`, and the `mpy` counterpart, a *PyEditor* is not affected by the presence of `<py-config>` elements in the page: it requires an explicit `config="..."` attribute to specify its dependencies, behavior and whatnot.
+
+If a `setup` editor is present though, that's the only *PyEditor* that needs a config, so that any further related editor will have already such config parsed and bootstrapped.
+
+That is: do not expect `<py-config>` to dictate the behavior of a `py-editor`, these are *two different kind of custom script* so that an editor, when needed, must use a `config` attribute.
+
 
 ## Still missing
 

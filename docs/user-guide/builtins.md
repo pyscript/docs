@@ -571,6 +571,27 @@ from pyscript import sync
 sync.hello("PyScript")
 ```
 
+### `pyscript.py_modules`
+
+Bootstrapping *Pyodide* or *MicroPython* with a lot of packages might degrade the time to readyness.
+
+When some dependency is needed only under certain conditions or after some specific user action, we are offering an asynchronuos way to lazily import packages that were not present already in the *config*.
+
+A bare minimal example of how this feature works can be summarized as such:
+
+```html title="pyscript.py_modules example"
+<script type="py" async>
+from pyscript import py_modules
+
+matplotlib, regex, = await py_modules("matplotlib", "regex")
+
+print(matplotlib, regex)
+</script>
+```
+
+The `py_modules` then returns an asynchronous tuple with one or more modules passed as string and it's compatible with `.whl` packages too.
+
+
 ## HTML attributes
 
 As a convenience, and to ensure backwards compatibility, PyScript allows the

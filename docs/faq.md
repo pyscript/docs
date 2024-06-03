@@ -705,7 +705,7 @@ done"` message is written to the browser's console.
 
 Applications need third party packages and [PyScript can be configured to
 automatically install packages for you](user-guide/configuration/#packages).
-Yet [packaging can be a complicated beast](#python-packages), so here are some
+Yet packaging can be a complicated beast, so here are some
 hints for a painless packaging experience with PyScript.
 
 There are essentially four ways in which a third party package can become
@@ -724,9 +724,10 @@ available in PyScript.
 3. Reference hosted Python source files, to be included on the file
    system, via the [`files` setting](../user-guide/configuration/#files).
 4. Create a folder containing the package's files and sub folders, and create
-   a hosted `.zip` or `.tgz`/`.tar.gz` archive to be decompressed into the file
+   a hosted `.zip` or `.tgz`/`.tar.gz`/`.whl` archive to be decompressed into the file
    system (again, via the
    [`files` setting](../user-guide/configuration/#files)).
+5. provide your own `.whl` package as part of the `packages = [...]` list to see it available within your project
 
 #### Host a package
 
@@ -768,7 +769,7 @@ packages onto the Python path:
 </script>
 ```
 
-#### Code archive (`zip`/`tgz`) 
+#### Code archive (`zip`/`tgz`/`whl`) 
 
 Compress all the code you want into an archive (using either either `zip` or
 `tgz`/`tar.gz`). Host the resulting archive and use the
@@ -1207,6 +1208,8 @@ js.callback(
 )
 ```
 
+Ultimately though, Pyodide maps can be consumed out of the box as literals, so that *some* required conversion might not be needed anymore and `to_js` might be enough, without specifying the `dict_converter` as that's inferred, once consumed, behind the scene.
+
 In addition, MicroPython's version of `to_js` takes the opposite approach (for
 many of the reasons stated above) and converts Python dictionaries to object
 literals instead of `Map` objects.
@@ -1214,6 +1217,8 @@ literals instead of `Map` objects.
 As a result, **the PyScript `pyscript.ffi.to_js` ALWAYS returns a JavaScript
 object literal by default when converting a Python dictionary** no matter if
 you're using Pyodide or MicroPython as your interpreter.
+
+That being said, in MicroPython things work closely to JS users' expectations, memory friendly too, so using the `to_js` is more a cross-interpreter guard than a necessity these days.
 
 #### Caveat
 

@@ -150,3 +150,23 @@ terminal automatically become links). Behind the scenes is the example code
 shown above, and this approach will work for
 [any other addon](https://github.com/xtermjs/xterm.js/tree/master/addons/) you
 may wish to use.
+
+### MicroPython
+
+When it comes to *MicroPython*, we recently enabled a proper *REPL* mode that offers an easier way to have a fully functional terminal, including:
+
+  * all *Ctrl+X* strokes are handled, including *paste mode* and kill switches
+  * **history** works out of the box, *arrow up* and see what you pasted or typed before
+  * **tab completion** works too, *tab* away to see your previously referenced variables or available globals
+  * **copy and paste** improved, out of a singe terminal entry or a *paste mode* enabled variant
+
+In few words, the *MicroPython* terminal is somehow superior and broadly aligned with a regular *MicroPython terminal / REPL* experience, and strawberry on top, it works on both *main* thread and *worker* related one, and these are the differences:
+
+  * **main thread terminal**
+    * the `input` is, as blocking requirement, delegated to the native Web [prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt) utility
+    * there is no guard against blocking executing code, such as `while True:` loops and friends
+  * **worker thread terminal**
+    * full support for `input` directives without ever blocking the main thread or showing *prompt* blocking relates UI around
+    * `while True:` loops, or any other loop based, or blocking, directive, is handled out of the box without blocking the main thread UI
+
+In short, we still encourage the usage of `worker` attribute to bootstrap a *MicroPython* terminal, but fear not, the script without such attribute will not throw anymore on *input* calls and it will just work almost as fine out of the main thread as long as nothing is really blocking such thread execution.

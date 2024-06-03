@@ -32,6 +32,7 @@ of this repository).
 # example of a simple virtual environment
 # creation from the root of this project
 python -m venv .
+./bin/pip install --upgrade setuptools
 ./bin/pip install -r requirements.txt
 ```
 
