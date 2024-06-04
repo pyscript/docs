@@ -219,7 +219,7 @@ sync.heavy_computation = lambda: 6 * 7
 ```
 
 Save these files in a `tmp` folder, ensure [your headers](#http-headers) (just
-use `npx mini-coi ./tmp` and update `index.html`) then see the following
+use `npx mini-coi ./tmp` and serve via localhost) then see the following
 outcome in the browser's devtools. 
 
 ```
