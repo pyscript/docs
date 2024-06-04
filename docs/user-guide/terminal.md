@@ -153,20 +153,36 @@ may wish to use.
 
 ### MicroPython
 
-When it comes to *MicroPython*, we recently enabled a proper *REPL* mode that offers an easier way to have a fully functional terminal, including:
+MicroPython has a
+[very complete REPL](https://docs.micropython.org/en/latest/reference/repl.html)
+already built into it.
 
-  * all *Ctrl+X* strokes are handled, including *paste mode* and kill switches
-  * **history** works out of the box, *arrow up* and see what you pasted or typed before
-  * **tab completion** works too, *tab* away to see your previously referenced variables or available globals
-  * **copy and paste** improved, out of a singe terminal entry or a *paste mode* enabled variant
+  * All `Ctrl+X` strokes are handled, including paste mode and kill switches.
+  * History works out of the box. Access this via the up and down arrows to
+    view your command history.
+  * Tab completion works like a charm. Use the `tab` key to see available
+    variables or objects in `globals`.
+  * Copy and paste is much improved. This is true for a single terminal entry,
+    or a
+    [paste mode](https://docs.micropython.org/en/latest/reference/repl.html#paste-mode)
+    enabled variant.
 
-In few words, the *MicroPython* terminal is somehow superior and broadly aligned with a regular *MicroPython terminal / REPL* experience, and strawberry on top, it works on both *main* thread and *worker* related one, and these are the differences:
+As a bonus, the MicroPython terminal works on both the main thread and in
+web workers, with the following caveats:
 
-  * **main thread terminal**
-    * the `input` is, as blocking requirement, delegated to the native Web [prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt) utility
-    * there is no guard against blocking executing code, such as `while True:` loops and friends
-  * **worker thread terminal**
-    * full support for `input` directives without ever blocking the main thread or showing *prompt* blocking relates UI around
-    * `while True:` loops, or any other loop based, or blocking, directive, is handled out of the box without blocking the main thread UI
+* **Main thread:**
+    * Calls to the blocking `input` function are delegated to the native browser
+      based
+      [prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt)
+      utility.
+    * There are no guards against blocking code (e.g. `while True:` loops).
+      Such blocking code _could freeze your page_.
+* **Web worker:**
+    * Conventional support for the `input` function, without blocking the main
+      thread.
+    * Blocking code (e.g. `while True:` loops) does not block the main thread
+      and your page will remain responsive.
 
-In short, we still encourage the usage of `worker` attribute to bootstrap a *MicroPython* terminal, but fear not, the script without such attribute will not throw anymore on *input* calls and it will just work almost as fine out of the main thread as long as nothing is really blocking such thread execution.
+We encourage the usage of `worker` attribute to bootstrap a MicroPython
+terminal. But now you have an option to run the terminal in the main thread.
+Just remember not to block!

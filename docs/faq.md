@@ -705,10 +705,10 @@ done"` message is written to the browser's console.
 
 Applications need third party packages and [PyScript can be configured to
 automatically install packages for you](user-guide/configuration/#packages).
-Yet packaging can be a complicated beast, so here are some
+Yet [packaging can be a complicated beast](#python-packages), so here are some
 hints for a painless packaging experience with PyScript.
 
-There are essentially four ways in which a third party package can become
+There are essentially five ways in which a third party package can become
 available in PyScript.
 
 1. The module is already part of either the Pyodide or MicroPython
@@ -724,10 +724,11 @@ available in PyScript.
 3. Reference hosted Python source files, to be included on the file
    system, via the [`files` setting](../user-guide/configuration/#files).
 4. Create a folder containing the package's files and sub folders, and create
-   a hosted `.zip` or `.tgz`/`.tar.gz`/`.whl` archive to be decompressed into the file
-   system (again, via the
+   a hosted `.zip` or `.tgz`/`.tar.gz`/`.whl` archive to be decompressed into
+   the file system (again, via the
    [`files` setting](../user-guide/configuration/#files)).
-5. provide your own `.whl` package as part of the `packages = [...]` list to see it available within your project
+5. Provide your own `.whl` package and reference it via a URL in the
+   `packages = [...]` list.
 
 #### Host a package
 
@@ -1207,18 +1208,22 @@ js.callback(
     )
 )
 ```
+!!! info
 
-Ultimately though, Pyodide maps can be consumed out of the box as literals, so that *some* required conversion might not be needed anymore and `to_js` might be enough, without specifying the `dict_converter` as that's inferred, once consumed, behind the scene.
+    Thanks to a
+    [recent change in Pyodide](https://github.com/pyodide/pyodide/pull/4576),
+    such `Map` instances are
+    [duck-typed](https://en.wikipedia.org/wiki/Duck_typing) to behave like
+    object literals. Conversion may not be needed anymore, and `to_js` may just
+    work without the need of the `dict_converter`. Please check.
 
-In addition, MicroPython's version of `to_js` takes the opposite approach (for
+MicroPython's version of `to_js` takes the opposite approach (for
 many of the reasons stated above) and converts Python dictionaries to object
 literals instead of `Map` objects.
 
 As a result, **the PyScript `pyscript.ffi.to_js` ALWAYS returns a JavaScript
 object literal by default when converting a Python dictionary** no matter if
 you're using Pyodide or MicroPython as your interpreter.
-
-That being said, in MicroPython things work closely to JS users' expectations, memory friendly too, so using the `to_js` is more a cross-interpreter guard than a necessity these days.
 
 #### Caveat
 
