@@ -1223,7 +1223,10 @@ literals instead of `Map` objects.
 
 As a result, **the PyScript `pyscript.ffi.to_js` ALWAYS returns a JavaScript
 object literal by default when converting a Python dictionary** no matter if
-you're using Pyodide or MicroPython as your interpreter.
+you're using Pyodide or MicroPython as your interpreter. Furthermore, when
+using MicroPython, because things are closer to idiomatic JavaScript behaviour,
+you may not even need to use `to_js` unless you want to ensure
+cross-interpreter compatibility.
 
 #### Caveat
 
