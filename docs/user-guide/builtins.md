@@ -601,9 +601,6 @@ modules provided by the packages referenced as string arguments.
 
 ### `pyscript.js_import`
 
-If you have a lot of JavaScript modules referenced in your configuration,
-startup performance may be degraded as these are downloaded.
-
 If a JavaScript module is only needed under certain circumstances, we provide
 an asynchronous way to import packages that were not originally referenced in
 your configuration.
