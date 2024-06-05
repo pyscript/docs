@@ -16,6 +16,12 @@ or `mpy-editor` (for MicroPython), the plugin creates a visual code editor,
 with code highlighting and a "run" button to execute the editable code
 contained therein in a non-blocking worker.
 
+!!! info
+
+    Once clicked, the "run" button will show a spinner until the code is
+    executed. This may not be visible if the code evaluation completed quickly.
+
+
 The interpreter is not loaded onto the page until the run button is clicked. By
 default each editor has its own independent instance of the specified
 interpreter:
@@ -60,6 +66,8 @@ The outcome of these code fragments should look something like this:
     at the top right above the Python editor.
 
     Hovering over the Python editor reveals the "run" button.
+
+### Setup
 
 Sometimes you need to create a pre-baked Pythonic context for a shared
 environment used by an editor. This need is especially helpful in educational
@@ -127,6 +135,43 @@ not expect the same behavior regular *PyScript* elements follow, most notably:
     at a time as it is typed in.
   * There is no special reference to the underlying editor instance, while
     there is both `script.terminal` or `__terminal__` in the terminal.
+
+## Read / Write / Execute
+
+Sometimes you need to programatically read, write or execute code in an
+editor. Once PyScript has started, every py-editor/mpy-editor script tag gets
+a `code` accessor attached to it.
+
+```python
+from pyscript import document
+
+# Grab the editor script reference.
+editor = document.querySelector('#editor')
+
+# Output the live content of the editor.
+print(editor.code)
+
+# Update the live content of the editor.
+editor.code = """
+a = 1
+b = 2
+print(a + b)
+"""
+
+# Evaluate the live code in the editor.
+# This could be any arbitrary code to evaluate in the editor's Python context.
+editor.process(editor.code)
+```
+
+## Configuration
+
+Unlike `<script type="py">` or `<py-script>` (and the `mpy` equivalents), a
+PyEditor is not influenced by the presence of `<py-config>` elements in the
+page: it requires an explicit `config="..."` attribute.
+
+If a `setup` editor is present, that's the only PyEditor that needs a config.
+Any subsequent related editor will reuse the config parsed and bootstrapped for
+the `setup` editor.
 
 ## Still missing
 

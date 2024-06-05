@@ -150,3 +150,39 @@ terminal automatically become links). Behind the scenes is the example code
 shown above, and this approach will work for
 [any other addon](https://github.com/xtermjs/xterm.js/tree/master/addons/) you
 may wish to use.
+
+### MicroPython
+
+MicroPython has a
+[very complete REPL](https://docs.micropython.org/en/latest/reference/repl.html)
+already built into it.
+
+  * All `Ctrl+X` strokes are handled, including paste mode and kill switches.
+  * History works out of the box. Access this via the up and down arrows to
+    view your command history.
+  * Tab completion works like a charm. Use the `tab` key to see available
+    variables or objects in `globals`.
+  * Copy and paste is much improved. This is true for a single terminal entry,
+    or a
+    [paste mode](https://docs.micropython.org/en/latest/reference/repl.html#paste-mode)
+    enabled variant.
+
+As a bonus, the MicroPython terminal works on both the main thread and in
+web workers, with the following caveats:
+
+* **Main thread:**
+    * Calls to the blocking `input` function are delegated to the native browser
+      based
+      [prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt)
+      utility.
+    * There are no guards against blocking code (e.g. `while True:` loops).
+      Such blocking code _could freeze your page_.
+* **Web worker:**
+    * Conventional support for the `input` function, without blocking the main
+      thread.
+    * Blocking code (e.g. `while True:` loops) does not block the main thread
+      and your page will remain responsive.
+
+We encourage the usage of `worker` attribute to bootstrap a MicroPython
+terminal. But now you have an option to run the terminal in the main thread.
+Just remember not to block!
