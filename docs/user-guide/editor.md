@@ -173,15 +173,17 @@ If a `setup` editor is present, that's the only PyEditor that needs a config.
 Any subsequent related editor will reuse the config parsed and bootstrapped for
 the `setup` editor.
 
-## Execution via keyboard
+## Run via keyboard
 
-Accordingly with the Operating system you are using, a combination of either `Ctrl-Enter`, `Cmd-Enter` or `Shift-Enter` would implicitly execute the code and show results within the `target` output node without ever needing to reach the *Run* button and lose the focus.
+Depending on your operating system, a combination of either `Ctrl-Enter`,
+`Cmd-Enter` or `Shift-Enter` will execute the code in the editor (no need to
+move the mouse to click the run button).
 
-## Execution Override
+## Execution override
 
-The editor offers great features even without interpreting code and in some case users would like to just bootstrap an editor then orchestrate what should happen once *Run* button is clicked or any of the keys combined to execute code is pressed.
+Sometimes you just need to override the way the editor runs code.
 
-The `handleEvent` attached to the script that bootstraps the editor can be overridden to achieve this with relative ease:
+The editor's `handleEvent` can be overridden to achieve this:
 
 ```html title="Overriding execution via handleEvent."
 <script type="mpy-editor" id="foreign">
@@ -197,21 +199,30 @@ def handle_event(event):
     # prevent default execution
     return False
 
+# Grab reference to the editor
 foreign = document.getElementById("foreign")
-
+# Override handleEvent with your own customisation.
 foreign.handleEvent = handle_event
 </script>
 ```
 
-[This live example](https://agiammarchi.pyscriptapps.com/pyeditor-iot-example/latest/) that allows one to play with micro controllers running MicroPython shows how the editor can be used to execute code via serial USB connection.
+This
+[live example](https://agiammarchi.pyscriptapps.com/pyeditor-iot-example/latest/)
+shows how the editor can be used to execute code via a USB serial connection to
+a connected MicroPython microcontroller.
 
 ## Tab behavior
 
-We are currently trapping the `tab` key in a way that reflects what regular *IDE* do: the code is simply indented, as opposite of losing the focus every single time.
+We currently trap the `tab` key in a way that reflects what a regular code
+editor would do: the code is simply indented, rather than focus moving to
+another element.
 
-We are fully aware of the implications this might have around accessibility so we followed [this detailed Codemirror's documentation](https://codemirror.net/examples/tab/) and allowed that *escape hatch* to be able to explicitly move focus outside the editor when it's meant.
-
-That is: press `Esc` before `Tab` to see your focus moving to the next focusable element on the page but by default you can press `Tab` to indent the code as you would expect from your daily editor.
+We are fully aware of the implications this might have around accessibility so
+we followed
+[this detailed advice from Codemirror's documentation](https://codemirror.net/examples/tab/)
+We have an *escape hatch* to move focus outside the editor. Press `esc` before
+`tab` to move focus to the next focusable element. Otherwise `tab` indents
+code.
 
 
 ## Still missing
