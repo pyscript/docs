@@ -173,6 +173,47 @@ If a `setup` editor is present, that's the only PyEditor that needs a config.
 Any subsequent related editor will reuse the config parsed and bootstrapped for
 the `setup` editor.
 
+## Execution via keyboard
+
+Accordingly with the Operating system you are using, a combination of either `Ctrl-Enter`, `Cmd-Enter` or `Shift-Enter` would implicitly execute the code and show results within the `target` output node without ever needing to reach the *Run* button and lose the focus.
+
+## Execution Override
+
+The editor offers great features even without interpreting code and in some case users would like to just bootstrap an editor then orchestrate what should happen once *Run* button is clicked or any of the keys combined to execute code is pressed.
+
+The `handleEvent` attached to the script that bootstraps the editor can be overridden to achieve this with relative ease:
+
+```html title="Overriding execution via handleEvent."
+<script type="mpy-editor" id="foreign">
+print(6 * 7)
+</script>
+
+<script type="mpy">
+from pyscript import document
+
+def handle_event(event):
+    # will log `print(6 * 7)`
+    print(event.code)
+    # prevent default execution
+    return False
+
+foreign = document.getElementById("foreign")
+
+foreign.handleEvent = handle_event
+</script>
+```
+
+[This live example](https://agiammarchi.pyscriptapps.com/pyeditor-iot-example/latest/) that allows one to play with micro controllers running MicroPython shows how the editor can be used to execute code via serial USB connection.
+
+## Tab behavior
+
+We are currently trapping the `tab` key in a way that reflects what regular *IDE* do: the code is simply indented, as opposite of losing the focus every single time.
+
+We are fully aware of the implications this might have around accessibility so we followed [this detailed Codemirror's documentation](https://codemirror.net/examples/tab/) and allowed that *escape hatch* to be able to explicitly move focus outside the editor when it's meant.
+
+That is: press `Esc` before `Tab` to see your focus moving to the next focusable element on the page but by default you can press `Tab` to indent the code as you would expect from your daily editor.
+
+
 ## Still missing
 
 The PyEditor is currently under active development and refinement, so features
