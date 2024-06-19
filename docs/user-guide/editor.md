@@ -179,7 +179,7 @@ Depending on your operating system, a combination of either `Ctrl-Enter`,
 `Cmd-Enter` or `Shift-Enter` will execute the code in the editor (no need to
 move the mouse to click the run button).
 
-## Execution override
+## Override run
 
 Sometimes you just need to override the way the editor runs code.
 
