@@ -372,6 +372,80 @@ The following code demonstrates a `pyscript.WebSocket` in action.
     ws = WebSocket(url="ws://example.com/socket", onmessage=onmessage)
     ```
 
+### `pyscript.storage`
+
+The `pyscript.storage` API wraps the browser's built-in
+[IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
+persistent storage in a synchronous Pythonic API.
+
+!!! info 
+
+    The storage API is persistent per user tab, page, or domain, in the same
+    way IndexedDB persists.
+
+    This API **is not** saving files in the interpreter's virtual file system
+    nor onto the user's hard drive.
+
+```python
+from pyscript import storage
+
+
+# Each store must have a meaningful name.
+store = await storage("my-storage-name")
+
+# store is a dictionary and can now be used as such.
+```
+
+The returned dictionary automatically loads the current state of the referenced
+IndexDB. All changes are automatically queued in the background.
+
+```python
+# This is a write operation.
+store["key"] = value
+
+# This is also a write operation (it changes the stored data).
+del store["key"]
+```
+
+Should you wish to be certain changes have been synchronized to the underlying
+IndexDB, just `await store.sync()`.
+
+Common types of value can be stored via this API: `bool`, `float`, `int`, `str`
+and `None`. In addition, data structures like `list`, `dict` and `tuple` can
+be stored.
+
+!!! warning
+
+    Because of the way the underlying data structure are stored in IndexDB,
+    a Python `tuple` will always be returned as a Python `list`.
+
+It is even possible to store arbitrary data via a `bytearray` or
+`memoryview` object. However, there is a limitation that **such values must be
+stored as a single key/value pair, and not as part of a nested data
+structure**.
+
+Sometimes you may need to modify the behaviour of the `dict` like object
+returned by `pyscript.storage`. To do this, create a new class that inherits
+from `pyscript.Storage`, then pass in your class to `pyscript.storage` as the
+`storage_class` argument:
+
+```python
+from pyscript import window, storage, Storage
+
+
+class MyStorage(Storage):
+
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+        window.console.log(key, value)
+        ...
+
+
+store = await storage("my-data-store", storage_class=MyStorage)
+
+# The store object is now an instance of MyStorage.
+```
+
 ### `pyscript.ffi.to_js`
 
 A utility function to convert Python references into their JavaScript

@@ -173,6 +173,58 @@ If a `setup` editor is present, that's the only PyEditor that needs a config.
 Any subsequent related editor will reuse the config parsed and bootstrapped for
 the `setup` editor.
 
+## Run via keyboard
+
+Depending on your operating system, a combination of either `Ctrl-Enter`,
+`Cmd-Enter` or `Shift-Enter` will execute the code in the editor (no need to
+move the mouse to click the run button).
+
+## Override run
+
+Sometimes you just need to override the way the editor runs code.
+
+The editor's `handleEvent` can be overridden to achieve this:
+
+```html title="Overriding execution via handleEvent."
+<script type="mpy-editor" id="foreign">
+print(6 * 7)
+</script>
+
+<script type="mpy">
+from pyscript import document
+
+def handle_event(event):
+    # will log `print(6 * 7)`
+    print(event.code)
+    # prevent default execution
+    return False
+
+# Grab reference to the editor
+foreign = document.getElementById("foreign")
+# Override handleEvent with your own customisation.
+foreign.handleEvent = handle_event
+</script>
+```
+
+This
+[live example](https://agiammarchi.pyscriptapps.com/pyeditor-iot-example/latest/)
+shows how the editor can be used to execute code via a USB serial connection to
+a connected MicroPython microcontroller.
+
+## Tab behavior
+
+We currently trap the `tab` key in a way that reflects what a regular code
+editor would do: the code is simply indented, rather than focus moving to
+another element.
+
+We are fully aware of the implications this might have around accessibility so
+we followed
+[this detailed advice from Codemirror's documentation](https://codemirror.net/examples/tab/)
+We have an *escape hatch* to move focus outside the editor. Press `esc` before
+`tab` to move focus to the next focusable element. Otherwise `tab` indents
+code.
+
+
 ## Still missing
 
 The PyEditor is currently under active development and refinement, so features
