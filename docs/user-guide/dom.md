@@ -272,6 +272,113 @@ The `ElementCollection` class currently supports the following attributes:
 * `html`: changes the `html` attribute on all the elements of a collection.
 * `value`: changes the `value` attribute on all the elements of a collection.
 
+
+## PyWeb.ui
+
+Pyweb.ui is a umbrella package that focused on providing access to the extensive
+web APIs supported by the browser, with simpler, smaller and pythonic interface.
+
+### pyweb.ui.elements
+
+As mentioned in the above section about PyDom, the Standard Web APIs are massive
+and not always very user-friendly. While `PyDom` focuses on querying and interacting
+with existing elements in a web page, `pyweb.ui.elements` is a module focused
+on providing a pythonic interface to create new elements on a web page.
+
+PyWeb is build on top of the foundation, provided by PyScript and PyDom, extending
+it with features focused on creating and customizing new elements on a web page.
+These elements are a subclass of pydom.Element and are fully compattible with the
+pydom Element API.
+
+
+!!! warning
+
+    PyDom is currently a work in progress.
+
+    We welcome feedback and suggestions.
+
+
+#### Creating a new element
+
+The element creation API provided by `pyweb.ui.elements` is focused on being simple
+and idiomatic. In fact, to create an element simply instantiate the type of element
+you need, providing all the properties supported by that element. Here's an example
+of creating a new button with a custom style
+
+```python
+# This will change the text of all H1 elements in the page
+from pyweb.ui.elements import button
+btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
+```
+
+#### Working with container elements
+
+Many elements are meant to be container elements and have children under them.
+`pyweb.ui.elements` provides 2 mains ways to add children to an element:
+
+##### adding children to an element after creation
+
+Moving elements around and adding children to an elements is a very common use case.
+It's possible to add new elements to an existing element by simply using the
+`append` method. For instance, let's rewrite the example above to add the button to
+the div after element creation and actually append the div to the body of the page.
+
+```python
+# This will change the text of all H1 elements in the page
+from pyweb import pydom
+from pyweb.ui.elements import button
+
+btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
+page_div = div()
+page_div.append(btn_open_dialog)
+pydom.body.append(page_div)
+```
+
+##### mapping elements to events
+
+As mentioned above, `pyweb.ui.elements` is built on top and fully compattible
+with `pyscript` built-ins and `pydom`. For this reason, the best way to
+attach event handlers to an element is to simply use the `@when` decorator
+provided by `PyScript`. So, just like before, let's rewrite the example above
+to change the background color of the button when the button is clicked.
+
+
+```python
+import random
+from pyweb import pydom
+from pyweb.ui.elements import button
+
+btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
+page_div = div()
+page_div.append(btn_open_dialog)
+
+def random_color():
+  """returns a random string representing and rgb color"""
+  rgbl=[255,0,0]
+  return tuple(random.shuffle(rgbl))
+
+@when('click', btn_open_dialog)
+def change_background_color(event=None):
+  # assign a random RGB color
+  btn_open_dialog.style['background-color'] = random_color()
+
+pydom.body.append(page_div)
+```
+
+
+##### specifing the children of an element during creation
+
+Elements that support children, like `div`, allow users to specify their children
+elements during the `Element` creation. For instance, let's modify the example above
+to create the button inside a div.
+
+```python
+from pyweb.ui.elements import button
+btn_open_dialog = button("Open Dialog", title='open dialog button', draggable=True, style={margin: '5px'})
+page_div = div([button])
+```
+
+
 ## Working with JavaScript
 
 There are three ways in which JavaScript can get into a web page.
