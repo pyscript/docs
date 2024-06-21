@@ -378,6 +378,14 @@ The `pyscript.storage` API wraps the browser's built-in
 [IndexDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
 persistent storage in a synchronous Pythonic API.
 
+!!! info 
+
+    The storage API is persistent per user tab, page, or domain, in the same
+    way IndexedDB persists.
+
+    This API **is not** saving files in the interpreter's virtual file system
+    nor onto the user's hard drive.
+
 ```python
 from pyscript import storage
 
@@ -437,14 +445,6 @@ store = await storage("my-data-store", storage_class=MyStorage)
 
 # The store object is now an instance of MyStorage.
 ```
-
-!!! warning
-
-    The storage API is persistent per user tab, page, or domain, in the same
-    way IndexedDB persists.
-
-    This API **is not** saving files in the interpreter's virtual file system
-    nor onto the user's hard drive.
 
 ### `pyscript.ffi.to_js`
 
