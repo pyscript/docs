@@ -81,7 +81,7 @@ attributes:
   [web worker](workers.md) instead of the "main thread" that looks after the user
   interface.
 * `target` - The id or selector of the element where calls to
-  [`display()`](builtins.md/#pyscriptdisplay) should write their values. 
+  [`display()`](../../api/#pyscriptdisplay) should write their values. 
 * `terminal` - A traditional [terminal](terminal.md) is shown on the page.
   As with conventional Python, `print` statements output here. **If the
   `worker` flag is set the terminal becomes interactive** (e.g. use 

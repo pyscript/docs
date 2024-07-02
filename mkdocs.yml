@@ -71,12 +71,12 @@ nav:
     - Configure PyScript: user-guide/configuration.md
     - The DOM &amp; JavaScript: user-guide/dom.md
     - Web Workers: user-guide/workers.md
-    - Builtin helpers: user-guide/builtins.md
     - The FFI in detail: user-guide/ffi.md
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
     - Plugins: user-guide/plugins.md
     - Use Offline: user-guide/offline.md
+  - Built-in APIs: api.md
   - FAQ: faq.md
   - Contributing: contributing.md
   - Developer Guide: developers.md

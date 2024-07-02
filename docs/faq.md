@@ -200,7 +200,7 @@ hence the error message.
 If you encounter this problem you have two possible solutions:
 
 1. Manually wrap such functions with a call to
-   [`pyscript.ffi.create_proxy`](../builtins/#pyscriptfficreate_proxy).
+   [`pyscript.ffi.create_proxy`](../../api/#pyscriptfficreate_proxy).
 2. Set the
    [`experimental_create_proxy = "auto"`](../configuration/#experimental_create_proxy)
    flag in your application's settings. This flag intercepts Python objects
@@ -922,7 +922,7 @@ def download_file(path, mime_type):
 ### create_proxy
 
 The `create_proxy` function is described in great detail
-[on the FFI page](../ffi/), but it's also useful to explain _when_
+[on the FFI page](../user-guide/ffi/), but it's also useful to explain _when_
 `create_proxy` is needed and the subtle differences between Pyodide and
 MicroPython.
 

@@ -70,7 +70,7 @@ attribute flag:
 ```
 
 Alternatively, to launch a worker from within Python running on the main thread
-use the [pyscript.PyWorker](../builtins/#pyscriptpyworker) class and you must
+use the [pyscript.PyWorker](../../api/#pyscriptpyworker) class and you must
 reference both the target Python script and interpreter type:
 
 ```python title="Launch a worker from within Python"
@@ -84,7 +84,7 @@ PyWorker("my-worker-code.py", type="micropython")
 
 Code running in the worker needs to be able to interact with code running in
 the main thread and perhaps have access to the web page. This is achieved via
-some helpful [builtin utilities](../builtins).
+some helpful [builtin APIs](../../api).
 
 !!! note
 
@@ -98,7 +98,7 @@ some helpful [builtin utilities](../builtins).
     these features.
 
 To synchronise serializable data between the worker and the main thread use
-[the `sync` function](../builtins/#pyscriptsync) in the worker to reference a
+[the `sync` function](../../api/#pyscriptsync) in the worker to reference a
 function registered on the main thread:
 
 ```python title="Python code running on the main thread."
@@ -126,9 +126,9 @@ serializable**. Try the example given above via
 [this project on PyScript.com](https://pyscript.com/@ntoll/tiny-silence/latest).
 
 No matter if your code is running on the main thread or in a web worker,
-both the [`pyscript.window`](../builtins/#pyscriptwindow) (representing the main
+both the [`pyscript.window`](../../api/#pyscriptwindow) (representing the main
 thread's global window context) and
-[`pyscript.document`](../builtins/#pyscriptdocument) (representing the web
+[`pyscript.document`](../../api/#pyscriptdocument) (representing the web
 page's
 [document object](https://developer.mozilla.org/en-US/docs/Web/API/Document))
 will be available and work in the same way. As a result, a worker can reach
