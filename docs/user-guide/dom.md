@@ -205,10 +205,10 @@ dom.body.append(
 ```
 
 This example demonstrates a declaritive way to add elements to the body of the
-DOM. Notice how the first (unnamed) arguments to an element are its child. The
-named arguments (such as `id`, `classes` and `style`) refer to attributes of
-the underlying HTML element. If you'd rather be explicit about the children of
-an element, you can always pass in a list of such elements as the named
+DOM. Notice how the first (unnamed) arguments to an element are its children.
+The named arguments (such as `id`, `classes` and `style`) refer to attributes
+of the underlying HTML element. If you'd rather be explicit about the children
+of an element, you can always pass in a list of such elements as the named
 `children` argument (you see this in the final `div` in the example above).
 
 Of course, you can achieve similar results in an imperative style of
