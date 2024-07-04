@@ -155,13 +155,14 @@ for p in paragraphs[-2:]:
 It also makes available the following read and writable attributes related to
 all contained elements:
 
+* `classes` - the list of classes associated with the elements.
+* `innerHTML` - the innerHTML of each element.
 * `style` - a dictionary like object for interacting with CSS style rules.
-* `html` - the `innerHTML` of each element.
 * `value` - the `value` attribute associated with each element.
 
-For example, to continue the example above, `paragraphs.html` will return a
-list of all the values of the `html` attribute on each contained element.
-Alternatively, set an attribute for all elements contained in the
+For example, to continue the example above, `paragraphs.innerHTML` will return
+a list of all the values of the `innerHTML` attribute on each contained
+element. Alternatively, set an attribute for all elements contained in the
 collection like this: `paragraphs.style["background-color"] = "blue"`.
 
 It's possible to create new elements to add to the DOM:
@@ -251,6 +252,9 @@ def my_button_click_handler(event):
 Should you wish direct access to the proxy object representing the underlying
 HTML element, each Python element has a `_dom_element` property for this
 purpose.
+
+Once again, the technical details of these classes are described in the
+[built-in API documentation](../../api/#pyscriptweb).
 
 ## Working with JavaScript
 

@@ -413,6 +413,8 @@ store = await storage("my-data-store", storage_class=MyStorage)
 
 ### `pyscript.web`
 
+TODO: Use `display(element)` not `element.display()`.
+
 The classes and references in this namespace provide a Pythonic way to interact
 with the DOM. An explanation for how to idiomatically use this API can be found
 [in the user guide](../user-guide/dom/#pyscriptweb)
@@ -424,14 +426,19 @@ This object has two attributes and a single method:
 * `head` - a reference to a Python object representing the [document's head](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head).
 * `body` - a reference to a Python object representing the [document's body](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body).
 * `find` - a method that takes a single [selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors)
-  argument and returns a collection of matching elements.
+  argument and returns a collection of Python objects representing the matching
+  elements.
 
-You have several options for accessing the 
+These are provided as a convenience so you have several simple and obvious
+options for accessing the content of the page (DOM).
+
+All the Python objects returned by these attributes and method are instances of
+classes defined in the `pyscript.web.elements` namespace.
 
 #### `pyscript.web.elements.*`
 
 There are many classes in this namespace. Each is a one-to-one mapping of any
-HTML element name for a Python class representing the HTML element of that
+HTML element name to a Python class representing the HTML element of that
 name. Each Python class ensures only valid properties and attributes can be
 assigned, according to web standards.
 
@@ -472,6 +479,9 @@ Usage of these classes is
     (`_`) because they are also keywords in Python, and the `grid` is a custom
     class for a `div` with a `grid` style `display` property.
 
+    All these classes ultimately derive from the
+    `pyscript.web.elements.Element` base class.
+
 In addition to properties defined by the HTML standard for each type of HTML
 element (e.g. `title`, `src` or `href`), all elements have the following
 properties and methods (in alphabetical order):
@@ -482,15 +492,34 @@ properties and methods (in alphabetical order):
 * `classes` - a set of CSS classes associated with the element.
 * `clone(clone_id=None)` - Make a clone of the element (and the underlying DOM
   object), and assign it the optional `clone_id`.
-* `content` - get or set the
-  [innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
-  of the element.
 * `find(selector)` - use a CSS selector to find matching child elements.
 * `parent` - the element's parent element (that contains it).
 * `show_me` - scroll the element into view.
 * `style` - a dictionary of CSS style properties associated with the element.
 * `update(classes=None, style=None, **kwargs)` - update the element with the
   specified classes (set), style (dict) and DOM properties (kwargs).
+* `_dom_element` - a reference to the proxy object that represents the
+  underlying native HTML element.
+
+!!! info
+
+    All elements, by virtue of inheriting from the base `Element` class, may
+    have the following properties:
+
+    ```
+    accesskey, autofocus, autocapitalize,
+    className, contenteditable,
+    draggable,
+    enterkeyhint,
+    hidden,
+    innerHTML, id,
+    lang,
+    nonce,
+    part, popover,
+    slot, spellcheck,
+    tabindex, text, title, translate,
+    virtualkeyboardpolicy
+    ```
 
 The `classes` set-like object has the following convenience functions:
 
@@ -501,8 +530,26 @@ The `classes` set-like object has the following convenience functions:
 * `replace(old_class, new_class)` - replace the `old_class` with `new_class`.
 * `toggle(class_name)` - add a class if it is absent, or remove a class if it
   is present.
-* `_dom_element` - a reference to the proxy object that represents the
-  underlying HTML element.
+
+Elements that require options (such as the `datalist`, `optgroup` and `select`
+elements), can have options passed in when they are created:
+
+```python
+my_select = select_(option("apple", value=1), option("pear"))
+```
+
+Notice how options can be a tuple of two values (the name and associated value)
+or just the single name (whose associated value will default to the given
+name).
+
+It's possible to access and manipulate the `options` of the resulting elements:
+
+```python
+selected_option = my_select.options.selected
+my_select.options.remove(0)  # Remove the first option (in position 0).
+my_select.clear()
+my_select.options.add(html="Orange")
+```
 
 Finally, the collection of elements returned by `find` and `children` is
 iterable, indexable and sliceable:
@@ -512,11 +559,12 @@ for child in my_element.children[10:]:
     print(child.html)
 ```
 
-Furthermore, three attributes related to all elements contained in the
+Furthermore, four attributes related to all elements contained in the
 collection can be read (as a list) or set (applied to all contained elements):
 
+* `classes` - the list of classes associated with the elements.
+* `innerHTML` - the innerHTML of each element.
 * `style` - a dictionary like object for interacting with CSS style rules.
-* `html` - the `innerHTML` of each element.
 * `value` - the `value` attribute associated with each element.
 
 ### `pyscript.when`
