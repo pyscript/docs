@@ -112,8 +112,8 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css">
-      <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js"></script>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.7.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.7.1/core.js"></script>
   </head>
   <body>
 
@@ -147,7 +147,7 @@ application's output.
 There's something strange about the `<button>` tag: it has a `py-click`
 attribute with the value `translate_english`. This is, in fact, the name of a
 Python function we'll run whenever the button is clicked. Such `py-*` style
-attributes are [built into PyScript](user-guide/builtins.md#html-attributes).
+attributes are [built into PyScript](api.md#html-attributes).
 
 We put all this together in the `script` tag at the end of the `<body>`. This
 tells the browser we're using PyScript (`type="py"`), and where PyScript
@@ -163,8 +163,8 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css">
-      <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js"></script>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.7.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.7.1/core.js"></script>
   </head>
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>

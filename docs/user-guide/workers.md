@@ -69,22 +69,35 @@ attribute flag:
 <script type="py" src="./my-worker-code.py" worker></script>
 ```
 
+You may also want to add a `name` attribute to the tag, so you can use
+`pyscript.workers` in the main thread to retrieve a reference to the worker:
+
+```html
+<script type="py" src="./my-worker-code.py" worker name="my-worker"></script>
+```
+
+```python
+from pyscript import workers
+
+my_worker = await workers["my-worker"]
+```
+
 Alternatively, to launch a worker from within Python running on the main thread
-use the [pyscript.PyWorker](../builtins/#pyscriptpyworker) class and you must
+use the [pyscript.PyWorker](../../api/#pyscriptpyworker) class and you must
 reference both the target Python script and interpreter type:
 
 ```python title="Launch a worker from within Python"
 from pyscript import PyWorker
 
 # The type MUST be given and can be either `micropython` or `pyodide`
-PyWorker("my-worker-code.py", type="micropython")
+my_worker = PyWorker("my-worker-code.py", type="micropython")
 ```
 
 ## Worker interactions
 
 Code running in the worker needs to be able to interact with code running in
 the main thread and perhaps have access to the web page. This is achieved via
-some helpful [builtin utilities](../builtins).
+some helpful [builtin APIs](../../api).
 
 !!! note
 
@@ -98,7 +111,7 @@ some helpful [builtin utilities](../builtins).
     these features.
 
 To synchronise serializable data between the worker and the main thread use
-[the `sync` function](../builtins/#pyscriptsync) in the worker to reference a
+[the `sync` function](../../api/#pyscriptsync) in the worker to reference a
 function registered on the main thread:
 
 ```python title="Python code running on the main thread."
@@ -121,14 +134,42 @@ greeting = sync.hello("PyScript")
 window.console.log(greeting)
 ```
 
+Alternatively, for the main thread to call functions in a worker, specify the
+functions in a `__export__` list:
+
+```python title="Python code on the worker."
+import sys
+
+def version():
+    return sys.version
+
+# Define what to export to the main thread.
+__export__ = ["version", ]
+```
+
+Then ensure you have a reference to the worker in the main thread (for
+instance, by using the `pyscript.workers`):
+
+```html title="Creating a named worker in the web page."
+<script type="py" src="./my-worker-code.py" worker name="my-worker"></script>
+```
+
+```python title="Referencing and using the worker from the main thread."
+from pyscript import workers
+
+my_worker = await workers["my-worker"]
+
+print(await my_worker.version())
+```
+
 The values passed between the main thread and the worker **must be
 serializable**. Try the example given above via
 [this project on PyScript.com](https://pyscript.com/@ntoll/tiny-silence/latest).
 
 No matter if your code is running on the main thread or in a web worker,
-both the [`pyscript.window`](../builtins/#pyscriptwindow) (representing the main
+both the [`pyscript.window`](../../api/#pyscriptwindow) (representing the main
 thread's global window context) and
-[`pyscript.document`](../builtins/#pyscriptdocument) (representing the web
+[`pyscript.document`](../../api/#pyscriptdocument) (representing the web
 page's
 [document object](https://developer.mozilla.org/en-US/docs/Web/API/Document))
 will be available and work in the same way. As a result, a worker can reach
@@ -164,9 +205,9 @@ Here's how:
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.7.1/core.css">
     <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js"></script>
+    <script type="module" src="https://pyscript.net/releases/2024.7.1/core.js"></script>
     <title>PyWorker - mpy bootstrapping pyodide example</title>
     <!-- the async attribute is useful but not mandatory -->
     <script type="mpy" src="main.py" async></script>

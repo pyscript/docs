@@ -20,9 +20,9 @@ CSS:
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <!-- PyScript CSS -->
-        <link rel="stylesheet" href="https://pyscript.net/releases/2024.6.2/core.css">
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.7.1/core.css">
         <!-- This script tag bootstraps PyScript -->
-        <script type="module" src="https://pyscript.net/releases/2024.6.2/core.js"></script>
+        <script type="module" src="https://pyscript.net/releases/2024.7.1/core.js"></script>
     </head>
     <body>
         <!-- your code goes here... -->
@@ -81,7 +81,7 @@ attributes:
   [web worker](workers.md) instead of the "main thread" that looks after the user
   interface.
 * `target` - The id or selector of the element where calls to
-  [`display()`](builtins.md/#pyscriptdisplay) should write their values. 
+  [`display()`](../../api/#pyscriptdisplay) should write their values. 
 * `terminal` - A traditional [terminal](terminal.md) is shown on the page.
   As with conventional Python, `print` statements output here. **If the
   `worker` flag is set the terminal becomes interactive** (e.g. use 

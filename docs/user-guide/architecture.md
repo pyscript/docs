@@ -181,7 +181,7 @@ Here's how PyScript unfolds through time:
        [plugins](configuration.md/#plugins), [packages](configuration.md/#packages), [files](configuration.md/#files) or [JavaScript modules](configuration.md/#javascript-modules) 
        that need to be loaded.
     5. Make available various
-       [builtin helper objects and functions](builtins.md) to the
+       [builtin helper objects and functions](../../api) to the
        interpreter's environment (accessed via the `pyscript` module).
     6. Only then use the interpreter in the correctly configured environment to
        evaluate the detected Python code.
