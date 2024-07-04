@@ -805,6 +805,59 @@ PyWorker("worker.py", type="micropython")
 <div id="output"></div>  <!-- The display target -->
 ```
 
+### `pyscript.workers`
+
+The `pyscript.workers` reference allows Python code in the main thread to
+easily access named workers (and their exported functionality).
+
+For example, the following Pyodide code may be running on a named worker
+(see the `name` attribute of the `script` tag):
+
+```html
+<script type="py" worker name="py-version">
+import sys
+
+def version():
+    return sys.version
+
+# define what to export to main consumers
+__export__ = ["version"]
+</script>
+```
+
+While over on the main thread, this fragment of MicroPython will be able to
+access the worker's `version` function via the `workers` reference:
+
+```html
+<script type="mpy" async>
+from pyscript import workers
+
+pyworker = await workers["py-version"]
+
+# print the pyodide version
+print(await pyworker.version())
+</script>
+```
+
+Importantly, the `workers` reference will **NOT** provide a list of
+known workers, but will only `await` for a reference to a named worker
+(resolving when the worker is ready). This is because the timing of worker
+startup is not deterministic.
+
+Should you wish to await for all workers on the page at load time, it's
+possible to loop over matching elements in the document like this:
+
+```html
+<script type="mpy" async>
+from pyscript import document, workers
+
+for el in document.querySelectorAll("[type='py'][worker][name]"):
+    await workers[el.getAttribute('name')]
+
+# ... rest of the code
+</script>
+```
+
 ## Worker only features
 
 ### `pyscript.js_import`
