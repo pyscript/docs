@@ -1,6 +1,8 @@
 # What is PyScript?
 
-[PyScript](https://pyscript.net) is a platform for [Python](https://python.org) in the
+[PyScript](https://pyscript.net) is an
+[open source](../../license/) platform for
+[Python](https://python.org) in the
 [browser](https://en.wikipedia.org/wiki/Web_browser).
 
 PyScript brings together two of the most vibrant technical ecosystems on the

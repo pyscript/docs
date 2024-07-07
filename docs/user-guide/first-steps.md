@@ -123,7 +123,7 @@ attributes:
     The browser's tab displaying the website running PyScript is an isolated
     computing sandbox. Define the Python environment in which your code will
     run with [configuration options](configuration.md) (discussed later in this
-    document).
+    user guide).
 
 !!! tip 
 

@@ -59,6 +59,11 @@ refresh the page (`CTRL-R`) to see any updates you may have made.
     [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
     can be used to reload the page as you edit your files.
 
+    Alternatively, if you have an account on [GitHub](https://github.com) you
+    could use VSCode in your browser as a
+    [PyScript aware "CodeSpace"](https://github.com/ntoll/codespaces-project-template-pyscript/)
+    (just follow the instructions in the README file).
+
 If you decide to use [pyscript.com](https://pyscript.com) (recommended for
 first steps), once signed in, create a new project by pressing the "+" button
 on the left hand side below the site's logo. You'll be presented with a page
