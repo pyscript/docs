@@ -73,8 +73,8 @@ PolyScript's capabilities, upon which PyScript is built, can be summarised as:
   defined moments in the page lifecycle, provide a means of calling user
   defined functions to modify and enhance PolyScript's default behaviour.
 * [Multiple interpreters](https://pyscript.github.io/polyscript/#interpreter-features)
-  (in addition to Pyodide and MicroPython, PolyScript works with Lua and Ruby -
-  although these are beyond the scope of this project).
+  (in addition to Pyodide and MicroPython, PolyScript works with R, Lua and
+  Ruby - although these are beyond the scope of this project).
 
 PolyScript may become important if you encounter problems with PyScript. You
 should investigate PolyScript if any of the following is true about your
