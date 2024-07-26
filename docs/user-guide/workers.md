@@ -14,21 +14,18 @@ uses it under the hood.
 !!! info
 
     Sometimes you only need to `await` in the main thread the result of a call
-    to a method exposed in a worker.
+    to a method exposed in a worker, where neither `window` nor `document` are
+    either imported or ever needed in such worker.
 
-    In such a limited case, and on the understanding that **code in the worker
-    will not be able to reach back into the main thread**, you should
-    use the [`sync_main_only` flag](../configuration/#sync_main_only) in your
-    configuration.
-
-    While this eliminates the need for the Atomics related header configuration
-    (see below), the only possible use case is to **return a serialisable
+    In these cases, you don't need any special header or *Service Worker*
+    as long as any worker exposed utility **returns a serializable
     result from the method called on the worker**.
 
 ## HTTP headers
 
-For Atomics to work **you must ensure your web server enables the following
-headers** (this is the default behaviour for
+For synchronous Atomics operations to work, those that enable features
+such as `window` and `document` from a worker, **you must ensure your web server
+enables the following headers** (this is the default behavior for
 [pyscript.com](https://pyscript.com)):
 
 ```
@@ -38,26 +35,103 @@ Cross-Origin-Embedder-Policy: require-corp
 Cross-Origin-Resource-Policy: cross-origin
 ```
 
-If you are not able to configure your server's headers, use the
-[mini-coi](https://github.com/WebReflection/mini-coi#readme) project to
-achieve the same end.
+If you need those features and you are not able to configure your server's headers,
+there are at least 2 options: use the
+[mini-coi](https://github.com/WebReflection/mini-coi#readme) project
+to enforce server side headers on each request or
+use the `service-worker` attribute.
 
-!!! Info
+### Option 1: mini-coi
 
-    The simplest way to use mini-coi is to place the
-    [mini-coi.js](https://raw.githubusercontent.com/WebReflection/mini-coi/main/mini-coi.js)
-    file in the root of your website (i.e. `/`), and reference it as the first
-    child tag in the `<head>` of your HTML documents:
+This is still a preferred option, mostly for performance reasons, so that
+*Atomics*' synchronous operations can work at native speed.
 
-    ```html
-    <html>
-      <head>
-        <script src="/mini-coi.js" scope="./"></script> 
-        <!-- etc -->
-      </head>
-      <!-- etc --> 
-    </html>
+The simplest way to use mini-coi is to copy the
+[mini-coi.js](https://raw.githubusercontent.com/WebReflection/mini-coi/main/mini-coi.js)
+file content and save it in the root of your website (i.e. `/`), and reference it
+as the first child tag in the `<head>` of your HTML documents:
+
+```html
+<html>
+  <head>
+    <script src="/mini-coi.js"></script>
+    <!-- etc -->
+  </head>
+  <!-- etc -->
+</html>
+```
+
+### Option 2: service-worker attribute
+
+Recently introduced, each `<script type="m/py">` or `<m/py-script>` can have
+a `service-worker` attribute that must point to a locally served file, the
+same way `mini-coi.js` needs to be served, but there is more to it:
+
+  * you can chose `mini-coi.js` itself or *any other Service Worker*,
+    as long as it provides either the right headers to enable *Atomics*
+    synchronous operations ir it enables
+    [sabayon polyfill events](https://github.com/WebReflection/sabayon?tab=readme-ov-file#service-worker)
+  * you can copy and paste
+    [sabayon Service Worker](https://raw.githubusercontent.com/WebReflection/sabayon/main/dist/sw.js)
+    into your local project and point at that in the attribute. This will
+    not change the original behavior of your project, it will not interfere with
+    all default or pre-defined headers your application use already but it will
+    fallback to a (slower but working) synchronous operation that would enable
+    both `window` and `document` access whenever that's needed in your worker logic
+
+```html
+<html>
+  <head>
+    <!-- PyScript link and script -->
+  </head>
+  <body>
+    <script type="py" service-worker="./sw.js" worker>
+      from pyscript import window, document
+
+      document.body.append("Hello PyScript!")
+    </script>
+  </body>
+</html>
+```
+
+!!! note
+
+    Using the *sabayon* fallback to enable *Atomics* synchronous operations
+    should be the least solution to consider because it is inevitably
+    slower than having native operations enabled by other means.
+
+    When that is still needed or desired, it is always better to reduce
+    the amount of synchronous operations by caching references from the
+    *main* thread.
+
+    ```python
+    # ❌ THIS IS UNNECESSARILY SLOWER
+    from pyscript import document
+
+    # add a data-test="not ideal attribute"
+    document.body.dataset.test = "not ideal"
+    # read a data-test attribute
+    print(document.body.dataset.test)
+
+    # - - - - - - - - - - - - - - - - - - - - -
+
+    # ✔️ THIS IS FINE
+    from pyscript import document
+
+    # if needed elsewhere, reach it once
+    body = document.body
+    dataset = body.dataset
+
+    # add a data-test="not ideal attribute"
+    dataset.test = "not ideal"
+    # read a data-test attribute
+    print(dataset.test)
     ```
+
+In latter example the amount of operations have been reduced
+from *6* to just *4* and the rule of thumb is:
+if you ever need a *DOM* reference more than once, cache it 👍
+
 
 ## Start working
 

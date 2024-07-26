@@ -49,7 +49,7 @@ encounter.
 
 ### SharedArrayBuffer
 
-This is the first and most common error users may encounter with PyScript.
+This is the first and most common error users may encounter with PyScript:
 
 !!! failure
 
@@ -58,52 +58,28 @@ This is the first and most common error users may encounter with PyScript.
     you see this message:
 
     ```
-    Unable to use SharedArrayBuffer due insecure environment.
-    Please read requirements in MDN: ...
+    Unable to use `window` or `document` -> https://docs.pyscript.net/latest/faq/#sharedarraybuffer
     ```
-
-The error contains
-[a link to MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements)
-but it's the amount of content provided on this topic is overwhelming.
 
 #### When
 
 This error happens when **the server delivering your PyScript application is
-incorrectly configured**. It fails to provide the correct headers to handle
-security concerns for web workers, or you're not using
-[mini-coi](https://github.com/WebReflection/mini-coi#readme) as an alternative
-solution. (These requirements are explored
-[in the worker page](../user-guide/workers#http-headers).)
+incorrectly configured** or no *service-worker* attribute fallback
+has been provided, hence failing to enable access to `window` and/or `document`
+on the *main* thread.
 
-**And** at least one of the following scenarios is true:
+This happens when:
 
-* There is a `worker` attribute in the *py* or *mpy* script element and the
-  [sync_main_only](https://pyscript.github.io/polyscript/#extra-config-features)
-  flag is not present or not `true`.
-* There is a `<script type="py-editor">` that uses a *worker* behind the
-  scenes.
+* There is a `worker` attribute in the *py* or *mpy* script element, its code
+  accesses/imports either `window` or `document` but there's no way to use these
+  due platform limitations on synchronous *Atomics* operations.
+* There is a `<script type="py-editor">` that always uses a *worker* behind the
+  scenes and no fallback has been provided via `service-worker` attribute.
 * There is an explicit `PyWorker` or `MPWorker` bootstrapping somewhere in your
-  code.
+  code and no `service_worker` fallback has been provided.
 
-!!! info
-
-    If `sync_main_only` is `true` then interactions between the main thread and
-    workers are limited to one way calls from the main thread to methods
-    exposed by workers.
-
-If `sync_main_only = true`, the following caveats apply:
-
-* It is not possible to manipulate the DOM or do anything meaningful on the
-  main thread **from a worker**. This is because Atomics cannot guarantee
-  sync-like locks between a worker and the main thread.
-* Only a worker's `pyscript.sync` methods are exposed, and they can only be
-  awaited from the main thread.
-* The worker can only `await` main thread references one after the other, so
-  developer experience is degraded when one needs to interact with the
-  main thread.
-
-If your project simply bootstraps on the main thread, none of this is relevant
-because no worker requires such special features.
+All these cases have been documented with code examples and possible solutions
+in our [Web Workers](https://docs.pyscript.net/latest/user-guide/workers/) section.
 
 #### Why
 
@@ -130,13 +106,15 @@ Pyodide related projects, because of its heavier bootstrap or computation
 requirements. Using workers ensures the main thread (and thus, the user
 interface) remains unblocked.
 
-Unfortunately, due to security concerns and potential attacks to shared
-buffers, each server or page needs to allow extra security to prevent malicious
-software to read or write into these buffers. But be assured that if you own
-your code, your project, and you trust the modules or 3rd party code you need
-and use, **there are less likely to be security concerns around this topic
-within your project**. This situation is simply an unfortunate "*one rule catch
-all*" standard any server can either enable or disable as it pleases.
+Unfortunately, we can patch, polyfill, or workaround, these primitives but
+we cannot change their intrinsic standard nature and limitations.
+
+We do, however, offer various solutions that circumvent security concerns
+around special headers or enable native functionality with relative ease.
+
+Please read our
+[Web Workers](https://docs.pyscript.net/latest/user-guide/workers/)
+dedicated section to know more about possible solutions.
 
 ### Borrowed proxy
 
