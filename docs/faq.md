@@ -63,23 +63,30 @@ This is the first and most common error users may encounter with PyScript:
 
 #### When
 
-This error happens when **the server delivering your PyScript application is
-incorrectly configured** or no *service-worker* attribute fallback
-has been provided, hence failing to enable access to `window` and/or `document`
-on the *main* thread.
+This happens when you're unable to access objects in the main thread (`window`
+and `document`) from code running in a web worker.
 
-This happens when:
+This error happens because **the server delivering your PyScript application is
+incorrectly configured** or **a `service-worker` attribute has not been used in
+your `script` element**.
 
-* There is a `worker` attribute in the *py* or *mpy* script element, its code
-  accesses/imports either `window` or `document` but there's no way to use these
-  due platform limitations on synchronous *Atomics* operations.
-* There is a `<script type="py-editor">` that always uses a *worker* behind the
-  scenes and no fallback has been provided via `service-worker` attribute.
-* There is an explicit `PyWorker` or `MPWorker` bootstrapping somewhere in your
-  code and no `service_worker` fallback has been provided.
+Specifically, one of the following three problem situations applies to your
+code:
+
+* Because of the way your web server is configured, the browser limits the use
+  of a technology called "Atomics" (you don't need to know how it works, just
+  that it may be limited by the browser). If there is a `worker` attribute in
+  your `script` element, and your Python code uses the `window` or `document`
+  objects (that actually exist on the main thread), then the browser limitation
+  on Atomics will cause the failure, unless you reconfigure your server.
+* There is a `<script type="py-editor">` (that must always use a worker behind
+  the scenes) and no fallback has been provided via a `service-worker`
+  attribute on that element.
+* There is an explicit `PyWorker` or `MPWorker` instance **bootstrapping
+  somewhere in your code** and no `service_worker` fallback has been provided.
 
 All these cases have been documented with code examples and possible solutions
-in our [Web Workers](https://docs.pyscript.net/latest/user-guide/workers/) section.
+in our section on [web workers](../user-guide/workers/).
 
 #### Why
 
@@ -98,7 +105,7 @@ CPU. It idles until the referenced index of the shared buffer changes,
 effectively never blocking the main thread while still pausing its own
 execution until the buffer's index is changed.
 
-As overwhelming or complicated as this might sounds, these two fundamental
+As overwhelming or complicated as this might sound, these two fundamental
 primitives make main ↔ worker interoperability an absolute wonder in term of
 developer experience. Therefore, we encourage folks to prefer using workers
 over running Python in the main thread. This is especially so when using
@@ -107,14 +114,10 @@ requirements. Using workers ensures the main thread (and thus, the user
 interface) remains unblocked.
 
 Unfortunately, we can patch, polyfill, or workaround, these primitives but
-we cannot change their intrinsic standard nature and limitations.
-
-We do, however, offer various solutions that circumvent security concerns
-around special headers or enable native functionality with relative ease.
-
-Please read our
-[Web Workers](https://docs.pyscript.net/latest/user-guide/workers/)
-dedicated section to know more about possible solutions.
+we cannot change their intrinsic nature and limitations defined by web
+standards. However, there are various solutions for working around such
+limitations. Please read our [web workers](..//user-guide/workers/)
+section to learn more.
 
 ### Borrowed proxy
 

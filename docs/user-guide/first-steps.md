@@ -80,13 +80,18 @@ attributes:
 * `worker` - a flag to indicate your Python code is to be run on a
   [web worker](workers.md) instead of the "main thread" that looks after the user
   interface.
-* `target` - The id or selector of the element where calls to
+* `target` - the id or selector of the element where calls to
   [`display()`](../../api/#pyscriptdisplay) should write their values. 
-* `terminal` - A traditional [terminal](terminal.md) is shown on the page.
+* `terminal` - a traditional [terminal](terminal.md) is shown on the page.
   As with conventional Python, `print` statements output here. **If the
   `worker` flag is set the terminal becomes interactive** (e.g. use 
   the `input` statement to gather characters typed into the terminal by the
   user).
+* `service-worker` - an optional attribute that allows you to slot in a custom
+  [service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+  (such as `mini-coi.js`) to fix header related problems that limit the use
+  of web workers. This rather technical requirement is fully explained in
+  the [section on web workers](../workers/#option-2-service-worker-attribute).
 
 !!! warning
 
