@@ -111,7 +111,7 @@ same way `mini-coi.js` needs to be served).
     # ❌ THIS IS UNNECESSARILY SLOWER
     from pyscript import document
 
-    # add a data-test="not ideal attribute"
+    # add a data-test="not ideal" attribute
     document.body.dataset.test = "not ideal"
     # read a data-test attribute
     print(document.body.dataset.test)
@@ -125,7 +125,7 @@ same way `mini-coi.js` needs to be served).
     body = document.body
     dataset = body.dataset
 
-    # add a data-test="not ideal attribute"
+    # add a data-test="not ideal" attribute
     dataset.test = "not ideal"
     # read a data-test attribute
     print(dataset.test)
