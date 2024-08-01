@@ -7,28 +7,25 @@ unresponsive. **You should never block the main thread.**
 Happily, PyScript makes it very easy to use workers and uses a feature recently
 added to web standards called
 [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics).
-You don't need to know about Atomics to use web workers, but the underlying
-[coincident library](architecture.md#coincident)
+**You don't need to know about Atomics to use web workers**, but it's useful to
+know that the underlying [coincident library](architecture.md#coincident)
 uses it under the hood.
 
 !!! info
 
-    Sometimes you only need to `await` in the main thread the result of a call
-    to a method exposed in a worker.
+    Sometimes you only need to `await` in the main thread on a method in a
+    worker when neither `window` nor `document` are referenced in the code
+    running on the worker.
 
-    In such a limited case, and on the understanding that **code in the worker
-    will not be able to reach back into the main thread**, you should
-    use the [`sync_main_only` flag](../configuration/#sync_main_only) in your
-    configuration.
-
-    While this eliminates the need for the Atomics related header configuration
-    (see below), the only possible use case is to **return a serialisable
-    result from the method called on the worker**.
+    In these cases, you don't need any special header or service worker
+    as long as **the method exposed from the worker returns a serializable
+    result**.
 
 ## HTTP headers
 
-For Atomics to work **you must ensure your web server enables the following
-headers** (this is the default behaviour for
+To use the `window` and `document` objects from within a worker (i.e. use
+synchronous Atomics) **you must ensure your web server enables the following
+headers** (this is the default behavior for
 [pyscript.com](https://pyscript.com)):
 
 ```
@@ -38,26 +35,106 @@ Cross-Origin-Embedder-Policy: require-corp
 Cross-Origin-Resource-Policy: cross-origin
 ```
 
-If you are not able to configure your server's headers, use the
-[mini-coi](https://github.com/WebReflection/mini-coi#readme) project to
-achieve the same end.
+If you're unable to configure your server's headers, you have two options:
 
-!!! Info
+1. Use the [mini-coi](https://github.com/WebReflection/mini-coi#readme) project
+   to enforce headers.
+2. Use the `service-worker` attribute with the `script` element.
 
-    The simplest way to use mini-coi is to place the
-    [mini-coi.js](https://raw.githubusercontent.com/WebReflection/mini-coi/main/mini-coi.js)
-    file in the root of your website (i.e. `/`), and reference it as the first
-    child tag in the `<head>` of your HTML documents:
+### Option 1: mini-coi
 
-    ```html
-    <html>
-      <head>
-        <script src="/mini-coi.js" scope="./"></script> 
-        <!-- etc -->
-      </head>
-      <!-- etc --> 
-    </html>
+For performance reasons, this is the preferred option so Atomics works at
+native speed.
+
+The simplest way to use mini-coi is to copy the
+[mini-coi.js](https://raw.githubusercontent.com/WebReflection/mini-coi/main/mini-coi.js)
+file content and save it in the root of your website (i.e. `/`), and reference
+it as the first child tag in the `<head>` of your HTML documents:
+
+```html
+<html>
+  <head>
+    <script src="/mini-coi.js"></script>
+    <!-- etc -->
+  </head>
+  <!-- etc -->
+</html>
+```
+
+### Option 2: `service-worker` attribute
+
+This allows you to slot in a custom
+[service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+to handle requirements for synchronous operations.
+
+Each `<script type="m/py">` or `<m/py-script>` may optionally have
+a `service-worker` attribute pointing to a locally served file (the
+same way `mini-coi.js` needs to be served).
+
+* You can chose `mini-coi.js` itself or *any other custom service worker*,
+  as long as it provides either the right headers to enable synchronous
+  operations via Atomics, or it enables
+  [sabayon polyfill events](https://github.com/WebReflection/sabayon?tab=readme-ov-file#service-worker).
+* Alternatively, you can copy and paste the
+  [sabayon Service Worker](https://raw.githubusercontent.com/WebReflection/sabayon/main/dist/sw.js)
+  into your local project and point at that in the attribute. This will
+  not change the original behavior of your project, it will not interfere with
+  all default or pre-defined headers your application uses already but it will
+  **fallback to a (slower but working) synchronous operation** that allows 
+  both `window` and `document` access in your worker logic.
+
+```html
+<html>
+  <head>
+    <!-- PyScript link and script -->
+  </head>
+  <body>
+    <script type="py" service-worker="./sw.js" worker>
+      from pyscript import window, document
+
+      document.body.append("Hello PyScript!")
+    </script>
+  </body>
+</html>
+```
+
+!!! warning 
+
+    Using sabayon as the fallback for synchronous operations via Atomics
+    should be **the last solution to consider**. It is inevitably
+    slower than using native Atomics.
+
+    If you must use sabayon, always reduce the amount of synchronous
+    operations by caching references from the *main* thread.
+
+    ```python
+    # ❌ THIS IS UNNECESSARILY SLOWER
+    from pyscript import document
+
+    # add a data-test="not ideal attribute"
+    document.body.dataset.test = "not ideal"
+    # read a data-test attribute
+    print(document.body.dataset.test)
+
+    # - - - - - - - - - - - - - - - - - - - - -
+
+    # ✔️ THIS IS FINE
+    from pyscript import document
+
+    # if needed elsewhere, reach it once
+    body = document.body
+    dataset = body.dataset
+
+    # add a data-test="not ideal attribute"
+    dataset.test = "not ideal"
+    # read a data-test attribute
+    print(dataset.test)
     ```
+
+In latter example the number of operations has been reduced from six to just
+four. The rule of thumb is: _if you ever need a DOM reference more than once,
+cache it_. 👍
+
 
 ## Start working
 
@@ -205,9 +282,9 @@ Here's how:
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.7.1/core.css">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.8.1/core.css">
     <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2024.7.1/core.js"></script>
+    <script type="module" src="https://pyscript.net/releases/2024.8.1/core.js"></script>
     <title>PyWorker - mpy bootstrapping pyodide example</title>
     <!-- the async attribute is useful but not mandatory -->
     <script type="mpy" src="main.py" async></script>

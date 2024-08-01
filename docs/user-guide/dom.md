@@ -99,39 +99,45 @@ There are three core concepts to remember:
   The `find` API uses exactly the [same queries](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Locating_DOM_elements_using_selectors)
   as those used by native browser methods like `qurerySelector` or
   `querySelectorAll`.
-* Use classes in the `pyscript.web.elements` namespace to create and organise
+* Use classes in the `pyscript.web` namespace to create and organise
   new elements on the web page.
 * Collections of elements allow you to access and change attributes en-mass.
   Such collections are returned from `find` queries and are also used for the
   [children](https://developer.mozilla.org/en-US/docs/Web/API/Element/children)
   of an element.
 
-You have several options for accessing the content of the page (i.e. the DOM),
-and these can be found in the `pyscript.web.dom` object. The `head` and `body`
-attributes reference the page's head and body. Furthermore, the `find` method
-can be used to return collections of elements matching your CSS query. Finally,
-all elements have a `find` method that searches within their children for
-elements matching your CSS query.
+You have several options for accessing the content of the page, and these are
+all found in the `pyscript.web.page` object. The `html`, `head` and `body`
+attributes reference the page's top-level html, head and body. As a convenience
+the `page`'s `title` attribute can be used to get and set the web page's title
+(usually shown in the browser's tab). The `append` method is a shortcut for
+adding content to the page's `body`. Whereas, the `find` method is used to
+return collections of elements matching a CSS query. You may also shortcut
+`find` via a CSS query in square brackets. Finally, all elements have a `find`
+method that searches within their children for elements matching your CSS
+query.
 
 ```python
-from pyscript.web import dom
+from pyscript.web import page
 
 
 # Print all the child elements of the document's head.
-print(dom.head.children)
+print(page.head.children)
 # Find all the paragraphs in the DOM.
-paragraphs = dom.find("p")
+paragraphs = page.find("p")
+# Or use square brackets.
+paragraphs = page["p"]
 ```
 
 The object returned from a query, or used as a reference to an element's
 children is iterable:
 
 ```python
-from pyscript.web import dom
+from pyscript.web import page
 
 
 # Get all the paragraphs in the DOM.
-paragraphs = dom.find("p")
+paragraphs = page["p"]
 
 # Print the inner html of each paragraph.
 for p in paragraphs:
@@ -141,38 +147,36 @@ for p in paragraphs:
 Alternatively, it is also indexable / sliceable:
 
 ```python
-from pyscript.web import dom
+from pyscript.web import page
 
 
 # Get an ElementCollection of all the paragraphs in the DOM
-paragraphs = dom.find("p")
+paragraphs = page["p"]
 
 # Only the final two paragraphs.
 for p in paragraphs[-2:]:
     print(p.html)
 ```
 
-It also makes available the following read and writable attributes related to
-all contained elements:
+You have access to all the standard attributes related to HTML elements (for
+example, the `innerHTML` or `value`), along with a couple of convenient ways
+to interact with classes and CSS styles:
 
 * `classes` - the list of classes associated with the elements.
-* `innerHTML` - the innerHTML of each element.
 * `style` - a dictionary like object for interacting with CSS style rules.
-* `value` - the `value` attribute associated with each element.
 
 For example, to continue the example above, `paragraphs.innerHTML` will return
 a list of all the values of the `innerHTML` attribute on each contained
 element. Alternatively, set an attribute for all elements contained in the
 collection like this: `paragraphs.style["background-color"] = "blue"`.
 
-It's possible to create new elements to add to the DOM:
+It's possible to create new elements to add to the page:
 
 ```python
-from pyscript.web import dom
-from pyscript.web.elements import *
+from pyscript.web import page, div, select, option, button, span, br 
 
 
-dom.body.append(
+page.append(
     div(
         div("Hello!", classes="a-css-class", id="hello"),
         select(
@@ -206,7 +210,7 @@ dom.body.append(
 ```
 
 This example demonstrates a declaritive way to add elements to the body of the
-DOM. Notice how the first (unnamed) arguments to an element are its children.
+page. Notice how the first (unnamed) arguments to an element are its children.
 The named arguments (such as `id`, `classes` and `style`) refer to attributes
 of the underlying HTML element. If you'd rather be explicit about the children
 of an element, you can always pass in a list of such elements as the named
@@ -216,9 +220,7 @@ Of course, you can achieve similar results in an imperative style of
 programming:
 
 ```python
-from pyscript.web import dom
-from pyscript.web.elements import *
-
+from pyscript.web import page, div, p 
 
 
 my_div = div()
@@ -238,10 +240,10 @@ element references from `pyscript.web`:
 
 ```python
 from pyscript import when
-from pyscript.web import dom
+from pyscript.web import page 
 
 
-btn = dom.find("#my-button")
+btn = page["#my-button"]
 
 
 @when("click", btn)

@@ -49,7 +49,7 @@ encounter.
 
 ### SharedArrayBuffer
 
-This is the first and most common error users may encounter with PyScript.
+This is the first and most common error users may encounter with PyScript:
 
 !!! failure
 
@@ -58,52 +58,35 @@ This is the first and most common error users may encounter with PyScript.
     you see this message:
 
     ```
-    Unable to use SharedArrayBuffer due insecure environment.
-    Please read requirements in MDN: ...
+    Unable to use `window` or `document` -> https://docs.pyscript.net/latest/faq/#sharedarraybuffer
     ```
-
-The error contains
-[a link to MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements)
-but it's the amount of content provided on this topic is overwhelming.
 
 #### When
 
-This error happens when **the server delivering your PyScript application is
-incorrectly configured**. It fails to provide the correct headers to handle
-security concerns for web workers, or you're not using
-[mini-coi](https://github.com/WebReflection/mini-coi#readme) as an alternative
-solution. (These requirements are explored
-[in the worker page](../user-guide/workers#http-headers).)
+This happens when you're unable to access objects in the main thread (`window`
+and `document`) from code running in a web worker.
 
-**And** at least one of the following scenarios is true:
+This error happens because **the server delivering your PyScript application is
+incorrectly configured** or **a `service-worker` attribute has not been used in
+your `script` element**.
 
-* There is a `worker` attribute in the *py* or *mpy* script element and the
-  [sync_main_only](https://pyscript.github.io/polyscript/#extra-config-features)
-  flag is not present or not `true`.
-* There is a `<script type="py-editor">` that uses a *worker* behind the
-  scenes.
-* There is an explicit `PyWorker` or `MPWorker` bootstrapping somewhere in your
-  code.
+Specifically, one of the following three problem situations applies to your
+code:
 
-!!! info
+* Because of the way your web server is configured, the browser limits the use
+  of a technology called "Atomics" (you don't need to know how it works, just
+  that it may be limited by the browser). If there is a `worker` attribute in
+  your `script` element, and your Python code uses the `window` or `document`
+  objects (that actually exist on the main thread), then the browser limitation
+  on Atomics will cause the failure, unless you reconfigure your server.
+* There is a `<script type="py-editor">` (that must always use a worker behind
+  the scenes) and no fallback has been provided via a `service-worker`
+  attribute on that element.
+* There is an explicit `PyWorker` or `MPWorker` instance **bootstrapping
+  somewhere in your code** and no `service_worker` fallback has been provided.
 
-    If `sync_main_only` is `true` then interactions between the main thread and
-    workers are limited to one way calls from the main thread to methods
-    exposed by workers.
-
-If `sync_main_only = true`, the following caveats apply:
-
-* It is not possible to manipulate the DOM or do anything meaningful on the
-  main thread **from a worker**. This is because Atomics cannot guarantee
-  sync-like locks between a worker and the main thread.
-* Only a worker's `pyscript.sync` methods are exposed, and they can only be
-  awaited from the main thread.
-* The worker can only `await` main thread references one after the other, so
-  developer experience is degraded when one needs to interact with the
-  main thread.
-
-If your project simply bootstraps on the main thread, none of this is relevant
-because no worker requires such special features.
+All these cases have been documented with code examples and possible solutions
+in our section on [web workers](../user-guide/workers/).
 
 #### Why
 
@@ -122,7 +105,7 @@ CPU. It idles until the referenced index of the shared buffer changes,
 effectively never blocking the main thread while still pausing its own
 execution until the buffer's index is changed.
 
-As overwhelming or complicated as this might sounds, these two fundamental
+As overwhelming or complicated as this might sound, these two fundamental
 primitives make main ↔ worker interoperability an absolute wonder in term of
 developer experience. Therefore, we encourage folks to prefer using workers
 over running Python in the main thread. This is especially so when using
@@ -130,13 +113,11 @@ Pyodide related projects, because of its heavier bootstrap or computation
 requirements. Using workers ensures the main thread (and thus, the user
 interface) remains unblocked.
 
-Unfortunately, due to security concerns and potential attacks to shared
-buffers, each server or page needs to allow extra security to prevent malicious
-software to read or write into these buffers. But be assured that if you own
-your code, your project, and you trust the modules or 3rd party code you need
-and use, **there are less likely to be security concerns around this topic
-within your project**. This situation is simply an unfortunate "*one rule catch
-all*" standard any server can either enable or disable as it pleases.
+Unfortunately, we can patch, polyfill, or workaround, these primitives but
+we cannot change their intrinsic nature and limitations defined by web
+standards. However, there are various solutions for working around such
+limitations. Please read our [web workers](..//user-guide/workers/)
+section to learn more.
 
 ### Borrowed proxy
 
