@@ -413,29 +413,34 @@ store = await storage("my-data-store", storage_class=MyStorage)
 
 ### `pyscript.web`
 
-TODO: Use `display(element)` not `element.display()`.
-
 The classes and references in this namespace provide a Pythonic way to interact
 with the DOM. An explanation for how to idiomatically use this API can be found
 [in the user guide](../user-guide/dom/#pyscriptweb)
 
-#### `pyscript.web.dom`
+#### `pyscript.web.page`
 
-This object has two attributes and a single method:
+This object represents a web page. It has four attributes and two methods:
 
+* `html` - a reference to a Python object representing the [document's html](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/html) root element.
 * `head` - a reference to a Python object representing the [document's head](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/head).
 * `body` - a reference to a Python object representing the [document's body](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body).
+* `title` - the page's [title](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title) (usually displayed in the browser's title bar or a page's tab.
 * `find` - a method that takes a single [selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors)
   argument and returns a collection of Python objects representing the matching
   elements.
+* `append` - a shortcut for `page.body.append` (to add new elements to the
+  page).
+
+You may also shortcut the `find` method by enclosing a CSS selector in square
+brackets: `page["#my-thing"]`.
 
 These are provided as a convenience so you have several simple and obvious
-options for accessing the content of the page (DOM).
+options for accessing and changing the content of the page.
 
 All the Python objects returned by these attributes and method are instances of
-classes defined in the `pyscript.web.elements` namespace.
+classes relating to HTML elements defined in the `pyscript.web` namespace.
 
-#### `pyscript.web.elements.*`
+#### `pyscript.web.*`
 
 There are many classes in this namespace. Each is a one-to-one mapping of any
 HTML element name to a Python class representing the HTML element of that
