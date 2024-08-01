@@ -1,0 +1,1243 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../first-steps/">
+      
+      
+        <link rel="next" href="../configuration/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>Architecture - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#architecture-lifecycle-interpreters" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginning-pyscript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Example Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is PyScript?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../first-steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    First steps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core concepts
+  </a>
+  
+    <nav class="md-nav" aria-label="Core concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polyscript" class="md-nav__link">
+    PolyScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coincident" class="md-nav__link">
+    Coincident
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-stack" class="md-nav__link">
+    The stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    Lifecycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreters" class="md-nav__link">
+    Interpreters
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyodide" class="md-nav__link">
+    Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#micropython" class="md-nav__link">
+    MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The DOM &amp; JavaScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ffi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The FFI in detail
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../editor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Offline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Built-in APIs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    Core concepts
+  </a>
+  
+    <nav class="md-nav" aria-label="Core concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polyscript" class="md-nav__link">
+    PolyScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coincident" class="md-nav__link">
+    Coincident
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-stack" class="md-nav__link">
+    The stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    Lifecycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpreters" class="md-nav__link">
+    Interpreters
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyodide" class="md-nav__link">
+    Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#micropython" class="md-nav__link">
+    MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="architecture-lifecycle-interpreters">Architecture, Lifecycle &amp; Interpreters</h1>
+<h2 id="core-concepts">Core concepts</h2>
+<p>PyScript's architecture has three core concepts:</p>
+<ol>
+<li>A small, efficient and powerful kernel called
+   <a href="https://github.com/pyscript/polyscript">PolyScript</a> is the foundation
+   upon which PyScript and plugins are built.</li>
+<li>A library called <a href="https://github.com/WebReflection/coincident#readme">coincident</a>
+   that simplifies and coordinates interactions with web workers.</li>
+<li>The PyScript <a href="https://en.wikipedia.org/wiki/Solution_stack">stack</a> inside
+   the browser is simple and clearly defined.</li>
+</ol>
+<h3 id="polyscript">PolyScript</h3>
+<p><a href="https://github.com/pyscript/polyscript">PolyScript</a> is the core of PyScript.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Unless you are an advanced user, you only need to know that PolyScript
+exists, and it can be safely ignored.</p>
+</div>
+<p>PolyScript's purpose is to bootstrap the platform and provide all the necessary
+core capabilities. Setting aside PyScript for a moment, to use
+<em>just PolyScript</em> requires a <code>&lt;script&gt;</code> reference to it, along with a further
+<code>&lt;script&gt;</code> tag defining how to run your code.</p>
+<div class="language-html highlight"><span class="filename">Bootstrapping with just PolyScript</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="cm">&lt;!-- this is a way to automatically bootstrap polyscript --&gt;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/polyscript&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="cm">&lt;!--</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="cm">            Run some Python code with the MicroPython interpreter, but without</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="cm">            the extra benefits provided by PyScript.</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="cm">        --&gt;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;micropython&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">            </span><span class="kr">from</span><span class="w"> </span><span class="nx">js</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nb">document</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">            </span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;polyscript&#39;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">        </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>PolyScript is not PyScript.</strong></p>
+<p>PyScript enhances the available Python interpreters with convenient
+features, helper functions and easy-to-use yet powerful capabilities.</p>
+<p>These enhancements are missing from PolyScript.</p>
+</div>
+<p>PolyScript's capabilities, upon which PyScript is built, can be summarised as:</p>
+<ul>
+<li>Evaluation of code via <a href="https://pyscript.github.io/polyscript/#how-scripts-work"><code>&lt;script&gt;</code> tags</a>.</li>
+<li>Handling
+  <a href="https://pyscript.github.io/polyscript/#how-events-work">browser events</a>
+  via code evaluated with an interpreter supported by PolyScript.</li>
+<li>A <a href="https://pyscript.github.io/polyscript/#xworker">clear way to use workers</a>
+  via the <code>XWorker</code> class and its related reference, <code>xworker</code>.</li>
+<li><a href="https://pyscript.github.io/polyscript/#custom-scripts">Custom scripts</a> to
+  enrich PolyScript's capabilities.</li>
+<li>A <a href="https://pyscript.github.io/polyscript/#ready-event">ready event</a>
+  dispatched when an interpreter is ready and about to run code, and a
+  <a href="https://pyscript.github.io/polyscript/#done-event">done event</a> when an
+  interpreter has finished evaluating code.</li>
+<li><a href="https://pyscript.github.io/polyscript/#hooks">Hooks</a>, called at clearly
+  defined moments in the page lifecycle, provide a means of calling user
+  defined functions to modify and enhance PolyScript's default behaviour.</li>
+<li><a href="https://pyscript.github.io/polyscript/#interpreter-features">Multiple interpreters</a>
+  (in addition to Pyodide and MicroPython, PolyScript works with R, Lua and
+  Ruby - although these are beyond the scope of this project).</li>
+</ul>
+<p>PolyScript may become important if you encounter problems with PyScript. You
+should investigate PolyScript if any of the following is true about your
+problem:</p>
+<ul>
+<li>The interpreter fails to load.</li>
+<li>There are errors about the interpreter starting.</li>
+<li>HTML events (e.g. <code>py-*</code> or <code>mpy-*</code>) are not triggered.</li>
+<li>An explicit feature of PolyScript is not reflected in PyScript.</li>
+</ul>
+<p>We encourage you to engage and ask questions about PolyScript on our
+<a href="https://discord.gg/HxvBtukrg2">discord server</a>. But in summary, as a user of
+PyScript you should probably never encounter PolyScript. However, please be
+aware that specific features of bug fixes my happen in the PolyScript layer in
+order to then land in PyScript.</p>
+<h3 id="coincident">Coincident</h3>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Unless you are an advanced user, you only need to know that coincident
+exists, and it can be safely ignored. As with PolyScript, we include these
+details only for those interested in the more fundamental aspects of
+PyScript.</p>
+</div>
+<p>PolyScript uses the
+<a href="https://github.com/WebReflection/coincident#readme">coincident</a> library to
+seamlessly interact with web workers and coordinate interactions between the
+browser's main thread and such workers.</p>
+<p>Any <code>SharedArrayBuffer</code> issues are the responsibility of coincident and, to
+some extent, anything related to memory leaks.</p>
+<p>In a nutshell, this project is likely responsible for the following modes of
+failure:</p>
+<ul>
+<li>Failing to invoke something from a worker that refers to the main thread.</li>
+<li>A reproducible and cross platform (browser based) memory leak.</li>
+<li>Invoking a function with a specific argument from a worker that doesn't
+  produce the expected result.</li>
+</ul>
+<p>We hope all these scenarios are unlikely to happen within a <em>PyScript</em> project.
+They are all battle tested and covered with general purpose cross-environment
+testing before landing in <em>PyScript</em>. But, if you feel something is odd,
+leaking, or badly broken, please feel free to file an issue in
+<a href="https://github.com/WebReflection/coincident/issues">the coincident project</a>.
+As usual, there is never a silly question, so long as you provide a minimal
+reproducible example in your bug reports or query.</p>
+<h3 id="the-stack">The stack</h3>
+<p>The stack describes how the different building blocks <em>inside</em> a PyScript
+application relate to each other:</p>
+<p><img src="../../assets/images/platform.png"/></p>
+<ul>
+<li>Everything happens inside the context of the browser (represented by the
+  black border). <strong>The browser tab for your PyScript app is your
+  sandboxed computing environment</strong>.</li>
+</ul>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>PyScript is simply Python running in the browser. <strong>Please remember</strong>:</p>
+<ul>
+<li>PyScript isn't running on a server hosted in the cloud.</li>
+<li>PyScript doesn't use the version of Python running natively on the user's
+  operating system.</li>
+<li><strong>PyScript only runs IN THE BROWSER (and nowhere else).</strong></li>
+</ul>
+</div>
+<ul>
+<li>At the bottom of the stack are the Python interpreters compiled to WASM. They
+  evaluate your code and interact with the browser via the <a href="../dom/#ffi">FFI</a>.</li>
+<li>The PyScript layer makes it easy to use and configure the Python
+  interpreters. There are two parts to this:<ol>
+<li>The PolyScript kernel (see above), that bootstraps everything and
+   provides the core capabilities.</li>
+<li>PyScript and related plugins that sit atop PolyScript to give us an
+   easy-to-use Python platform <em>in the browser</em>.</li>
+</ol>
+</li>
+<li>Above the PyScript layer are either:<ol>
+<li>Application frameworks, modules and libraries written in Python that you
+   use to create useful applications.</li>
+<li>Your code (that's your responsibility).</li>
+</ol>
+</li>
+</ul>
+<h2 id="lifecycle">Lifecycle</h2>
+<p>If the architecture explains how components relate to each other, the lifecycle
+explains how things unfold. It's important to understand both: it will
+help you think about your own code and how it sits within PyScript.</p>
+<p>Here's how PyScript unfolds through time:</p>
+<ul>
+<li>The browser is directed to a URL. The response is HTML.</li>
+<li>When parsing the HTML response the browser encounters the <code>&lt;script&gt;</code>
+  tag that references PyScript. PyScript is loaded and evaluated as a
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript module</a>,
+  meaning it doesn't hold up the loading of the page and is only evaluated when
+  the HTML is fully parsed.</li>
+<li>The PyScript module does broadly six things:<ol>
+<li>Discover Python code referenced in the page.</li>
+<li>Evaluate any <a href="../configuration/">configuration</a> on the page (either via
+   single <code>&lt;py-config&gt;</code> or <code>&lt;mpy-config&gt;</code> tags <strong>or</strong> the <code>config</code>
+   attribute of a <code>&lt;script&gt;</code>, <code>&lt;py-script&gt;</code> or <code>&lt;mpy-script&gt;</code> tag).</li>
+<li>Given the detected configuration, download the required interpreter.</li>
+<li>Setup the interpreter's environment. This includes any
+   <a href="../configuration/#plugins">plugins</a>, <a href="../configuration/#packages">packages</a>, <a href="../configuration/#files">files</a> or <a href="../configuration/#javascript-modules">JavaScript modules</a> 
+   that need to be loaded.</li>
+<li>Make available various
+   <a href="../../api">builtin helper objects and functions</a> to the
+   interpreter's environment (accessed via the <code>pyscript</code> module).</li>
+<li>Only then use the interpreter in the correctly configured environment to
+   evaluate the detected Python code.</li>
+</ol>
+</li>
+<li>When an interpreter is ready the <code>py:ready</code> or <code>mpy:ready</code> events are
+  dispatched, depending which interpreter you've specified (Pyodide or
+  MicroPython respectively).</li>
+<li>Finally, a <code>py:done</code> event is dispatched after every single script
+  referenced from the page has finished.</li>
+</ul>
+<p>In addition, various "hooks" are called at different moments in the lifecycle
+of PyScript. These can be used by plugin authors to modify or enhance the
+behaviour of PyScript. The hooks, and how to use them, are explored further in
+<a href="../plugins/">the section on plugins</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A web page's workers have completely separate environments to the main
+thread.</p>
+<p>It means configuration in the main thread can be different to that for
+an interpreter running on a worker. In fact, you can use different
+interpreters and configuration in each context (for instance, MicroPython
+on the main thread, and Pyodide on a worker).</p>
+<p>Think of workers as completely separate sub-processes inside your browser
+tab.</p>
+</div>
+<h2 id="interpreters">Interpreters</h2>
+<p>Python is an interpreted language, and thus needs an interpreter to work.</p>
+<p>PyScript currently supports two versions of the Python interpreter that have
+been compiled to WASM: Pyodide and MicroPython. You should select which one to
+use depending on your use case and acceptable trade-offs.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>In future, and subject to progress, we hope to make available a third
+Pythonic option: <a href="https://github.com/spylang/spy">SPy</a>, a staticially typed
+version of Python compiled directly to WASM.</p>
+</div>
+<p>Both interpreters make use of <a href="https://emscripten.org/">emscripten</a>, a compiler
+toolchain (using <a href="https://llvm.org/">LLVM</a>), for emitting WASM assets for the
+browser. Emscripten also provides APIs so operating-system level features such
+as a sandboxed <a href="https://emscripten.org/docs/api_reference/Filesystem-API.html">file system</a>
+(<strong>not</strong> the user's local machine's filesystem), <a href="https://emscripten.org/docs/api_reference/console.h.html">IO</a>
+(<code>stdin</code>, <code>stdout</code>, <code>stderr</code> etc,) and <a href="https://emscripten.org/docs/api_reference/fetch.html">networking</a> are
+available within the context of a browser.</p>
+<p>Both Pyodide and MicroPython implement the same robust
+<a href="https://pyodide.org/en/stable/usage/api/python-api.html">Python</a>
+⟺ <a href="https://pyodide.org/en/stable/usage/api/js-api.html">JavaScript</a>
+<a href="../dom/#ffi">foreign function interface</a> (FFI). This
+bridges the gap between the browser and Python worlds.</p>
+<h3 id="pyodide">Pyodide</h3>
+<p><a href="https://pyodide.org/"><img src="../../assets/images/pyodide.png"/></a></p>
+<p><a href="https://pyodide.org/">Pyodide</a> is a version of the standard
+<a href="https://python.org/">CPython</a> interpreter, patched to compile to WASM and
+work in the browser.</p>
+<p>It includes many useful features:</p>
+<ul>
+<li>The installation of pure Python packages from <a href="https://pypi.org/">PyPI</a> via
+  the <a href="https://micropip.pyodide.org/en/stable/index.html">micropip</a> package
+  installer.</li>
+<li>An active, friendly and technically outstanding team of volunteer
+  contributors (some of whom have been supported by the PyScript project).</li>
+<li>Extensive official
+  <a href="https://micropip.pyodide.org/en/stable/index.html">documentation</a>, and many
+  tutorials found online.</li>
+<li>Builds of Pyodide that include popular packages for data science like
+  <a href="https://numpy.org/">Numpy</a>, <a href="https://scipy.org/">Scipy</a> and
+  <a href="https://pandas.pydata.org/">Pandas</a>.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You may encounter an error message from <code>micropip</code> that explains it can't
+find a "pure Python wheel" for a package. Pyodide's documentation
+<a href="https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package">explains what to do in this situation</a>.</p>
+<p>Briefly, some
+<a href="https://docs.python.org/3/extending/building.html">packages with C extensions</a>
+have versions compiled for WASM and these can be installed with <code>micropip</code>.
+Packages containing C extensions that <em>are not compiled for WASM</em> cause the
+"pure Python wheel" error.</p>
+<p>There are plans afoot to make WASM a target in PyPI so packages with C
+extensions are automatically compiled to WASM.</p>
+</div>
+<h3 id="micropython">MicroPython</h3>
+<p><a href="https://micropython.org/"><img src="../../assets/images/micropython.png"/></a></p>
+<p><a href="https://micropython.org/">MicroPython</a> is a lean and efficient implementation
+of the Python 3 programming language that includes a small subset of the Python
+standard library and is optimised to run on microcontrollers and in constrained
+environments (like the browser). </p>
+<p>Everything needed to view a web page in a browser needs to be delivered
+over the network. The smaller the asset to be delivered can be, the better.
+MicroPython, when compressed for delivery to the browser, is only around
+170k in size - smaller than many images found on the web.</p>
+<p>This makes MicroPython particularly suited to browsers running in a more
+constrained environment such as on a mobile or tablet based device. Browsing
+with these devices often uses (slower) mobile internet connections.
+Furthermore, because MicroPython is lean and efficient it still performs
+exceptionally well on these relatively underpowered devices.</p>
+<p>Thanks to collaboration between the MicroPython, Pyodide and PyScript projects,
+there is a foreign function interface for MicroPython. The MicroPython FFI
+deliberately copies the API of the FFI originally written for Pyodide - meaning
+it is relatively easy to migrate between the two supported interpreters via the
+<code>pyscript.ffi</code> namespace.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
