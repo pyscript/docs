@@ -42,9 +42,10 @@ on a web worker, the exact same sequence of steps takes place:
     callback found in test frameworks.
 
 PyScript's interpreters can run their code either *synchronously* or
-*asynchronously*. No matter, the very same sequence is guaranteed to run in
-order in both cases, the only difference being the naming convention used to
-reference synchronous or asynchronous lifecycle hooks.
+*asynchronously* (**note**, the default is asynchronously). No matter, the very
+same sequence is guaranteed to run in order in both cases, the only difference
+being the naming convention used to reference synchronous or asynchronous
+lifecycle hooks.
 
 ### Hooks
 

@@ -286,8 +286,7 @@ Here's how:
     <!-- This script tag bootstraps PyScript -->
     <script type="module" src="https://pyscript.net/releases/2024.8.2/core.js"></script>
     <title>PyWorker - mpy bootstrapping pyodide example</title>
-    <!-- the async attribute is useful but not mandatory -->
-    <script type="mpy" src="main.py" async></script>
+    <script type="mpy" src="main.py"></script>
   </head>
 </html>
 ```

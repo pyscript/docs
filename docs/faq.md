@@ -819,7 +819,7 @@ Combined with our `pyscript.fetch` utility, it's also possible to store more
 complex data from the web.
 
 ```python title="Writing a binary file."
-# Assume an `async` attribute / execution.
+# Assume async execution.
 from pyscript import fetch, window
 
 href = window.location.href

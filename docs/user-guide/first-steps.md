@@ -75,8 +75,27 @@ attributes:
   JSON or a TOML file,
   `config='{"packages":["numpy"]}'` and `config="./config.json"` or
   `config="./config.toml"` are all valid.
-* `async` - your Python code can contain a
-  [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await).
+* `async` - set this flag to `"false"` so your code won't not run within a
+  [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
+  (the default behaviour).
+
+
+!!! warning
+
+    **This behaviour changed in version 2024.8.2.**
+
+    PyScript now uses a 
+    [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
+    by default.
+
+    You used to have to include the `async` flag to enable this. Now, instead,
+    use `async="false"` to revert the behaviour back to the old default
+    behaviour of synchronous evaluation.
+
+    We made this change because many folks were `await`-ing functions and
+    missing or not realising the need for the (old) `async` attribute. Hence
+    the flip in behaviour.
+
 * `worker` - a flag to indicate your Python code is to be run on a
   [web worker](workers.md) instead of the "main thread" that looks after the user
   interface.
