@@ -197,10 +197,8 @@ Pyodide and MicroPython. It is closely modelled on the
 [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) found
 in browsers with some important Pythonic differences.
 
-The simple use case is to pass in a URL and `await` the response. Remember, in
-order to use `await` you must have the `async` attribute in the `script` tag
-that references your code. If this request is in a function, that function
-should also be defined as `async`.
+The simple use case is to pass in a URL and `await` the response. If this
+request is in a function, that function should also be defined as `async`.
 
 ```python title="A simple HTTP GET with pyscript.fetch"
 from pyscript import fetch
@@ -834,7 +832,7 @@ While over on the main thread, this fragment of MicroPython will be able to
 access the worker's `version` function via the `workers` reference:
 
 ```html
-<script type="mpy" async>
+<script type="mpy">
 from pyscript import workers
 
 pyworker = await workers["py-version"]
@@ -853,7 +851,7 @@ Should you wish to await for all workers on the page at load time, it's
 possible to loop over matching elements in the document like this:
 
 ```html
-<script type="mpy" async>
+<script type="mpy">
 from pyscript import document, workers
 
 for el in document.querySelectorAll("[type='py'][worker][name]"):
@@ -872,7 +870,7 @@ an asynchronous way to import packages that were not originally referenced in
 your configuration.
 
 ```html title="A pyscript.js_import example."
-<script type="py" async>
+<script type="py">
 from pyscript import js_import, window
 
 escaper, = await js_import("https://esm.run/html-escaper")
@@ -899,7 +897,7 @@ asynchronous way to import packages that were not originally referenced in your
 configuration.
 
 ```html title="A pyscript.py_import example."
-<script type="py" async>
+<script type="py">
 from pyscript import py_import
 
 matplotlib, regex, = await py_import("matplotlib", "regex")
