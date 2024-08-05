@@ -75,7 +75,7 @@ attributes:
   JSON or a TOML file,
   `config='{"packages":["numpy"]}'` and `config="./config.json"` or
   `config="./config.toml"` are all valid.
-* `async` - set this flag to `"false"` so your code won't not run within a
+* `async` - set this flag to `"false"` so your code won't run within a
   [top level await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
   (the default behaviour).
 
