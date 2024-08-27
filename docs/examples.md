@@ -30,7 +30,7 @@ The examples are (links take you to the code):
   * uses pyweb and [pyjokes](https://pyjok.es/)
   * pyodide
 * [D3 visualization](https://pyscript.com/@examples/d3-visualization/latest)
-  * uses [d3]()
+  * uses [d3](https://d3js.org/)
   * mixes javascript code with python code. imports d3 from javascript.
   * pyodide
 * [Import antigravity](https://pyscript.com/@examples/antigravity/latest)
