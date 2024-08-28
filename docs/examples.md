@@ -9,8 +9,6 @@ The examples are (links take you to the code):
 
 * [Hello world](https://pyscript.com/@examples/hello-world/latest)
   * uses included datetime module. No additional packages.
-* [A simple clock](https://pyscript.com/@examples/simple-clock/latest)
-  * Not found
 * [WebGL Icosahedron](https://pyscript.com/@examples/webgl-icosahedron/latest)
   * uses very old version of [three.js](https://threejs.org/) directly imported in index.html. (not as a module in toml) 
 * [Pandas dataframe fun](https://pyscript.com/@examples/pandas/latest)
