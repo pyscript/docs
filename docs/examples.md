@@ -10,13 +10,12 @@ The examples are (links take you to the code):
 * [Hello world](https://pyscript.com/@examples/hello-world/latest)
   * uses included datetime module. No additional packages.
 * [WebGL Icosahedron](https://pyscript.com/@examples/webgl-icosahedron/latest)
-  * uses very old version of [three.js](https://threejs.org/) directly imported in index.html. (not as a module in toml) 
+  * uses [three.js](https://threejs.org/) imported as a module in toml)
 * [Pandas dataframe fun](https://pyscript.com/@examples/pandas/latest)
   * uses [pandas](https://pandas.pydata.org/) from pypi
   * pyodide
 * [Matplotlib example](https://pyscript.com/@examples/matplotlib/latest)
   * uses [matplotlib](https://matplotlib.org/)
-  * not clear how numpy is being loaded as it is not referenced.
   * pyodide
 * [Todo](https://pyscript.com/@examples/todo-app/latest)
   * uses pyweb. No additional packages.
@@ -32,7 +31,7 @@ The examples are (links take you to the code):
   * mixes javascript code with python code. imports d3 from javascript.
   * pyodide
 * [Import antigravity](https://pyscript.com/@examples/antigravity/latest)
-  * uses svg
+  * uses svg simply
   * pyodide
 * [API proxy tutorial](https://pyscript.com/@examples/api-proxy-tutorial/latest)
   * uses fetch
@@ -48,7 +47,6 @@ The examples are (links take you to the code):
   * pyodide
 * [Simple slider panel](https://pyscript.com/@examples/simple-panel/latest)
   * uses [Panel](https://panel.holoviz.org/) and [Bokeh](https://bokeh.org/) from pypi and loads in index.html
-  * does not run
   * pyodide
 * [Streaming data panel](https://pyscript.com/@examples/streaming-in-panel/latest)
   * uses  [Panel](https://panel.holoviz.org/), [Bokeh](https://bokeh.org/)  [numpy](https://numpy.org/), [pandas](https://pandas.pydata.org/) from pypi
@@ -57,7 +55,6 @@ The examples are (links take you to the code):
 * [KMeans in a panel](https://pyscript.com/@examples/kmeans-in-panel/latest)
   * uses [Bokeh](https://bokeh.org/), [altair](https://altair-viz.github.io/), [numpy](https://numpy.org/), [pandas](https://pandas.pydata.org/), [scikit-learn](https://scikit-learn.org/stable/), [Panel](https://panel.holoviz.org/) from pypi
   * loads panel, bootstrap, vega, tabulator, bokeh in index.html
-  * runs but displays errors to do with threadpools
   * pyodide
 * [New York Taxi panel (WebGL)](https://pyscript.com/@examples/nyc-taxi-panel-deckgl/latest)
   * uses a mixture of pypi and direct load packages in index.html
@@ -79,8 +76,5 @@ The examples are (links take you to the code):
   * pyodide
 
 Notes:
- - Updated from 14 to 20 found at above link
  - No micropython examples - all are pyodide
  - No worker examples
- - async used in some examples - probably obsolete now
- - fetch done several ways
