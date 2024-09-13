@@ -766,6 +766,52 @@ The following code demonstrates a `pyscript.WebSocket` in action.
     ws = WebSocket(url="ws://example.com/socket", onmessage=onmessage)
     ```
 
+### `pyscript.js_import`
+
+If a JavaScript module is only needed under certain circumstances, we provide
+an asynchronous way to import packages that were not originally referenced in
+your configuration.
+
+```html title="A pyscript.js_import example."
+<script type="py">
+from pyscript import js_import, window
+
+escaper, = await js_import("https://esm.run/html-escaper")
+
+window.console.log(escaper)
+```
+
+The `js_import` call returns an asynchronous tuple containing the JavaScript
+modules referenced as string arguments.
+
+### `pyscript.py_import`
+
+!!! warning
+
+    **This is an experimental feature.**
+
+    Feedback and bug reports are welcome!
+
+If you have a lot of Python packages referenced in your configuration, startup
+performance may be degraded as these are downloaded.
+
+If a Python package is only needed under certain circumstances, we provide an
+asynchronous way to import packages that were not originally referenced in your
+configuration.
+
+```html title="A pyscript.py_import example."
+<script type="py">
+from pyscript import py_import
+
+matplotlib, regex, = await py_import("matplotlib", "regex")
+
+print(matplotlib, regex)
+</script>
+```
+
+The `py_import` call returns an asynchronous tuple containing the Python
+modules provided by the packages referenced as string arguments.
+
 ## Main-thread only features
 
 ### `pyscript.PyWorker`
@@ -862,52 +908,6 @@ for el in document.querySelectorAll("[type='py'][worker][name]"):
 ```
 
 ## Worker only features
-
-### `pyscript.js_import`
-
-If a JavaScript module is only needed under certain circumstances, we provide
-an asynchronous way to import packages that were not originally referenced in
-your configuration.
-
-```html title="A pyscript.js_import example."
-<script type="py">
-from pyscript import js_import, window
-
-escaper, = await js_import("https://esm.run/html-escaper")
-
-window.console.log(escaper)
-```
-
-The `js_import` call returns an asynchronous tuple containing the JavaScript
-modules referenced as string arguments.
-
-### `pyscript.py_import`
-
-!!! warning
-
-    **This is an experimental feature.**
-
-    Feedback and bug reports are welcome!
-
-If you have a lot of Python packages referenced in your configuration, startup
-performance may be degraded as these are downloaded.
-
-If a Python package is only needed under certain circumstances, we provide an
-asynchronous way to import packages that were not originally referenced in your
-configuration.
-
-```html title="A pyscript.py_import example."
-<script type="py">
-from pyscript import py_import
-
-matplotlib, regex, = await py_import("matplotlib", "regex")
-
-print(matplotlib, regex)
-</script>
-```
-
-The `py_import` call returns an asynchronous tuple containing the Python
-modules provided by the packages referenced as string arguments.
 
 ### `pyscript.sync`
 
