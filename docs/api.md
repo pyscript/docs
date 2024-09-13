@@ -409,6 +409,12 @@ store = await storage("my-data-store", storage_class=MyStorage)
 # The store object is now an instance of MyStorage.
 ```
 
+### `@pyscript/core/dist/storage.js`
+
+The equivalent functionality based on the *JS* module can be found through our module.
+
+The goal is to be able to share the same database across different worlds (interpreters) and the functionality is nearly identical except there is no *class* to provide because the storage in *JS* is just a dictionary proxy that synchronizes behind the scene all read, write or delete operations.
+
 ### `pyscript.web`
 
 The classes and references in this namespace provide a Pythonic way to interact
