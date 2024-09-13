@@ -682,6 +682,31 @@ done"` message is written to the browser's console.
 </script>
 ```
 
+#### m/py:progress
+
+The `py:progress` or `mpy:progress` event triggers on the main thread *during*
+interpreter bootstrap (no matter if your code is running on main or in a
+worker).
+
+The received `event.detail` is a string that indicates operations between
+`Loading {what}` and `Loaded {what}`. So, the first event would be, for
+example, `Loading Pyodide` and the last one per each bootstrap would be
+`Loaded Pyodide`.
+
+In between all operations are `event.detail`s, such as:
+
+  * `Loading files` and `Loaded files`, when `[files]` is found in the optional
+    config
+  * `Loading fetch` and `Loaded fetch`, when `[fetch]` is found in the optional
+     config
+  * `Loading JS modules` and `Loaded JS modules`, when `[js_modules.main]` or
+    `[js_modules.worker]` is found in the optional config
+  * finally, all optional packages handled via *micropip* or *mip* will also
+    trigger various `Loading ...` and `Loaded ...` events so that users can see
+    what is going on while PyScript is bootstrapping
+
+An example of this listener applied to a dialog can be [found in here](https://agiammarchi.pyscriptapps.com/kmeans-in-panel-copy/v1/).
+
 ### Packaging pointers
 
 Applications need third party packages and [PyScript can be configured to
