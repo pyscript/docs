@@ -40,7 +40,7 @@ cd pyscript-offline
 Build PyScript core by cloning the project repository and follow the
 instructions in our [developer guide](../developers.md)
 
-Once completed, copy the `build` folder, that was been created by the build
+Once completed, copy the `dist` folder, that has been created by the build
 step, into your `pyscript-offline` folder.
 
 ### PyScript core from `npm`
@@ -114,7 +114,7 @@ python3 -m http.server -d ./public/
 If you would like to test `worker` features, try instead:
 
 ```sh
-npx static-handler --coi ./public/
+npx mini-coi ./public/
 ```
 
 ## Download a local interpreter
@@ -231,7 +231,7 @@ Finally, we need the ability to install Python packages from a local source
 when using Pyodide.
 
 Put simply, we use the packages bundle from
-[pyodide releases](https://github.com/pyodide/pyodide/releases/tag/0.24.1).
+[pyodide releases](https://github.com/pyodide/pyodide/releases/tag/0.26.2).
 
 !!! warning
 
@@ -240,8 +240,8 @@ Put simply, we use the packages bundle from
     It contains each package that is required by Pyodide, and Pyodide will only
     load packages when needed.
 
-Once downloaded and extracted (we're using version `0.24.1` in this example),
-we can simply copy the files and folders inside the `pyodide-0.24.1/pyodide/*`
+Once downloaded and extracted (we're using version `0.26.2` in this example),
+we can simply copy the files and folders inside the `pyodide-0.26.2/pyodide/*`
 directory into our `./public/pyodide/*` folder.
 
 Feel free to either skip or replace the content, or even directly move the
