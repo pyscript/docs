@@ -225,7 +225,7 @@ from pyscript.web import page, div, p
 
 my_div = div()
 my_div.style["background-color"] = "red"
-my_div.classes.append("a-css-class")
+my_div.classes.add("a-css-class")
 
 my_p = p()
 my_p.content = "This is a paragraph."
