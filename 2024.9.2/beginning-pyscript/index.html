@@ -1,0 +1,1205 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../examples/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>Beginning PyScript - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#beginning-pyscript" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Beginning PyScript
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#an-application" class="md-nav__link">
+    An application
+  </a>
+  
+    <nav class="md-nav" aria-label="An application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptjson" class="md-nav__link">
+    pyscript.json
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexhtml" class="md-nav__link">
+    index.html
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mainpy" class="md-nav__link">
+    main.py
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sharing-your-app" class="md-nav__link">
+    Sharing your app
+  </a>
+  
+    <nav class="md-nav" aria-label="Sharing your app">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptcom" class="md-nav__link">
+    PyScript.com
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-a-web-server" class="md-nav__link">
+    From a web server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-pyscript-offline" class="md-nav__link">
+    Run PyScript Offline
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Example Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/what/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is PyScript?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/first-steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    First steps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/dom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The DOM &amp; JavaScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/ffi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The FFI in detail
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/editor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/offline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Offline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Built-in APIs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#an-application" class="md-nav__link">
+    An application
+  </a>
+  
+    <nav class="md-nav" aria-label="An application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptjson" class="md-nav__link">
+    pyscript.json
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexhtml" class="md-nav__link">
+    index.html
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mainpy" class="md-nav__link">
+    main.py
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sharing-your-app" class="md-nav__link">
+    Sharing your app
+  </a>
+  
+    <nav class="md-nav" aria-label="Sharing your app">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscriptcom" class="md-nav__link">
+    PyScript.com
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-a-web-server" class="md-nav__link">
+    From a web server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-pyscript-offline" class="md-nav__link">
+    Run PyScript Offline
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="beginning-pyscript">Beginning PyScript</h1>
+<p>PyScript is a platform for running
+<a href="https://python.org/" target="_blank">Python</a>
+in modern web browsers.</p>
+<p>Create apps with a
+<a href="https://pyscript.com/" target="_blank">PyScript development environment</a>:
+write code, curate the project's assets, and test your application.</p>
+<p>To distribute a PyScript application, host it on the web, then click
+on the link to your application. PyScript and the browser do the rest.</p>
+<p>This page covers these core aspects of PyScript in a beginner friendly manner.
+We only assume you know how to use a browser and edit text.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The easiest way to get a PyScript development environment and hosting, is
+to use <a href="https://pyscript.com">pyscript.com</a> in your browser.</p>
+<p>It is a free service that helps you create new projects from templates, and
+then edit, preview and deploy your apps with a unique link.</p>
+<p>While the core features of <a href="https://pyscript.com">pyscript.com</a> will always be
+free, additional paid-for capabilities directly support and sustain the
+PyScript open source project. Commercial and educational support is also
+available.</p>
+</div>
+<h2 id="an-application">An application</h2>
+<p>All PyScript applications need three things:</p>
+<ol>
+<li>An <code>index.html</code> file that is served to your browser.</li>
+<li>A description of the Python environment in which your application will run.
+   This is usually specified by a <code>pyscript.json</code> or <code>pyscript.toml</code> file.</li>
+<li>Python code (usually in a file called something like <code>main.py</code>) that defines
+   how your application works.</li>
+</ol>
+<p>Create these files with your favourite code editor on your local file system.
+Alternatively, <a href="https://pyscript.com">pyscript.com</a> will take away all the pain
+of organising, previewing and deploying your application.</p>
+<p>If you're using your local file system, you'll need a way to view your
+application in your browser. If you already have Python installed on
+your local machine, serve your files with the following command run from your
+terminal and in the same directory as your files:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server
+</span></code></pre></div>
+<p>Point your browser at <a href="localhost:8000">http://localhost:8000</a>. Remember to
+refresh the page (<code>CTRL-R</code>) to see any updates you may have made.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you're using <a href="https://code.visualstudio.com/">VSCode</a> as your editor,
+the
+<a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server extension</a>
+can be used to reload the page as you edit your files.</p>
+<p>Alternatively, if you have an account on <a href="https://github.com">GitHub</a> you
+could use VSCode in your browser as a
+<a href="https://github.com/ntoll/codespaces-project-template-pyscript/">PyScript aware "CodeSpace"</a>
+(just follow the instructions in the README file).</p>
+</div>
+<p>If you decide to use <a href="https://pyscript.com">pyscript.com</a> (recommended for
+first steps), once signed in, create a new project by pressing the "+" button
+on the left hand side below the site's logo. You'll be presented with a page
+containing three columns (listing your files, showing your code and previewing
+the app). The "save" and "run" buttons do exactly what you'd expect.</p>
+<p><img alt="PyScript.com" src="../assets/images/pyscript.com.png" /></p>
+<p>Let's build a simple PyScript application that translates English 🇬🇧 into
+Pirate 🏴‍☠️  speak. In order to do this we'll make use of the
+<a href="https://arrr.readthedocs.io/en/latest/">arrr</a> library. By building this app
+you'll be introduced to all the core concepts of PyScript at an introductory
+level.</p>
+<p>You can see this application embedded into the page below (try it out!):</p>
+<iframe src="https://ntoll.pyscriptapps.com/piratical/v5/" style="border: 1px solid black; width:100%;min-height: 400px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+<p>Let's explore each of the three files that make this app work.</p>
+<h3 id="pyscriptjson">pyscript.json</h3>
+<p>This file tells PyScript and your browser about various
+<a href="../user-guide/configuration">configurable aspects</a>
+of your application. Put simply, it tells PyScript what it needs in order to run
+your application. The only thing we need to show is that we require the third
+party <code>arrr</code> module to do the
+<a href="https://arrr.readthedocs.io/en/latest/">actual translation</a>.</p>
+<p>We do this by putting <code>arrr</code> as the single entry in a list of required
+<code>packages</code>, so the content of <code>pyscript.json</code> looks like this:</p>
+<div class="language-json highlight"><span class="filename">pyscript.json</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;packages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;arrr&quot;</span><span class="p">]</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="indexhtml">index.html</h3>
+<p>Next we come to the <code>index.html</code> file that is first served to your browser.</p>
+<p>To start out, we need to tell the browser that this HTML document uses
+PyScript, and so we create a <code>&lt;script&gt;</code> tag that references the PyScript
+module in the document's <code>&lt;head&gt;</code> tag:</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>      <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width,initial-scale=1&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>🦜 Polyglot - Piratical PyScript<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>      <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://pyscript.net/releases/2024.9.2/core.css&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>      <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://pyscript.net/releases/2024.9.2/core.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="cm">&lt;!-- TODO: Fill in our custom application code here... --&gt;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>Notice that the <code>&lt;body&gt;</code> of the document is empty except for the TODO comment.
+It's in here that we put standard HTML content to define our user interface, so
+the <code>&lt;body&gt;</code> now looks like:</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Translate English into Pirate speak...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;english&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;english&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Type English here...&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">py-click</span><span class="o">=</span><span class="s">&quot;translate_english&quot;</span><span class="p">&gt;</span>Translate<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;output&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&quot;./pyscript.json&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>This fragment of HTML contains the application's header (<code>&lt;h1&gt;</code>), some
+instructions between the <code>&lt;p&gt;</code> tags, an <code>&lt;input&gt;</code> box for the English text, and
+a <code>&lt;button&gt;</code> to click to generate the translation. Towards the end there's a
+<code>&lt;div id="output"&gt;</code> which will contain the resulting pirate speak as the
+application's output.</p>
+<p>There's something strange about the <code>&lt;button&gt;</code> tag: it has a <code>py-click</code>
+attribute with the value <code>translate_english</code>. This is, in fact, the name of a
+Python function we'll run whenever the button is clicked. Such <code>py-*</code> style
+attributes are <a href="../api/#html-attributes">built into PyScript</a>.</p>
+<p>We put all this together in the <code>script</code> tag at the end of the <code>&lt;body&gt;</code>. This
+tells the browser we're using PyScript (<code>type="py"</code>), and where PyScript
+should find the Python source code (<code>src="./main.py"</code>). Finally, we indicate
+where PyScript should find the configuration (<code>config="./pyscript.json"</code>).</p>
+<p>In the end, our HTML should look like this:</p>
+<div class="language-html highlight"><span class="filename">index.html</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>      <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>      <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width,initial-scale=1&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>      <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>🦜 Polyglot - Piratical PyScript<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>      <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://pyscript.net/releases/2024.9.2/core.css&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>      <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://pyscript.net/releases/2024.9.2/core.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Translate English into Pirate speak...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;english&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Type English here...&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">py-click</span><span class="o">=</span><span class="s">&quot;translate_english&quot;</span><span class="p">&gt;</span>Translate<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;output&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&quot;./pyscript.json&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>But this only defines <em>how</em> the user interface should look. To define its
+behaviour we need to write some Python. Specifically, we need to define the
+<code>translate_english</code> function, used when the button is clicked.</p>
+<h3 id="mainpy">main.py</h3>
+<p>The behaviour of the application is defined in <code>main.py</code>. It looks like this:</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">main.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span>
+<span class="normal"><a href="#__codelineno-5-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">import</span> <span class="nn">arrr</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="k">def</span> <span class="nf">translate_english</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>    <span class="n">input_text</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">&quot;#english&quot;</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>    <span class="n">english</span> <span class="o">=</span> <span class="n">input_text</span><span class="o">.</span><span class="n">value</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>    <span class="n">output_div</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">&quot;#output&quot;</span><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>    <span class="n">output_div</span><span class="o">.</span><span class="n">innerText</span> <span class="o">=</span> <span class="n">arrr</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">english</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<p>It's not very complicated Python code.</p>
+<p>On line 1 the <code>arrr</code> module is imported so we can do the actual English to
+Pirate translation. If we hadn't told PyScript to download the <code>arrr</code> module
+in our <code>pyscript.json</code> configuration file, this line would cause an error.
+PyScript has ensured our environment is set up with the expected <code>arrr</code> module.</p>
+<p>Line 2 imports the <code>document</code> object. The <code>document</code> allows us to reach into
+the things on the web page defined in <code>index.html</code>.</p>
+<p>Finally, on line 5 the <code>translate_english</code> function is defined.</p>
+<p>The <code>translate_english</code> function takes a single parameter called
+<code>event</code>. This represents the user's click of the button (but which we don't
+actually use).</p>
+<p>Inside the body of the function we first get a reference to the <code>input</code>
+element with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"><code>document.querySelector</code> function</a>
+that takes <code>#english</code> as its
+parameter (indicating we want the element with the id "english"). We assign the
+result to <code>input_text</code>, then extract the user's <code>english</code> from the
+<code>input_text</code>'s <code>value</code>. Next, we get a reference called <code>output_div</code> that
+points to the <code>div</code> element with the id "output". Finally, we assign the
+<code>innerText</code> of the <code>output_div</code> to the result of calling
+<a href="https://arrr.readthedocs.io/en/latest/#arrr.translate"><code>arrr.translate</code></a>
+(to actually translate the <code>english</code> to something piratical).</p>
+<p>That's it!</p>
+<h2 id="sharing-your-app">Sharing your app</h2>
+<h3 id="pyscriptcom">PyScript.com</h3>
+<p>If you're using <a href="https://pyscript.com">pyscript.com</a>, you should save all your files
+and click the "run" button. Assuming you've copied the code properly, you
+should have a fine old time using "Polyglot 🦜" to translate English to
+Pirate-ish.</p>
+<p>Alternatively, <a href="https://ntoll.pyscriptapps.com/piratical/v5/">click here to see a working example of this app</a>.
+Notice that the bottom right hand corner contains a link to view the code on
+<a href="https://pyscript.com">pyscript.com</a>. Why not explore the code, copy it to your own
+account and change it to your satisfaction?</p>
+<h3 id="from-a-web-server">From a web server</h3>
+<p>Just host the three files (<code>pyscript.json</code>, <code>index.html</code>
+and <code>main.py</code>) in the same directory on a static web server somewhere.</p>
+<p>Clearly, we recommend you use <a href="https://pyscript.com">pyscript.com</a> for this, but any
+static web host will do (for example,
+<a href="https://pages.github.com/">GitHub Pages</a>,
+<a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html">Amazon's S3</a>,
+<a href="https://cloud.google.com/storage/docs/hosting-static-website">Google Cloud</a> or
+<a href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website">Microsoft's Azure</a>).</p>
+<h2 id="run-pyscript-offline">Run PyScript Offline</h2>
+<p>To run PyScript offline, without the need of a CDN or internet connection, read
+the <a href="../user-guide/offline/">Run PyScript Offline</a> section of the user
+guide.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Congratulations!</p>
+<p>You have just created your first PyScript app. We've explored the core concepts
+needed to build yet more interesting things of your own.</p>
+<p>PyScript is extremely powerful, and these beginner steps only just scratch the
+surface. To learn about PyScript in more depth, check out
+<a href="../user-guide/">our user guide</a> or
+<a href="../examples">explore our example applications</a>.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
