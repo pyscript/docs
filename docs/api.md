@@ -56,7 +56,15 @@ from pyscript import config
 
 # It's just a dict.
 print(config.get("files"))
+# This will be either "mpy" or "py" depending on the current interpreter.
+print(config["type"])
 ```
+
+!!! info
+
+    The `config` object will always include a `type` attribute set to either
+    `mpy` or `py`, to indicate which version of Python your code is currently
+    running in.
 
 !!! warning
 
