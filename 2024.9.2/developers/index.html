@@ -1149,6 +1149,25 @@ ensure this is the case.</p>
 <p>The integration tests for PyScript are started with:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
+<p>(This essentially runs the <code>npm run test:integration</code> command in the right
+place. This is defined in PyScript's <code>package.json</code> file.)</p>
+<p>Tests are found in the <code>core/tests</code> directory. These are organised into
+three locations:</p>
+<ol>
+<li><code>python</code> - the Python based test suite to exercise Python code
+   <strong>within</strong> PyScript.</li>
+<li><code>javascript</code> - JavaScript tests to exercise PyScript itself, in the
+   browser.</li>
+<li><code>manual</code> - containing tests to run manually in a browser, due to the
+   complex nature of the tests.</li>
+</ol>
+<p>We use <a href="https://playwright.dev/">Playwright</a> to automate the running of the
+Python and JavaScript test suites. We use
+<a href="https://github.com/ntoll/upytest">uPyTest</a> as a test framework for the
+Python test suite. uPyTest is a "PyTest inspired" framework for running
+tests in the browser on both MicroPython and Pyodide.</p>
+<p>The automated (Playwright) tests are specified in the
+<code>tests/integration.spec.js</code> file.</p>
 </li>
 </ul>
 <h2 id="documentation">Documentation</h2>
