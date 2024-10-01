@@ -228,7 +228,7 @@ is through this environment that you contribute to PyScript.
 * The integration tests for PyScript are started with:
 
     ```sh
-    make test-integration
+    make test
     ```
 
 ## Documentation
