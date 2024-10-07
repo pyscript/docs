@@ -417,6 +417,42 @@ store = await storage("my-data-store", storage_class=MyStorage)
 # The store object is now an instance of MyStorage.
 ```
 
+### `@pyscript/core/donkey`
+
+Sometimes you need a Python worker ready and waiting to evaluate any code on
+your behalf. This is the concept behind the JavaScript "donkey". We couldn't
+think of a better way than "donkey" to describe something that is easy to
+understand and shoulders the burden without complaint. This feature
+means you're able to use PyScript without resorting to specialised
+`<script type="py">` style tags. It's just vanilla JavaScript.
+
+Simply `import { donkey } from '@pyscript/core/dist/core.js'` and automatically
+have both a *pyscript* module running on your page and a utility to bootstrap a
+terminal based worker to evaluate any Python code as and when needed in the
+future.
+
+```js title="A donkey worker"
+import { donkey } from '@pyscript/core/dist/core.js';
+
+const {
+  process,              // process(code) code (visible in the terminal)
+  execute,              // execute(statement) in Python exec way
+  evaluate,             // evaluate(expression) in Python eval way
+  clear,                // clear() the terminal
+  reset,                // reset() the terminal (including colors)
+  kill,                 // kill() the worker forever
+} = donkey({
+  type: 'py' || 'mpy',  // the Python interpreter to run
+  persistent: false,    // use `true` to track globals and locals
+  terminal: '',         // optionally set a target terminal container
+  config: {},           // the worker config (packages, files, etc.)
+});
+```
+
+By default PyScript creates a target terminal. If you don't want a terminal to
+appear on your page, use the `terminal` option to point to a CSS addressable
+container that is not visible (i.e. the target has `display: none`).
+
 ### `@pyscript/core/dist/storage.js`
 
 The equivalent functionality based on the *JS* module can be found through our module.
