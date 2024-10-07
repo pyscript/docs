@@ -100,7 +100,7 @@ For example, this will work because all references are contained within the
 registered function:
 
 ```js
-import { hooks } from "https://pyscript.net/releases/2024.9.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.10.1/core.js";
 
 hooks.worker.onReady.add(() => {
     // NOT suggested, just an example!
@@ -114,7 +114,7 @@ hooks.worker.onReady.add(() => {
 However, due to the outer reference to the variable `i`, this will fail:
 
 ```js
-import { hooks } from "https://pyscript.net/releases/2024.9.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.10.1/core.js";
 
 // NO NO NO NO NO! ☠️
 let i = 0;
@@ -147,7 +147,7 @@ the page.
 
 ```js title="log.js - a plugin that simply logs to the console."
 // import the hooks from PyScript first...
-import { hooks } from "https://pyscript.net/releases/2024.9.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2024.10.1/core.js";
 
 // The `hooks.main` attribute defines plugins that run on the main thread.
 hooks.main.onReady.add((wrap, element) => {
@@ -197,8 +197,8 @@ hooks.worker.onAfterRun.add(() => {
         <!-- JS plugins should be available before PyScript bootstraps -->
         <script type="module" src="./log.js"></script>
         <!-- PyScript -->
-        <link rel="stylesheet" href="https://pyscript.net/releases/2024.9.2/core.css">
-        <script type="module" src="https://pyscript.net/releases/2024.9.2/core.js"></script>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.1/core.css">
+        <script type="module" src="https://pyscript.net/releases/2024.10.1/core.js"></script>
     </head>
     <body>
         <script type="mpy">
