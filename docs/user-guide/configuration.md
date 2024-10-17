@@ -306,6 +306,46 @@ following valid forms:
 * An arbitrary URL to a Python package: `"https://.../package.whl"`
 * A file copied onto the browser based file system: `"emfs://.../package.whl"`
 
+### Plugins
+
+The `plugins` option allows user to either augment, or exclude, the list of
+plugins imported out of the box from *core* during bootstrap.
+
+While augmenting requires some knowledge about *core* internals, excluding
+some plugin might be desired to avoid such plugin behavior and, in edge cases,
+reduce the amount of network requests to bootstrap *PyScript*.
+
+It is possible to check the [list of plugins](https://github.com/pyscript/pyscript/blob/main/core/src/plugins.js)
+we offer by default, where each *key* is used as plugin name and could be also
+disabled using the `!pugin-name` convention, here an example:
+
+```TOML title="Specify plugins in TOML"
+plugins = ["custom_plugin", "!error"]
+```
+
+```JSON title="Specify plugins in JSON"
+{
+    "plugins": ["custom_plugin", "!error"]
+}
+```
+
+!!! info
+
+    The `"!error"` syntax is a way to turn off a plugin built into PyScript
+    that is enabled by default.
+
+    It is possible to turn off other plugins too using the very same
+    convention.
+
+!!! warning
+
+    Please note `plugins` are currently a *core* only feature. If you need any
+    extra functionality out of the box *files* or *js_modules* are the current
+    way to provide more features without needing to file a *PR* in *core*.
+
+    This means that the current `plugins` proposal is meant to disable our own
+    plugins but it has no usage to add 3rd party plugins right now.
+
 ### JavaScript modules
 
 It's easy to import and use JavaScript modules in your Python code. This
