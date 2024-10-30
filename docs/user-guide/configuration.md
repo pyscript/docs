@@ -444,6 +444,17 @@ context:
 However, `from pyscript.js_modules import html_escaper` would then only work
 within the context of Python code **running on a worker**.
 
+### index_urls
+
+Currently usable in *Pyodide* only, this field allows custom end points to be
+used via [micropip.set_index_urls](https://micropip.pyodide.org/en/stable/project/api.html#micropip.set_index_urls).
+
+The field, as specified in official docs, could be a string or a list of strings
+that would be eventually used to resolve dependencies.
+
+This feature also works with the *IndexedDB* cache so that modules can be resolved
+once and then be reused as frozen static asset out of the box.
+
 ### sync_main_only
 
 Sometimes you just want to start an expensive computation on a web worker
