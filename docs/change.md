@@ -150,7 +150,7 @@ The release of a breaking change follows this process:
   immediately follows the decision will ensure the affected API reports the
   upcoming changes via a warning in the browser console.
 * The documentation will also be updated to reflect the upcoming changes to the
-  API.
+  API: the old API will be clearly flagged as about to change.
 * The release notes immediately following the implementation of the
   breaking change will include a clear indication that the breaking change has
   landed.
