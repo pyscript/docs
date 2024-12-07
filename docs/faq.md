@@ -436,6 +436,37 @@ for the main thread to call functions defined in the worker in a non-blocking
 manner, thus allowing the worker to also work in an unblocked manner and react
 to such calls. We have resolved the mutual deadlock.
 
+### TypeError: crypto.randomUUID is not a function
+
+If PyScript fails to start and you look in the browser console, you may
+find the following error:
+
+!!! failure
+
+    ```
+    main.js:43 Uncaught TypeError: crypto.randomUUID is not a function
+        at main.js:43:26
+    ```
+
+#### When
+
+This happens because PyScript uses the `crypto.randomUUID` function, and the
+web page isn't served correctly.
+
+#### Why
+
+This error is _created by the browser_ because `crypto.randomUUID` requires a
+secure context or localhost to use the latest web standards that are part of
+PyScript's core (such as `crypto.randomUUID`).
+
+Put simply, your code should be served from a domain secured
+with TLS (i.e. the domain name starts with `https` - use a service like
+[let's encrypt](https://letsencrypt.org/) to address this) or from `localhost`
+if developing and viewing your site on your development machine.
+
+This is something PyScript can't fix. Rather, it's how the web works and you
+should always ensure your code is served in a secure manner.
+
 ## Helpful hints
 
 This section contains common hacks or hints to make using PyScript easier.
