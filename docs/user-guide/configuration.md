@@ -174,6 +174,12 @@ into the target directory in the browser's built in file system.
     If there is a duplication PyScript will raise an exception to help you find
     the problem.
 
+!!! warning
+    **Use destination URLs instead of CORS / redirect URLs.**
+
+    For example, `https://github.com/pyscript/ltk/raw/refs/heads/main/ltk/jquery.py`
+    redirects to `https://raw.githubusercontent.com/pyscript/ltk/refs/heads/main/ltk/jquery.py`. Use the latter.
+
 !!! tip
 
     **For most people, most of the time, the simple URL to filename mapping,
