@@ -64,8 +64,9 @@ PyScript core package.
 
 ```
 # install @pyscript/core
-npm i @pyscript/core
+npm i @pyscript/core@<version>
 ```
+where the version can be found at https://github.com/pyscript/pyscript/blob/main/core/package.json
 
 Now the folder should contain a `node_module` folder in it, and we can copy the
 `dist` folder found within the `@pyscript/core` package wherever we like.
