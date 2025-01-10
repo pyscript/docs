@@ -78,6 +78,7 @@ nav:
     - Use Offline: user-guide/offline.md
   - Built-in APIs: api.md
   - FAQ: faq.md
+  - Change management: change.md
   - Contributing: contributing.md
   - Developer Guide: developers.md
   - Code of Conduct: conduct.md
