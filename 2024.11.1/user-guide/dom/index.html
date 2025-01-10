@@ -918,7 +918,7 @@ such as the browser's built-in
 <p>This is available via the <code>pyscript.window</code> module which is a proxy for
 the main thread's <code>globalThis</code> object, or <code>pyscript.document</code> which is a proxy
 for the website's <code>document</code> object in JavaScript:</p>
-<div class="language-Python highlight"><span class="filename">Accessing the window and document objects in Python</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
+<div class="language-Python highlight"><span class="filename">Accessing the window and document objects in Python</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">my_element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">&quot;#my-id&quot;</span><span class="p">)</span>
@@ -943,7 +943,7 @@ equivalent values: <code>["hello", 1, 2, 3]</code>.</p>
 FFI expects you to handle.</p>
 <p><strong>If you wish to instantiate a JavaScript class in your Python
 code, you need to call the class's <code>new</code> method:</strong></p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">my_obj</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">MyJavaScriptClass</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;some value&quot;</span><span class="p">)</span>
@@ -994,7 +994,7 @@ return collections of elements matching a CSS query. You may also shortcut
 <code>find</code> via a CSS query in square brackets. Finally, all elements have a <code>find</code>
 method that searches within their children for elements matching your CSS
 query.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pyscript.web</span> <span class="kn">import</span> <span class="n">page</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">page</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Print all the child elements of the document&#39;s head.</span>
@@ -1006,7 +1006,7 @@ query.</p>
 </span></code></pre></div>
 <p>The object returned from a query, or used as a reference to an element's
 children is iterable:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">pyscript.web</span> <span class="kn">import</span> <span class="n">page</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">page</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Get all the paragraphs in the DOM.</span>
@@ -1017,7 +1017,7 @@ children is iterable:</p>
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Alternatively, it is also indexable / sliceable:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">pyscript.web</span> <span class="kn">import</span> <span class="n">page</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">page</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Get an ElementCollection of all the paragraphs in the DOM</span>
@@ -1039,7 +1039,7 @@ a list of all the values of the <code>innerHTML</code> attribute on each contain
 element. Alternatively, set an attribute for all elements contained in the
 collection like this: <code>paragraphs.style["background-color"] = "blue"</code>.</p>
 <p>It's possible to create new elements to add to the page:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyscript.web</span> <span class="kn">import</span> <span class="n">page</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">span</span><span class="p">,</span> <span class="n">br</span> 
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">page</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="n">span</span><span class="p">,</span> <span class="n">br</span> 
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">page</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -1082,7 +1082,7 @@ of an element, you can always pass in a list of such elements as the named
 <code>children</code> argument (you see this in the final <code>div</code> in the example above).</p>
 <p>Of course, you can achieve similar results in an imperative style of
 programming:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">pyscript.web</span> <span class="kn">import</span> <span class="n">page</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">p</span> 
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">page</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">p</span> 
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">my_div</span> <span class="o">=</span> <span class="n">div</span><span class="p">()</span>
@@ -1098,15 +1098,15 @@ programming:</p>
 </span></code></pre></div>
 <p>It's also important to note that the <code>pyscript.when</code> decorator understands
 element references from <code>pyscript.web</code>:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">when</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">pyscript.web</span> <span class="kn">import</span> <span class="n">page</span> 
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">when</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">page</span> 
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">btn</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s2">&quot;#my-button&quot;</span><span class="p">]</span>
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 </span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 </span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="n">btn</span><span class="p">)</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">def</span> <span class="nf">my_button_click_handler</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">my_button_click_handler</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The button has been clicked!&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Should you wish direct access to the proxy object representing the underlying
@@ -1140,7 +1140,7 @@ to link a <em>source</em> standard JavaScript module to a <em>destination</em> n
 </span></code></pre></div>
 <p>Then, reference the module via the destination name in your Python code, by
 importing it from the <code>pyscript.js_modules</code> namespace:</p>
-<div class="language-python highlight"><span class="filename">Import the JavaScript module into Python</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pyscript.js_modules</span> <span class="kn">import</span> <span class="n">leaflet</span> <span class="k">as</span> <span class="n">L</span>
+<div class="language-python highlight"><span class="filename">Import the JavaScript module into Python</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">leaflet</span> <span class="k">as</span> <span class="n">L</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">map</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;map&quot;</span><span class="p">)</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
@@ -1169,7 +1169,7 @@ contain something like this:</p>
 <p>When you find yourself in this situation, simply use the <code>window</code> object in
 your Python code (found in the <code>pyscript</code> namespace) to interact with the
 resulting JavaScript objects:</p>
-<div class="language-python highlight"><span class="filename">Python interaction with the JavaScript global reference</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
+<div class="language-python highlight"><span class="filename">Python interaction with the JavaScript global reference</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># The window object is the global context of your web page.</span>
@@ -1229,12 +1229,12 @@ conforms to the modern standards.</p>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># will simulate a standard JS module</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="s2">&quot;./wrapper.js&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
 </span></code></pre></div>
-<div class="language-python highlight"><span class="filename">main.py - just import the module as usual and make use of it.</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span>
+<div class="language-python highlight"><span class="filename">main.py - just import the module as usual and make use of it.</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">document</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1"># import the module either via</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="kn">from</span> <span class="nn">pyscript.js_modules</span> <span class="kn">import</span> <span class="n">html_escaper</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">html_escaper</span>
 </span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># or via</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="kn">from</span> <span class="nn">pyscript.js_modules.html_escaper</span> <span class="kn">import</span> <span class="n">escape</span><span class="p">,</span> <span class="n">unescape</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules.html_escaper</span><span class="w"> </span><span class="kn">import</span> <span class="n">escape</span><span class="p">,</span> <span class="n">unescape</span>
 </span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
 </span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1"># show on body: &amp;lt;&amp;gt;</span>
 </span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">document</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="s2">&quot;&lt;&gt;&quot;</span><span class="p">))</span>
@@ -1278,7 +1278,7 @@ configuration file:</p>
 <div class="language-html highlight"><span class="filename">Reference the expected configuration file.</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&quot;./pyscript.toml&quot;</span> <span class="na">terminal</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
 <p>Finally, just use your JavaScript module’s exported functions inside PyScript:</p>
-<div class="language-python highlight"><span class="filename">Just call your bespoke JavaScript code from Python.</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span> <span class="nn">pyscript.js_modules</span> <span class="kn">import</span> <span class="n">code</span>
+<div class="language-python highlight"><span class="filename">Just call your bespoke JavaScript code from Python.</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">code</span>
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 </span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Just use the JS code from Python &quot;as usual&quot;.</span>

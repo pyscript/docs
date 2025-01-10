@@ -285,6 +285,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Example Applications
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -294,6 +305,39 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simple" class="md-nav__link">
+    Simple:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-complex" class="md-nav__link">
+    More complex:
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -734,6 +778,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simple" class="md-nav__link">
+    Simple:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-complex" class="md-nav__link">
+    More complex:
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -751,22 +817,79 @@
 <p>A curated list of example applications that demonstrate various features of
 PyScript can be found <a href="https://pyscript.com/@examples">on PyScript.com</a>.</p>
 <p>The examples are (links take you to the code):</p>
+<h3 id="simple">Simple:</h3>
 <ul>
 <li><a href="https://pyscript.com/@examples/hello-world/latest">Hello world</a></li>
-<li><a href="https://pyscript.com/@examples/simple-clock/latest">A simple clock</a></li>
-<li><a href="https://pyscript.com/@examples/simple-panel/latest">Simple slider panel</a></li>
-<li><a href="https://pyscript.com/@examples/streaming-in-panel/latest">Streaming data panel</a></li>
+<li>uses included datetime module. No additional packages.</li>
 <li><a href="https://pyscript.com/@examples/webgl-icosahedron/latest">WebGL Icosahedron</a></li>
-<li><a href="https://pyscript.com/@examples/kmeans-in-panel/latest">KMeans in a panel</a></li>
-<li><a href="https://pyscript.com/@examples/nyc-taxi-panel-deckgl/latest">New York Taxi panel (WebGL)</a></li>
+<li>uses <a href="https://threejs.org/">three.js</a> imported as a module in toml)</li>
 <li><a href="https://pyscript.com/@examples/pandas/latest">Pandas dataframe fun</a></li>
+<li>uses <a href="https://pandas.pydata.org/">pandas</a> from pypi</li>
+<li>pyodide</li>
 <li><a href="https://pyscript.com/@examples/matplotlib/latest">Matplotlib example</a></li>
-<li><a href="https://pyscript.com/@examples/fractals-with-numpy-and-canvas/latest">Numpy fractals</a></li>
-<li><a href="https://pyscript.com/@examples/folium/latest">Folium geographical data</a></li>
-<li><a href="https://pyscript.com/@examples/bokeh/latest">Bokeh data plotting</a></li>
+<li>uses <a href="https://matplotlib.org/">matplotlib</a></li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/todo-app/latest">Todo</a></li>
+<li>uses pyweb. No additional packages.</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/tic-tac-toe/latest">Tic Tac Toe</a></li>
+<li>uses pyweb. No additional packages.</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/pyscript-jokes/latest">Pyscript Jokes</a></li>
+<li>uses pyweb and <a href="https://pyjok.es/">pyjokes</a></li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/d3-visualization/latest">D3 visualization</a></li>
+<li>uses <a href="https://d3js.org/">d3</a></li>
+<li>mixes javascript code with python code. imports d3 from javascript.</li>
+<li>pyodide</li>
 <li><a href="https://pyscript.com/@examples/antigravity/latest">Import antigravity</a></li>
-<li><a href="https://pyscript.com/@examples/altair/latest">Altair data plotting</a></li>
+<li>uses svg simply</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/api-proxy-tutorial/latest">API proxy tutorial</a></li>
+<li>uses fetch</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/api-proxy-and-secrets-tutorial/latest">API proxy and secrets tutorial</a></li>
+<li>uses fetch</li>
+<li>pyodide</li>
 </ul>
+<h3 id="more-complex">More complex:</h3>
+<ul>
+<li><a href="https://pyscript.com/@examples/fractals-with-numpy-and-canvas/latest">Numpy fractals</a></li>
+<li>uses <a href="https://numpy.org/">numpy</a>, <a href="https://www.sympy.org/en/index.html">sympy</a> from pypi</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/simple-panel/latest">Simple slider panel</a></li>
+<li>uses <a href="https://panel.holoviz.org/">Panel</a> and <a href="https://bokeh.org/">Bokeh</a> from pypi and loads in index.html</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/streaming-in-panel/latest">Streaming data panel</a></li>
+<li>uses  <a href="https://panel.holoviz.org/">Panel</a>, <a href="https://bokeh.org/">Bokeh</a>  <a href="https://numpy.org/">numpy</a>, <a href="https://pandas.pydata.org/">pandas</a> from pypi</li>
+<li>loads bokeh, panel, tabulator in index.html</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/kmeans-in-panel/latest">KMeans in a panel</a></li>
+<li>uses <a href="https://bokeh.org/">Bokeh</a>, <a href="https://altair-viz.github.io/">altair</a>, <a href="https://numpy.org/">numpy</a>, <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://scikit-learn.org/stable/">scikit-learn</a>, <a href="https://panel.holoviz.org/">Panel</a> from pypi</li>
+<li>loads panel, bootstrap, vega, tabulator, bokeh in index.html</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/nyc-taxi-panel-deckgl/latest">New York Taxi panel (WebGL)</a></li>
+<li>uses a mixture of pypi and direct load packages in index.html</li>
+<li><a href="https://bokeh.org/">Bokeh</a>, <a href="https://numpy.org/">numpy</a>, <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://panel.holoviz.org/">Panel</a>, <a href="https://deck.gl/">deck-gl</a></li>
+<li>deckGL, bokeh are loaded directly in index.html</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/folium/latest">Folium geographical data</a></li>
+<li>uses <a href="https://python-visualization.github.io/folium/latest/">folium</a>, <a href="https://pandas.pydata.org/">pandas</a>  from pypi</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/bokeh/latest">Bokeh data plotting</a></li>
+<li>uses <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://bokeh.org/">Bokeh</a>, <a href="https://github.com/geopandas/xyzservices">xyzservices</a> from pypi</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/altair/latest">Altair data plotting</a></li>
+<li>uses <a href="https://altair-viz.github.io/">altair</a>, <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://github.com/altair-viz/vega_datasets">vega_datasets</a> from pypi</li>
+<li>pyodide</li>
+<li><a href="https://pyscript.com/@examples/panel-and-hvplot/latest">Panel and hyplot</a></li>
+<li>uses <a href="https://bokeh.org/">Bokeh</a>, <a href="https://panel.holoviz.org/">Panel</a>, <a href="https://github.com/executablebooks/markdown-it-py">markdown-it-py</a>, <a href="https://numpy.org/">numpy</a>, <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://hvplot.holoviz.org/">hvplot</a>, <a href="https://pyodide.org/en/stable/usage/api/python-api/http.html">pyodide-http</a> a fetch library.</li>
+<li>bokeh and panel are loaded in the index.html</li>
+<li>pyodide</li>
+</ul>
+<p>Notes:
+ - No micropython examples - all are pyodide
+ - No worker examples</p>
 
 
 

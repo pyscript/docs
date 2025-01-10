@@ -1670,7 +1670,7 @@ you see this message:</p>
 <p>This error happens when using Pyodide as the interpreter on the main thread,
 and when a bare Python callable/function has been passed into JavaScript as a
 callback handler:</p>
-<div class="language-python highlight"><span class="filename">An expired borrowed proxy example, with Pyodide on the main thread.</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">js</span>
+<div class="language-python highlight"><span class="filename">An expired borrowed proxy example, with Pyodide on the main thread.</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">js</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># will throw the error</span>
@@ -1684,7 +1684,7 @@ hence the error message.</p>
 <p class="admonition-title">Info</p>
 <p>This error does not happen if the code is executed in a worker and the 
 JavaScript reference comes from the main thread:</p>
-<div class="language-python highlight"><span class="filename">Code running on Pyodide in a worker has no borrowed proxy issue.</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+<div class="language-python highlight"><span class="filename">Code running on Pyodide in a worker has no borrowed proxy issue.</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1000</span><span class="p">,</span> <span class="s2">&quot;OK&quot;</span><span class="p">)</span>
@@ -1858,7 +1858,7 @@ special care.</p>
 fragment of code can proceed without waiting for the other.</p>
 <h4 id="why_4">Why</h4>
 <p>Let's assume a worker script contains the following Python code:</p>
-<div class="language-python highlight"><span class="filename">worker: a deadlock example</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">sync</span>
+<div class="language-python highlight"><span class="filename">worker: a deadlock example</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">sync</span><span class="o">.</span><span class="n">worker_task</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;🔥 this is fine 🔥&#39;</span><span class="p">)</span>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
@@ -2010,9 +2010,9 @@ JavaScript.</p>
 </span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">  </span><span class="nx">worker</span><span class="p">.</span><span class="nx">terminate</span><span class="p">();</span>
 </span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
-<div class="language-python highlight"><span class="filename">micro.py</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">sync</span>
+<div class="language-python highlight"><span class="filename">micro.py</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">def</span> <span class="nf">do_stuff</span><span class="p">():</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">do_stuff</span><span class="p">():</span>
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;heavy computation&quot;</span><span class="p">)</span>
 </span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
 </span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1"># Note: this reference is awaited in the JavaScript code.</span>
@@ -2259,7 +2259,7 @@ Python file operations:</p>
 <p>Combined with our <code>pyscript.fetch</code> utility, it's also possible to store more
 complex data from the web.</p>
 <div class="language-python highlight"><span class="filename">Writing a binary file.</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Assume async execution.</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">fetch</span><span class="p">,</span> <span class="n">window</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch</span><span class="p">,</span> <span class="n">window</span>
 </span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 </span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="n">href</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">href</span>
 </span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>
@@ -2302,11 +2302,11 @@ builds on the file system examples already seen.</p>
 <h4 id="download">Download</h4>
 <p>It is also possible to create a temporary link through which you can download
 files present on the interpreter's virtual file system.</p>
-<div class="language-python highlight"><span class="filename">Download file from the virtual file system.</span><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span><span class="p">,</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kn">import</span> <span class="nn">os</span>
+<div class="language-python highlight"><span class="filename">Download file from the virtual file system.</span><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">document</span><span class="p">,</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 </span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
 </span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
-</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">):</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">):</span>
 </span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>    <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
 </span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -2358,7 +2358,7 @@ context so they are ready when the JavaScript <code>apply</code> method calls in
 Python context.</p>
 <p><strong>Here's the important caveat</strong>: locally scoped Python functions, or functions
 created at run time cannot be retained forever.</p>
-<div class="language-python highlight"><span class="filename">A basic Python to JavaScript callback.</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">import</span> <span class="nn">js</span>
+<div class="language-python highlight"><span class="filename">A basic Python to JavaScript callback.</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">js</span>
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>
 </span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="n">js</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>  <span class="s2">&quot;custom:event&quot;</span><span class="p">,</span>
@@ -2396,7 +2396,7 @@ our docs gives you the context you need to make an informed decision.</p>
 instance (rather than passed as argument into an event listener), it is easy
 for the Python interpreter to know when the function could be freed from the
 memory.</p>
-<div class="language-python highlight"><span class="filename">A sticky lambda.</span><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">document</span>
+<div class="language-python highlight"><span class="filename">A sticky lambda.</span><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">document</span>
 </span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
 </span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="c1"># logs &quot;click&quot; if nothing else stopped propagation</span>
 </span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="n">document</span><span class="o">.</span><span class="n">onclick</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
@@ -2425,7 +2425,7 @@ callback's lifecycle. But this is not always possible:</p>
 </ul>
 <p>Luckily the <code>Promise</code> use case is automatically handled by Pyodide, but we're
 still left with the other cases:</p>
-<div class="language-python highlight"><span class="filename">Different Pyodide create_proxy contexts.</span><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
+<div class="language-python highlight"><span class="filename">Different Pyodide create_proxy contexts.</span><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
 </span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="c1"># The create_proxy is needed when a Python</span>
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># function isn&#39;t attached to an object reference</span>
@@ -2451,7 +2451,7 @@ still left with the other cases:</p>
 </span><span id="__span-30-24"><a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a>  <span class="s2">&quot;lambda&quot;</span>
 </span><span id="__span-30-25"><a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a><span class="p">)</span>
 </span><span id="__span-30-26"><a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a>
-</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a><span class="k">def</span> <span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a><span class="k">def</span><span class="w"> </span><span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
 </span><span id="__span-30-28"><a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
 </span><span id="__span-30-29"><a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a>
 </span><span id="__span-30-30"><a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a><span class="c1"># This is needed even if `print_type`</span>
@@ -2495,7 +2495,7 @@ code portability purposes</strong> between Pyodide and MicroPython. When using
 actually do anything.</p>
 <p>All the examples that require <code>create_proxy</code> in Pyodide, don't need it in
 MicroPython:</p>
-<div class="language-python highlight"><span class="filename">Different MicroPython create_proxy contexts.</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kn">from</span> <span class="nn">pyscript</span> <span class="kn">import</span> <span class="n">window</span>
+<div class="language-python highlight"><span class="filename">Different MicroPython create_proxy contexts.</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
 </span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="c1"># This just works.</span>
 </span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;print&quot;</span><span class="p">)</span>
@@ -2503,7 +2503,7 @@ MicroPython:</p>
 </span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># This also just works.</span>
 </span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">)</span>
 </span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>
-</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="k">def</span> <span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
 </span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
 </span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>
 </span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="c1"># This just works too.</span>
@@ -2558,8 +2558,8 @@ are sufficiently different that one cannot be a drop in replacement for
 another.</p>
 <p>Pyodide have provided a way to override the default <code>Map</code> based behaviour, but
 this results some rather esoteric code:</p>
-<div class="language-python highlight"><span class="filename">Convert a dict to an object literal in Pyodide.</span><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kn">import</span> <span class="nn">js</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="kn">from</span> <span class="nn">pyodide.ffi</span> <span class="kn">import</span> <span class="n">to_js</span>
+<div class="language-python highlight"><span class="filename">Convert a dict to an object literal in Pyodide.</span><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">js</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyodide.ffi</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_js</span>
 </span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
 </span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="n">js</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
 </span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>    <span class="n">to_js</span><span class="p">(</span>
