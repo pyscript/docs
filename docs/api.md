@@ -653,6 +653,9 @@ def click_handler(event):
     them.
     """
     display("I've been clicked!")
+
+### Or manually setting handler without a decorator
+when("click", "#my-button", handler=click_handler)
 ```
 
 This functionality is related to the `py-*` or `mpy-*` [HTML attributes](#html-attributes).
