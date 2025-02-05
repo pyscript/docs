@@ -117,8 +117,8 @@ module in the document's `<head>` tag:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.11.1/core.css">
-      <script type="module" src="https://pyscript.net/releases/2024.11.1/core.js"></script>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2025.2.1/core.js"></script>
   </head>
   <body>
 
@@ -168,8 +168,8 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.11.1/core.css">
-      <script type="module" src="https://pyscript.net/releases/2024.11.1/core.js"></script>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2025.2.1/core.js"></script>
   </head>
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>

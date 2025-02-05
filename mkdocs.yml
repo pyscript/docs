@@ -74,6 +74,7 @@ nav:
     - The FFI in detail: user-guide/ffi.md
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
+    - PyGame-CE: user-guide/pygame-ce.md
     - Plugins: user-guide/plugins.md
     - Use Offline: user-guide/offline.md
   - Built-in APIs: api.md
