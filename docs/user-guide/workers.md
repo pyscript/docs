@@ -282,9 +282,9 @@ Here's how:
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.1/core.css">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.2.2/core.css">
     <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2025.2.1/core.js"></script>
+    <script type="module" src="https://pyscript.net/releases/2025.2.2/core.js"></script>
     <title>PyWorker - mpy bootstrapping pyodide example</title>
     <script type="mpy" src="main.py"></script>
   </head>
