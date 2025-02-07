@@ -1,0 +1,2665 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../api/">
+      
+      
+        <link rel="next" href="../contributing/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>FAQ - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#faq" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FAQ
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../beginning-pyscript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beginning PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Example Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/what/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is PyScript?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/features/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/first-steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    First steps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/dom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The DOM &amp; JavaScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/ffi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The FFI in detail
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/editor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/pygame-ce/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyGame-CE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/offline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Offline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Built-in APIs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    Common errors
+  </a>
+  
+    <nav class="md-nav" aria-label="Common errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-errors" class="md-nav__link">
+    Reading errors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharedarraybuffer" class="md-nav__link">
+    SharedArrayBuffer
+  </a>
+  
+    <nav class="md-nav" aria-label="SharedArrayBuffer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#borrowed-proxy" class="md-nav__link">
+    Borrowed proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="Borrowed proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_1" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-packages" class="md-nav__link">
+    Python packages
+  </a>
+  
+    <nav class="md-nav" aria-label="Python packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_2" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-modules" class="md-nav__link">
+    JavaScript modules
+  </a>
+  
+    <nav class="md-nav" aria-label="JavaScript modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_3" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_3" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-deadlock" class="md-nav__link">
+    Possible deadlock
+  </a>
+  
+    <nav class="md-nav" aria-label="Possible deadlock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_4" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_4" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typeerror-cryptorandomuuid-is-not-a-function" class="md-nav__link">
+    TypeError: crypto.randomUUID is not a function
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeError: crypto.randomUUID is not a function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_5" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_5" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helpful-hints" class="md-nav__link">
+    Helpful hints
+  </a>
+  
+    <nav class="md-nav" aria-label="Helpful hints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscript-latest" class="md-nav__link">
+    PyScript latest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workers-via-javascript" class="md-nav__link">
+    Workers via JavaScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-classnew" class="md-nav__link">
+    JavaScript Class.new()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscript-events" class="md-nav__link">
+    PyScript events
+  </a>
+  
+    <nav class="md-nav" aria-label="PyScript events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mpyready" class="md-nav__link">
+    m/py:ready
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mpydone" class="md-nav__link">
+    m/py:done
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyall-done" class="md-nav__link">
+    py:all-done
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mpyprogress" class="md-nav__link">
+    m/py:progress
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#packaging-pointers" class="md-nav__link">
+    Packaging pointers
+  </a>
+  
+    <nav class="md-nav" aria-label="Packaging pointers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#host-a-package" class="md-nav__link">
+    Host a package
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provide-your-own-file" class="md-nav__link">
+    Provide your own file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-archive-ziptgzwhl" class="md-nav__link">
+    Code archive (zip/tgz/whl)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-system" class="md-nav__link">
+    File System
+  </a>
+  
+    <nav class="md-nav" aria-label="File System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#readwrite" class="md-nav__link">
+    Read/Write
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    Upload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_proxy" class="md-nav__link">
+    create_proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="create_proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-pyodide" class="md-nav__link">
+    In Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-micropython" class="md-nav__link">
+    In MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_js" class="md-nav__link">
+    to_js
+  </a>
+  
+    <nav class="md-nav" aria-label="to_js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background_1" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caveat" class="md-nav__link">
+    Caveat
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-errors" class="md-nav__link">
+    Common errors
+  </a>
+  
+    <nav class="md-nav" aria-label="Common errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-errors" class="md-nav__link">
+    Reading errors
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharedarraybuffer" class="md-nav__link">
+    SharedArrayBuffer
+  </a>
+  
+    <nav class="md-nav" aria-label="SharedArrayBuffer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#borrowed-proxy" class="md-nav__link">
+    Borrowed proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="Borrowed proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_1" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_1" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-packages" class="md-nav__link">
+    Python packages
+  </a>
+  
+    <nav class="md-nav" aria-label="Python packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_2" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_2" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-modules" class="md-nav__link">
+    JavaScript modules
+  </a>
+  
+    <nav class="md-nav" aria-label="JavaScript modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_3" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_3" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-deadlock" class="md-nav__link">
+    Possible deadlock
+  </a>
+  
+    <nav class="md-nav" aria-label="Possible deadlock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_4" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_4" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typeerror-cryptorandomuuid-is-not-a-function" class="md-nav__link">
+    TypeError: crypto.randomUUID is not a function
+  </a>
+  
+    <nav class="md-nav" aria-label="TypeError: crypto.randomUUID is not a function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when_5" class="md-nav__link">
+    When
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why_5" class="md-nav__link">
+    Why
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helpful-hints" class="md-nav__link">
+    Helpful hints
+  </a>
+  
+    <nav class="md-nav" aria-label="Helpful hints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyscript-latest" class="md-nav__link">
+    PyScript latest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workers-via-javascript" class="md-nav__link">
+    Workers via JavaScript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-classnew" class="md-nav__link">
+    JavaScript Class.new()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyscript-events" class="md-nav__link">
+    PyScript events
+  </a>
+  
+    <nav class="md-nav" aria-label="PyScript events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mpyready" class="md-nav__link">
+    m/py:ready
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mpydone" class="md-nav__link">
+    m/py:done
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyall-done" class="md-nav__link">
+    py:all-done
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mpyprogress" class="md-nav__link">
+    m/py:progress
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#packaging-pointers" class="md-nav__link">
+    Packaging pointers
+  </a>
+  
+    <nav class="md-nav" aria-label="Packaging pointers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#host-a-package" class="md-nav__link">
+    Host a package
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provide-your-own-file" class="md-nav__link">
+    Provide your own file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-archive-ziptgzwhl" class="md-nav__link">
+    Code archive (zip/tgz/whl)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-system" class="md-nav__link">
+    File System
+  </a>
+  
+    <nav class="md-nav" aria-label="File System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#readwrite" class="md-nav__link">
+    Read/Write
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    Upload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_proxy" class="md-nav__link">
+    create_proxy
+  </a>
+  
+    <nav class="md-nav" aria-label="create_proxy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-pyodide" class="md-nav__link">
+    In Pyodide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-micropython" class="md-nav__link">
+    In MicroPython
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to_js" class="md-nav__link">
+    to_js
+  </a>
+  
+    <nav class="md-nav" aria-label="to_js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#background_1" class="md-nav__link">
+    Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caveat" class="md-nav__link">
+    Caveat
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="faq">FAQ</h1>
+<p>This page contains the most common questions and "<em>gotchas</em>" asked on
+<a href="https://discord.gg/HxvBtukrg2">our Discord server</a>, in
+<a href="https://www.youtube.com/@PyScriptTV">our community calls</a>, or
+within our community.</p>
+<p>There are two major areas we'd like to explore:
+<a href="#common-errors">common errors</a> and <a href="#helpful-hints">helpful hints</a>.</p>
+<h2 id="common-errors">Common errors</h2>
+<h3 id="reading-errors">Reading errors</h3>
+<p>If your application doesn't run, and you don't see any error messages on the
+page, you should check
+<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools">your browser's console</a>.</p>
+<p>When reading an error message, the easy way to find out what's going on,
+most of the time, is to read the last line of the error.</p>
+<div class="language-text highlight"><span class="filename">A Pyodide error.</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Traceback (most recent call last):
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  File &quot;/lib/python311.zip/_pyodide/_base.py&quot;, line 501, in eval_code
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    .run(globals, locals)
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>     ^^^^^^^^^^^^^^^^^^^^
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  File &quot;/lib/python311.zip/_pyodide/_base.py&quot;, line 339, in run
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    coroutine = eval(self.code, globals, locals)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  File &quot;&lt;exec&gt;&quot;, line 1, in &lt;module&gt;
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>NameError: name &#39;failure&#39; is not defined
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</span></code></pre></div>
+<div class="language-text highlight"><span class="filename">A MicroPython error.</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Traceback (most recent call last):
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>NameError: name &#39;failure&#39; isn&#39;t defined
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</span></code></pre></div>
+<p>In both examples, the code created a
+<a href="https://docs.python.org/3/library/exceptions.html#NameError"><code>NameError</code></a>
+because the object with the name <code>failure</code> did not exist. Everything above the
+error message is potentially useful technical detail.</p>
+<p>With this context in mind, these are the most common errors users of PyScript
+encounter.</p>
+<h3 id="sharedarraybuffer">SharedArrayBuffer</h3>
+<p>This is the first and most common error users may encounter with PyScript:</p>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>Your application doesn't run and in
+<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools">your browser's console</a>
+you see this message:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Unable to use `window` or `document` -&gt; https://docs.pyscript.net/latest/faq/#sharedarraybuffer
+</span></code></pre></div>
+</div>
+<h4 id="when">When</h4>
+<p>This happens when you're unable to access objects in the main thread (<code>window</code>
+and <code>document</code>) from code running in a web worker.</p>
+<p>This error happens because <strong>the server delivering your PyScript application is
+incorrectly configured</strong> or <strong>a <code>service-worker</code> attribute has not been used in
+your <code>script</code> element</strong>.</p>
+<p>Specifically, one of the following three problem situations applies to your
+code:</p>
+<ul>
+<li>Because of the way your web server is configured, the browser limits the use
+  of a technology called "Atomics" (you don't need to know how it works, just
+  that it may be limited by the browser). If there is a <code>worker</code> attribute in
+  your <code>script</code> element, and your Python code uses the <code>window</code> or <code>document</code>
+  objects (that actually exist on the main thread), then the browser limitation
+  on Atomics will cause the failure, unless you reconfigure your server.</li>
+<li>There is a <code>&lt;script type="py-editor"&gt;</code> (that must always use a worker behind
+  the scenes) and no fallback has been provided via a <code>service-worker</code>
+  attribute on that element.</li>
+<li>There is an explicit <code>PyWorker</code> or <code>MPWorker</code> instance <strong>bootstrapping
+  somewhere in your code</strong> and no <code>service_worker</code> fallback has been provided.</li>
+</ul>
+<p>All these cases have been documented with code examples and possible solutions
+in our section on <a href="../user-guide/workers/">web workers</a>.</p>
+<h4 id="why">Why</h4>
+<p>The only way for <code>document.getElementById('some-id').value</code> to work in a
+worker is to use these two JavaScript primitives:</p>
+<ul>
+<li><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer">SharedArrayBuffer</a></strong>,
+    to allow multiple threads to read and / or write into a chunk of shared
+    memory.</li>
+<li><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics">Atomics</a></strong>,
+    to both <code>wait(sab, index)</code> (<code>sab</code> is a <code>SharedArrayBuffer</code>) and
+    <code>notify(sab, index)</code> to unlock the awaiting thread.</li>
+</ul>
+<p>While a worker waits for an operation on main to happen, it is not using the
+CPU. It idles until the referenced index of the shared buffer changes,
+effectively never blocking the main thread while still pausing its own
+execution until the buffer's index is changed.</p>
+<p>As overwhelming or complicated as this might sound, these two fundamental
+primitives make main ↔ worker interoperability an absolute wonder in term of
+developer experience. Therefore, we encourage folks to prefer using workers
+over running Python in the main thread. This is especially so when using
+Pyodide related projects, because of its heavier bootstrap or computation
+requirements. Using workers ensures the main thread (and thus, the user
+interface) remains unblocked.</p>
+<p>Unfortunately, we can patch, polyfill, or workaround, these primitives but
+we cannot change their intrinsic nature and limitations defined by web
+standards. However, there are various solutions for working around such
+limitations. Please read our <a href="..//user-guide/workers/">web workers</a>
+section to learn more.</p>
+<h3 id="borrowed-proxy">Borrowed proxy</h3>
+<p>This is another common error that happens with listeners, timers or in any
+other situation where a Python callback is lazily invoked from JavaScript:</p>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>Your application doesn't run and in
+<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools">your browser's console</a>
+you see this message:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Uncaught Error: This borrowed proxy was automatically destroyed at the end of a function call.
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Try using create_proxy or create_once_callable.
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>For more information about the cause of this error, use `pyodide.setDebug(true)`
+</span></code></pre></div>
+</div>
+<h4 id="when_1">When</h4>
+<p>This error happens when using Pyodide as the interpreter on the main thread,
+and when a bare Python callable/function has been passed into JavaScript as a
+callback handler:</p>
+<div class="language-python highlight"><span class="filename">An expired borrowed proxy example, with Pyodide on the main thread.</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">js</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># will throw the error</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">js</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="mi">1000</span><span class="p">,</span> <span class="s2">&quot;FAIL&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The garbage collector immediately cleans up the Python function once it is
+passed into the JavaScript context. Clearly, for the Python function to work as
+a callback at some time in the future, it should NOT be garbage collected and
+hence the error message.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This error does not happen if the code is executed in a worker and the 
+JavaScript reference comes from the main thread:</p>
+<div class="language-python highlight"><span class="filename">Code running on Pyodide in a worker has no borrowed proxy issue.</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1000</span><span class="p">,</span> <span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Proxy objects (i.e. how Python objects appear to JavaScript, and vice
+versa) cannot be communicated between a worker and the main thread.</p>
+<p>Behind the scenes, PyScript ensures references are maintained between
+workers and the main thread. It means Python functions in a worker are
+actually represented by JavaScript proxy objects in the main thread.</p>
+<p>As a result, such worker based Python functions are therefore <strong>not</strong> bare
+Python functions, but already wrapped in a managed JavaScript proxy, thus
+avoiding the borrowed proxy problem.</p>
+</div>
+<p>If you encounter this problem you have two possible solutions:</p>
+<ol>
+<li>Manually wrap such functions with a call to
+   <a href="../../api/#pyscriptfficreate_proxy"><code>pyscript.ffi.create_proxy</code></a>.</li>
+<li>Set the
+   <a href="../configuration/#experimental_create_proxy"><code>experimental_create_proxy = "auto"</code></a>
+   flag in your application's settings. This flag intercepts Python objects
+   passed into a JavaScript callback and ensures an automatic and sensible
+   memory management operation via the JavaScript garbage collector.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry">FinalizationRegistry</a>
+is the browser feature used to make this so.</p>
+<p>By default, it is not observable and it is not possible to predict when it
+will free, and hence destroy, retained Python proxy objects. As a result,
+memory consumption might be slightly higher than when manually using
+<code>create_proxy</code>. However, the JavaScript engine is responsible for memory
+consumption, and will cause the finalization registry to free all retained
+proxies, should memory consumption become too high.</p>
+</div>
+<h4 id="why_1">Why</h4>
+<p>PyScript's interpreters (Pyodide and MicroPython) both have their own garbage
+collector for automatic memory management. When references to Python objects
+are passed to JavaScript <a href="../user-guide/ffi/">via the FFI</a>, the Python
+interpreters cannot guarantee such references will ever be freed by
+JavaScript's own garbage collector. They may even lose control over the
+reference since there's no infallible way to know when such objects won't be
+needed by JavaScript.</p>
+<p>One solution is to expect users to explicitly create and destroy such proxy
+objects themselves. But this manual memory management makes automatic memory
+management pointless while raising the possibility of dead references (where
+the user explicitly destroys a Python object that's still alive in the
+JavaScript context). Put simply, this is a difficult situation.</p>
+<p>Pyodide provides
+<a href="https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers">ffi.wrappers</a>
+to help with many of the common cases, and PyScript, through the
+<code>experimental_create_proxy = "auto"</code> configuration option, automates memory
+management via the <code>FinalizationRegistry</code> described above.</p>
+<h3 id="python-packages">Python packages</h3>
+<p>Sometimes Python packages, specified via the
+<a href="../user-guide/configuration/#packages"><code>packages</code> configuration setting</a>
+don't work with PyScript's Python interpreter.</p>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p><strong>You are using Pyodide</strong>.</p>
+<p>Your application doesn't run and in
+<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools">your browser's console</a>
+you see this message:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ValueError: Can&#39;t find a pure Python 3 wheel for: &#39;package_name&#39;
+</span></code></pre></div>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p><strong>You are using MicroPython</strong>.</p>
+<p>Your application doesn't run and in
+<a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools">your browser's console</a>
+you see this message:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Cross-Origin Request Blocked: The Same Origin Policy disallows reading the
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>remote resource at https://micropython.org/pi/v2/package/py/package_name/latest.json.
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>(Reason: CORS header ‘Access-Control-Allow-Origin’ missing).
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Status code: 404.
+</span></code></pre></div>
+</div>
+<h4 id="when_2">When</h4>
+<p>This is a complicated problem, but the summary is:</p>
+<ul>
+<li><strong>Check you have used the correct name for the package you want to use</strong>.
+  This is a remarkably common mistake to make: let's just check. :-)</li>
+<li><strong>In Pyodide</strong>, the error indicates that the package you are trying to
+  install has some part of it written in C, C++ or Rust. These languages are
+  compiled, and the package has not yet been compiled for web assembly. Our
+  friends in the Pyodide project and the
+  <a href="https://www.pypa.io/en/latest/">Python packaging authority</a> are working
+  together to ensure web assembly is a default target for compilation. Until
+  such time, we suggest you follow
+  <a href="https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package">Pyodide's own guidance</a>
+  to overcome this situation.</li>
+<li><strong>In MicroPython</strong>, the package you want to use has not been ported into the
+  <a href="https://github.com/micropython/micropython-lib"><code>micropython-lib</code> package repository</a>.
+  If you want to use a pure Python package with MicroPython, use the
+  <a href="../user-guide/configuration/#files">files configuration option</a> to manually
+  copy the package onto the file system, or use a URL to reference the package.</li>
+</ul>
+<p>For hints and tips about packaging related aspects of PyScript read the
+<a href="#packaging-pointers">packaging pointers</a> section of this FAQ.</p>
+<h4 id="why_2">Why</h4>
+<p>Put simply, Pyodide and MicroPython are different Python interpreters, and both
+are running in a web assembly environment. Packages built for Pyodide may not
+work for MicroPython, and vice versa. Furthermore, if a package contains
+compiled code, it may not yet have been natively compiled for web assembly.</p>
+<p>If the package you want to use is written in a version of Python that both
+Pyodide and MicroPython support (there are subtle differences between the
+interpreters), then you should be able to use the package so long as you are
+able to get it into the Python path via configuration (see above).</p>
+<p>Currently, MicroPython cannot expose modules that require native compilation,
+but PyScript is working with the MicroPython team to provide different builds
+of MicroPython that include commonly requested packages (e.g. MicroPython's
+version of <code>numpy</code> or <code>sqlite</code>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Depending on the complexity of the project, it may be hard to seamlessly
+make a 1:1 port from a Pyodide code base to MicroPython.</p>
+<p>MicroPython has <a href="https://docs.micropython.org/en/latest/genrst/index.html">comprehensive documentation</a>
+to explain the differences between itself and "regular" CPython (i.e. the
+version of Python Pyodide provides).</p>
+</div>
+<h3 id="javascript-modules">JavaScript modules</h3>
+<p>When <a href="../user-guide/dom/#working-with-javascript">using JavaScript modules with PyScript</a>
+you may encounter the following errors:</p>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>Uncaught SyntaxError: The requested module './library.js' does not provide an export named 'default'</p>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<p>Uncaught SyntaxError: The requested module './library.js' does not provide an export named 'util'</p>
+</div>
+<h4 id="when_3">When</h4>
+<p>These errors happen because the JavaScript module you are trying to use is not
+written as a standards-compliant JavaScript module.</p>
+<p>Happily, to <strong>solve</strong> this issue various content delivery networks (CDNs)
+provide a way to automatically deliver standard ESM (aka:
+<a href="https://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> Modules).
+The one we recommend is <a href="https://esm.run/">esm.run</a>.</p>
+<div class="language-html highlight"><span class="filename">An example of esm.run</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">mpy-config</span><span class="p">&gt;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>[js_modules.main]
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>&quot;https://esm.run/d3&quot; = &quot;d3&quot;
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">&lt;/</span><span class="nt">mpy-config</span><span class="p">&gt;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="p">.</span><span class="nx">js_modules</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">d3</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>Alternatively, ensure any JavaScript code you reference uses <code>export ...</code> or
+ask for an <code>.mjs</code> version of the code. All the various options and technical
+considerations surrounding the use of JavaScript modules in PyScript are
+<a href="../user-guide/dom/#working-with-javascript">covered in our user guide</a>.</p>
+<h4 id="why_3">Why</h4>
+<p>Even though the standard for JavaScript modules has existed since 2015, many
+old and new libraries still produce files that are incompatible with such
+modern and idiomatic standards.</p>
+<p>This isn't so much a technical problem, as a human problem as folks learn to
+use the new standard and migrate old code away from previous and now
+obsolete standards.</p>
+<p>While such legacy code exists, be aware that JavaScript code may require
+special care.</p>
+<h3 id="possible-deadlock">Possible deadlock</h3>
+<p>Users may encounter an error message similar to the following:</p>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>💀🔒 - Possible deadlock if proxy.xyz(...args) is awaited
+</span></code></pre></div>
+</div>
+<h4 id="when_4">When</h4>
+<p>This error happens when your code on a worker and in the main thread are
+<a href="https://en.wikipedia.org/wiki/Deadlock">in a deadlock</a>. Put simply, neither
+fragment of code can proceed without waiting for the other.</p>
+<h4 id="why_4">Why</h4>
+<p>Let's assume a worker script contains the following Python code:</p>
+<div class="language-python highlight"><span class="filename">worker: a deadlock example</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">sync</span><span class="o">.</span><span class="n">worker_task</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;🔥 this is fine 🔥&#39;</span><span class="p">)</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># deadlock 💀🔒</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">sync</span><span class="o">.</span><span class="n">main_task</span><span class="p">()</span>
+</span></code></pre></div>
+<p>On the main thread, let's instead assume this code:</p>
+<div class="language-html highlight"><span class="filename">main: a deadlock example</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">PyWorker</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="nx">def</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">main_task</span><span class="p">()</span><span class="o">:</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">deadlock</span><span class="w"> </span><span class="err">💀🔒</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">pw</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="nx">worker_task</span><span class="p">()</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="nx">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pyodide&quot;</span><span class="p">})</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="nx">pw</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="nx">main_task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">main_task</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>When the worker bootstraps and calls <code>sync.main_task()</code> on the main thread, it
+blocks until the result of this call is returned. Hence it cannot respond to
+anything at all. However, in the code on the main thread, the
+<code>sync.worker_task()</code> in the worker is called, but the worker is blocked! Now
+the code on both the main thread and worker are mutually blocked and waiting
+on each other. We are in a classic 
+<a href="https://en.wikipedia.org/wiki/Deadlock">deadlock</a> situation.</p>
+<p>The moral of the story? Don't create such circular deadlocks!</p>
+<p>How?</p>
+<p>The mutually blocking calls cause the deadlock, so simply don't block.</p>
+<p>For example, on the main thread, let's instead assume this code:</p>
+<div class="language-html highlight"><span class="filename">main: avoiding deadlocks</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nb">window</span><span class="p">,</span><span class="w"> </span><span class="nx">PyWorker</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">async</span><span class="w"> </span><span class="nx">def</span><span class="w"> </span><span class="nx">main_task</span><span class="p">()</span><span class="o">:</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">worker</span><span class="p">,</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">just</span><span class="w"> </span><span class="nx">schedule</span><span class="w"> </span><span class="nx">it</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">later</span><span class="w"> </span><span class="p">(</span><span class="kr">as</span><span class="w"> </span><span class="nx">resolved</span><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nb">window</span><span class="p">.</span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">pw</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="nx">worker_task</span><span class="p">())</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="nx">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PyWorker</span><span class="p">(</span><span class="s2">&quot;./worker.py&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pyodide&quot;</span><span class="p">})</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="nx">pw</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="nx">main_task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">main_task</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>By scheduling the call to the worker (rather than awaiting it), it's possible
+for the main thread to call functions defined in the worker in a non-blocking
+manner, thus allowing the worker to also work in an unblocked manner and react
+to such calls. We have resolved the mutual deadlock.</p>
+<h3 id="typeerror-cryptorandomuuid-is-not-a-function">TypeError: crypto.randomUUID is not a function</h3>
+<p>If PyScript fails to start and you look in the browser console, you may
+find the following error:</p>
+<div class="admonition failure">
+<p class="admonition-title">Failure</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>main.js:43 Uncaught TypeError: crypto.randomUUID is not a function
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    at main.js:43:26
+</span></code></pre></div>
+</div>
+<h4 id="when_5">When</h4>
+<p>This happens because PyScript uses the <code>crypto.randomUUID</code> function, and the
+web page isn't served correctly.</p>
+<h4 id="why_5">Why</h4>
+<p>This error is <em>created by the browser</em> because <code>crypto.randomUUID</code> requires a
+secure context or localhost to use the latest web standards that are part of
+PyScript's core (such as <code>crypto.randomUUID</code>).</p>
+<p>Put simply, your code should be served from a domain secured
+with TLS (i.e. the domain name starts with <code>https</code> - use a service like
+<a href="https://letsencrypt.org/">let's encrypt</a> to address this) or from <code>localhost</code>
+if developing and viewing your site on your development machine.</p>
+<p>This is something PyScript can't fix. Rather, it's how the web works and you
+should always ensure your code is served in a secure manner.</p>
+<h2 id="helpful-hints">Helpful hints</h2>
+<p>This section contains common hacks or hints to make using PyScript easier.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We have an absolutely lovely PyScript contributor called
+<a href="https://github.com/jeffersglass">Jeff Glass</a> who maintains an exceptional
+blog full of <a href="https://pyscript.recipes/">PyScript recipes</a> with even more
+use cases, hints, tips and solutions. Jeff also has a
+<a href="https://www.youtube.com/@CodingGlass">wonderful YouTube channel</a> full of
+very engaging PyScript related content.</p>
+<p>If you cannot find what you are looking for here, please check Jeff's blog
+as it's likely he's probably covered something close to the situation in
+which you find yourself.</p>
+<p>Of course, if ever you meet Jeff in person, please buy him a beer and
+remember to say a big "thank you". 🍻</p>
+</div>
+<h3 id="pyscript-latest">PyScript <code>latest</code></h3>
+<p>PyScript follows the <a href="https://calver.org/">CalVer</a> convention for version
+numbering.</p>
+<p>Put simply, it means each version is numbered according to when, in the
+calendar, it was released. For instance, version <code>2024.4.2</code> was the <em>second</em>
+release in the month of April in the year 2024 (<strong>not</strong> the release on the 2nd
+of April but the second release <strong>in</strong> April).</p>
+<p>It used to be possible to reference PyScript via a version called <code>latest</code>,
+which would guarantee you always got the latest release.</p>
+<p>However, at the end of 2023, we decided to <strong>stop supporting <code>latest</code> as a
+way to reference PyScript</strong>. We did this for two broad reasons:</p>
+<ol>
+<li>In the autumn of 2023, we release a completely updated version of PyScript
+   with some breaking changes. Folks who wrote for the old version, yet still
+   referenced <code>latest</code>, found their applications broke. We want to avoid this
+   at all costs.</li>
+<li>Our release cadence is more regular, with around two or three releases a
+   month. Having transitioned to the new version of PyScript, we aim to avoid
+   breaking changes. However, we are refining and adding features as we adapt
+   to our users' invaluable feedback.</li>
+</ol>
+<p>Therefore,
+<a href="https://github.com/pyscript/pyscript/releases">pinning your app's version of PyScript to a specific release</a>
+(rather than <code>latest</code>) ensures you get exactly the version of PyScript you
+used when writing your code.</p>
+<p>However, as we continue to develop PyScript it <em>is</em> possible to get our latest
+development version of PyScript via <code>npm</code> and we could (should there be enough
+interest) deliver our work-in-progress via a CDN's "canary" or "development"
+channel. <strong>We do not guarantee the stability of such versions of PyScript</strong>,
+so never use them in production, and our documentation may not reflect the
+development version.</p>
+<p>If you require the development version of PyScript, these are the URLs to use:</p>
+<div class="language-html highlight"><span class="filename">PyScript development. ⚠️⚠️⚠️ WARNING: HANDLE WITH CARE! ⚠️⚠️⚠️</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.css&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/@pyscript/core/dist/core.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong><em>Do not use shorter urls or other CDNs.</em></strong></p>
+<p>PyScript needs both the correct headers to use workers and to find its own
+assets at runtime. Other CDN links might result into a <strong>broken
+experience</strong>.</p>
+</div>
+<h3 id="workers-via-javascript">Workers via JavaScript</h3>
+<p>Sometimes you want to start a Pyodide or MicroPython web worker from
+JavaScript.</p>
+<p>Here's how:</p>
+<div class="language-html highlight"><span class="filename">Starting a PyScript worker from JavaScript.</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;module&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="c1">// use sourceMap for @pyscript/core or change to a CDN</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="k">import</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nx">PyWorker</span><span class="p">,</span><span class="w"> </span><span class="c1">// Pyodide Worker</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nx">MPWorker</span><span class="w">  </span><span class="c1">// MicroPython Worker</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@pyscript/core&#39;</span><span class="p">;</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">MPWorker</span><span class="p">(</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="c1">// Python code to execute</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="s1">&#39;./micro.py&#39;</span><span class="p">,</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="c1">// optional details or config with flags</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nx">config</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">sync_main_only</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">    </span><span class="c1">//          ^ just as example ^</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">  </span><span class="p">);</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">  </span><span class="c1">// &quot;heavy computation&quot;</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">worker</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="nx">doStuff</span><span class="p">();</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">  </span><span class="c1">// kill the worker when/if needed</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">  </span><span class="nx">worker</span><span class="p">.</span><span class="nx">terminate</span><span class="p">();</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-python highlight"><span class="filename">micro.py</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">sync</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">do_stuff</span><span class="p">():</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;heavy computation&quot;</span><span class="p">)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="c1"># Note: this reference is awaited in the JavaScript code.</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="n">sync</span><span class="o">.</span><span class="n">doStuff</span> <span class="o">=</span> <span class="n">do_stuff</span>
+</span></code></pre></div>
+<h3 id="javascript-classnew">JavaScript <code>Class.new()</code></h3>
+<p>When using Python to instantiate a class defined in JavaScript, one needs to
+use the class's <code>new()</code> method, rather than just using <code>Class()</code> (as in
+Python).</p>
+<p>Why?</p>
+<p>The reason is technical, related to JavaScript's history and its relatively
+poor introspection capabilities:</p>
+<ul>
+<li>In JavaScript, <code>typeof function () {}</code> and <code>typeof class {}</code> produce the
+  same outcome: <code>function</code>. This makes it <strong>very hard to disambiguate the
+  intent of the caller</strong> as both are valid, JavaScript used to use
+  <code>function</code> (rather than <code>class</code>) to instantiate objects, and the class you're
+  using may not use the modern, <code>class</code> based, idiom.</li>
+<li>In the FFI, the JavaScript proxy has traps to intercept the use of the
+  <code>apply</code> and <code>construct</code> methods used during instantiation. However, because
+  of the previous point, it's not possible to be sure that <code>apply</code> is meant to
+  <code>construct</code> an instance or call a function.</li>
+<li>Unlike Python, just invoking a <code>Class()</code> in JavaScript (without
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new">the <code>new</code> operator</a>)
+  throws an error.</li>
+<li>Using <code>new Class()</code> is invalid syntax in Python. So there is still a need to
+  somehow disambiguate the intent to call a function or instantiate a class.</li>
+<li>Making use of the capitalized-name-for-classes convention is brittle because
+  when JavaScript code is minified the class name can sometimes change.</li>
+<li>This leaves our convention of <code>Class.new()</code> to explicitly signal the intent
+  to instantiate a JavaScript class. While not ideal it is clear and
+  unambiguous.</li>
+</ul>
+<h3 id="pyscript-events">PyScript events</h3>
+<p>PyScript uses hooks during the lifecycle of the application to facilitate the
+<a href="../user-guide/plugins/">creation of plugins</a>.</p>
+<p>Beside hooks, PyScript also dispatches events at specific moments in the
+lifecycle of the app, so users can react to changes in state:</p>
+<h4 id="mpyready">m/py:ready</h4>
+<p>Both the <code>mpy:ready</code> and <code>py:ready</code> events are dispatched for every PyScript
+related element found on the page. This includes <code>&lt;script type="py"&gt;</code>,
+<code>&lt;py-script&gt;</code> or any MicroPython/<code>mpy</code> counterpart.</p>
+<p>The <code>m/py:ready</code> events dispatch <strong>immediately before</strong> the code is executed,
+but after the interpreter is bootstrapped.</p>
+<div class="language-html highlight"><span class="filename">A py:ready example.</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;py:ready&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">        </span><span class="c1">// show running for an instance</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">);</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">        </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;running&#39;</span><span class="p">;</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="cm">&lt;!-- show bootstrapping right away --&gt;</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;status&quot;</span><span class="p">&gt;</span>bootstrapping<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nb">document</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">done</span><span class="w"> </span><span class="nx">after</span><span class="w"> </span><span class="nx">running</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">    </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">    </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;done&quot;</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>A classic use case for this event is to recreate the "starting up"
+spinner that used to be displayed when PyScript bootstrapped. Just show the
+spinner first, then close it once <code>py:ready</code> is triggered!</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If using Pyodide on the main thread, the UI will block until Pyodide has
+finished bootstrapping. The "starting up" spinner won't work unless Pyodide
+is started on a worker instead.</p>
+</div>
+<h4 id="mpydone">m/py:done</h4>
+<p>The <code>mpy:done</code> and <code>py:done</code> events dispatch after the either the synchronous
+or asynchronous code has finished execution.</p>
+<div class="language-html highlight"><span class="filename">A py:done example.</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;py:ready&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">        </span><span class="c1">// show running for an instance</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">);</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">        </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;running&#39;</span><span class="p">;</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;py:done&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">        </span><span class="c1">// show done after logging &quot;Hello 👋&quot;</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">);</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">        </span><span class="nx">status</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;done&#39;</span><span class="p">;</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="cm">&lt;!-- show bootstrapping right away --&gt;</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;status&quot;</span><span class="p">&gt;</span>bootstrapping<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;Hello 👋&quot;</span><span class="p">)</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If <code>async</code> code contains an infinite loop or some orchestration that keeps
+it running forever, then these events may never trigger because the code
+never really finishes.</p>
+</div>
+<h4 id="pyall-done">py:all-done</h4>
+<p>The <code>py:all-done</code> event dispatches when all code is finished executing.</p>
+<p>This event is special because it depends upon all the MicroPython and Pyodide
+scripts found on the page, no matter the interpreter.</p>
+<p>In this example, MicroPython waves before Pyodide before the <code>"everything is
+done"</code> message is written to the browser's console. </p>
+<div class="language-html highlight"><span class="filename">A py:all-done example.</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;py:all-done&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;everything is done&quot;</span><span class="p">);</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;MicroPython 👋&quot;</span><span class="p">)</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;Pyodide 👋&quot;</span><span class="p">)</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h4 id="mpyprogress">m/py:progress</h4>
+<p>The <code>py:progress</code> or <code>mpy:progress</code> event triggers on the main thread <em>during</em>
+interpreter bootstrap (no matter if your code is running on main or in a
+worker).</p>
+<p>The received <code>event.detail</code> is a string that indicates operations between
+<code>Loading {what}</code> and <code>Loaded {what}</code>. So, the first event would be, for
+example, <code>Loading Pyodide</code> and the last one per each bootstrap would be
+<code>Loaded Pyodide</code>.</p>
+<p>In between all operations are <code>event.detail</code>s, such as:</p>
+<ul>
+<li><code>Loading files</code> and <code>Loaded files</code>, when <code>[files]</code> is found in the optional
+    config</li>
+<li><code>Loading fetch</code> and <code>Loaded fetch</code>, when <code>[fetch]</code> is found in the optional
+     config</li>
+<li><code>Loading JS modules</code> and <code>Loaded JS modules</code>, when <code>[js_modules.main]</code> or
+    <code>[js_modules.worker]</code> is found in the optional config</li>
+<li>finally, all optional packages handled via <em>micropip</em> or <em>mip</em> will also
+    trigger various <code>Loading ...</code> and <code>Loaded ...</code> events so that users can see
+    what is going on while PyScript is bootstrapping</li>
+</ul>
+<p>An example of this listener applied to a dialog can be <a href="https://agiammarchi.pyscriptapps.com/kmeans-in-panel-copy/v1/">found in here</a>.</p>
+<h3 id="packaging-pointers">Packaging pointers</h3>
+<p>Applications need third party packages and <a href="user-guide/configuration/#packages">PyScript can be configured to
+automatically install packages for you</a>.
+Yet <a href="#python-packages">packaging can be a complicated beast</a>, so here are some
+hints for a painless packaging experience with PyScript.</p>
+<p>There are essentially five ways in which a third party package can become
+available in PyScript.</p>
+<ol>
+<li>The module is already part of either the Pyodide or MicroPython
+   distribution. For instance, Pyodide includes numpy, pandas, scipy,
+   matplotlib and scikit-learn as pre-built packages you need only activate
+   via the <a href="../user-guide/configuration/#packages"><code>packages</code> setting</a> in
+   PyScript. There are plans for MicroPython to offer different builds for
+   PyScript, some to include MicroPython's version of numpy or the API for
+   sqlite.</li>
+<li>Host a standard Python package somewhere (such as
+   <a href="https://pyscript.com">PyScript.com</a> or in a GitHub repository) so it can
+   be fetched as a package via a URL at runtime.</li>
+<li>Reference hosted Python source files, to be included on the file
+   system, via the <a href="../user-guide/configuration/#files"><code>files</code> setting</a>.</li>
+<li>Create a folder containing the package's files and sub folders, and create
+   a hosted <code>.zip</code> or <code>.tgz</code>/<code>.tar.gz</code>/<code>.whl</code> archive to be decompressed into
+   the file system (again, via the
+   <a href="../user-guide/configuration/#files"><code>files</code> setting</a>).</li>
+<li>Provide your own <code>.whl</code> package and reference it via a URL in the
+   <code>packages = [...]</code> list.</li>
+</ol>
+<h4 id="host-a-package">Host a package</h4>
+<p>Just put the package you need somewhere it can be served (like
+<a href="https://pyscript.com/">PyScript.com</a>) and reference the URL in the
+<a href="../user-guide/configuration/#packages"><code>packages</code> setting</a>. So long as the
+server at which you are hosting the package
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">allows CORS</a>
+(fetching files from other domains) everything should just work.</p>
+<p>It is even possible to install such packages at runtime, as this example using
+MicroPython's <a href="https://docs.micropython.org/en/latest/reference/packages.html"><code>mip</code> tool</a>
+demonstrates (the equivalent can be achieved with Pyodide
+<a href="https://micropip.pyodide.org/en/stable/">via <code>micropip</code></a>).</p>
+<div class="language-python highlight"><span class="filename">MicroPython mip example.</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Install default version from micropython-lib</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">mip</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;keyword&quot;</span><span class="p">)</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Install from raw URL</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="n">mip</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/micropython/micropython-lib/master/python-stdlib/bisect/bisect.py&quot;</span><span class="p">)</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># Install from GitHub shortcut</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="n">mip</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="s2">&quot;github:jeffersglass/some-project/foo.py&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="provide-your-own-file">Provide your own file</h4>
+<p>One can use the <a href="../user-guide/configuration/#files"><code>files</code> setting</a> to copy
+packages onto the Python path:</p>
+<div class="language-html highlight"><span class="filename">A file copied into the Python path.</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">&lt;</span><span class="nt">mpy-config</span><span class="p">&gt;</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>[files]
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>&quot;./modules/bisect.py&quot; = &quot;./bisect.py&quot;
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="p">&lt;/</span><span class="nt">mpy-config</span><span class="p">&gt;</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span><span class="k">import</span><span class="w"> </span><span class="nx">bisect</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h4 id="code-archive-ziptgzwhl">Code archive (<code>zip</code>/<code>tgz</code>/<code>whl</code>)</h4>
+<p>Compress all the code you want into an archive (using either either <code>zip</code> or
+<code>tgz</code>/<code>tar.gz</code>). Host the resulting archive and use the
+<a href="../user-guide/configuration/#files"><code>files</code> setting</a> to decompress it onto
+the Python interpreter's file system.</p>
+<p>Consider the following file structure:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>my_module/__init__.py
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>my_module/util.py
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>my_module/sub/sub_util.py
+</span></code></pre></div>
+<p>Host it somewhere, and decompress it into the home directory of the Python
+interpreter:</p>
+<div class="language-html highlight"><span class="filename">A code archive.</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">&lt;</span><span class="nt">mpy-config</span><span class="p">&gt;</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>[files]
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>&quot;./my_module.zip&quot; = &quot;./*&quot;
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="p">&lt;/</span><span class="nt">mpy-config</span><span class="p">&gt;</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">  </span><span class="kr">from</span><span class="w"> </span><span class="nx">my_module</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">util</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">  </span><span class="kr">from</span><span class="w"> </span><span class="nx">my_module</span><span class="p">.</span><span class="nx">sub</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">sub_util</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>Please note, the target folder must end with a star (<code>*</code>), and will contain
+everything in the archive. For example, <code>"./*"</code> refers to the home folder for
+the interpreter.</p>
+<h3 id="file-system">File System</h3>
+<p>Python expects a file system. In PyScript each interpreter provides its own
+in-memory <strong>virtual</strong> file system. <strong>This is not the same as the filesystem
+on the user's device</strong>, but is simply a block of memory in the browser.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>The file system is not persistent nor shareable</strong> (yet).</p>
+<p>Every time a user loads or stores files, it is done in ephemeral memory
+associated with the current browser session. Beyond the life of the
+session, nothing is shared, nothing is stored, nothing persists!</p>
+</div>
+<h4 id="readwrite">Read/Write</h4>
+<p>The easiest way to add content to the virtual file system is by using native
+Python file operations:</p>
+<div class="language-python highlight"><span class="filename">Writing to a text file.</span><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dest</span><span class="p">:</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>    <span class="n">dest</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;hello vFS&quot;</span><span class="p">)</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>    <span class="n">dest</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="c1"># Read and print the written content.</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Combined with our <code>pyscript.fetch</code> utility, it's also possible to store more
+complex data from the web.</p>
+<div class="language-python highlight"><span class="filename">Writing a binary file.</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Assume async execution.</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch</span><span class="p">,</span> <span class="n">window</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="n">href</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">href</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./page.html&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dest</span><span class="p">:</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>    <span class="n">dest</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="n">href</span><span class="p">)</span><span class="o">.</span><span class="n">bytearray</span><span class="p">())</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="c1"># Read and print the current HTML page.</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./page.html&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></div>
+<h4 id="upload">Upload</h4>
+<p>It's possible to upload a file onto the virtual file system from the browser
+(<code>&lt;input type="file"&gt;</code>), and using the DOM API.</p>
+<p>The following fragment is just one way to achieve this. It's very simple and
+builds on the file system examples already seen.</p>
+<div class="language-html highlight"><span class="filename">Upload files onto the virtual file system via the browser.</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="cm">&lt;!-- Creates a file upload element on the web page. --&gt;</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;file&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="cm">&lt;!-- Python code to handle file uploads via the HTML input element. --&gt;</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nb">document</span><span class="p">,</span><span class="w"> </span><span class="nx">fetch</span><span class="p">,</span><span class="w"> </span><span class="nb">window</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="nx">def</span><span class="w"> </span><span class="nx">on_change</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span><span class="o">:</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="nx">For</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">selected</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">upload</span><span class="p">...</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">input</span><span class="p">.</span><span class="nx">files</span><span class="o">:</span>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">create</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">temporary</span><span class="w"> </span><span class="nx">URL</span><span class="p">,</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="w">            </span><span class="nx">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">createObjectURL</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">fetch</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">save</span><span class="w"> </span><span class="nx">its</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="nx">somewhere</span><span class="p">,</span>
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="w">            </span><span class="kd">with</span><span class="w"> </span><span class="nx">open</span><span class="p">(</span><span class="nx">f</span><span class="s2">&quot;./{file.name}&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;wb&quot;</span><span class="p">)</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">dest</span><span class="o">:</span>
+</span><span id="__span-26-15"><a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="w">                </span><span class="nx">dest</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">tmp</span><span class="p">).</span><span class="nx">bytearray</span><span class="p">())</span>
+</span><span id="__span-26-16"><a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">then</span><span class="w"> </span><span class="nx">revoke</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">tmp</span><span class="w"> </span><span class="nx">URL</span><span class="p">.</span>
+</span><span id="__span-26-17"><a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="w">            </span><span class="nb">window</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">revokeObjectURL</span><span class="p">(</span><span class="nx">tmp</span><span class="p">)</span>
+</span><span id="__span-26-18"><a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>
+</span><span id="__span-26-19"><a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">Grab</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">reference</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="nx">upload</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">add</span>
+</span><span id="__span-26-20"><a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">on_change</span><span class="w"> </span><span class="nx">handler</span><span class="w"> </span><span class="p">(</span><span class="nx">defined</span><span class="w"> </span><span class="nx">above</span><span class="p">)</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">process</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">files</span><span class="p">.</span>
+</span><span id="__span-26-21"><a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="w">    </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;input[type=file]&quot;</span><span class="p">)</span>
+</span><span id="__span-26-22"><a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a><span class="w">    </span><span class="nx">input</span><span class="p">.</span><span class="nx">onchange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">on_change</span>
+</span><span id="__span-26-23"><a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h4 id="download">Download</h4>
+<p>It is also possible to create a temporary link through which you can download
+files present on the interpreter's virtual file system.</p>
+<div class="language-python highlight"><span class="filename">Download file from the virtual file system.</span><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">document</span><span class="p">,</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">):</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>    <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>        <span class="c1"># Populate the buffer.</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>        <span class="n">buffer</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">Uint8Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>        <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>            <span class="n">buffer</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+</span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>        <span class="n">details</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">to_js</span><span class="p">({</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">mime_type</span><span class="p">})</span>
+</span><span id="__span-27-15"><a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>
+</span><span id="__span-27-16"><a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a>        <span class="c1"># This is JS specific</span>
+</span><span id="__span-27-17"><a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a>        <span class="n">file</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">new</span><span class="p">([</span><span class="n">buffer</span><span class="p">],</span> <span class="n">name</span><span class="p">,</span> <span class="n">details</span><span class="p">)</span>
+</span><span id="__span-27-18"><a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a>        <span class="n">tmp</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">URL</span><span class="o">.</span><span class="n">createObjectURL</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span id="__span-27-19"><a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a>        <span class="n">dest</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</span><span id="__span-27-20"><a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a>        <span class="n">dest</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;download&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</span><span id="__span-27-21"><a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a>        <span class="n">dest</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+</span><span id="__span-27-22"><a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a>        <span class="n">dest</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</span><span id="__span-27-23"><a id="__codelineno-27-23" name="__codelineno-27-23" href="#__codelineno-27-23"></a>
+</span><span id="__span-27-24"><a id="__codelineno-27-24" name="__codelineno-27-24" href="#__codelineno-27-24"></a>        <span class="c1"># here a timeout to window.URL.revokeObjectURL(tmp)</span>
+</span><span id="__span-27-25"><a id="__codelineno-27-25" name="__codelineno-27-25" href="#__codelineno-27-25"></a>        <span class="c1"># should keep the memory clear for the session</span>
+</span></code></pre></div>
+<h3 id="create_proxy">create_proxy</h3>
+<p>The <code>create_proxy</code> function is described in great detail
+<a href="../user-guide/ffi/">on the FFI page</a>, but it's also useful to explain <em>when</em>
+<code>create_proxy</code> is needed and the subtle differences between Pyodide and
+MicroPython.</p>
+<h4 id="background">Background</h4>
+<p>To call a Python function from JavaScript, the native Python function needs
+to be wrapped in a JavaScript object that JavaScript can use. This JavaScript
+object converts and normalises arguments passed into the function before
+handing off to the native Python function. It also reverses this process with
+any results from the Python function, and so converts and normalises values
+before returning the result to JavaScript.</p>
+<p>The JavaScript primitive used for this purpose is the
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy</a>.
+It enables "traps", such as
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/apply">apply</a>,
+so the extra work required to call the Python function can happen.</p>
+<p>Once the <code>apply(target, self, args)</code> trap is invoked:</p>
+<ul>
+<li>JavaScript must find the correct Python interpreter to evaluate the code.</li>
+<li>In JavaScript, the <code>self</code> argument for <code>apply</code> is probably ignored for most
+  common cases.</li>
+<li>All the <code>args</code> must be resolved and converted into their Python primitive
+  representations or associated Python objects.</li>
+</ul>
+<p>Ultimately, the targets referenced in the <code>apply</code> <strong>must exist</strong> in the Python
+context so they are ready when the JavaScript <code>apply</code> method calls into the
+Python context.</p>
+<p><strong>Here's the important caveat</strong>: locally scoped Python functions, or functions
+created at run time cannot be retained forever.</p>
+<div class="language-python highlight"><span class="filename">A basic Python to JavaScript callback.</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">js</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="n">js</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>  <span class="s2">&quot;custom:event&quot;</span><span class="p">,</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>  <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>In this example, the anonymous <code>lambda</code> function has no reference in the Python
+context. It's just delegated to the JavaScript runtime via <code>addEventListener</code>,
+and then Python immediately garbage collects it. However, as previously
+mentioned, such a Python object must exist for when the <code>custom:event</code> is
+dispatched.</p>
+<p>Furthermore, there is no way to define how long the <code>lambda</code> should be kept
+alive in the Python environment, nor any way to discover if the <code>custom:event</code>
+callback will ever dispatch (so the <code>lambda</code> is forever pending). PyScript, the
+browser and the Python interpreters can only work within a finite amount of
+memory, so memory management and the "aliveness" of objects is important.</p>
+<p>Therefore, <code>create_proxy</code> is provided to delegate responsibility for the
+lifecycle of an object to the author of the code. In other words, wrapping the
+<code>lambda</code> in a call to <code>create_proxy</code> would ensure the Python interpreter
+retains a reference to the anonymous function for future use.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This probably feels strange! An implementation detail of how the Python
+and JavaScript worlds interact with each other is bleeding into your code
+via <code>create_proxy</code>. Surely, if we always just need to create a proxy, a
+more elegant solution would be to do this automatically?</p>
+<p>As you'll see, this is a complicated situation with inevitable tradeoffs,
+but ultimately, through the
+<a href="../user-guide/configuration/#experimental_create_proxy"><code>experimental_create_proxy = "auto"</code> flag</a>,
+you probably never need to use <code>create_proxy</code>. This section of
+our docs gives you the context you need to make an informed decision.</p>
+</div>
+<p><strong>However</strong>, this isn't the end of the story.</p>
+<p>When a Python callback is attached to a specific JavaScript
+instance (rather than passed as argument into an event listener), it is easy
+for the Python interpreter to know when the function could be freed from the
+memory.</p>
+<div class="language-python highlight"><span class="filename">A sticky lambda.</span><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">document</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="c1"># logs &quot;click&quot; if nothing else stopped propagation</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="n">document</span><span class="o">.</span><span class="n">onclick</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span></code></pre></div>
+<p>"<strong>Wait, wat? This doesn't make sense at all!?!?</strong>", is a valid
+question/response to this situation.</p>
+<p>In this case there's
+no need to use <code>create_proxy</code> because the JavaScript reference to which the
+function is attached isn't going away and the interpreter can use the
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry"><code>FinalizationRegistry</code></a>
+to destroy the <code>lambda</code> (or decrease its reference count) when the underlying
+JavaScript reference to which it is attached is itself destroyed.</p>
+<h4 id="in-pyodide">In Pyodide</h4>
+<p>The <code>create_proxy</code> utility was created
+(<a href="https://pyodide.org/en/stable/usage/api/python-api/ffi.html#module-pyodide.ffi.wrappers">among others</a>)
+to smooth out and circumvent the afore mentioned memory issues when using
+Python callables with JavaScript event handlers.</p>
+<p>Using it requires special care. The coder must invoke the <code>destroy()</code> method
+when the Python callback is no longer needed. It means coders must track the
+callback's lifecycle. But this is not always possible:</p>
+<ul>
+<li>If the callback is passed into opaque third party libraries, the reference is
+  "lost in a limbo" where who-knows-when the reference should be freed.</li>
+<li>If the callback is passed to listeners, timers or promises it's hard to
+  predict when the callback is no longer needed.</li>
+</ul>
+<p>Luckily the <code>Promise</code> use case is automatically handled by Pyodide, but we're
+still left with the other cases:</p>
+<div class="language-python highlight"><span class="filename">Different Pyodide create_proxy contexts.</span><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">ffi</span><span class="p">,</span> <span class="n">window</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="c1"># The create_proxy is needed when a Python</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># function isn&#39;t attached to an object reference</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="c1"># (but is, rather, an argument passed into</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="c1"># the JavaScript context).</span>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="c1"># This is needed so a proxy is created for</span>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="c1"># future use, even if `print` won&#39;t ever need</span>
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="c1"># to be freed from the Python runtime.</span>
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span>
+</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">create_proxy</span><span class="p">(</span><span class="nb">print</span><span class="p">),</span>
+</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a>  <span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a>  <span class="s2">&quot;print&quot;</span>
+</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="p">)</span>
+</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a>
+</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a><span class="c1"># This is needed because the lambda is</span>
+</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a><span class="c1"># immediately garbage collected.</span>
+</span><span id="__span-30-19"><a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span>
+</span><span id="__span-30-20"><a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">create_proxy</span><span class="p">(</span>
+</span><span id="__span-30-21"><a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a>    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="__span-30-22"><a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a>  <span class="p">),</span>
+</span><span id="__span-30-23"><a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a>  <span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-30-24"><a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a>  <span class="s2">&quot;lambda&quot;</span>
+</span><span id="__span-30-25"><a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a><span class="p">)</span>
+</span><span id="__span-30-26"><a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a>
+</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a><span class="k">def</span><span class="w"> </span><span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-30-28"><a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span><span id="__span-30-29"><a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a>
+</span><span id="__span-30-30"><a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a><span class="c1"># This is needed even if `print_type`</span>
+</span><span id="__span-30-31"><a id="__codelineno-30-31" name="__codelineno-30-31" href="#__codelineno-30-31"></a><span class="c1"># is not a scoped / local function.</span>
+</span><span id="__span-30-32"><a id="__codelineno-30-32" name="__codelineno-30-32" href="#__codelineno-30-32"></a><span class="n">window</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
+</span><span id="__span-30-33"><a id="__codelineno-30-33" name="__codelineno-30-33" href="#__codelineno-30-33"></a>  <span class="s2">&quot;some:event&quot;</span><span class="p">,</span>
+</span><span id="__span-30-34"><a id="__codelineno-30-34" name="__codelineno-30-34" href="#__codelineno-30-34"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">create_proxy</span><span class="p">(</span><span class="n">print_type</span><span class="p">),</span>
+</span><span id="__span-30-35"><a id="__codelineno-30-35" name="__codelineno-30-35" href="#__codelineno-30-35"></a>  <span class="c1"># despite this intent, the proxy</span>
+</span><span id="__span-30-36"><a id="__codelineno-30-36" name="__codelineno-30-36" href="#__codelineno-30-36"></a>  <span class="c1"># will be trapped forever if not destroyed</span>
+</span><span id="__span-30-37"><a id="__codelineno-30-37" name="__codelineno-30-37" href="#__codelineno-30-37"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">to_js</span><span class="p">({</span><span class="s2">&quot;once&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</span><span id="__span-30-38"><a id="__codelineno-30-38" name="__codelineno-30-38" href="#__codelineno-30-38"></a><span class="p">)</span>
+</span><span id="__span-30-39"><a id="__codelineno-30-39" name="__codelineno-30-39" href="#__codelineno-30-39"></a>
+</span><span id="__span-30-40"><a id="__codelineno-30-40" name="__codelineno-30-40" href="#__codelineno-30-40"></a><span class="c1"># This does NOT need create_function as it is</span>
+</span><span id="__span-30-41"><a id="__codelineno-30-41" name="__codelineno-30-41" href="#__codelineno-30-41"></a><span class="c1"># attached to an object reference, hence observed to free.</span>
+</span><span id="__span-30-42"><a id="__codelineno-30-42" name="__codelineno-30-42" href="#__codelineno-30-42"></a><span class="n">window</span><span class="o">.</span><span class="n">Object</span><span class="p">()</span><span class="o">.</span><span class="n">no_create_function</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>To simplify this complicated situation PyScript has an
+<code>experimental_create_proxy = "auto"</code> flag. When set, <strong>PyScript intercepts
+JavaScript callback invocations, such as those in the example code above, and
+automatically proxies and destroys any references that are garbage collected
+in the JavaScript environment</strong>.</p>
+<p><strong>When this flag is set to <code>auto</code> in your configuration, you should never need
+to use <code>create_proxy</code> with Pyodide</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When it comes code running on a web worker, due to the way browser work, no
+Proxy can survive a round trip to the main thread and back.</p>
+<p>In this scenario PyScript works differently and references callbacks
+via a unique id, rather than by their identity on the worker. When running
+on a web worker, PyScript automatically frees proxy object references, so
+you never need to use <code>create_proxy</code> when running code on a web worker.</p>
+</div>
+<h4 id="in-micropython">In MicroPython</h4>
+<p>The proxy situation is definitely simpler in MicroPython. It just creates
+proxies automatically (so there is no need for a manual <code>create_proxy</code> step).</p>
+<p>This is because MicroPython doesn't (yet) have a <code>destroy()</code> method for
+proxies, rendering the use case of <code>create_proxy</code> redundant.</p>
+<p>Accordingly, <strong>the use of <code>create_proxy</code> in MicroPython is only needed for
+code portability purposes</strong> between Pyodide and MicroPython. When using
+<code>create_proxy</code> in MicroPython, it's just a pass-through function and doesn't
+actually do anything.</p>
+<p>All the examples that require <code>create_proxy</code> in Pyodide, don't need it in
+MicroPython:</p>
+<div class="language-python highlight"><span class="filename">Different MicroPython create_proxy contexts.</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="c1"># This just works.</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;print&quot;</span><span class="p">)</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># This also just works.</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="n">window</span><span class="o">.</span><span class="n">setTimeout</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">)</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">print_type</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+</span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>
+</span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="c1"># This just works too.</span>
+</span><span id="__span-31-13"><a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="n">window</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span>
+</span><span id="__span-31-14"><a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a>  <span class="s2">&quot;some:event&quot;</span><span class="p">,</span>
+</span><span id="__span-31-15"><a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a>  <span class="n">print_type</span><span class="p">,</span>
+</span><span id="__span-31-16"><a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a>  <span class="n">ffi</span><span class="o">.</span><span class="n">to_js</span><span class="p">({</span><span class="s2">&quot;once&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</span><span id="__span-31-17"><a id="__codelineno-31-17" name="__codelineno-31-17" href="#__codelineno-31-17"></a><span class="p">)</span>
+</span><span id="__span-31-18"><a id="__codelineno-31-18" name="__codelineno-31-18" href="#__codelineno-31-18"></a>
+</span><span id="__span-31-19"><a id="__codelineno-31-19" name="__codelineno-31-19" href="#__codelineno-31-19"></a><span class="c1"># And so does this.</span>
+</span><span id="__span-31-20"><a id="__codelineno-31-20" name="__codelineno-31-20" href="#__codelineno-31-20"></a><span class="n">window</span><span class="o">.</span><span class="n">Object</span><span class="p">()</span><span class="o">.</span><span class="n">no_create_function</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ok&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="to_js">to_js</h3>
+<p>Use of the <code>pyodide.ffi.to_js</code> function is described
+<a href="../user-guide/ffi/#to_js">in the ffi page</a>.
+But it's also useful to cover the <em>when</em> and <em>why</em> <code>to_js</code> is needed, if at
+all.</p>
+<h4 id="background_1">Background</h4>
+<p>Despite their apparent similarity,
+<a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">Python dictionaries</a>
+and
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects">JavaScript object literals</a>
+are very different primitives:</p>
+<div class="language-python highlight"><span class="filename">A Python dictionary.</span><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="n">ref</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;some&quot;</span><span class="p">:</span> <span class="s2">&quot;thing&quot;</span><span class="p">}</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Keys don&#39;t need quoting, but only when initialising a dict...</span>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="n">ref</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">some</span><span class="o">=</span><span class="s2">&quot;thing&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-js highlight"><span class="filename">A JavaScript object literal.</span><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;some&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;thing&quot;</span><span class="p">};</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="c1">// Keys don&#39;t need quoting, so this is as equally valid...</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">some</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;thing&quot;</span><span class="p">};</span>
+</span></code></pre></div>
+<p>In both worlds, accessing <code>ref["some"]</code> would produce the same result: the
+string <code>"thing"</code>.</p>
+<p>However, in JavaScript <code>ref.some</code> (i.e. a dotted reference to the key) would
+also work to return the string <code>"thing"</code> (this is not the case in Python),
+while in Python <code>ref.get("some")</code> achieves the same result (and this is not the
+case in JavaScript).</p>
+<p>Perhaps because of this, Pyodide chose to convert Python dictionaries to
+JavaScript
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>
+objects that share a
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get"><code>.get</code> method</a>
+with Python.</p>
+<p>Unfortunately, in idiomatic JavaScript and for the vast majority of APIs, 
+an object literal (rather than a <code>Map</code>) is used to represent key/value pairs.
+Feedback from our users indicates the dissonance of using a <code>Map</code> rather than
+the expected object literal to represent a Python <code>dict</code> is the source of a
+huge amount of frustration. Sadly, the APIs for <code>Map</code> and object literals
+are sufficiently different that one cannot be a drop in replacement for
+another.</p>
+<p>Pyodide have provided a way to override the default <code>Map</code> based behaviour, but
+this results some rather esoteric code:</p>
+<div class="language-python highlight"><span class="filename">Convert a dict to an object literal in Pyodide.</span><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">js</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyodide.ffi</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_js</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="n">js</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>    <span class="n">to_js</span><span class="p">(</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>        <span class="p">{</span><span class="s2">&quot;async&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>        <span class="c1"># Transform the default Map into an object literal.</span>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>        <span class="n">dict_converter</span><span class="o">=</span><span class="n">js</span><span class="o">.</span><span class="n">Object</span><span class="o">.</span><span class="n">fromEntries</span>
+</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>    <span class="p">)</span>
+</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Thanks to a
+<a href="https://github.com/pyodide/pyodide/pull/4576">recent change in Pyodide</a>,
+such <code>Map</code> instances are
+<a href="https://en.wikipedia.org/wiki/Duck_typing">duck-typed</a> to behave like
+object literals. Conversion may not be needed anymore, and <code>to_js</code> may just
+work without the need of the <code>dict_converter</code>. Please check.</p>
+</div>
+<p>MicroPython's version of <code>to_js</code> takes the opposite approach (for
+many of the reasons stated above) and converts Python dictionaries to object
+literals instead of <code>Map</code> objects.</p>
+<p>As a result, <strong>the PyScript <code>pyscript.ffi.to_js</code> ALWAYS returns a JavaScript
+object literal by default when converting a Python dictionary</strong> no matter if
+you're using Pyodide or MicroPython as your interpreter. Furthermore, when
+using MicroPython, because things are closer to idiomatic JavaScript behaviour,
+you may not even need to use <code>to_js</code> unless you want to ensure
+cross-interpreter compatibility.</p>
+<h4 id="caveat">Caveat</h4>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>When using <code>pyscript.to_js</code>, the result is detached from the original
+Python dictionary.</strong></p>
+</div>
+<p>Any change to the JavaScript object <strong>will not be reflected in the original
+Python object</strong>. For the vast majority of use cases, this is a desirable
+trade-off. But it's important to note this detachment.</p>
+<p>If you're simply passing data around, <code>pyscript.ffi.to_js</code> will fulfil your
+requirements in a simple and idiomatic manner.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
