@@ -131,7 +131,7 @@ The following JSON and TOML are equivalent:
 {
   "files": {
     "https://example.com/data.csv": "./data.csv",
-    "/code.py": "./subdir/code.py"
+    "./code.py": "./subdir/code.py"
   }
 }
 ```
@@ -139,7 +139,7 @@ The following JSON and TOML are equivalent:
 ```toml title="Fetch files onto the filesystem with TOML."
 [files]
 "https://example.com/data.csv" = "./data.csv"
-"/code.py" = "./subdir/code.py"
+"./code.py" = "./subdir/code.py"
 ```
 
 If you make the target an empty string, the final "filename" part of the source
@@ -151,7 +151,7 @@ examples could be equivalently re-written as:
 {
   "files": {
     "https://example.com/data.csv": "",
-    ... etc ...
+    "./code.py": ""
   }
 }
 ```
@@ -159,7 +159,7 @@ examples could be equivalently re-written as:
 ```toml title="TOML implied filename in the root directory."
 [files]
 "https://example.com/data.csv" = ""
-... etc ...
+"./code.py" = ""
 ```
 
 If the source part of the configuration is either a `.zip` or `.tar.gz` file
