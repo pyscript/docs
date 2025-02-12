@@ -1067,13 +1067,13 @@ destination filesystem path.</p>
 <div class="language-json highlight"><span class="filename">Fetch files onto the filesystem with JSON.</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">&quot;https://example.com/data.csv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./data.csv&quot;</span><span class="p">,</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">&quot;/code.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./subdir/code.py&quot;</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">&quot;./code.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;./subdir/code.py&quot;</span>
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <div class="language-toml highlight"><span class="filename">Fetch files onto the filesystem with TOML.</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">[files]</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="s2">&quot;https://example.com/data.csv&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./data.csv&quot;</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="s2">&quot;/code.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./subdir/code.py&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="s2">&quot;./code.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;./subdir/code.py&quot;</span>
 </span></code></pre></div>
 <p>If you make the target an empty string, the final "filename" part of the source
 URL becomes the destination filename, in the root of the filesystem, to which
@@ -1082,13 +1082,13 @@ examples could be equivalently re-written as:</p>
 <div class="language-json highlight"><span class="filename">JSON implied filename in the root directory.</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">&quot;https://example.com/data.csv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="err">...</span><span class="w"> </span><span class="err">e</span><span class="kc">t</span><span class="err">c</span><span class="w"> </span><span class="err">...</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">&quot;./code.py&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <div class="language-toml highlight"><span class="filename">TOML implied filename in the root directory.</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">[files]</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="s2">&quot;https://example.com/data.csv&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">...</span><span class="w"> </span><span class="n">etc</span><span class="w"> </span><span class="p">...</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="s2">&quot;./code.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 </span></code></pre></div>
 <p>If the source part of the configuration is either a <code>.zip</code> or <code>.tar.gz</code> file
 and its destination is a folder path followed by a star (e.g. <code>/*</code> or
