@@ -1767,16 +1767,16 @@ from <code>pyscript.Storage</code>, then pass in your class to <code>pyscript.st
 </span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1"># The store object is now an instance of MyStorage.</span>
 </span></code></pre></div>
 <h3 id="pyscriptcoredonkey"><code>@pyscript/core/donkey</code></h3>
-<p>Sometimes you need a Python worker ready and waiting to evaluate any code on
-your behalf. This is the concept behind the JavaScript "donkey". We couldn't
-think of a better way than "donkey" to describe something that is easy to
-understand and shoulders the burden without complaint. This feature
+<p>Sometimes you need an asynchronous Python worker ready and waiting to evaluate
+any code on your behalf. This is the concept behind the JavaScript "donkey". We
+couldn't think of a better way than "donkey" to describe something that is easy
+to understand and shoulders the burden without complaint. This feature
 means you're able to use PyScript without resorting to specialised
 <code>&lt;script type="py"&gt;</code> style tags. It's just vanilla JavaScript.</p>
 <p>Simply <code>import { donkey } from '@pyscript/core/dist/core.js'</code> and automatically
 have both a <em>pyscript</em> module running on your page and a utility to bootstrap a
-terminal based worker to evaluate any Python code as and when needed in the
-future.</p>
+terminal based worker to asynchronously evaluate any Python code as and when
+needed in the future.</p>
 <div class="language-js highlight"><span class="filename">A donkey worker</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">donkey</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@pyscript/core/dist/core.js&#39;</span><span class="p">;</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span>
@@ -1786,7 +1786,7 @@ future.</p>
 </span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nx">clear</span><span class="p">,</span><span class="w">                </span><span class="c1">// clear() the terminal</span>
 </span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nx">reset</span><span class="p">,</span><span class="w">                </span><span class="c1">// reset() the terminal (including colors)</span>
 </span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span><span class="nx">kill</span><span class="p">,</span><span class="w">                 </span><span class="c1">// kill() the worker forever</span>
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">donkey</span><span class="p">({</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">donkey</span><span class="p">({</span>
 </span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;py&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;mpy&#39;</span><span class="p">,</span><span class="w">  </span><span class="c1">// the Python interpreter to run</span>
 </span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">  </span><span class="nx">persistent</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">    </span><span class="c1">// use `true` to track globals and locals</span>
 </span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">  </span><span class="nx">terminal</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w">         </span><span class="c1">// optionally set a target terminal container</span>
