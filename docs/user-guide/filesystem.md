@@ -29,7 +29,8 @@ PyScript interacts with two filesystems.
 !!! danger 
 
     Access to the device's local filesystem **is only available in Chromium
-    based browsers**.
+    based browsers**. The maximum capacity for files shared in this way is
+    4GB, and **if this size is exceeded may result in lost data**.
 
     Firefox and Safari do not support this capability (yet), and so it is not
     available to PyScript running in these browsers.
