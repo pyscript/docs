@@ -403,9 +403,9 @@ await fs.sync("/local")
 
 #### `pyscript.fs.unmount`
 
-Asynchronously unmount the named `path` from the browser's virtual filesystem.
-This will free up memory and allow you to re-use the path to mount a different
-directory.
+Asynchronously unmount the named `path` from the browser's virtual filesystem
+after ensuring content is synchronized. This will free up memory and allow you
+to re-use the path to mount a different directory.
 
 ```python title="Unmount from the virtual filesystem."
 await fs.unmount("/local")
