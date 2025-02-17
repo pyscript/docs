@@ -572,6 +572,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#resize-the-terminal" class="md-nav__link">
+    Resize the terminal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#terminal-colors" class="md-nav__link">
     Terminal colors
   </a>
@@ -849,6 +856,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#resize-the-terminal" class="md-nav__link">
+    Resize the terminal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#terminal-colors" class="md-nav__link">
     Terminal colors
   </a>
@@ -968,31 +982,37 @@ very same <code>script.terminal</code>:</p>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">only</span><span class="w"> </span><span class="s2">&quot;after&quot;</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">terminal</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
+<h3 id="resize-the-terminal">Resize the terminal</h3>
+<p>The terminal takes up a fair amount of room onscreen. It can be resized to use less.
+Here it is 10 lines high.
+<div class="language-python highlight"><span class="filename">Resizing the terminal in python</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">if</span> <span class="s1">&#39;__terminal__&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>  <span class="c1"># has a terminal been created</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">__terminal__</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># (width, height)</span>
+</span></code></pre></div></p>
 <h3 id="terminal-colors">Terminal colors</h3>
 <p>Colors and most special characters work so you can make the text <strong>bold</strong> or
 turn it <span style="color: green">green</span>. You could even use a control
 character to <code>print('\033[2J')</code> and clear the terminal, instead of using the
 exposed <code>clear()</code> method:</p>
-<div class="language-html highlight"><span class="filename">Terminal colors</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">terminal</span> <span class="na">worker</span><span class="p">&gt;</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;This is \033[1mbold\033[0m&quot;</span><span class="p">)</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;This is \033[32mgreen\033[0m&quot;</span><span class="p">)</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;This is \033[1m\033[35mbold and purple\033[0m&quot;</span><span class="p">)</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<div class="language-html highlight"><span class="filename">Terminal colors</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">terminal</span> <span class="na">worker</span><span class="p">&gt;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;This is \033[1mbold\033[0m&quot;</span><span class="p">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;This is \033[32mgreen\033[0m&quot;</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;This is \033[1m\033[35mbold and purple\033[0m&quot;</span><span class="p">)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
 <h3 id="terminal-addons">Terminal addons</h3>
 <p>It's possible <a href="https://xtermjs.org/docs/guides/using-addons/">use XTerm.js addons</a>:</p>
-<div class="language-html highlight"><span class="filename">Terminal addons</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">py-config</span><span class="p">&gt;</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    [js_modules.main]
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    &quot;https://cdn.jsdelivr.net/npm/@xterm/addon-web-links/+esm&quot; = &quot;weblinks&quot;
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">&lt;/</span><span class="nt">py-config</span><span class="p">&gt;</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">terminal</span><span class="p">&gt;</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">js_modules</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nx">addon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">js_modules</span><span class="p">.</span><span class="nx">weblinks</span><span class="p">.</span><span class="nx">WebLinksAddon</span><span class="p">.</span><span class="ow">new</span><span class="p">()</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="nx">__terminal__</span><span class="p">.</span><span class="nx">loadAddon</span><span class="p">(</span><span class="nx">addon</span><span class="p">)</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;Check out https://pyscript.net/&quot;</span><span class="p">)</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<div class="language-html highlight"><span class="filename">Terminal addons</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">py-config</span><span class="p">&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    [js_modules.main]
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    &quot;https://cdn.jsdelivr.net/npm/@xterm/addon-web-links/+esm&quot; = &quot;weblinks&quot;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">&lt;/</span><span class="nt">py-config</span><span class="p">&gt;</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">terminal</span><span class="p">&gt;</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="kr">from</span><span class="w"> </span><span class="nx">pyscript</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">js_modules</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nx">addon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">js_modules</span><span class="p">.</span><span class="nx">weblinks</span><span class="p">.</span><span class="nx">WebLinksAddon</span><span class="p">.</span><span class="ow">new</span><span class="p">()</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nx">__terminal__</span><span class="p">.</span><span class="nx">loadAddon</span><span class="p">(</span><span class="nx">addon</span><span class="p">)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nx">print</span><span class="p">(</span><span class="s2">&quot;Check out https://pyscript.net/&quot;</span><span class="p">)</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
 <p>By default we enable the <code>WebLinksAddon</code> addon (so URLs displayed in the
 terminal automatically become links). Behind the scenes is the example code
