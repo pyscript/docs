@@ -3,7 +3,7 @@
 As you know, the filesystem is where you store files. For Python to work there
 needs to be a filesystem in which Python packages, modules and data for your
 apps can be found. When you `import` a library, or when you `open` a file, it
-is on the filesystem that Python looks.
+is on the in-browser virtual filesystem that Python looks.
 
 However, things are not as they may seem.
 
@@ -31,7 +31,7 @@ PyScript interacts with two filesystems.
     Access to the device's local filesystem **is only available in Chromium
     based browsers**.
 
-    Firefox and Safari do not support this capability, and so it is not
+    Firefox and Safari do not support this capability (yet), and so it is not
     available to PyScript running in these browsers.
 
 ## The in-browser filesystem

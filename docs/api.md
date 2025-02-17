@@ -345,9 +345,10 @@ information.
 #### `pyscript.fs.mount`
 
 Mount a directory on the user's local filesystem into the browser's virtual
-filesystem. If no previous transient user activation has taken place, this
-function will result in a minimalist dialog to provide the
-[transient user activation](https://developer.mozilla.org/en-US/docs/Glossary/Transient_activation).
+filesystem. If no previous
+[transient user activation](https://developer.mozilla.org/en-US/docs/Glossary/Transient_activation)
+has taken place, this function will result in a minimalist dialog to provide
+the required transient user activation.
 
 This asynchronous function takes four arguments:
 
@@ -356,7 +357,9 @@ This asynchronous function takes four arguments:
 * `mode` (default: `"readwrite"`) - indicates how the code may interact with
   the mounted filesystem. May also be just `"read"` for read-only access.
 * `id` (default: `"pyscript"`) - indicate a unique name for the handler
-  associated with a directory on the user's local filesystem.
+  associated with a directory on the user's local filesystem. This allows users
+  to select different folders and mount them at the same path in the
+  virtual filesystem.
 * `root` (default: `""`) - a hint to the browser for where to start picking the
   path that should be mounted in Python. Valid values are: `desktop`,
   `documents`, `downloads`, `music`, `pictures` or `videos` as per
@@ -368,6 +371,23 @@ from pyscript import fs
 
 # May ask for permission from the user, and select the local target.
 await fs.mount("/local")
+```
+
+If the call to `fs.mount` happens after a click or other transient event, the
+confirmation dialog will not be shown.
+
+```python title="Mounting without a transient event dialog."
+from pyscript import fs
+
+
+async def handler(event):
+    """
+    The click event that calls this handler is already a transient event.
+    """
+    await fs.mount("/local")
+
+
+my_button.onclick = handler
 ```
 
 #### `pyscript.fs.sync`
@@ -384,8 +404,8 @@ await fs.sync("/local")
 #### `pyscript.fs.unmount`
 
 Asynchronously unmount the named `path` from the browser's virtual filesystem.
-This will free up memory. A call to [`fs.sync`](#pyscriptfssync) is
-automatically made before unmounting.
+This will free up memory and allow you to re-use the path to mount a different
+directory.
 
 ```python title="Unmount from the virtual filesystem."
 await fs.unmount("/local")
