@@ -121,9 +121,11 @@ version of Pyodide as specified in the previous examples:
 
 ### Files
 
-The `files` option fetches arbitrary content from URLs onto the filesystem
-available to Python, and emulated by the browser. Just map a valid URL to a
-destination filesystem path.
+The `files` option fetches arbitrary content from URLs onto the virtual
+filesystem available to Python, and emulated by the browser. Just map a valid
+URL to a destination filesystem path on the in-browser virtual filesystem. You
+can find out more in the section about
+[PyScript and filesystems](../filesystem/).
 
 The following JSON and TOML are equivalent:
 

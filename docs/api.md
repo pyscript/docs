@@ -331,6 +331,66 @@ is explicitly specified and the runtime is Pyodide.
 
 The technical details of how this works are [described here](../user-guide/ffi#to_js).
 
+### `pyscript.fs`
+
+!!! danger
+
+    This API only works in Chromium based browsers.
+
+An API for mounting the user's local filesystem to a designated directory in
+the browser's virtual filesystem. Please see
+[the filesystem](../user-guide/filesystem) section of the user-guide for more
+information.
+
+#### `pyscript.fs.mount`
+
+Mount a directory on the user's local filesystem into the browser's virtual
+filesystem. If no previous transient user activation has taken place, this
+function will result in a minimalist dialog to provide the
+[transient user activation](https://developer.mozilla.org/en-US/docs/Glossary/Transient_activation).
+
+This asynchronous function takes four arguments:
+
+* `path` (required) - indicating the location on the in-browser filesystem to
+  which the user selected directory from the local filesystem will be mounted.
+* `mode` (default: `"readwrite"`) - indicates how the code may interact with
+  the mounted filesystem. May also be just `"read"` for read-only access.
+* `id` (default: `"pyscript"`) - indicate a unique name for the handler
+  associated with a directory on the user's local filesystem.
+* `root` (default: `""`) - a hint to the browser for where to start picking the
+  path that should be mounted in Python. Valid values are: `desktop`,
+  `documents`, `downloads`, `music`, `pictures` or `videos` as per
+  [web standards](https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker#startin).
+
+```python title="Mount a local directory to the '/local' directory in the browser's virtual filesystem"
+from pyscript import fs
+
+
+# May ask for permission from the user, and select the local target.
+await fs.mount("/local")
+```
+
+#### `pyscript.fs.sync`
+
+Given a named `path` for a mount point on the browser's virtual filesystem,
+asynchronously ensure the virtual and local directories are synchronised (i.e.
+all changes made in the browser's mounted filesystem, are propagated to the
+user's local filesystem).
+
+```python title="Synchronise the virtual and local filesystems."
+await fs.sync("/local")
+```
+
+#### `pyscript.fs.unmount`
+
+Asynchronously unmount the named `path` from the browser's virtual filesystem.
+This will free up memory. A call to [`fs.sync`](#pyscriptfssync) is
+automatically made before unmounting.
+
+```python title="Unmount from the virtual filesystem."
+await fs.unmount("/local")
+```
+
 ### `pyscript.js_modules`
 
 It is possible to [define JavaScript modules to use within your Python code](../user-guide/configuration#javascript-modules).
