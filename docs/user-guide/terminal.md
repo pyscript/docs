@@ -111,6 +111,15 @@ It's very simple to clear a PyTerminal:
 </script>
 ```
 
+### Resize the terminal
+
+The terminal takes up a fair amount of room onscreen. It can be resized to use less.
+Here it is 10 lines high.
+```python title="Resizing the terminal in python"
+if '__terminal__' in locals():  # has a terminal been created
+    __terminal__.resize(60, 10)  # (width, height)
+```
+
 ### Terminal colors
 
 Colors and most special characters work so you can make the text **bold** or
