@@ -72,6 +72,7 @@ nav:
     - The DOM &amp; JavaScript: user-guide/dom.md
     - Web Workers: user-guide/workers.md
     - The FFI in detail: user-guide/ffi.md
+    - PyScript and filesystems: user-guide/filesystem.md
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
     - PyGame-CE: user-guide/pygame-ce.md
