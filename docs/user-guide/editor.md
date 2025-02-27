@@ -67,6 +67,21 @@ The outcome of these code fragments should look something like this:
 
     Hovering over the Python editor reveals the "run" button.
 
+### Stop evaluation
+
+Sometimes, for whatever reason, the fragment of code in the editor will never
+complete. Perhaps it's stuck in an infinite loop and you need to stop the
+evaluation of your code so you can fix the problem and start it again.
+
+When the code is running, hovering over the editor will reveal a stop button
+(where the run button was found). Click on it, confirm you want to stop your
+code, and then the code will stop and the editor will refresh so you can fix
+your code.
+
+It looks something like this:
+
+<img src="../../assets/images/pyeditor-stop.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
+
 ### Setup
 
 Sometimes you need to create a pre-baked Pythonic context for a shared
