@@ -8,6 +8,40 @@ within our community.
 There are two major areas we'd like to explore:
 [common errors](#common-errors) and [helpful hints](#helpful-hints).
 
+### Table of contents
+- [Common errors](#common-errors)
+  - [Reading errors](#reading-errors)
+  - [SharedArrayBuffer](#sharedarraybuffer)
+  - [Borrowed proxy](#borrowed-proxy)
+  - [Python packages](#python-packages)
+  - [JavaScript modules](#javascript-modules)
+  - [Possible deadlock](#possible-deadlock)
+  - [TypeError: crypto.randomUUID is not a function](#typeerror-cryptorandomuuid-is-not-a-function)
+- [Helpful hints](#helpful-hints)
+  - [PyScript `latest`](#pyscript-latest)
+  - [Workers via JavaScript](#workers-via-javascript)
+  - [JavaScript `Class.new()`](#javascript-classnew)
+  - [PyScript events](#pyscript-events)
+    - [m/py:ready](#mpyready)
+    - [m/py:done](#mpydone)
+    - [py:all-done](#pyall-done)
+    - [m/py:progress](#mpyprogress)
+  - [Packaging pointers](#packaging-pointers)
+    - [Host a package](#host-a-package)
+    - [Provide your own file](#provide-your-own-file)
+    - [Code archive (`zip`/`tgz`/`whl`)](#code-archive-ziptgzwhl)
+  - [File System](#file-system)
+    - [Read/Write](#readwrite)
+    - [Upload](#upload)
+    - [Download](#download)
+  - [create_proxy](#create_proxy)
+    - [Background](#background)
+    - [In Pyodide](#in-pyodide)
+    - [In MicroPython](#in-micropython)
+  - [to_js](#to_js)
+    - [Background](#background)
+    - [Caveat](#caveat)
+
 ## Common errors
 
 ### Reading errors
