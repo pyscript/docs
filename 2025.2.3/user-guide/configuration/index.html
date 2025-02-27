@@ -1122,6 +1122,12 @@ into the target directory in the browser's built in file system.</p>
 <p>If there is a duplication PyScript will raise an exception to help you find
 the problem.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Use destination URLs instead of CORS / redirect URLs.</strong></p>
+<p>For example, <code>https://github.com/pyscript/ltk/raw/refs/heads/main/ltk/jquery.py</code>
+redirects to <code>https://raw.githubusercontent.com/pyscript/ltk/refs/heads/main/ltk/jquery.py</code>. Use the latter.</p>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p><strong>For most people, most of the time, the simple URL to filename mapping,
