@@ -423,6 +423,119 @@ Such named modules will always then be available under the
     Please see the documentation (linked above) about restrictions and gotchas
     when configuring how JavaScript modules are made available to PyScript.
 
+### `pyscript.media`
+
+The `pyscript.media` namespace provides classes and functions for interacting
+with media devices and streams in a web browser. This module enables you to work
+with cameras, microphones, and other media input/output devices directly from
+Python code.
+
+#### `pyscript.media.Device`
+
+A class that represents a media input or output device, such as a microphone,
+camera, or headset.
+
+```python title="Creating a Device object"
+from pyscript.media import Device, list_devices
+
+# List all available media devices
+devices = await list_devices()
+# Get the first available device
+my_device = devices[0]
+```
+
+The `Device` class has the following properties:
+
+* `id` - a unique string identifier for the represented device.
+* `group` - a string group identifier for devices belonging to the same physical device.
+* `kind` - an enumerated value: "videoinput", "audioinput", or "audiooutput".
+* `label` - a string describing the device (e.g., "External USB Webcam").
+
+The `Device` class also provides the following methods:
+
+##### `Device.load(audio=False, video=True)`
+
+A class method that loads a media stream with the specified options.
+
+```python title="Loading a media stream"
+# Load a video stream (default)
+stream = await Device.load()
+
+# Load an audio stream only
+stream = await Device.load(audio=True, video=False)
+
+# Load with specific video constraints
+stream = await Device.load(video={"width": 1280, "height": 720})
+```
+
+Parameters:
+* `audio` (bool, default: False) - Whether to include audio in the stream.
+* `video` (bool or dict, default: True) - Whether to include video in the
+  stream. Can also be a dictionary of video constraints.
+
+Returns:
+* A media stream object that can be used with HTML media elements.
+
+##### `get_stream()`
+
+An instance method that gets a media stream from this specific device.
+
+```python title="Getting a stream from a specific device"
+# Find a video input device
+video_devices = [d for d in devices if d.kind == "videoinput"]
+if video_devices:
+    # Get a stream from the first video device
+    stream = await video_devices[0].get_stream()
+```
+
+Returns:
+* A media stream object from the specific device.
+
+#### `pyscript.media.list_devices()`
+
+An async function that returns a list of all currently available media input and
+output devices.
+
+```python title="Listing all media devices"
+from pyscript.media import list_devices
+
+devices = await list_devices()
+for device in devices:
+    print(f"Device: {device.label}, Kind: {device.kind}")
+```
+
+Returns:
+* A list of `Device` objects representing the available media devices.
+
+!!! Note
+
+    The returned list will omit any devices that are blocked by the document
+    Permission Policy or for which the user has not granted permission.
+
+### Simple Example
+
+```python title="Basic camera access"
+from pyscript import document
+from pyscript.media import Device
+
+async def init_camera():
+    # Get a video stream
+    stream = await Device.load(video=True)
+    
+    # Set the stream as the source for a video element
+    video_el = document.getElementById("camera")
+    video_el.srcObject = stream
+    
+# Initialize the camera
+init_camera()
+```
+
+!!! warning
+
+    Using media devices requires appropriate permissions from the user.
+    Browsers will typically show a permission dialog when `list_devices()` or
+    `Device.load()` is called.
+
 ### `pyscript.storage`
 
 The `pyscript.storage` API wraps the browser's built-in
