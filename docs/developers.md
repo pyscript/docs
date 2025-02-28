@@ -38,14 +38,10 @@ compassion wins every time.
 
 All contributors are expected to follow our [code of conduct](conduct.md).
 
-## Setup 
-
-**You must have recent versions of [Python](https://python.org/),
-[node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) already
-installed on your system.**
-
+## Setup
 The following steps create a working development environment for PyScript. It
-is through this environment that you contribute to PyScript.
+is through this environment that you contribute to PyScript. You can choose
+between two options for setting up your environment.
 
 !!! danger
 
@@ -88,6 +84,34 @@ is through this environment that you contribute to PyScript.
     ```sh
     deactivate
     ```
+
+### Option 2: Create a conda environment
+**This option will install Python and NodeJS for you, so you don't need to have them
+pre-installed on your system.**
+
+* If you prefer using [conda](https://docs.conda.io/en/latest/) for environment management,
+you can create a conda environment that includes both Python and NodeJS:
+* 
+    ```sh
+    conda create --name pyscript python nodejs
+    conda activate pyscript
+    ```
+  
+  !!! warning
+
+  Replace `pyscript` with a meaningful name for the conda environment, that works for you.
+
+* This creates a new environment with both Python and NodeJS installed. The prompt in your
+terminal will change to include the name of your conda environment indicating the sandbox is active.
+* To deactivate the conda environment just type the following into your terminal:
+
+    ```sh
+    conda deactivate
+    ```
+
+* If you don't have conda installed, you can download and install
+[Miniconda, Miniforge](https://docs.conda.io/projects/conda), or
+[Anaconda](https://www.anaconda.com/download).
 
 !!! info
 
