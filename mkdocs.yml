@@ -75,6 +75,7 @@ nav:
     - PyScript and filesystems: user-guide/filesystem.md
     - Python terminal: user-guide/terminal.md
     - Python editor: user-guide/editor.md
+    - Media: user-guide/media.md
     - PyGame-CE: user-guide/pygame-ce.md
     - Plugins: user-guide/plugins.md
     - Use Offline: user-guide/offline.md
