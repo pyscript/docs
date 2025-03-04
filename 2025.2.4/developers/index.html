@@ -761,6 +761,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#option-2-create-a-conda-environment" class="md-nav__link">
+    Option 2: Create a conda environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#prepare-your-repository" class="md-nav__link">
     Prepare your repository
   </a>
@@ -909,6 +916,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#option-2-create-a-conda-environment" class="md-nav__link">
+    Option 2: Create a conda environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#prepare-your-repository" class="md-nav__link">
     Prepare your repository
   </a>
@@ -1012,11 +1026,9 @@ compassion wins every time.</p>
 </ul>
 <p>All contributors are expected to follow our <a href="../conduct/">code of conduct</a>.</p>
 <h2 id="setup">Setup</h2>
-<p><strong>You must have recent versions of <a href="https://python.org/">Python</a>,
-<a href="https://nodejs.org/en">node.js</a> and <a href="https://www.npmjs.com/">npm</a> already
-installed on your system.</strong></p>
 <p>The following steps create a working development environment for PyScript. It
-is through this environment that you contribute to PyScript.</p>
+is through this environment that you contribute to PyScript. You can choose
+between two options for setting up your environment.</p>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>The following commands work on Unix like operating systems (like MacOS or
@@ -1057,6 +1069,34 @@ virtual environment, that works for you.</p>
 </span></code></pre></div>
 </li>
 </ul>
+<h3 id="option-2-create-a-conda-environment">Option 2: Create a conda environment</h3>
+<p><strong>This option will install Python and NodeJS for you, so you don't need to have them
+pre-installed on your system.</strong></p>
+<ul>
+<li>If you prefer using <a href="https://docs.conda.io/en/latest/">conda</a> for environment management,
+you can create a conda environment that includes both Python and NodeJS:</li>
+<li>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>pyscript<span class="w"> </span>python<span class="w"> </span>nodejs
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pyscript
+</span></code></pre></div>
+</li>
+</ul>
+<p>!!! warning</p>
+<p>Replace <code>pyscript</code> with a meaningful name for the conda environment, that works for you.</p>
+<ul>
+<li>This creates a new environment with both Python and NodeJS installed. The prompt in your
+terminal will change to include the name of your conda environment indicating the sandbox is active.</li>
+<li>
+<p>To deactivate the conda environment just type the following into your terminal:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>conda<span class="w"> </span>deactivate
+</span></code></pre></div>
+</li>
+<li>
+<p>If you don't have conda installed, you can download and install
+<a href="https://docs.conda.io/projects/conda">Miniconda, Miniforge</a>, or
+<a href="https://www.anaconda.com/download">Anaconda</a>.</p>
+</li>
+</ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The rest of the instructions on this page assume you are working in <strong>an
@@ -1072,7 +1112,7 @@ activated virtual environment</strong> for developing PyScript.</p>
 <p><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository">Clone</a>
   your newly forked version of the PyScript repository onto your
   local development machine. For example, use this command in your terminal:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;YOUR<span class="w"> </span>USERNAME&gt;/pyscript
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;YOUR<span class="w"> </span>USERNAME&gt;/pyscript
 </span></code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1090,39 +1130,39 @@ these alternatives work is beyond the scope of this document.</p>
 </li>
 <li>
 <p>Change into the root directory of your newly cloned <code>pyscript</code> repository:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd</span><span class="w"> </span>pyscript
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>pyscript
 </span></code></pre></div>
 </li>
 <li>
 <p>Add the original PyScript repository as your <code>upstream</code> to allow you to keep
   your own fork up-to-date with the latest changes:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/pyscript/pyscript.git
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/pyscript/pyscript.git
 </span></code></pre></div>
 </li>
 <li>
 <p>If the above fails, try this alternative:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>remote<span class="w"> </span>remove<span class="w"> </span>upstream
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:pyscript/pyscript.git
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>remote<span class="w"> </span>remove<span class="w"> </span>upstream
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:pyscript/pyscript.git
 </span></code></pre></div>
 </li>
 <li>
 <p>Pull in the latest changes from the main <code>upstream</code> PyScript repository:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>pull<span class="w"> </span>upstream<span class="w"> </span>main
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>git<span class="w"> </span>pull<span class="w"> </span>upstream<span class="w"> </span>main
 </span></code></pre></div>
 </li>
 <li>
 <p>Pyscript uses a <code>Makefile</code> to automate the most common development tasks. In
   your terminal, type <code>make</code> to see what it can do. You should see something
   like this:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>There<span class="w"> </span>is<span class="w"> </span>no<span class="w"> </span>default<span class="w"> </span>Makefile<span class="w"> </span>target<span class="w"> </span>right<span class="w"> </span>now.<span class="w"> </span>Try:
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>make<span class="w"> </span>setup<span class="w"> </span>-<span class="w"> </span>check<span class="w"> </span>your<span class="w"> </span>environment<span class="w"> </span>and<span class="w"> </span>install<span class="w"> </span>the<span class="w"> </span>dependencies.
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>make<span class="w"> </span>clean<span class="w"> </span>-<span class="w"> </span>clean<span class="w"> </span>up<span class="w"> </span>auto-generated<span class="w"> </span>assets.
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>make<span class="w"> </span>build<span class="w"> </span>-<span class="w"> </span>build<span class="w"> </span>PyScript.
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>make<span class="w"> </span>precommit-check<span class="w"> </span>-<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>precommit<span class="w"> </span>checks<span class="w"> </span><span class="o">(</span>run<span class="w"> </span>eslint<span class="o">)</span>.
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>make<span class="w"> </span>test-integration<span class="w"> </span>-<span class="w"> </span>run<span class="w"> </span>all<span class="w"> </span>integration<span class="w"> </span>tests<span class="w"> </span>sequentially.
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>make<span class="w"> </span>fmt<span class="w"> </span>-<span class="w"> </span>format<span class="w"> </span>the<span class="w"> </span>code.
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>make<span class="w"> </span>fmt-check<span class="w"> </span>-<span class="w"> </span>check<span class="w"> </span>the<span class="w"> </span>code<span class="w"> </span>formatting.
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>There<span class="w"> </span>is<span class="w"> </span>no<span class="w"> </span>default<span class="w"> </span>Makefile<span class="w"> </span>target<span class="w"> </span>right<span class="w"> </span>now.<span class="w"> </span>Try:
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>make<span class="w"> </span>setup<span class="w"> </span>-<span class="w"> </span>check<span class="w"> </span>your<span class="w"> </span>environment<span class="w"> </span>and<span class="w"> </span>install<span class="w"> </span>the<span class="w"> </span>dependencies.
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>make<span class="w"> </span>clean<span class="w"> </span>-<span class="w"> </span>clean<span class="w"> </span>up<span class="w"> </span>auto-generated<span class="w"> </span>assets.
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>make<span class="w"> </span>build<span class="w"> </span>-<span class="w"> </span>build<span class="w"> </span>PyScript.
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>make<span class="w"> </span>precommit-check<span class="w"> </span>-<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>precommit<span class="w"> </span>checks<span class="w"> </span><span class="o">(</span>run<span class="w"> </span>eslint<span class="o">)</span>.
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>make<span class="w"> </span>test-integration<span class="w"> </span>-<span class="w"> </span>run<span class="w"> </span>all<span class="w"> </span>integration<span class="w"> </span>tests<span class="w"> </span>sequentially.
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>make<span class="w"> </span>fmt<span class="w"> </span>-<span class="w"> </span>format<span class="w"> </span>the<span class="w"> </span>code.
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>make<span class="w"> </span>fmt-check<span class="w"> </span>-<span class="w"> </span>check<span class="w"> </span>the<span class="w"> </span>code<span class="w"> </span>formatting.
 </span></code></pre></div>
 </li>
 </ul>
@@ -1131,7 +1171,7 @@ these alternatives work is beyond the scope of this document.</p>
 <li>
 <p>To install the required software dependencies for working on PyScript, in
   your terminal type:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>make<span class="w"> </span>setup
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>make<span class="w"> </span>setup
 </span></code></pre></div>
 </li>
 <li>
@@ -1154,12 +1194,12 @@ Please update!</p>
 </li>
 <li>
 <p>To ensure your code is formatted correctly:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>make<span class="w"> </span>fmt
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>make<span class="w"> </span>fmt
 </span></code></pre></div>
 </li>
 <li>
 <p>To check your code is formatted correctly:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>make<span class="w"> </span>fmt-check
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>fmt-check
 </span></code></pre></div>
 </li>
 <li>
@@ -1167,7 +1207,7 @@ Please update!</p>
   <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request">pull requests</a>
   pre-commit checks the source code. If this fails revise your PR. To run
   pre-commit checks locally (before creating the PR):</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>make<span class="w"> </span>precommit-check
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span>precommit-check
 </span></code></pre></div>
 <p>This may also revise your code formatting. Re-run <code>make precommit-check</code> to
 ensure this is the case.</p>
@@ -1178,7 +1218,7 @@ ensure this is the case.</p>
 <li>
 <p>To turn the JavaScript source code found in the <code>pyscript.core</code> directory
   into a bundled up module ready for the browser, type:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>build
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>make<span class="w"> </span>build
 </span></code></pre></div>
 <p>The resulting assets will be in the <code>pyscript.core/dist</code> directory.</p>
 </li>
@@ -1187,7 +1227,7 @@ ensure this is the case.</p>
 <ul>
 <li>
 <p>The integration tests for PyScript are started with:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>make<span class="w"> </span><span class="nb">test</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>make<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
 <p>(This essentially runs the <code>npm run test:integration</code> command in the right
 place. This is defined in PyScript's <code>package.json</code> file.)</p>
