@@ -40,6 +40,17 @@ on the page.
 A config attribute can be specified to add extra packages but right now that's
 all it can do.
 
+!!! Info
+
+    Sometimes you need to gather text based user input when starting a game.
+    The usual way to do this is via the builtin `input` function.
+
+    Because PyGame-CE **only runs on the main thread**, the only way to block
+    your code while it waits for user `input` is to use a
+    [JavaScript prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt)
+    instead of input typed in via a terminal. PyScript handles this
+    automatically for you if you use the `input` function.
+
 This is an experiment, but:
 
 * It is possible to use regular PyScript to load the pygame-ce package and use
