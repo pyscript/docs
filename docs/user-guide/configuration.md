@@ -78,7 +78,7 @@ _single_ `<py-config>` or `<mpy-config>` tag in your HTML document:
     these tags on the page per interpreter**.
     
     Additionally, `<py-config>` only works for `py`/`mpy` type scripts and is not used
-    with [`py-game`](../pygame-ce) or [`py-editor`](../editor). For these set the config
+    with [`py-game`](../pygame-ce) or [`py-editor`](../editor). For these use the config
     attribute method.
 
 ## Options

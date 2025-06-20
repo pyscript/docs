@@ -200,9 +200,7 @@ except RuntimeError:
 While the `await asyncio.sleep(1/60)` is a quick way to approximate 60 FPS,
 like all sleep-based timing methods in games this is not precise. Generating
 the frame itself takes time, so sleeping 1/60th of a second means total frame
-time is longer and actual FPS will be less than 60. Our usage of `clock.tick()`
-and `dt` in the earlier code ensures the ball will move at the correct rate,
-but performance will not be ideal.
+time is longer and actual FPS will be less than 60.
 
 A better way is to do this is to run your game at the same frame rate as the 
 display (usually 60, but can be 75, 100, 144, or higher on some displays). When 
@@ -223,7 +221,7 @@ has displayed the frame. In the web version, the `vsync=1` will do nothing,
 each time the display updates.
 
 Additionally, since frame lengths will be different on each machine, we need to
-account for this by creating and using a `dt` variable by using a
+account for this by creating and using a `dt` (delta time) variable by using a
 `pygame.time.Clock`. We update the speed to be in pixels per second and multiply
 by `dt` (in seconds) to get the number of pixels to move.
 
