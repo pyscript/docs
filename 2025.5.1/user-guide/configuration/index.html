@@ -1057,8 +1057,8 @@ reference it from the tag used to specify the Python code:</p>
 <div class="language-HTML highlight"><span class="filename">JSON as the value of the config attribute.</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&#39;{&quot;packages&quot;:[&quot;arrr&quot;, &quot;numberwang&quot;]}&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
 <p>For historical and convenience reasons we still support the inline
-specification of configuration information via a <em>single</em> <code>&lt;py-config&gt;</code> or
-<code>&lt;mpy-config&gt;</code> tag in your HTML document:</p>
+specification of configuration information for <code>py</code> and <code>mpy</code> type scripts via a
+<em>single</em> <code>&lt;py-config&gt;</code> or <code>&lt;mpy-config&gt;</code> tag in your HTML document:</p>
 <div class="language-HTML highlight"><span class="filename">Inline configuration via the &lt;py-config&gt; tag.</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">py-config</span><span class="p">&gt;</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>{
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    &quot;packages&quot;: [&quot;arrr&quot;, &quot;numberwang&quot; ]
@@ -1069,6 +1069,9 @@ specification of configuration information via a <em>single</em> <code>&lt;py-co
 <p class="admonition-title">Warning</p>
 <p>Should you use <code>&lt;py-config&gt;</code> or <code>&lt;mpy-config&gt;</code>, <strong>there must be only one of
 these tags on the page per interpreter</strong>.</p>
+<p>Additionally, <code>&lt;py-config&gt;</code> only works for <code>py</code>/<code>mpy</code> type scripts and is not used
+with <a href="../pygame-ce"><code>py-game</code></a> or <a href="../editor"><code>py-editor</code></a>. For these use the config
+attribute method.</p>
 </div>
 <h2 id="options">Options</h2>
 <p>There are five core options (<a href="#interpreter"><code>interpreter</code></a>, <a href="#files"><code>files</code></a>,
