@@ -61,8 +61,8 @@ If you use JSON, you can make it the value of the `config` attribute:
 ```
 
 For historical and convenience reasons we still support the inline
-specification of configuration information via a _single_ `<py-config>` or
-`<mpy-config>` tag in your HTML document:
+specification of configuration information for `py` and `mpy` type scripts via a
+_single_ `<py-config>` or `<mpy-config>` tag in your HTML document:
 
 ```HTML title="Inline configuration via the &lt;py-config&gt; tag."
 <py-config>
@@ -76,6 +76,10 @@ specification of configuration information via a _single_ `<py-config>` or
 
     Should you use `<py-config>` or `<mpy-config>`, **there must be only one of
     these tags on the page per interpreter**.
+    
+    Additionally, `<py-config>` only works for `py`/`mpy` type scripts and is not used
+    with [`py-game`](../pygame-ce) or [`py-editor`](../editor). For these use the config
+    attribute method.
 
 ## Options
 
