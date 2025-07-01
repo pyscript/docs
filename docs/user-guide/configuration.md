@@ -537,8 +537,8 @@ experimental_create_proxy = "auto"
 ### experimental_ffi_timeout
 
 When bootstrapping a worker, the worker is told to use a cache for round-trip
-operations (for example, `my_object.foo.bar.baz` causes a round-trip to the
-main thread for each dot `.` in this chain of references). By caching the
+operations (for example, `window.my_object.foo.bar.baz` causes a round-trip to
+the main thread for each dot `.` in this chain of references). By caching the
 dotted references performance can be improved by reducing the number of
 round trips PyScript makes.
 
@@ -549,6 +549,10 @@ The `experimental_ffi_timeout` setting defines the maximum lifetime of that
 cache. If it's less than 0 (the default), there is no cache whatsoever. Zero
 means to clean up the cache on the next iteration of the event loop. A positive
 number is the maximum number of milliseconds the cache will be kept alive.
+
+In this experimental phase, we suggest trying `0`, `30` or a value that won't
+likely bypass the browser rendering of 60fps. Of course, `1000` (i.e. a second)
+would be a fun, if greedy, experiment.
 
 ### debug
 
