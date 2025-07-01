@@ -106,8 +106,8 @@ will be placed. Make sure to update the pyscript release to the latest version.
   <title>PyScript Pygame-CE Quickstart</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="stylesheet" href="https://pyscript.net/releases/2025.5.1/core.css">
-  <script type="module" src="https://pyscript.net/releases/2025.5.1/core.js"></script>
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.1/core.css">
+  <script type="module" src="https://pyscript.net/releases/2025.7.1/core.js"></script>
 </head>
 <body>
 <canvas id="canvas" style="image-rendering: pixelated"></canvas>

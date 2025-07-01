@@ -318,6 +318,22 @@ following valid forms:
 * An arbitrary URL to a Python package: `"https://.../package.whl"`
 * A file copied onto the browser based file system: `"emfs://.../package.whl"`
 
+#### Package Cache
+
+For performance reasons, PyScript caches packages so that a delay resulting
+from downloading the packages is only noticable on first load - after which,
+PyScript will fall back on packages previously downloaded and held in the
+browser's local cache.
+
+The behaviour of caching can be configured via the `packages_cache` setting. If
+this setting is not used, PyScript will cache packages. Otherwise, override
+PyScript's behaviour by setting `packages_cache` to one of these two values:
+
+* `never` - PyScript will not cache packages.
+* `passthrough` - this only works with Pyodide (see [this wiki](https://deepwiki.com/cloudflare/pyodide/3-package-system)),
+  and will cause Pyodide to download packages in a parallel manner rather than
+  the default linear fashion. However, these packages will not be cached.
+
 ### Plugins
 
 The `plugins` option allows user to either augment, or exclude, the list of
@@ -517,6 +533,32 @@ experimental_create_proxy = "auto"
     this flag with Pyodide, please don't hesitate to
     [raise an issue](https://github.com/pyscript/pyscript/issues) with a
     reproducable example, and we'll investigate.
+
+### experimental_ffi_timeout
+
+When bootstrapping a worker, the worker is told to use a cache for round-trip
+operations (for example, `window.my_object.foo.bar.baz` causes a round-trip to
+the main thread for each dot `.` in this chain of references). By caching the
+dotted references performance can be improved by reducing the number of
+round trips PyScript makes.
+
+However, not everything can be cached (those APIs or objects with side-effects
+won't work; for example DOM element based APIs etc).
+
+The `experimental_ffi_timeout` setting defines the maximum lifetime of that
+cache. If it's less than 0 (the default), there is no cache whatsoever. Zero
+means to clean up the cache on the next iteration of the event loop. A positive
+number is the maximum number of milliseconds the cache will be kept alive.
+
+In this experimental phase, we suggest trying `0`, `30` or a value that won't
+likely bypass the browser rendering of 60fps. Of course, `1000` (i.e. a second)
+would be a fun, if greedy, experiment.
+
+### debug
+
+When using Pyodide, if the `debug` setting is set to `true`, then Pyodide will
+run in debug mode. See Pyodide's documentation for details of what this
+entails.
 
 ### Custom 
 
