@@ -16,6 +16,7 @@ Our `pyscript.ffi` offers the following utilities:
   counterpart.
 * `ffi.create_proxy(def_or_lambda)` proxies a generic Python function into a
   JavaScript one, without destroying its reference right away.
+* `ffi.is_none(reference)` to check if a specific value is either `None` or `JsNull`
 
 Should you require access to Pyodide or MicroPython's specific version of the
 FFI you'll find them under the `pyodide.ffi` and `micropython.ffi` namespaces.
@@ -209,3 +210,49 @@ only in Pyodide can we then destroy such proxy:
     js.setTimeout(proxy, 1000, "success");
 </script>
 ```
+
+## is_none
+
+Starting from *Pyodide* version `0.28`, there is a new *nullish* value in town that is
+meant to represent exactly the *JS* `null` value.
+
+Previously, both `null` and `undefined` would have been converted into `None`
+but some *API* behaves differently if one value is absent or explicitly `null`.
+
+In *JSON*, `null` would also survive serialization while `undefined` would
+vanish. To preserve that distinction also in *Python*, the conversion
+between *JS* and *Python* now has a new `pyodide.ffi.jsnull` as showed in
+[pyodide documentation](https://pyodide.org/en/stable/usage/type-conversions.html#javascript-to-python).
+
+In general, there should be no surprise but, specially when dealing with the *DOM*
+world, most utilities and methods would return `null`.
+
+To simplify and smooth-out this distinction, we decided to introduce `is_null`
+as [demoed live in here](https://pyscript.com/@agiammarchi/pyscript-ffi-is-none/latest?files=main.py):
+
+```html title="pyscript.ffi.is_none"
+<!-- success in both Pyodide and MicroPython -->
+<script type="py">
+    from pyscript.ffi import is_none
+    import js
+
+    js_undefined = js.undefined
+    js_null = js.document.body.getAttribute("nope")
+
+    print(js_undefined is None)     # True
+    print(js_null)                  # jsnull
+    print(js_null is None)          # False
+
+    # JsNull is still "falsy" as value
+    if (js_null):
+        print("this will not be shown")
+
+    # safely compared against both
+    print(is_none(js_undefined))    # True
+    print(is_none(js_none))         # True
+</script>
+```
+
+Please note that in *MicroPython* the method works the same but, as we try to
+reach features-parity among runtimes, it is suggested to use `is_none(ref)`
+even if right now there is not such distinction between `null` and `undefined`.
