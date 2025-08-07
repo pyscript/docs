@@ -16,7 +16,7 @@ Our `pyscript.ffi` offers the following utilities:
   counterpart.
 * `ffi.create_proxy(def_or_lambda)` proxies a generic Python function into a
   JavaScript one, without destroying its reference right away.
-* `ffi.is_none(reference)` to check if a specific value is either `None` or `JsNull`
+* `ffi.is_none(reference)` to check if a specific value is either `None` or `JsNull`.
 
 Should you require access to Pyodide or MicroPython's specific version of the
 FFI you'll find them under the `pyodide.ffi` and `micropython.ffi` namespaces.
@@ -213,22 +213,24 @@ only in Pyodide can we then destroy such proxy:
 
 ## is_none
 
-Starting from *Pyodide* version `0.28`, there is a new *nullish* value in town that is
-meant to represent exactly the *JS* `null` value.
+*Pyodide* version `0.28` onwards has introduced a new *nullish* value that
+precisely represents JavaScript's `null` value.
 
-Previously, both `null` and `undefined` would have been converted into `None`
-but some *API* behaves differently if one value is absent or explicitly `null`.
+Previously, both JavaScript `null` and `undefined` would have been converted
+into Python's `None` but, alas, some APIs behave differently if a value is
+`undefined` or explicitly `null`.
 
-In *JSON*, `null` would also survive serialization while `undefined` would
-vanish. To preserve that distinction also in *Python*, the conversion
-between *JS* and *Python* now has a new `pyodide.ffi.jsnull` as showed in
+For example, in *JSON*, `null` would survive serialization while `undefined`
+would vanish. To preserve that distinction in *Python*, the conversion
+between *JS* and *Python* now has a new `pyodide.ffi.jsnull` as explained in
+the
 [pyodide documentation](https://pyodide.org/en/stable/usage/type-conversions.html#javascript-to-python).
 
-In general, there should be no surprise but, specially when dealing with the *DOM*
-world, most utilities and methods would return `null`.
+In general, there should be no surprises. But, especially when dealing with the
+*DOM* world, most utilities and methods return `null`.
 
-To simplify and smooth-out this distinction, we decided to introduce `is_null`
-as [demoed live in here](https://pyscript.com/@agiammarchi/pyscript-ffi-is-none/latest?files=main.py):
+To simplify and smooth-out this distinction, we decided to introduce `is_null`,
+as [demoed here](https://pyscript.com/@agiammarchi/pyscript-ffi-is-none/latest?files=main.py):
 
 ```html title="pyscript.ffi.is_none"
 <!-- success in both Pyodide and MicroPython -->
@@ -243,7 +245,7 @@ as [demoed live in here](https://pyscript.com/@agiammarchi/pyscript-ffi-is-none/
     print(js_null)                  # jsnull
     print(js_null is None)          # False
 
-    # JsNull is still "falsy" as value
+    # JsNull is still a "falsy" value
     if (js_null):
         print("this will not be shown")
 
@@ -254,5 +256,6 @@ as [demoed live in here](https://pyscript.com/@agiammarchi/pyscript-ffi-is-none/
 ```
 
 Please note that in *MicroPython* the method works the same but, as we try to
-reach features-parity among runtimes, it is suggested to use `is_none(ref)`
-even if right now there is not such distinction between `null` and `undefined`.
+reach feature-parity among runtimes, it is suggested to use `is_none(ref)`
+even if, right now, there is no such distinction between `null` and
+`undefined` in MicroPython.
