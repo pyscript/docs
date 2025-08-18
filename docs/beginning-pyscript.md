@@ -85,7 +85,9 @@ You can see this application embedded into the page below (try it out!):
 Let's explore each of the three files that make this app work.
 
 ### pyscript.json
-
+[pyscript.com](https://pyscript.com) does not create a pyscript.json file automatically, 
+click the (`New File`) button and create a new file named (`pyscript.json`). [pyscript.com](https://pyscript.com) defaults to creating a (`pyscript.toml`)
+file, which is not to be used in this tutorial; the configuration will need to be changed later.
 This file tells PyScript and your browser about various
 [configurable aspects](../user-guide/configuration)
 of your application. Put simply, it tells PyScript what it needs in order to run
@@ -156,8 +158,8 @@ attributes are [built into PyScript](api.md#html-attributes).
 
 We put all this together in the `script` tag at the end of the `<body>`. This
 tells the browser we're using PyScript (`type="py"`), and where PyScript
-should find the Python source code (`src="./main.py"`). Finally, we indicate
-where PyScript should find the configuration (`config="./pyscript.json"`).
+should find the Python source code (`src="./main.py"`). The default configuration is (`config="./pyscript.toml"`); but since creating the (`pyscript.json`) file, it's imperative that the final step is indicating
+where PyScript should find the configuration which should correctly be (`config="./pyscript.json"`).
 
 In the end, our HTML should look like this:
 
