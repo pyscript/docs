@@ -45,12 +45,14 @@
     Our <a href="developers/">developer guide</a> explains how to set
     up a working development environment for PyScript.</p>
   </dd>
+  
   <dt><strong>Just show me...</strong></dt>
-  <dd>That's easy! Just take a look around
-  <a href="https://pyscript.com/" target="_blank">pyscript.com</a> - our
-  platform for developing and hosting PyScript applications. By using
+  <dd>That's easy, just take a look around!<br><br>
+  <p><a href="https://pyscript.com/" target="_blank">PyScript.com</a> is a free hosting service provided to the PyScript community by Anaconda. You can explore projects created by others, collaborate on their vision, or start your own projects. By using
   using this service you help to support and sustain the development and growth
-  of the open-source PyScript project.</dd>
+  of the open-source PyScript project.<br>
+    On <a href="https://pyscript.net/" target="_blank">PyScript.net</a>, you can find all the latest news about PyScript, learn how to get started with PyScript, and access links to our social media and other relevant channels.</p></dd>
+
   <dt><strong>I want support...</strong></dt>
   <dd>
     <p>Join the conversation on our
