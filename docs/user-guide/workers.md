@@ -71,17 +71,21 @@ Each `<script type="m/py">` or `<m/py-script>` may optionally have
 a `service-worker` attribute pointing to a locally served file (the
 same way `mini-coi.js` needs to be served).
 
-* You can chose `mini-coi.js` itself or *any other custom service worker*,
-  as long as it provides either the right headers to enable synchronous
-  operations via Atomics, or it enables
-  [sabayon polyfill events](https://github.com/WebReflection/sabayon?tab=readme-ov-file#service-worker).
-* Alternatively, you can copy and paste the
-  [sabayon Service Worker](https://raw.githubusercontent.com/WebReflection/sabayon/main/dist/sw.js)
-  into your local project and point at that in the attribute. This will
-  not change the original behavior of your project, it will not interfere with
-  all default or pre-defined headers your application uses already but it will
-  **fallback to a (slower but working) synchronous operation** that allows 
-  both `window` and `document` access in your worker logic.
+Such file needs to orchestrate *coincident* *POST* requests so that:
+
+* you can copy and paste the
+  [coincident Service Worker](https://cdn.jsdelivr.net/npm/coincident/dist/sw.js)
+  into your local project and point at that via the `service-worker` attribute.
+  This will not change the original behavior of your project, it will not
+  interfere with all default or pre-defined headers your application uses
+  already but it will
+  **fallback to a (slower but working) synchronous operation**
+  that allows both `window` and `document` access in your worker logic.
+* you can import
+  [coincident listeners](https://github.com/WebReflection/coincident/blob/main/src/sabayon/listeners.js)
+  in your project and at least add the `fetc` one before your listeners.
+  It will automatically stop propagation when a request is meant to be handled
+  so that the rest of your logic will not be affected or change by any mean.
 
 ```html
 <html>
@@ -100,12 +104,12 @@ same way `mini-coi.js` needs to be served).
 
 !!! warning 
 
-    Using sabayon as the fallback for synchronous operations via Atomics
+    Using *coincident* as the fallback for synchronous operations via Atomics
     should be **the last solution to consider**. It is inevitably
     slower than using native Atomics.
 
-    If you must use sabayon, always reduce the amount of synchronous
-    operations by caching references from the *main* thread.
+    If you must use `service-worker` attribute, always reduce the amount of
+    synchronous operations by caching references from the *main* thread.
 
     ```python
     # ❌ THIS IS UNNECESSARILY SLOWER
