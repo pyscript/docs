@@ -10,7 +10,7 @@ There are currently two ways to interact with the DOM:
 
 1. Through the [foreign function interface](#ffi) (FFI) to interact with objects found
    in the browser's `globalThis` or `document` objects.
-2. Through the [`pydom` module](#pydom) that acts as a Pythonic wrapper around
+2. Through the [`pyscript.web` module](#pyscriptweb) that acts as a Pythonic wrapper around
    the FFI and comes as standard with PyScript.
 
 ## FFI
