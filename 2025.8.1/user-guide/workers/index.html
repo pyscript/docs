@@ -1012,18 +1012,21 @@ to handle requirements for synchronous operations.</p>
 <p>Each <code>&lt;script type="m/py"&gt;</code> or <code>&lt;m/py-script&gt;</code> may optionally have
 a <code>service-worker</code> attribute pointing to a locally served file (the
 same way <code>mini-coi.js</code> needs to be served).</p>
+<p>Such file needs to orchestrate <em>coincident</em> <em>POST</em> requests so that:</p>
 <ul>
-<li>You can chose <code>mini-coi.js</code> itself or <em>any other custom service worker</em>,
-  as long as it provides either the right headers to enable synchronous
-  operations via Atomics, or it enables
-  <a href="https://github.com/WebReflection/sabayon?tab=readme-ov-file#service-worker">sabayon polyfill events</a>.</li>
-<li>Alternatively, you can copy and paste the
-  <a href="https://raw.githubusercontent.com/WebReflection/sabayon/main/dist/sw.js">sabayon Service Worker</a>
-  into your local project and point at that in the attribute. This will
-  not change the original behavior of your project, it will not interfere with
-  all default or pre-defined headers your application uses already but it will
-  <strong>fallback to a (slower but working) synchronous operation</strong> that allows 
-  both <code>window</code> and <code>document</code> access in your worker logic.</li>
+<li>you can copy and paste the
+  <a href="https://cdn.jsdelivr.net/npm/coincident/dist/sw.js">coincident Service Worker</a>
+  into your local project and point at that via the <code>service-worker</code> attribute.
+  This will not change the original behavior of your project, it will not
+  interfere with all default or pre-defined headers your application uses
+  already but it will
+  <strong>fallback to a (slower but working) synchronous operation</strong>
+  that allows both <code>window</code> and <code>document</code> access in your worker logic.</li>
+<li>you can import
+  <a href="https://github.com/WebReflection/coincident/blob/main/src/sabayon/listeners.js">coincident listeners</a>
+  in your project and at least add the <code>fetc</code> one before your listeners.
+  It will automatically stop propagation when a request is meant to be handled
+  so that the rest of your logic will not be affected or change by any mean.</li>
 </ul>
 <div class="language-html highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -1040,11 +1043,11 @@ same way <code>mini-coi.js</code> needs to be served).</p>
 </span></code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Using sabayon as the fallback for synchronous operations via Atomics
+<p>Using <em>coincident</em> as the fallback for synchronous operations via Atomics
 should be <strong>the last solution to consider</strong>. It is inevitably
 slower than using native Atomics.</p>
-<p>If you must use sabayon, always reduce the amount of synchronous
-operations by caching references from the <em>main</em> thread.</p>
+<p>If you must use <code>service-worker</code> attribute, always reduce the amount of
+synchronous operations by caching references from the <em>main</em> thread.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># ❌ THIS IS UNNECESSARILY SLOWER</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">document</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
