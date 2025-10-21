@@ -1134,7 +1134,7 @@ reference it from the tag used to specify the Python code:</p>
 <div class="language-HTML highlight"><span class="filename">Reference a configuration file</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&quot;pyscript.toml&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
 <p>If you use JSON, you can make it the value of the <code>config</code> attribute:</p>
-<div class="language-HTML highlight"><span class="filename">JSON as the value of the config attribute.</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;mpy&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&#39;{&quot;packages&quot;:[&quot;arrr&quot;, &quot;numberwang&quot;]}&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<div class="language-HTML highlight"><span class="filename">JSON as the value of the config attribute.</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;py&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;main.py&quot;</span> <span class="na">config</span><span class="o">=</span><span class="s">&#39;{&quot;packages&quot;:[&quot;arrr&quot;, &quot;numberwang&quot;]}&#39;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </span></code></pre></div>
 <p>For historical and convenience reasons we still support the inline
 specification of configuration information for <code>py</code> and <code>mpy</code> type scripts via a
@@ -1152,6 +1152,14 @@ these tags on the page per interpreter</strong>.</p>
 <p>Additionally, <code>&lt;py-config&gt;</code> only works for <code>py</code>/<code>mpy</code> type scripts and is not used
 with <a href="../pygame-ce"><code>py-game</code></a> or <a href="../editor"><code>py-editor</code></a>. For these use the config
 attribute method.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting from PyScript 2025.10.1 the config guards against incompatible or not
+available packages related to the current Pyodide version.</p>
+<p>There is an ongoing effort to make chosing packages in Pyodide way more helpful
+than it has ever been but right now be aware if a non existent package for a
+specific Pyodide version cannot be found an error will be thrown.</p>
 </div>
 <h2 id="options">Options</h2>
 <p>There are five core options (<a href="#interpreter"><code>interpreter</code></a>, <a href="#files"><code>files</code></a>,
@@ -1171,16 +1179,16 @@ and interpreter version are pinned to known values.</p>
 for the Python interpreter you are configuring, or a fully qualified URL to
 a custom version of the interpreter.</p>
 <p>The following two examples are equivalent:</p>
-<div class="language-TOML highlight"><span class="filename">Specify the interpreter version in TOML.</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">interpreter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0.23.4&quot;</span>
+<div class="language-TOML highlight"><span class="filename">Specify the interpreter version in TOML.</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">interpreter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;0.29.0&quot;</span>
 </span></code></pre></div>
 <div class="language-JSON highlight"><span class="filename">Specify the interpreter version in JSON.</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nt">&quot;interpreter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.23.4&quot;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nt">&quot;interpreter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.29.0&quot;</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>The following JSON fragment uses a fully qualified URL to point to the same
 version of Pyodide as specified in the previous examples:</p>
 <div class="language-JSON highlight"><span class="filename">Specify the interpreter via a fully qualified URL.</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nt">&quot;interpreter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.mjs&quot;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nt">&quot;interpreter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.mjs&quot;</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="files">Files</h3>
