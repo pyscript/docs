@@ -580,6 +580,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#experimental_remote_packages" class="md-nav__link">
+    experimental_remote_packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#debug" class="md-nav__link">
     debug
   </a>
@@ -1046,6 +1053,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#experimental_remote_packages" class="md-nav__link">
+    experimental_remote_packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#debug" class="md-nav__link">
     debug
   </a>
@@ -1142,11 +1156,12 @@ attribute method.</p>
 <h2 id="options">Options</h2>
 <p>There are five core options (<a href="#interpreter"><code>interpreter</code></a>, <a href="#files"><code>files</code></a>,
 <a href="#packages"><code>packages</code></a>, <a href="#javascript-modules"><code>js_modules</code></a> and
-<a href="#sync_main_only"><code>sync_main_only</code></a>) and an experimental flag
+<a href="#sync_main_only"><code>sync_main_only</code></a>) and two experimental flags:
 (<a href="#experimental_create_proxy"><code>experimental_create_proxy</code></a>) that can be used in
-the configuration of PyScript. The user is also free to define
-arbitrary additional configuration options that plugins or an app may require
-for their own reasons.</p>
+the configuration of PyScript and
+(<a href="#experimental_remote_packages"><code>experimental_remote_packages</code></a>) which allows
+remotely hosted packages. The user is also free to define arbitrary additional
+configuration options that plugins or an app may require for their own reasons.</p>
 <h3 id="interpreter">Interpreter</h3>
 <p>The <code>interpreter</code> option pins the Python interpreter to the version of the
 specified value. This is useful for testing (does my code work on a specific
@@ -1510,6 +1525,29 @@ number is the maximum number of milliseconds the cache will be kept alive.</p>
 <p>In this experimental phase, we suggest trying <code>0</code>, <code>30</code> or a value that won't
 likely bypass the browser rendering of 60fps. Of course, <code>1000</code> (i.e. a second)
 would be a fun, if greedy, experiment.</p>
+<h3 id="experimental_remote_packages">experimental_remote_packages</h3>
+<p>Specially designed to allow custom pure Python packages, it is possible to
+specify a remote <code>.toml</code> or <code>.json</code> configuration file within the list of
+packages:</p>
+<div class="language-TOML highlight"><span class="filename">Using the experimental_remote_packages flag in TOML.</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">experimental_remote_packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="n">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;numpy&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;https://remote.host.com/my_package/v1/config.toml&#39;</span><span class="p">]</span>
+</span></code></pre></div>
+<p>The remote config is basically a subset of any other PyScript config with the
+only exception that its <code>name</code> field must specify the package name, which will
+then be used to import such package via regular imports:</p>
+<div class="language-TOML highlight"><span class="filename">A remote config example</span><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_package&quot;</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="c1"># a remote config can include packages, even remote ones</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="n">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">]</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1"># files are resolved relatively to this config URL</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="k">[files]</span>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="s2">&quot;./__init__.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="s2">&quot;./sub/module.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="s2">&quot;./main.py&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span></code></pre></div>
+<p>The bootstrap will take care of fetching and preparing the remote package so
+that all the code will need to do is: <code>from my_package import util</code>.</p>
 <h3 id="debug">debug</h3>
 <p>When using Pyodide, if the <code>debug</code> setting is set to <code>true</code>, then Pyodide will
 run in debug mode. See Pyodide's documentation for details of what this
@@ -1521,11 +1559,11 @@ you are free to use any valid data structure that works with both TOML and JSON
 to express your configuration needs.</p>
 <p>Access the current configuration via <code>pyscript.config</code>, a Python <code>dict</code>
 representing the configuration:</p>
-<div class="language-python highlight"><span class="filename">Reading the current configuration.</span><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># It&#39;s just a dict.</span>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;files&quot;</span><span class="p">))</span>
+<div class="language-python highlight"><span class="filename">Reading the current configuration.</span><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># It&#39;s just a dict.</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;files&quot;</span><span class="p">))</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
