@@ -57,7 +57,7 @@ reference it from the tag used to specify the Python code:
 If you use JSON, you can make it the value of the `config` attribute:
 
 ```HTML title="JSON as the value of the config attribute."
-<script type="mpy" src="main.py" config='{"packages":["arrr", "numberwang"]}'></script>
+<script type="py" src="main.py" config='{"packages":["arrr", "numberwang"]}'></script>
 ```
 
 For historical and convenience reasons we still support the inline
@@ -80,6 +80,15 @@ _single_ `<py-config>` or `<mpy-config>` tag in your HTML document:
     Additionally, `<py-config>` only works for `py`/`mpy` type scripts and is not used
     with [`py-game`](../pygame-ce) or [`py-editor`](../editor). For these use the config
     attribute method.
+
+!!! warning
+
+    Starting from PyScript 2025.10.1 the config guards against incompatible or not
+    available packages related to the current Pyodide version.
+
+    There is an ongoing effort to make chosing packages in Pyodide way more helpful
+    than it has ever been but right now be aware if a non existent package for a
+    specific Pyodide version cannot be found an error will be thrown.
 
 ## Options
 
@@ -106,12 +115,12 @@ a custom version of the interpreter.
 The following two examples are equivalent:
 
 ```TOML title="Specify the interpreter version in TOML."
-interpreter = "0.23.4"
+interpreter = "0.29.0"
 ```
 
 ```JSON title="Specify the interpreter version in JSON."
 {
-    "interpreter": "0.23.4"
+    "interpreter": "0.29.0"
 }
 ```
 
@@ -120,7 +129,7 @@ version of Pyodide as specified in the previous examples:
 
 ```JSON title="Specify the interpreter via a fully qualified URL."
 {
-    "interpreter": "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.mjs"
+    "interpreter": "https://cdn.jsdelivr.net/pyodide/v0.29.0/full/pyodide.mjs"
 }
 ```
 
