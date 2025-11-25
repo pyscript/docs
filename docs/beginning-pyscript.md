@@ -231,6 +231,41 @@ points to the `div` element with the id "output". Finally, we assign the
 
 That's it!
 
+## Editing you app
+
+If you use an IDE (like VSCode or PyCharm) then you'll probably want them to
+auto-suggest and introspect aspects of the Python code you're writing. The
+problem is that the `pyscript` namespace *we provide* isn't installed anywhere
+(because it's in your browser, not your IDE's context) so such information
+isn't, by default, picked up.
+
+Thankfully Python stubs come to the rescue.
+
+Members of our community have
+[created Python stub files for PyScript](https://github.com/pyscript/pyscript-stubs).
+You should clone the linked-to repository and configure your IDE to consume the
+stub files.
+
+For example, let's say you
+[cloned the repository](https://github.com/pyscript/pyscript-stubs) into:
+`~/src/stubs/pyscript-stubs`, then in VSCode, you'd create, in your PyScript
+project, a file called `.vscode/settings.json` and add the following:
+
+```js
+{
+    "python.analysis.stubPath": "~/src/stubs/pyscript-stubs/src/pyscript-stubs"
+}
+```
+
+Then restart the Python language server in VSCode (Press `Ctrl+Shift+P` (or
+`Cmd+Shift+P` on Mac) to open the Command Palette and type:
+`Python: Restart Language Server`.
+
+!!! note
+
+    The stubs themselves are found within the `src/pyscript-stubs` directory
+    in the git repository, hence the longer path in the configuration file.
+
 ## Sharing your app
 
 ### PyScript.com
@@ -262,6 +297,12 @@ static web host will do (for example,
 To run PyScript offline, without the need of a CDN or internet connection, read
 the [Run PyScript Offline](user-guide/offline.md) section of the user
 guide.
+
+We also provide an `offline.zip` file with
+[each release](https://pyscript.net/releases/2025.11.2/). This file contains
+everything you need for an offline version of PyScript: PyScript itself,
+versions of Pyodide and MicroPython, and an index.html page from which you
+could create your offline-first PyScript work.
 
 ## Conclusion
 
