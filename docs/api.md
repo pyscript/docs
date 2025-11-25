@@ -1127,7 +1127,7 @@ PyWorker("worker.py", type="micropython")
     break_loop = sync.notStuck
 
     def is_not_stuck(condition):
-        if is_stuck():
+        if not condition and is_stuck():
             # this is a must to reset the "stuck" state
             break_loop()
             # throw an error to get out of the loop
