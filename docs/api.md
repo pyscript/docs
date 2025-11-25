@@ -1100,6 +1100,61 @@ PyWorker("worker.py", type="micropython")
 <div id="output"></div>  <!-- The display target -->
 ```
 
+!!! info
+
+    Sometimes code running on a worker gets stuck in an infinite loop and
+    becomes unresponsive. There are many complicated reasons why this might
+    happen, but when it does happen you likely want to break out of this
+    loop. This is where the `isStuck` and `notStuck` features come into play.
+
+    If you have code in the worker that could end up in an unresponsive
+    infinite loop, for example:
+
+    ```python
+    import time
+
+    while True:
+        time.sleep(1)
+        print("Stuck in a loop") 
+    ```
+
+    ...then you only need wrap this code in the worker like this:
+
+    ```python
+    import time
+    from pyscript import sync
+    is_stuck = sync.isStuck
+    break_loop = sync.notStuck
+
+    def is_not_stuck(condition):
+        if is_stuck():
+            # this is a must to reset the "stuck" state
+            break_loop()
+            # throw an error to get out of the loop
+            raise RuntimeError('Worker was stuck, but now it is unstuck')
+        return condition
+
+    while is_not_stuck(True):
+        time.sleep(1)
+        print("Stuck in a loop")
+    ```
+
+    From your code on the main thread you may have something like this:
+
+    ```python
+    from pyscript import PyWorker
+
+    w = PyWorker("sticky_code.py", type="micropython")
+
+    @when("click", "unstick_button")
+    def handle_unstick():
+        w.unstuck()
+    ```
+
+    This starts the worker with you code that could get into an infinite loop,
+    then defines a function that calls the `unstuck()` function on the worker
+    when a button on the UI is clicked.
+
 ### `pyscript.workers`
 
 The `pyscript.workers` reference allows Python code in the main thread to
