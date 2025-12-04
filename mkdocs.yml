@@ -1,4 +1,6 @@
 site_name: PyScript
+site_author: The PyScript OSS Team
+site_description: PyScript - an open source platform for Python in the browser.
 
 theme:
     name: material
@@ -58,6 +60,7 @@ plugins:
       css_dir: css
       javascript_dir: js
       canonical_version: null
+  - mkdocstrings
 
 nav:
   - Home: index.md
