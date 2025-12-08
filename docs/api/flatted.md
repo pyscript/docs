@@ -1,0 +1,3 @@
+# `pyscript.flatted`
+
+::: pyscript.flatted
