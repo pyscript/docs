@@ -1,0 +1,3 @@
+# `pyscript.websocket`
+
+::: pyscript.websocket

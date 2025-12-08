@@ -60,7 +60,15 @@ plugins:
       css_dir: css
       javascript_dir: js
       canonical_version: null
-  - mkdocstrings
+  - mkdocstrings:
+      default_handler: python
+      locale: en
+      handlers:
+        python:
+          options:
+            show_source: true
+            members_order: source
+            show_symbol_type_heading: true
 
 nav:
   - Home: index.md
@@ -83,7 +91,21 @@ nav:
     - PyGame-CE: user-guide/pygame-ce.md
     - Plugins: user-guide/plugins.md
     - Use Offline: user-guide/offline.md
-  - Built-in APIs: api.md
+  - PyScript APIs:
+    - Introduction: api/init.md
+    - context: api/context.md
+    - display: api/display.md
+    - events: api/events.md
+    - fetch: api/fetch.md
+    - ffi: api/ffi.md
+    - flatted: api/flatted.md
+    - fs: api/fs.md
+    - media: api/media.md
+    - storage: api/storage.md
+    - util: api/util.md
+    - web: api/web.md
+    - websocket: api/websocket.md
+    - workers: api/workers.md
   - FAQ: faq.md
   - Contributing: contributing.md
   - Developer Guide: developers.md
