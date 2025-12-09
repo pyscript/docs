@@ -3,7 +3,7 @@ Execution context management for PyScript.
 
 This module handles the differences between running in the
 [main browser thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
-versus running in a 
+versus running in a
 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers),
 providing a consistent API regardless of the execution context.
 

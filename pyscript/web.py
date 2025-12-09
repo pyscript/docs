@@ -270,7 +270,7 @@ class Element:
 
         Some elements have an underscore suffix in their class names (e.g.
         `select_`, `input_`).
-        
+
         This is to avoid clashes with Python keywords. The underscore is removed
         when determining the actual HTML tag name.
 
@@ -280,7 +280,7 @@ class Element:
     # Find and wrap an element by CSS selector.
     existing = web.page.find(".my_class")[0]
 
-    # Or, better, just use direct ID lookup (with or without the 
+    # Or, better, just use direct ID lookup (with or without the
     # leading '#').
     existing = web.page["my-element"]
     ```
@@ -396,7 +396,7 @@ class Element:
     !!! warning
         **Some HTML attributes clash with Python keywords and use trailing
         underscores**.
-    
+
     Use `for_` instead of `for`, and `class_` instead of `class`.
 
     ```python
@@ -675,7 +675,7 @@ class Element:
 
     def find(self, selector):
         """
-        Find all descendant elements matching the 
+        Find all descendant elements matching the
         [CSS `selector`](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Selectors).
 
         Returns an `ElementCollection` (possibly empty).
@@ -1122,7 +1122,7 @@ class ElementCollection:
 
     def find(self, selector):
         """
-        Find all descendants matching the 
+        Find all descendants matching the
         [CSS `selector`](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Selectors).
 
         Searches within all elements in the collection.
@@ -1157,7 +1157,7 @@ class ElementCollection:
 
 class canvas(ContainerElement):
     """
-    A bespoke 
+    A bespoke
     [HTML canvas element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas)
     with Pythonic drawing and download capabilities.
     """

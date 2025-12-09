@@ -1,8 +1,9 @@
 """
-This module provides a unified Foreign Function Interface (FFI) layer that
-works consistently across both Pyodide and MicroPython, and in worker or main
-thread contexts, abstracting away the differences in their JavaScript interop
-APIs.
+This module provides a unified
+[Foreign Function Interface (FFI)](https://en.wikipedia.org/wiki/Foreign_function_interface)
+layer for Python/JavaScript interactions, that works consistently across both
+Pyodide and MicroPython, and in a worker or main thread context, abstracting
+away the differences in their JavaScript interop APIs.
 
 The following utilities work on both the main thread and in worker contexts:
 
@@ -74,7 +75,7 @@ def to_js(value, **kw):
     """
     Convert Python objects to JavaScript objects.
 
-    This ensures a Python `dict` becomes a 
+    This ensures a Python `dict` becomes a
     [proper JavaScript object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
     rather a JavaScript [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map),
     which is more intuitive for most use cases.
@@ -86,7 +87,7 @@ def to_js(value, **kw):
     from pyscript import ffi
     import js
 
-    
+
     note = {
         "body": "This is a notification",
         "icon": "icon.png"
@@ -111,7 +112,7 @@ def is_none(value):
     from pyscript import ffi
     import js
 
-    
+
     val1 = None
     val2 = js.null
     val3 = 42

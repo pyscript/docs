@@ -41,7 +41,7 @@ class Device:
     """
     Represents a media input or output device.
 
-    This class wraps a browser 
+    This class wraps a browser
     [MediaDeviceInfo object](https://developer.mozilla.org/en-US/docs/Web/API/MediaDeviceInfo),
     providing Pythonic access to device properties like `ID`, `label`, and
     `kind` (audio/video, input/output).
@@ -52,7 +52,7 @@ class Device:
     ```python
     from pyscript.media import list_devices
 
-    
+
     # Get all available devices.
     devices = await list_devices()
 
@@ -135,7 +135,7 @@ class Device:
         from pyscript import document
         from pyscript.media import Device
 
-        
+
         # Get default video stream.
         stream = await Device.request_stream()
 
@@ -185,7 +185,7 @@ class Device:
         ```python
         from pyscript.media import list_devices
 
-        
+
         # List all devices.
         devices = await list_devices()
 
@@ -219,7 +219,7 @@ async def list_devices():
     ```python
     from pyscript.media import list_devices
 
-    
+
     # Get all devices.
     devices = await list_devices()
 

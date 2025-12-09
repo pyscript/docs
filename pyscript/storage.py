@@ -109,7 +109,7 @@ class Storage(dict):
     ```python
     from pyscript import storage
 
-    
+
     # Open a storage.
     prefs = await storage("preferences")
 
@@ -130,7 +130,7 @@ class Storage(dict):
     ```python
     from pyscript import storage, Storage, window
 
-    
+
     class LoggingStorage(Storage):
         def __setitem__(self, key, value):
             window.console.log(f"Setting {key} = {value}")
@@ -220,7 +220,7 @@ async def storage(name="", storage_class=Storage):
     ```python
     from pyscript import storage
 
-    
+
     # Basic usage.
     user_data = await storage("user-profile")
     user_data["name"] = "Alice"

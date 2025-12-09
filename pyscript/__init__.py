@@ -1,7 +1,7 @@
 """
 This is the main `pyscript` namespace. It provides the primary Pythonic API
 for users to interact with the
-[browser's own API](https://developer.mozilla.org/en-US/docs/Web/API). It 
+[browser's own API](https://developer.mozilla.org/en-US/docs/Web/API). It
 includes utilities for common activities such as displaying content, handling
 events, fetching resources, managing local storage, and coordinating with
 web workers.
@@ -47,7 +47,7 @@ respective submodule documentation for more details on each component.
 
 
 !!! Note
-    Some notes about the naming conventions and the relationship between 
+    Some notes about the naming conventions and the relationship between
     various similar-but-different names found within this code base.
 
     ```python
@@ -63,17 +63,18 @@ respective submodule documentation for more details on each component.
     ```
 
     The `_pyscript` module is an internal API implemented in JS. **End users
-    should not use it directly**. For its implementation, grep for 
+    should not use it directly**. For its implementation, grep for
     `interpreter.registerJsModule("_pyscript",...)` in `core.js`.
 
     ```python
     import js
     ```
 
-    The `js` object is the JS `globalThis`, as exported by Pyodide and/or
-    Micropython's foreign function interface (FFI). As such, it contains
-    different things in the main thread or in a worker, as defined by web
-    standards.
+    The `js` object is
+    [the JS `globalThis`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis),
+    as exported by Pyodide and/or Micropython's foreign function interface
+    (FFI). As such, it contains different things in the main thread or in a
+    worker, as defined by web standards.
 
     ```python
     import pyscript.context
@@ -85,7 +86,7 @@ respective submodule documentation for more details on each component.
     mostly for internal PyScript use or advanced users. In particular, it
     defines `window` and `document` in such a way that these names work in
     both cases: in the main thread, they are the "real" objects, in a worker
-    they are proxies which work thanks to 
+    they are proxies which work thanks to
     [coincident](https://github.com/WebReflection/coincident).
 
     ```python

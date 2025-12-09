@@ -140,7 +140,7 @@ async def create_named_worker(src, name, config=None, type="py"):
     the document. The worker will be accessible via the `workers` proxy once
     it's ready.
 
-    It return a promise that resolves to the worker reference when ready.
+    It returns a promise that resolves to the worker reference when ready.
 
     ```python
     from pyscript import create_named_worker
@@ -171,7 +171,7 @@ async def create_named_worker(src, name, config=None, type="py"):
     ```
 
     !!! info
-    
+
         **The worker script should define** `__export__` to specify which
         functions or objects are accessible from the main thread.
     """

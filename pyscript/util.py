@@ -56,8 +56,8 @@ def is_awaitable(obj):
     """
     Returns a boolean indication if the passed in obj is an awaitable
     function. This is interpreter agnostic.
-    
-    !!! info 
+
+    !!! info
         MicroPython treats awaitables as generator functions, and if
         the object is a closure containing an async function or a bound method
         we need to work carefully.

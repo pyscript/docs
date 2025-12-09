@@ -5,7 +5,7 @@ running in the browser, can read and write files on the user's local machine.
 
 !!! warning
     **This API only works in Chromium-based browsers** (Chrome, Edge,
-    Opera, Brave, etc.) that support the 
+    Vivaldi, Brave, etc.) that support the
     [File System Access API](https://wicg.github.io/file-system-access/).
 
 The module maintains a `mounted` dictionary that tracks all currently mounted
@@ -78,7 +78,7 @@ async def mount(path, mode="readwrite", root="", id="pyscript"):
     ```python
     from pyscript import fs
 
-    
+
     # Basic mount with default settings.
     await fs.mount("/local")
 
@@ -162,7 +162,7 @@ async def sync(path):
     ```python
     from pyscript import fs
 
-    
+
     await fs.mount("/local")
 
     # Make changes to files.
@@ -194,7 +194,7 @@ async def unmount(path):
     ```python
     from pyscript import fs
 
-    
+
     await fs.mount("/local")
     # ... work with files ...
     await fs.unmount("/local")
@@ -227,7 +227,7 @@ async def revoke(path, id="pyscript"):
     ```python
     from pyscript import fs
 
-    
+
     await fs.mount("/local", id="my-app")
     # ... work with files ...
 

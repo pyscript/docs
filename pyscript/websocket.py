@@ -14,7 +14,7 @@ Use this for real-time applications:
 - Naming deliberately follows the JavaScript WebSocket API closely for
   familiarity.
 
-See the Python docs for 
+See the Python docs for
 [an explanation of memoryview](https://docs.python.org/3/library/stdtypes.html#memoryview).
 
 
@@ -123,7 +123,7 @@ class WebSocket:
 
     Access the underlying WebSocket methods and properties directly if needed.
     However, the wrapper provides a more Pythonic API. If you need to work
-    with the raw JavaScript WebSocket instance, you can access it via the 
+    with the raw JavaScript WebSocket instance, you can access it via the
     `_js_websocket` attribute.
 
     Using textual (`str`) data:
