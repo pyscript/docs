@@ -1,5 +1,5 @@
 """
-This module is a Python implementation of the 
+This module is a Python implementation of the
 [Flatted JavaScript library](https://www.npmjs.com/package/flatted), which
 provides a light and fast way to serialize and deserialize JSON structures
 that contain circular references.
@@ -157,7 +157,7 @@ def parse(value, *args, **kwargs):
     ```python
     from pyscript import flatted
 
-    
+
     # Parse a Flatted JSON string.
     json_string = '[{"name": "1", "self": "0"}, "parent"]'
     obj = flatted.parse(json_string)
@@ -202,7 +202,7 @@ def stringify(value, *args, **kwargs):
     ```python
     from pyscript import flatted
 
-    
+
     # Create an object with a circular reference.
     parent = {"name": "parent", "children": []}
     child = {"name": "child", "parent": parent}

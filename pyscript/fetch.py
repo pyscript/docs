@@ -1,5 +1,5 @@
 """
-This module provides a Python-friendly interface to the 
+This module provides a Python-friendly interface to the
 [browser's fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API),
 returning native Python data types and supporting directly awaiting the promise
 and chaining method calls directly on the promise.
@@ -156,14 +156,12 @@ def fetch(url, **options):
 
     The function takes a `url` and optional fetch `options` as keyword
     arguments. The `options` correspond to the JavaScript fetch API's
-    RequestInit dictionary, and commonly include:
+    [RequestInit dictionary](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit),
+    and commonly include:
 
     - `method`: HTTP method (e.g., `"GET"`, `"POST"`, `"PUT"` etc.)
     - `headers`: Dict of request headers.
     - `body`: Request body (string, dict for JSON, etc.)
-
-    See [this documentation](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit)
-    for more details of these web standards.
 
     The function returns a promise that resolves to a Response-like object
     with Pythonic methods to extract data:
