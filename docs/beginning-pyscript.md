@@ -231,7 +231,7 @@ points to the `div` element with the id "output". Finally, we assign the
 
 That's it!
 
-## Editing you app
+## Editing your app
 
 If you use an IDE (like VSCode or PyCharm) then you'll probably want them to
 auto-suggest and introspect aspects of the Python code you're writing. The
