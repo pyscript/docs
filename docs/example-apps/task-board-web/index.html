@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Task Board - pyscript.web</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        background: #f5f5f5;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+      .subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+      }
+      .add-task {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+      }
+      .add-task input,
+      .add-task .priority-buttons,
+      .add-task .add-btn {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .add-task input {
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+      .priority-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .priority-btn {
+        flex: 1;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .priority-btn.selected {
+        border-color: #333;
+        font-weight: bold;
+      }
+      .priority-btn.high { border-color: #e74c3c; color: #e74c3c; }
+      .priority-btn.high.selected { background: #e74c3c; color: white; }
+      .priority-btn.medium { border-color: #f39c12; color: #f39c12; }
+      .priority-btn.medium.selected { background: #f39c12; color: white; }
+      .priority-btn.low { border-color: #27ae60; color: #27ae60; }
+      .priority-btn.low.selected { background: #27ae60; color: white; }
+      .add-btn {
+        padding: 0.75rem;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .add-btn:hover {
+        background: #2980b9;
+      }
+      .filters {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        background: white;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .filter-btn.active {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+      }
+      .tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .task {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-left: 4px solid #ddd;
+        transition: all 0.2s;
+      }
+      .task.high { border-left-color: #e74c3c; }
+      .task.medium { border-left-color: #f39c12; }
+      .task.low { border-left-color: #27ae60; }
+      .task.completed {
+        opacity: 0.6;
+      }
+      .task.completed .task-text {
+        text-decoration: line-through;
+      }
+      .checkbox {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+      .task-text {
+        flex: 1;
+        font-size: 1rem;
+      }
+      .delete-btn {
+        padding: 0.5rem 1rem;
+        background: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .delete-btn:hover {
+        background: #c0392b;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PyScript Task Board</h1>
+    <p class="subtitle">Built with pyscript.web</p>
+
+    <div class="add-task">
+      <input type="text" id="task-input" placeholder="What needs to be done?" />
+      <div class="priority-buttons">
+        <button class="priority-btn high" data-priority="high">High</button>
+        <button class="priority-btn medium selected" data-priority="medium">Medium</button>
+        <button class="priority-btn low" data-priority="low">Low</button>
+      </div>
+      <button class="add-btn" id="add-task-btn">Add Task</button>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="active">Active</button>
+      <button class="filter-btn" data-filter="completed">Completed</button>
+    </div>
+
+    <div id="tasks" class="tasks"></div>
+
+    <script type="mpy" src="./main.py"></script>
+  </body>
+</html>

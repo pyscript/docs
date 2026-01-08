@@ -1,72 +1,75 @@
 # PyGame Support
 
-!!! Danger 
+PyScript includes experimental support for
+[PyGame Community Edition](https://pyga.me/), a Python library for
+building games. PyGame-CE runs in the browser through PyScript, letting
+you share games via URL without requiring players to install Python or
+any dependencies.
 
-    **Support for PyGame-CE is experimental** and its behaviour is likely to
-    change as we get feedback and bug reports from the community.
+This guide explains how to use PyGame-CE with PyScript, covering the
+differences from traditional PyGame development and techniques for
+making games work well in the browser.
 
-    Please bear this in mind as you try PyGame-CE with PyScript, and all
-    feedback, bug reports and constructive critique is welcome via discord
-    or GitHub.
+!!! warning
 
+    PyGame-CE support is experimental. Behaviour may change based on
+    community feedback and bug reports. Please share your experiences
+    via Discord or GitHub to help improve this feature.
 
-[PyGameCE](https://pyga.me/) is a Python library for building powerful games
-(so says their website). They also say, to get started you just need to
-`pip install pygame-ce`.
+## Quick start
 
-Thanks to work in the upstream [Pyodide project](https://pyodide.org/)
-PyGame-CE is available in PyScript and to get started all you need to do is:
-`<script type="py-game" src="my_game.py"></script>` Now you don't even need to
-`pip install` the library! It comes with PyScript by default, and you can share
-your games via a URL!
+Create a PyGame-CE application by using the `py-game` script type:
 
-!!! Info
+```html
+<script type="py-game" src="my_game.py"></script>
+```
 
-    Please refer to
-    [PyGame-CE's extensive documentation](https://pyga.me/docs/) for how to
-    create a game. Some things may not work because we're running in a
-    browser context, but play around and let us know how you get on.
+PyGame-CE loads automatically - no pip installation needed. Your game
+runs in the browser and can be shared via URL like any other web page.
 
-## Getting Started
+Refer to [PyGame-CE's documentation](https://pyga.me/docs/) for game
+development techniques. Most features work in the browser, though some
+may behave differently due to the browser environment.
 
-Here are some notes on using PyGame-CE specifically in a browser context with
-pyscript versus running locally per
-[PyGame-CE's documentation](https://pyga.me/docs/).
+## Browser considerations
 
-1. You can use [pyscript.com](https://pyscript.com) as mentioned in
-   [Beginning PyScript](../beginning-pyscript.md) for an easy starting
-   environment.
-2. Pyscript's PyGame-CE is under development, so make sure to use the latest
-   version by checking the `index.html` and latest version on this website. If
-   using [pyscript.com](https://pyscript.com), the latest version is not always
-   used in a new project.
-3. The game loop needs to allow the browser to run to update the canvas used as
-   the game's screen. In the simplest projects, the quickest way to do that is
-   to replace `clock.tick(fps)` with `await asyncio.sleep(1/fps)`, but there
-   are better ways (discussed later).
-4. If you have multiple Python source files or media such as images or sounds,
-   you need to use the [config attribute](configuration.md) to load the
-   files into the PyScript environment. The below example shows how to do this.
-5. The integrated version of Python and PyGame-CE may not be the latest. In the 
-   browser's console when PyGame-CE starts you can see the versions, and for 
-   example if 2.4.1 is included, you can't use a function marked in the 
-   documentation as "since 2.5".
+PyGame-CE in the browser differs from local development in several key
+ways. Understanding these differences helps you write games that work
+well in both environments.
 
-### Example
+The browser needs regular opportunities to update the canvas displaying
+your game. Replace `clock.tick(fps)` with `await asyncio.sleep(1/fps)`
+to give the browser time to render. Better timing techniques exist and
+are covered later in this guide.
 
-This is the example quickstart taken from the [Python Pygame 
-Introduction](https://pyga.me/docs/tutorials/en/intro-to-pygame.html) on the 
-PyGame-CE website, modified only to add `await asyncio.sleep(1/60)` (and the 
-required `import asyncio`) to limit the game to roughly 60 fps.
+Media files like images and sounds must be explicitly loaded using
+PyScript's configuration system. Use the `files` section in your
+configuration to make assets available.
 
-Note: since the `await` is not in an `async` function, it cannot run using
-Python on your local machine, but a solution is
-[discussed later](#running-locally).
+Python and PyGame-CE versions in the browser may lag behind the latest
+releases. Check the browser console when PyGame-CE starts to see which
+versions are available. Functions marked "since 2.5" in the
+documentation won't work if version 2.4.1 is bundled.
 
+## Complete example
 
-```python title="quickstart.py"
+Here's a complete bouncing ball game demonstrating PyGame-CE in the
+browser:
+
+<iframe src="../../example-apps/bouncing-ball/" style="border: 1px solid black; width:100%; min-height: 500px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+[View the complete source code](https://github.com/pyscript/docs/tree/main/docs/example-apps/bouncing-ball).
+
+This example shows the essential pattern for PyGame-CE in PyScript. The
+game uses `await asyncio.sleep(1/60)` to yield control to the browser
+for canvas updates.
+
+The Python code:
+
+```python
 import asyncio
-import sys, pygame
+import sys
+import pygame
 
 pygame.init()
 
@@ -80,7 +83,8 @@ ballrect = ball.get_rect()
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
+        if event.type == pygame.QUIT:
+            sys.exit()
 
     ballrect = ballrect.move(speed)
     if ballrect.left < 0 or ballrect.right > width:
@@ -94,228 +98,225 @@ while True:
     await asyncio.sleep(1/60)
 ```
 
-To run this game with PyScript, use the following HTML file, ensuring a call
-to the Python program and a `<canvas id="canvas">` element where the graphics
-will be placed. Make sure to update the pyscript release to the latest version.
+The only addition to standard PyGame code is `await asyncio.sleep(1/60)`,
+which gives the browser time to render. The `await` at the top level
+works in PyScript's async context but won't run locally without
+modification (covered below).
 
-```html title="index.html"
+The HTML file needs a canvas element and the script tag:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <title>PyScript Pygame-CE Quickstart</title>
+  <title>PyScript PyGame-CE Example</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-  <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+  <link rel="stylesheet" 
+    href="https://pyscript.net/releases/2025.11.2/core.css">
+  <script type="module" 
+    src="https://pyscript.net/releases/2025.11.2/core.js"></script>
 </head>
 <body>
-<canvas id="canvas" style="image-rendering: pixelated"></canvas>
-<script type="py-game" src="quickstart.py" config='pyscript.toml'></script>
+  <canvas id="canvas" style="image-rendering: pixelated"></canvas>
+  <script type="py-game" src="quickstart.py" 
+    config="pyscript.toml"></script>
 </body>
 </html>
 ```
 
-!!! Info
+!!! info
 
-    The `style="image-rendering: pixelated` on the canvas preserves the
-    pixelated look on high-DPI screens or when zoomed-in. Remove it to have a
-    "smoothed" look.
-    
-Lastly, you need to define the `pyscript.toml` file to expose any files that
-your game loads -- in this case, `intro_ball.gif`
-[(download from pygame GitHub)](https://github.com/pygame-community/pygame-ce/blob/80fe4cb9f89aef96f586f68d269687572e7843f6/docs/reST/tutorials/assets/intro_ball.gif?raw=true).
+    The `style="image-rendering: pixelated"` preserves the pixelated
+    look on high-DPI screens. Remove it for smoothed rendering.
 
-```toml title="pyscript.toml"
+The configuration file lists game assets:
+
+```toml
 [files]
 "intro_ball.gif" = ""
 ```
 
-Now you only need to serve the 3 files to a browser. If using 
-[pyscript.com](https://pyscript.com) you only need to ensure the content of the 
-files, click save then run and view the preview tab. Or, if you are on a machine 
-with Python installed you can do it from a command line running in the same 
-directory as the project:
+Download `intro_ball.gif` from the
+[PyGame-CE repository](https://github.com/pygame-community/pygame-ce/blob/main/docs/reST/tutorials/assets/intro_ball.webp?raw=true).
 
-```
-python -m http.server -b 127.0.0.1 8000
-```
+## Running locally and in browser
 
-This will start a website accessible only to your machine (`-b 127.0.0.1` limits 
-access only to "localhost" -- your own machine). After running this, you can 
-visit [http://localhost:8000/](http://localhost:8000/) to run the game in your
-browser.
+The top-level `await` in the example isn't valid in standard Python (it
+should be inside an async function). PyScript provides an async context
+automatically, but local Python doesn't.
 
-Congratulations! Now you know the basics of updating games to run in PyScript.
-You can continue to develop your game in the typical PyGame-CE way.
-
-## Running Locally
-
-Placing an `await` call in the main program script as in the example is not 
-technically valid Python as it should be in an `async` function. In the
-environment executed by PyScript, the code runs in an `async` context so this
-works; however, you will notice you cannot run the `quickstart.py` on your
-local machine with Python. To fix that, you need to add just a little more
-code:
-
-Place the entire game in a function called `run_game` so that function can be 
-declared as `async`, allowing it to use `await` in any environment. Import the 
-`asyncio` package and add the `try ... except` code at the end. Now when running 
-in the browser, `asyncio.create_task` is used, but when running locally 
-`asyncio.run` is used. Now you can develop and run locally but also support 
-publish to the web via PyScript.
+Wrap your game in an async function and use a try-except block to detect
+the environment:
 
 ```python
 import asyncio
-import sys, pygame
+import sys
+import pygame
+
 
 async def run_game():
+    """
+    Main game function.
+    """
     pygame.init()
 
-    # Game init ...
+    # Initialise game state...
+    size = width, height = 320, 240
+    screen = pygame.display.set_mode(size)
 
     while True:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: sys.exit()
-            
-        # Game logic ...
+            if event.type == pygame.QUIT:
+                sys.exit()
+        
+        # Game logic...
         
         await asyncio.sleep(1/60)
 
+
 try:
-    asyncio.get_running_loop() # succeeds if in async context
+    # Check if we're in an async context (PyScript).
+    asyncio.get_running_loop()
     asyncio.create_task(run_game())
 except RuntimeError:
-    asyncio.run(run_game()) # start async context as we're not in one
+    # No async context (local Python).
+    asyncio.run(run_game())
 ```
 
-!!! Info
+This pattern works in both environments. PyScript uses `create_task()`,
+local Python uses `asyncio.run()`. Now you can develop locally and
+publish to the web without changing code.
 
-    In the web version, the `sys.exit()` was never used because the `QUIT`
-    event is not generated, but in the local version, responding to the event
-    is mandatory.
-    
-## Advanced Timing
+!!! info
 
-While the `await asyncio.sleep(1/60)` is a quick way to approximate 60 FPS,
-like all sleep-based timing methods in games this is not precise. Generating
-the frame itself takes time, so sleeping 1/60th of a second means total frame
-time is longer and actual FPS will be less than 60.
+    The `pygame.QUIT` event never fires in the browser version, but
+    handling it is mandatory for local execution where closing the
+    window generates this event.
 
-A better way is to do this is to run your game at the same frame rate as the 
-display (usually 60, but can be 75, 100, 144, or higher on some displays). When 
-running in the browser, the proper way to do this is with the JavaScript API 
-called `requestAnimationFrame`. Using the FFI (foreign function interface) 
-capabilities of PyScript, we can request the browser's JavaScript runtime to 
-call the game. The main issue of this method is it requires work to separate the 
-game setup from the game's execution, which may require more advanced Python 
-code such as `global` or `class`. However, one benefit is that the `asyncio` 
-usages are gone.
+## Precise frame timing
 
+The `await asyncio.sleep(1/60)` approach approximates 60 FPS but isn't
+precise. Frame rendering takes time, so sleeping 1/60th of a second
+results in actual FPS below 60.
 
-When running locally, you get the same effect from the `vsync=1` parameter on 
-`pygame.display.set_mode` as `pygame.display.flip()` will pause until the screen 
-has displayed the frame. In the web version, the `vsync=1` will do nothing, 
-`flip` will not block, leaving the browser itself to control the timing using 
-`requestAnimationFrame` by calling `run_one_frame` (via `on_animation_frame`) 
-each time the display updates.
-
-Additionally, since frame lengths will be different on each machine, we need to
-account for this by creating and using a `dt` (delta time) variable by using a
-`pygame.time.Clock`. We update the speed to be in pixels per second and multiply
-by `dt` (in seconds) to get the number of pixels to move.
-
-The code will look like this:
+Better timing synchronises with the display refresh rate using
+`requestAnimationFrame` in the browser and `vsync=1` locally. This
+requires separating setup from the game loop:
 
 ```python
-import sys, pygame
+import sys
+import pygame
 
 pygame.init()
 
 size = width, height = 320, 240
-speed = pygame.Vector2(150, 150) # use Vector2 so we can multiply with dt
+speed = pygame.Vector2(150, 150)
 black = 0, 0, 0
 
-screen = pygame.display.set_mode(size, vsync=1) # Added vsync=1
+screen = pygame.display.set_mode(size, vsync=1)
 ball = pygame.image.load("intro_ball.gif")
 ballrect = ball.get_rect()
-clock = pygame.time.Clock() # New clock defined
+clock = pygame.time.Clock()
+
 
 def run_one_frame():
+    """
+    Execute one frame of the game.
+    """
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
-        
-    # in this 300 is for maximum frame rate only, in case vsync is not working
-    dt = clock.tick(300) / 1000
-
-    ballrect.move_ip(speed * dt) # use move_ip to avoid the need for "global"
-    # Remaining game code unchanged ...
+        if event.type == pygame.QUIT:
+            sys.exit()
     
+    # Delta time for frame-rate independence.
+    dt = clock.tick(300) / 1000
+    
+    ballrect.move_ip(speed * dt)
+    
+    # Bounce logic...
+    if ballrect.left < 0 or ballrect.right > width:
+        speed.x = -speed.x
+    if ballrect.top < 0 or ballrect.bottom > height:
+        speed.y = -speed.y
+    
+    screen.fill(black)
+    screen.blit(ball, ballrect)
     pygame.display.flip()
 
-    
-# PyScript-specific code to use requestAnimationFrame in browser
+
+# Browser: use requestAnimationFrame.
 try:
-    from pyscript import window
-    from pyscript import ffi
-    # Running in PyScript
-    def on_animation_frame(dt):
-        # For consistency, we use dt from pygame's clock even in browser
+    from pyscript import window, ffi
+    
+    def on_animation_frame(timestamp):
+        """
+        Called by browser for each frame.
+        """
         run_one_frame()
         window.requestAnimationFrame(raf_proxy)
+    
     raf_proxy = ffi.create_proxy(on_animation_frame)
     on_animation_frame(0)
-    
+
 except ImportError:
-    # Local Execution
+    # Local: use while loop with vsync.
     while True:
         run_one_frame()
 ```
 
-A benefit of `vsync` / `requestAnimationFrame` method is that if the game is 
-running too slowly, frames will naturally be skipped. A drawback is that in the 
-case of skipped frames and different displays, `dt` will be different. This can
-cause problems depending on your game's physics code; the potential solutions 
-are not unique to the PyScript situation and can be found elsewhere online as an 
-exercise for the reader. For example, the above example on some machines the 
-ball will get "stuck" in the sides. In case of issues the `asyncio.sleep` method 
-without `dt` is easier to deal with for the beginning developer.
+This synchronises with display refresh (usually 60Hz, but can be higher).
+Delta time (`dt`) accounts for frame rate variations between machines.
+Speed is now in pixels per second, multiplied by `dt` to get movement
+per frame.
 
-## How it works
+The `vsync=1` parameter makes `flip()` block until the display updates
+locally. In the browser, `vsync=1` does nothing - instead,
+`requestAnimationFrame` controls timing.
 
-When a `<script type="py-game"></script>` element is found on the page a
-Pyodide instance is bootstrapped with the `pygame-ce` package already included.
-Differently from other scripts, `py-game` cannot currently work through a
-worker and it uses an optional target attribute to define the `<canvas>`
-element id that will be used to render the game. If no target attribute is
-defined, the script assumes there is a `<canvas id="canvas">` element already
-on the page.
+Note that variable frame rates can cause physics issues. The ball might
+get stuck in walls if frame skipping occurs. For beginners, the simpler
+`asyncio.sleep` method may be easier despite being less precise.
 
-A config attribute can be specified to add extra packages or bring in additional
-files such as images and sounds but right now that's all it can do.
+## How PyGame-CE integration works
 
-!!! Info
+The `py-game` script type bootstraps Pyodide with PyGame-CE
+pre-installed. Unlike regular scripts, PyGame-CE always runs on the main
+thread and cannot use workers.
 
-    Sometimes you need to gather text based user input when starting a game.
-    The usual way to do this is via the builtin `input` function.
+The `target` attribute specifies which canvas element displays the game.
+If omitted, PyScript assumes a `<canvas id="canvas">` element exists.
 
-    Because PyGame-CE **only runs on the main thread**, the only way to block
-    your code while it waits for user `input` is to use a
-    [JavaScript prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt)
-    instead of input typed in via a terminal. PyScript handles this
-    automatically for you if you use the `input` function.
+Configuration through the `config` attribute adds packages or files like
+images and sounds. This is currently the only configuration PyGame-CE
+scripts support.
 
-This is an experiment, but:
+!!! info
 
-* It is possible to use regular PyScript to load the pygame-ce package and use
-  all the other features. But there be dragons! This helper simply allows
-  multiple games on a page and forces game logic to run on the main thread to
-  reduce confusion around attributes and features when the `pygame-ce` package
-  is meant to be used. Put simply, we make it relatively safe and easy to use.
-* The fact `pygame-ce` is the default "game engine" does not mean in the future
-  PyScript won't have other engines also available.
-* Once again, as this is an experiment, we welcome any kind of feedback,
-  suggestions, hints on how to improve or reports of what's missing.
+    The `input()` function works in PyGame-CE but uses the browser's
+    native `prompt()` dialog. Since PyGame-CE runs on the main thread,
+    this is the only way to block for user input. PyScript handles this
+    automatically when you call `input()`.
 
-Other than that, please go make and share wonderful games. We can't wait to see
-what you come up with.
+## Experimental status
+
+PyGame-CE support is experimental but functional. You can load
+`pygame-ce` manually through regular PyScript if needed, but the
+`py-game` script type simplifies multi-game pages and ensures game logic
+runs on the main thread where PyGame-CE expects it.
+
+Future PyScript versions may include other game engines alongside
+PyGame-CE. We welcome feedback, suggestions, and bug reports to improve
+this feature.
+
+## What's next
+
+Now that you understand PyGame-CE support, explore these related topics:
+
+**[Terminal](terminal.md)** - Use the alternative REPL-style
+interface for interactive Python sessions.
+
+**[Editor](editor.md)** - Create interactive Python coding environments in
+web pages with the built-in code editor.
+
+**[Plugins](plugins.md)** - Understand the plugin system, lifecycle hooks,
+and how to write plugins that integrate with PyScript.

@@ -1,209 +1,248 @@
 # Plugins
 
-PyScript offers a plugin API _so anyone can extend its functionality and
-share their modifications_.
+PyScript's plugin API lets you extend the platform and modify its
+behaviour. Plugins intercept lifecycle events, inject code, and
+customise how PyScript operates. Anyone can create plugins and share
+them with the community.
 
-PyScript only supports plugins written in Javascript (although causing the
-evaluation of bespoke Python code can be a part of such plugins). The plugin's
-JavaScript code should be included on the web page via a
-`<script type="module">` tag **before PyScript is included in the web page**.
+This guide explains the plugin system, lifecycle hooks, and how to write
+plugins that integrate with PyScript.
 
-The PyScript plugin API defines hooks that intercept named events in the
-lifecycle of a PyScript application, so you can modify how the platform
-behaves. The [example at the bottom of this page](#example-plugin) demonstrates
-how this is done in code.
+## Understanding plugins
 
-### Lifecycle Events
+Plugins are written in JavaScript and included on the page before
+PyScript loads. They register hooks - callbacks that PyScript invokes at
+specific points in the application lifecycle. These hooks let you
+instrument interpreters, inject Python code, modify execution context,
+and react to events.
 
-PyScript emits events that capture the beginning or the end of specific stages
-in the application's life. No matter if code is running in the main thread or
-on a web worker, the exact same sequence of steps takes place:
+Include plugin code via a `<script type="module">` tag before the
+PyScript script tag. This ensures the plugin registers its hooks before
+PyScript initialises.
 
-  * **ready** - the browser recognizes the PyScript `script` or tag, and the
-    associated Python interpreter is ready to work. A JavaScript callback can
-    be used to instrument the interpreter before anything else happens.
-  * **before run** - some Python code is about to be evaluated. A JavaScript
-    callback could setup a bespoke browser context, be that in the main thread
-    or a web worker. This is similar to a generic *setup* callback found in
-    test frameworks.
-  * **code before run** - sometimes a plugin needs Python code to be evaluated
-    before the code given to PyScript, in order to set up a Python context
-    for the referenced code. Such code is simply a string of Python evaluated
-    immediately before the code given to PyScript.
-  * **At this point in the lifecycle the code referenced in the `script` or
-    other PyScript related tags is evaluated.**
-  * **code after run** - sometimes a plugin needs Python code to be evaluated
-    after the code given to PyScript, in order to clean up or react to the
-    final state created by the referenced code. Such code is simply a string of
-    Python code evaluated immediately after the code given to PyScript.
-  * **after run** - all the Python code has been evaluated. A JavaScript
-    callback could clean up or react to the resulting browser context, be that
-    on the main thread or a web worker. This is similar to a generic *teardown*
-    callback found in test frameworks.
+## Application lifecycle
 
-PyScript's interpreters can run their code either *synchronously* or
-*asynchronously* (**note**, the default is asynchronously). No matter, the very
-same sequence is guaranteed to run in order in both cases, the only difference
-being the naming convention used to reference synchronous or asynchronous
-lifecycle hooks.
+PyScript follows a predictable sequence of events, whether code runs on
+the main thread or in workers. Understanding this lifecycle helps you
+choose the right hooks for your plugin.
 
-### Hooks
+The sequence begins when the browser recognises a PyScript script tag.
+The interpreter initialises and becomes ready. At this point, the
+**ready** event fires. Plugins can instrument the interpreter before
+anything else happens.
 
-Hooks are used to tell PyScript that your code wants to subscribe to specific
-lifecycle events. When such events happen, your code will be called by
-PyScript.
+Before code evaluation, the **before run** event fires. Plugins can set
+up browser context on either the main thread or workers. This is similar
+to setup callbacks in test frameworks.
 
-The available hooks depend upon where your code is running: on the browser's
-(blocking) main thread or on a (non-blocking) web worker. These are defined via
-the `hooks.main` and `hooks.worker` namespaces in JavaScript.
+If plugins need Python code evaluated first, they provide **code before
+run** - a string of Python that executes immediately before the main
+code. This sets up Python context for the script.
 
+Then the actual script code evaluates - the Python you wrote in your
+script tags or source files.
 
-#### Main Hooks
+After code finishes, **code after run** executes if plugins provided it.
+This Python code cleans up or reacts to the final state.
 
-Callbacks registered via hooks on the main thread will usually receive a
-wrapper of the interpreter with its unique-to-that-interpreter utilities, along
-with a reference to the element on the page from where the code was derived.
+Finally, the **after run** event fires. Plugins can clean up browser
+context or react to results. This is similar to teardown callbacks in
+test frameworks.
 
-Please refer to the documentation for the interpreter you're using (Pyodide or
-MicroPython) to learn about its implementation details and the potential
-capabilities made available via the wrapper.
+This sequence happens consistently for both synchronous and asynchronous
+code execution. The naming conventions desscribed below distinguish sync
+versus async hooks, but the sequence remains the same.
 
-Callbacks whose purpose is simply to run raw contextual Python code, don't
-receive interpreter or element arguments. 
+## Main thread hooks
 
-This table lists all possible, **yet optional**, hooks a plugin can register on
-the main thread:
+Hooks on the main thread receive a wrapper around the interpreter and a
+reference to the HTML element containing the script. The wrapper
+provides interpreter-specific utilities and capabilities.
 
-| name                      | example                                       | behavior  |
-| :------------------------ | :-------------------------------------------- | :-------- |
-| onReady                   | `onReady(wrap:Wrap, el:Element) {}`           | If defined, this hook is invoked before any other to signal that the interpreter is ready and code is going to be evaluated. This hook is in charge of eventually running Pythonic content in any way it is defined to do so. |
-| onBeforeRun               | `onBeforeRun(wrap:Wrap, el:Element) {}`       | If defined, it is invoked before to signal that an element's code is going to be evaluated. |
-| onBeforeRunAsync          | `onBeforeRunAsync(wrap:Wrap, el:Element) {}`  | Same as `onBeforeRun`, except for scripts that require `async` behaviour. |
-| codeBeforeRun             | `codeBeforeRun: () => 'print("before")'`      | If defined, evaluate some Python code immediately before the element's code is evaluated. |
-| codeBeforeRunAsync        | `codeBeforeRunAsync: () => 'print("before")'` | Same as `codeBeforeRun,` except for scripts that require `async` behaviour. |
-| codeAfterRun              | `codeAfterRun: () => 'print("after")'`        | If defined, evaluate come Python code immediately after the element's code has finished executing. |
-| codeAfterRunAsync         | `codeAfterRunAsync: () => 'print("after")'`   | Same as `codeAfterRun`, except for scripts that require `async` behaviour. |
-| onAfterRun                | `onAfterRun(wrap:Wrap, el:Element) {}`        | If defined, invoked immediately after the element's code has been executed. |
-| onAfterRunAsync           | `onAfterRunAsync(wrap:Wrap, el:Element) {}`   | Same as `onAfterRun`, except for scripts that require `async` behaviour. |
-| onWorker                  | `onWorker(wrap = null, xworker) {}`           | If defined, whenever a script or tag with a `worker` attribute is processed, **this hook is triggered on the main thread**.  This allows possible [`xworker` features](https://pyscript.github.io/polyscript/#xworker) to be exposed **before the code is evaluated on the web worker**. The `wrap` reference is usually `null` unless an explicit `XWorker` call has been initialized manually and there is an interpreter on the main thread (*very advanced use case*). **Please note**, this is the only hook that doesn't exist in the *worker* counter list of hooks. |
+Refer to Pyodide or MicroPython documentation to understand what
+capabilities the wrapper exposes for each interpreter.
 
-#### Worker Hooks
+Hooks that inject Python code don't receive these arguments - they
+simply return Python code as strings.
 
-When it comes to hooks on a web worker, callbacks **cannot** use any JavaScript
-outer scope references and must be completely self contained. This is because 
-**callbacks must be serializable** in order to work on web workers since they
-are actually communicated as strings
-[via a postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage)
-to the worker's isolated environment.
+### Available main hooks
 
-For example, this will work because all references are contained within the
-registered function:
+**`onReady(wrap, element)`** - Called when the interpreter is ready but
+before any code evaluates. Instrument the interpreter or prepare the
+execution environment.
+
+**`onBeforeRun(wrap, element)`** - Called just before code evaluation.
+Set up browser context or prepare for execution.
+
+**`onBeforeRunAsync(wrap, element)`** - Async version of `onBeforeRun`
+for scripts requiring async behaviour.
+
+**`codeBeforeRun()`** - Returns Python code as a string to evaluate
+before the main script.
+
+**`codeBeforeRunAsync()`** - Async version of `codeBeforeRun`.
+
+**`codeAfterRun()`** - Returns Python code as a string to evaluate after
+the main script.
+
+**`codeAfterRunAsync()`** - Async version of `codeAfterRun`.
+
+**`onAfterRun(wrap, element)`** - Called after code finishes executing.
+Clean up or react to results.
+
+**`onAfterRunAsync(wrap, element)`** - Async version of `onAfterRun`.
+
+**`onWorker(wrap, xworker)`** - Called on the main thread when a script
+with the `worker` attribute is processed. This is the only hook that
+doesn't have a worker counterpart. It lets you expose features to the
+worker before code evaluates there. The `wrap` is usually `null` unless
+you've manually initialised an XWorker (advanced use case).
+
+All hooks are optional. Register only the hooks your plugin needs.
+
+## Worker hooks
+
+Worker hooks follow the same lifecycle as main thread hooks but with
+important constraints. Worker callbacks must be completely self-contained
+and serialisable - they cannot reference anything in outer scope.
+
+This is because callbacks are stringified and sent to the worker via
+`postMessage`. Only the function body gets serialised, so outer scope
+references fail.
+
+This works because everything is self-contained:
 
 ```js
 import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
 
 hooks.worker.onReady.add(() => {
-    // NOT suggested, just an example!
-    // This code simply defines a global `i` reference if it doesn't exist.
+    // Define global variable if it doesn't exist.
     if (!('i' in globalThis))
         globalThis.i = 0;
     console.log(++i);
 });
 ```
 
-However, due to the outer reference to the variable `i`, this will fail:
+This fails because of the outer scope reference:
 
 ```js
 import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
 
-// NO NO NO NO NO! ☠️
+// This won't work in workers!
 let i = 0;
 
 hooks.worker.onReady.add(() => {
-    // The `i` in the outer-scope will cause an error if
-    // this code executes in the worker because only the
-    // body of this function gets stringified and re-evaluated
+    // The outer 'i' doesn't exist in the worker.
     console.log(++i);
 });
 ```
 
-As the worker won't have an `element` related to it, since workers can be
-created procedurally, the second argument won't be a reference to an `element`
-but a reference to the
-[related `xworker` object](https://pyscript.github.io/polyscript/#xworker)
-that is driving and coordinating things.
+Worker hooks receive the same lifecycle events as main hooks, except
+there's no `onWorker` hook.
 
-The list of possible **yet optional** hooks a custom plugin can use with a
-web worker is exactly
-[the same as for the main thread](#main-hooks)
-**except for the absence of `onWorker`** and the replacement of the second
-`element` argument with that of an `xworker`.
+The second argument to callback hooks is always an `xworker` object
+instead of an element reference, since workers can be created
+programmatically without corresponding HTML elements.
 
-### Example plugin
+## Example plugin
 
-Here's a contrived example, written in JavaScript, that should be added to the
-web page via a `<script type="module">` tag before PyScript is included in
-the page.
+Here's a complete plugin that logs lifecycle events to the console:
 
-```js title="log.js - a plugin that simply logs to the console."
-// import the hooks from PyScript first...
+```js
+// Import hooks from PyScript.
 import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
 
-// The `hooks.main` attribute defines plugins that run on the main thread.
+// Register main thread hooks.
 hooks.main.onReady.add((wrap, element) => {
-    console.log("main", "onReady");
+    console.log("main: interpreter ready");
     if (location.search === '?debug') {
-        console.debug("main", "wrap", wrap);
-        console.debug("main", "element", element);
+        console.debug("wrap:", wrap);
+        console.debug("element:", element);
     }
 });
 
 hooks.main.onBeforeRun.add(() => {
-    console.log("main", "onBeforeRun");
+    console.log("main: about to run code");
 });
 
-hooks.main.codeBeforeRun.add('print("main", "codeBeforeRun")');
-hooks.main.codeAfterRun.add('print("main", "codeAfterRun")');
+hooks.main.codeBeforeRun.add('print("main: injected before")');
+hooks.main.codeAfterRun.add('print("main: injected after")');
+
 hooks.main.onAfterRun.add(() => {
-    console.log("main", "onAfterRun");
+    console.log("main: finished running code");
 });
 
-// The `hooks.worker` attribute defines plugins that run on workers.
+// Register worker hooks.
 hooks.worker.onReady.add((wrap, xworker) => {
-    console.log("worker", "onReady");
+    console.log("worker: interpreter ready");
     if (location.search === '?debug') {
-        console.debug("worker", "wrap", wrap);
-        console.debug("worker", "xworker", xworker);
+        console.debug("wrap:", wrap);
+        console.debug("xworker:", xworker);
     }
 });
 
 hooks.worker.onBeforeRun.add(() => {
-    console.log("worker", "onBeforeRun");
+    console.log("worker: about to run code");
 });
 
-hooks.worker.codeBeforeRun.add('print("worker", "codeBeforeRun")');
-hooks.worker.codeAfterRun.add('print("worker", "codeAfterRun")');
+hooks.worker.codeBeforeRun.add('print("worker: injected before")');
+hooks.worker.codeAfterRun.add('print("worker: injected after")');
+
 hooks.worker.onAfterRun.add(() => {
-    console.log("worker", "onAfterRun");
+    console.log("worker: finished running code");
 });
 ```
 
-```html title="Include the plugin in the web page before including PyScript."
+Include this plugin before PyScript:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- JS plugins should be available before PyScript bootstraps -->
-        <script type="module" src="./log.js"></script>
-        <!-- PyScript -->
-        <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-        <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
-    </head>
-    <body>
-        <script type="mpy">
-            print("ACTUAL CODE")
-        </script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Plugin loads first. -->
+    <script type="module" src="./log.js"></script>
+    
+    <!-- PyScript loads after. -->
+    <link rel="stylesheet" 
+      href="https://pyscript.net/releases/2025.11.2/core.css">
+    <script type="module" 
+      src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+</head>
+<body>
+    <script type="mpy">
+        print("ACTUAL CODE")
+    </script>
+</body>
 </html>
 ```
+
+The output shows the lifecycle sequence: ready hooks fire first, then
+before run hooks, then injected code before, then the actual script,
+then injected code after, and finally after run hooks.
+
+## Plugin use cases
+
+Plugins enable many customisations. You might create plugins to log
+execution for debugging, inject analytics or telemetry code, modify
+interpreter behaviour, provide library bootstrapping, implement custom
+security checks, or add domain-specific features.
+
+The terminal and editor features in PyScript are themselves implemented
+as plugins, demonstrating the power and flexibility of the plugin system.
+
+## What's next
+
+Now that you understand plugins, explore these related topics:
+
+**[Terminal](terminal.md)** - Use the alternative REPL-style
+interface for interactive Python sessions.
+
+**[Editor](editor.md)** - Create interactive Python coding environments in
+web pages with the built-in code editor.
+
+**[PyGame](pygame-ce.md)** - Use PyGame-CE with PyScript, covering the
+differences from traditional PyGame development and techniques for making
+games work well in the browser.

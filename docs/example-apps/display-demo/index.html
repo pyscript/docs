@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Display Demo</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        background: #f5f5f5;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 2rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .panel {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .panel h2 {
+        margin-top: 0;
+        color: #3498db;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+      .output {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 4px;
+        border: 1px solid #dee2e6;
+        min-height: 100px;
+      }
+      button {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+      }
+      button:hover {
+        background: #2980b9;
+      }
+      .data-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+      }
+      .metric {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+      }
+      .label {
+        opacity: 0.9;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Display Capabilities Demo</h1>
+    
+    <div class="grid">
+      <div class="panel">
+        <h2>Basic Types</h2>
+        <div id="basic-output" class="output"></div>
+        <button id="btn-basic">Show Basic Types</button>
+      </div>
+      
+      <div class="panel">
+        <h2>HTML Content</h2>
+        <div id="html-output" class="output"></div>
+        <button id="btn-html">Show HTML</button>
+      </div>
+      
+      <div class="panel">
+        <h2>Custom Objects</h2>
+        <div id="custom-output" class="output"></div>
+        <button id="btn-custom">Show Custom Object</button>
+      </div>
+      
+      <div class="panel">
+        <h2>Multiple Values</h2>
+        <div id="multi-output" class="output"></div>
+        <button id="btn-multi">Show Multiple</button>
+      </div>
+      
+      <div class="panel">
+        <h2>Data Cards</h2>
+        <div id="cards-output" class="output"></div>
+        <button id="btn-cards">Generate Cards</button>
+      </div>
+      
+      <div class="panel">
+        <h2>Incremental Updates</h2>
+        <div id="incremental-output" class="output"></div>
+        <button id="btn-incremental">Start Updates</button>
+      </div>
+    </div>
+
+    <script type="mpy" src="./main.py"></script>
+  </body>
+</html>

@@ -1,248 +1,265 @@
-# Python editor 
+# Python Editor
 
-The PyEditor is a core plugin.
+PyScript includes a built-in code editor for creating interactive Python
+coding environments in web pages. Based on
+[CodeMirror](https://codemirror.net/), the editor provides syntax
+highlighting, a run button, and the ability to edit and execute code
+directly in the browser.
+
+This guide explains how to use the Python editor for tutorials,
+demonstrations, and interactive coding experiences.
 
 !!! warning
 
-    Work on the Python editor is in its early stages. We have made it available
-    in this version of PyScript to give the community an opportunity to play,
-    experiment and provide feedback.
+    The Python editor is under active development. Future versions may
+    include refinements and changes based on community feedback. The
+    core functionality described here is stable, but details may evolve.
 
-    Future versions of PyScript will include a more refined, robust and perhaps
-    differently behaving version of the Python editor.
+## Basic usage
 
-If you specify the type of a `<script>` tag as either `py-editor` (for Pyodide)
-or `mpy-editor` (for MicroPython), the plugin creates a visual code editor,
-with code highlighting and a "run" button to execute the editable code
-contained therein in a non-blocking worker.
+Create an editor by setting the script type to `py-editor` for Pyodide
+or `mpy-editor` for MicroPython:
 
-!!! info
-
-    Once clicked, the "run" button will show a spinner until the code is
-    executed. This may not be visible if the code evaluation completed quickly.
-
-
-The interpreter is not loaded onto the page until the run button is clicked. By
-default each editor has its own independent instance of the specified
-interpreter:
-
-```html title="Two editors, one with Pyodide, the other with MicroPython."
+```html
 <script type="py-editor">
-  import sys
-  print(sys.version)
-</script>
-<script type="mpy-editor">
-  import sys
-  print(sys.version)
-  a = 42
-  print(a)
+import sys
+print(sys.version)
 </script>
 ```
 
-However, different editors can share the same interpreter if they share the
-same `env` attribute value.
-
-```html title="Two editors sharing the same MicroPython environment."
-<script type="mpy-editor" env="shared">
-  if not 'a' in globals():
-    a = 1
-  else:
-    a += 1
-  print(a)
-</script>
-<script type="mpy-editor" env="shared">
-  # doubled a
-  print(a * 2)
-</script>
-```
-
-The outcome of these code fragments should look something like this:
+This creates a visual code editor with syntax highlighting and a run
+button. The code inside the tag becomes the initial editor content.
+Users can modify the code and click run to execute it.
 
 <img src="../../assets/images/pyeditor1.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
 
-!!! info
+The interpreter loads only when the user clicks run, not when the page
+loads. This keeps initial page load fast, downloading the Python runtime
+only when needed.
 
-    Notice that the interpreter type, and optional environment name is shown
-    at the top right above the Python editor.
+## Independent environments
 
-    Hovering over the Python editor reveals the "run" button.
+Each editor runs in its own isolated environment by default. Variables
+and state don't leak between editors:
 
-### Stop evaluation
-
-Sometimes, for whatever reason, the fragment of code in the editor will never
-complete. Perhaps it's stuck in an infinite loop and you need to stop the
-evaluation of your code so you can fix the problem and start it again.
-
-When the code is running, hovering over the editor will reveal a stop button
-(where the run button was found). Click on it, confirm you want to stop your
-code, and then the code will stop and the editor will refresh so you can fix
-your code.
-
-It looks something like this:
-
-<img src="../../assets/images/pyeditor-stop.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
-
-### Setup
-
-Sometimes you need to create a pre-baked Pythonic context for a shared
-environment used by an editor. This need is especially helpful in educational
-situations where boilerplate code can be run, with just the important salient
-code available in the editor.
-
-To achieve this end use the `setup` attribute within a `script` tag. The
-content of this editor will not be shown, but will bootstrap the referenced
-environment automatically before any following editor within the same
-environment is evaluated.
-
-```html title="Bootstrapping an environment with `setup`"
-<script type="mpy-editor" env="test_env" setup>
-# This code will not be visible, but will run before the next editor's code is
-# evaluated.
-a = 1
+```html
+<script type="py-editor">
+import sys
+print(sys.version)
 </script>
 
-<script type="mpy-editor" env="test_env">
-# Without the "setup" attribute, this editor is visible. Because it is using
-# the same env as the previous "setup" editor, the previous editor's code is
-# always evaluated first.
+<script type="mpy-editor">
+import sys
+print(sys.version)
+a = 42
 print(a)
 </script>
 ```
 
-Finally, the `target` attribute allows you to specify a node into which the
-editor will be rendered:
+The first editor uses Pyodide, the second uses MicroPython. Each has
+completely separate state. The variable `a` in the second editor doesn't
+exist in the first.
 
-```html title="Specify a target for the Python editor."
-<script type="mpy-editor" target="editor">
-  import sys
-  print(sys.version)
+## Shared environments
+
+Editors can share state by using the same interpreter and `env` attribute:
+
+```html
+<script type="mpy-editor" env="shared">
+if 'a' not in globals():
+    a = 1
+else:
+    a += 1
+print(a)
 </script>
-<div id="editor"></div> <!-- will eventually contain the Python editor -->
+
+<script type="mpy-editor" env="shared">
+# Accesses 'a' from the first editor.
+print(a * 2)
+</script>
 ```
 
-## Editor VS Terminal
+Both editors share the `"shared"` environment. Variables defined in one
+editor are accessible in the other. Run the first editor, then the
+second, and you'll see the second editor can access the first editor's
+variables.
 
-The editor and terminal are commonly used to embed interactive Python code into
-a website. However, there are differences between the two plugins, of which you
-should be aware.
+The interpreter type and environment name appear in the top right corner
+of each editor, showing which environment it belongs to.
 
-The main difference is that a `py-editor` or `mpy-editor` is an isolated
-environment (from the rest of PyScript that may be running on the page) and
-its code always runs in a web worker. We do this to prevent accidental blocking
-of the main thread that would freeze your browser's user interface.
+## Setup editors
 
-Because an editor is isolated from regular *py* or *mpy* scripts, one should
-not expect the same behavior regular *PyScript* elements follow, most notably:
+Sometimes you need boilerplate code that runs automatically without
+cluttering the visible editor. The `setup` attribute handles this:
 
-  * The editor's user interface is based on
-    [CodeMirror](https://codemirror.net/) and not on XTerm.js
-    [as it is for the terminal](../terminal).
-  * Code is evaluated all at once and asynchronously when the *Run* button is
-    pressed (not each line at a time, as in the terminal).
-  * The editor has listeners for `Ctrl-Enter` or `Cmd-Enter`, and
-    `Shift-Enter` to shortcut the execution of all the code. These shortcuts
-    make no sense in the terminal as each line is evaluated separately.
-  * There is a clear separation between the code and any resulting output.
-  * You may not use blocking calls (like `input`) with the editor, whereas
-    these will work if running the terminal via a worker.
-  * It's an editor! So simple or complex programs can be fully written without
-    running the code until ready. In the terminal, code is evaluated one line
-    at a time as it is typed in.
-  * There is no special reference to the underlying editor instance, while
-    there is both `script.terminal` or `__terminal__` in the terminal.
+```html
+<script type="mpy-editor" env="classroom" setup>
+# This code runs automatically but isn't visible.
+import math
+pi = math.pi
+</script>
 
-## Read / Write / Execute
+<script type="mpy-editor" env="classroom">
+# This editor is visible. The setup code already ran.
+print(f"Pi is approximately {pi:.2f}")
+</script>
+```
 
-Sometimes you need to programatically read, write or execute code in an
-editor. Once PyScript has started, every py-editor/mpy-editor script tag gets
-a `code` accessor attached to it.
+Setup editors don't appear on the page but execute before any other
+editors in the same environment. This is particularly useful for
+educational contexts where you want students to focus on specific code
+without seeing all the scaffolding.
+
+## Stopping execution
+
+Code running in an editor sometimes needs to be stopped - perhaps it's
+stuck in an infinite loop or taking too long. Hover over a running
+editor to reveal the stop button where the run button was. Click it,
+confirm, and the code stops executing:
+
+<img src="../../assets/images/pyeditor-stop.gif" style="border: 1px solid black; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"/>
+
+The editor refreshes, letting you fix the problem and run again.
+
+## Keyboard shortcuts
+
+Run code without clicking the button using keyboard shortcuts. Press
+`Ctrl+Enter` (or `Cmd+Enter` on Mac, or `Shift+Enter`) to execute the
+code. This speeds up the edit-run-debug cycle.
+
+## Programmatic access
+
+Access and control editors from Python code using the `code` property:
 
 ```python
 from pyscript import document
 
-# Grab the editor script reference.
-editor = document.querySelector('#editor')
+# Get reference to an editor.
+editor = document.querySelector('#my-editor')
 
-# Output the live content of the editor.
+# Read the current code.
 print(editor.code)
 
-# Update the live content of the editor.
+# Update the code.
 editor.code = """
 a = 1
 b = 2
 print(a + b)
 """
 
-# Evaluate the live code in the editor.
-# This could be any arbitrary code to evaluate in the editor's Python context.
+# Execute code programmatically.
 editor.process(editor.code)
 ```
 
+This lets you build interfaces that modify or execute editor content
+based on user actions elsewhere on the page.
+
+## Custom rendering location
+
+By default, editors render where their script tag appears. Use the
+`target` attribute to render elsewhere:
+
+```html
+<script type="mpy-editor" target="editor-container">
+import sys
+print(sys.version)
+</script>
+
+<div id="editor-container"></div>
+```
+
+The editor appears inside the target element rather than replacing the
+script tag. This gives you control over page layout.
+
 ## Configuration
 
-Unlike `<script type="py">` or `<py-script>` (and the `mpy` equivalents), a
-PyEditor is not influenced by the presence of `<py-config>` elements in the
-page: it requires an explicit `config="..."` attribute.
+Editors require explicit configuration through the `config` attribute.
+They don't use `<py-config>` or `<mpy-config>` tags:
 
-If a `setup` editor is present, that's the only PyEditor that needs a config.
-Any subsequent related editor will reuse the config parsed and bootstrapped for
-the `setup` editor.
+```html
+<script type="py-editor" config='{"packages": ["numpy"]}'>
+import numpy as np
+print(np.array([1, 2, 3]))
+</script>
+```
 
-## Run via keyboard
+If using setup editors, only the setup editor needs configuration. All
+subsequent editors in the same environment share that configuration.
 
-Depending on your operating system, a combination of either `Ctrl-Enter`,
-`Cmd-Enter` or `Shift-Enter` will execute the code in the editor (no need to
-move the mouse to click the run button).
+## Overriding execution
 
-## Override run
+Advanced use cases may require custom execution behaviour. Override the
+editor's `handleEvent` method:
 
-Sometimes you just need to override the way the editor runs code.
-
-The editor's `handleEvent` can be overridden to achieve this:
-
-```html title="Overriding execution via handleEvent."
-<script type="mpy-editor" id="foreign">
+```html
+<script type="mpy-editor" id="custom">
 print(6 * 7)
 </script>
 
 <script type="mpy">
 from pyscript import document
 
+
 def handle_event(event):
-    # will log `print(6 * 7)`
+    # Log the code instead of running it.
     print(event.code)
-    # prevent default execution
+    # Return False to prevent default execution.
     return False
 
-# Grab reference to the editor
-foreign = document.getElementById("foreign")
-# Override handleEvent with your own customisation.
-foreign.handleEvent = handle_event
+
+editor = document.getElementById("custom")
+editor.handleEvent = handle_event
 </script>
 ```
 
-This
-[live example](https://agiammarchi.pyscriptapps.com/pyeditor-iot-example/latest/)
-shows how the editor can be used to execute code via a USB serial connection to
-a connected MicroPython microcontroller.
+This technique enables scenarios like
+[executing code on connected hardware](https://agiammarchi.pyscriptapps.com/pyeditor-iot-example/latest/)
+via USB serial connections to microcontrollers.
 
-## Tab behavior
+## Editor versus terminal
 
-We currently trap the `tab` key in a way that reflects what a regular code
-editor would do: the code is simply indented, rather than focus moving to
-another element.
+The editor and terminal both provide interactive Python experiences but
+serve different purposes and work differently.
 
-We are fully aware of the implications this might have around accessibility so
-we followed
-[this detailed advice from Codemirror's documentation](https://codemirror.net/examples/tab/)
-We have an *escape hatch* to move focus outside the editor. Press `esc` before
-`tab` to move focus to the next focusable element. Otherwise `tab` indents
-code.
+The editor isolates code in workers and evaluates everything when you
+click run. It's designed for writing complete programs, editing freely,
+and running when ready. The clear separation between code and output
+makes it ideal for tutorials and demonstrations.
 
+The terminal evaluates code line by line as you type, like a traditional
+REPL. It supports blocking operations like `input()` in workers and
+provides an XTerm.js interface. The terminal feels more like a
+traditional Python session.
 
-## Still missing
+Use editors when building coding tutorials, creating interactive
+demonstrations, or letting users write and execute complete programs.
+Use terminals when providing a REPL experience, showing command-line
+style interaction, or needing `input()` support.
 
-The PyEditor is currently under active development and refinement, so features
-may change (depending on user feedback). For instance, there is currently no
-way to stop or kill a web worker that has got into difficulty from the editor
-(hint: refreshing the page will reset things).
+## Accessibility considerations
+
+The editor traps the `tab` key for code indentation rather than moving
+focus. This matches standard code editor behaviour but has accessibility
+implications.
+
+We follow
+[CodeMirror's accessibility guidance](https://codemirror.net/examples/tab/):
+press `Esc` before `Tab` to move focus to the next element. Otherwise,
+`Tab` indents code.
+
+This provides both standard coding behaviour and an escape hatch for
+keyboard navigation.
+
+## What's next
+
+Now that you understand the Python editor, explore these related topics:
+
+**[Terminal](terminal.md)** - Use the alternative REPL-style
+interface for interactive Python sessions.
+
+**[PyGame](pygame-ce.md)** - Use PyGame-CE with PyScript, covering the
+differences from traditional PyGame development and techniques for making
+games work well in the browser.
+
+**[Plugins](plugins.md)** - Understand the plugin system, lifecycle hooks,
+and how to write plugins that integrate with PyScript.

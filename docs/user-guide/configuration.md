@@ -10,7 +10,7 @@ PyScript looks after for you).
 
 We need to tell PyScript how we want such Python environments to be configured.
 This works in the same way for both the main thread and for web workers. Such
-configuration ensures we get the expected resources ready before our Python
+configuration ensures we get the expected resources ready **before** our Python
 code is evaluated (resources such as arbitrary data files and third party
 Python packages).
 
@@ -50,8 +50,8 @@ packages = ["arrr", "numberwang" ]
 The recommended way to write configuration is via a separate file and then
 reference it from the tag used to specify the Python code:
 
-```HTML title="Reference a configuration file"
-<script type="py" src="main.py" config="pyscript.toml"></script>
+```HTML title="Reference a configuration file."
+<script type="py" src="main.py" config="pyscript.json"></script>
 ```
 
 If you use JSON, you can make it the value of the `config` attribute:
@@ -83,23 +83,30 @@ _single_ `<py-config>` or `<mpy-config>` tag in your HTML document:
 
 !!! warning
 
-    Starting from PyScript 2025.10.1 the config guards against incompatible or not
-    available packages related to the current Pyodide version.
+    Starting from PyScript 2025.10.1 the config guards against incompatible or unavailable
+    packages relating to the current Pyodide version.
 
-    There is an ongoing effort to make chosing packages in Pyodide way more helpful
-    than it has ever been but right now be aware if a non existent package for a
-    specific Pyodide version cannot be found an error will be thrown.
+    There is an
+    [ongoing effort to make choosing packages in Pyodide far more helpful](https://pyscript.github.io/pyscript-packages/)
+    than it has ever been, but right now be aware that if a non-existent package for a
+    specific Pyodide version cannot be found, an error will be thrown.
 
 ## Options
 
-There are five core options ([`interpreter`](#interpreter), [`files`](#files),
-[`packages`](#packages), [`js_modules`](#javascript-modules) and
-[`sync_main_only`](#sync_main_only)) and two experimental flags:
+There are only a few core options ([`interpreter`](#interpreter), [`files`](#files),
+[`packages`](#packages), [`js_modules`](#javascript-modules), [`debug`](#debug),
+[`sync_main_only`](#sync_main_only)) and some experimental flags:
 ([`experimental_create_proxy`](#experimental_create_proxy)) that can be used in
-the configuration of PyScript and
+the configuration of PyScript, ([`experimental_ffi_timeout`](#experimental_ffi_timeout)) to
+help with worker related performance, and
 ([`experimental_remote_packages`](#experimental_remote_packages)) which allows
 remotely hosted packages. The user is also free to define arbitrary additional
 configuration options that plugins or an app may require for their own reasons.
+
+!!! info
+
+    You can always access the current configuration as a read-only Python dict via the
+    `pyscript.config` object.
 
 ### Interpreter
 
@@ -138,7 +145,7 @@ version of Pyodide as specified in the previous examples:
 The `files` option fetches arbitrary content from URLs onto the virtual
 filesystem available to Python, and emulated by the browser. Just map a valid
 URL to a destination filesystem path on the in-browser virtual filesystem. You
-can find out more in the section about
+can find out more about the in-browser virtual filesystem in the section about
 [PyScript and filesystems](../filesystem/).
 
 The following JSON and TOML are equivalent:
@@ -167,7 +174,7 @@ examples could be equivalently re-written as:
 {
   "files": {
     "https://example.com/data.csv": "",
-    "./code.py": ""
+    "./code.py": "./subdir/code.py"
   }
 }
 ```
@@ -175,7 +182,7 @@ examples could be equivalently re-written as:
 ```toml title="TOML implied filename in the root directory."
 [files]
 "https://example.com/data.csv" = ""
-"./code.py" = ""
+"./code.py" = "./subdir/code.py"
 ```
 
 If the source part of the configuration is either a `.zip` or `.tar.gz` file
@@ -191,18 +198,16 @@ into the target directory in the browser's built in file system.
     the problem.
 
 !!! warning
-    **Use destination URLs instead of CORS / redirect URLs.**
+
+    **Use absolute destination URLs instead of CORS / redirect URLs.**
 
     For example, `https://github.com/pyscript/ltk/raw/refs/heads/main/ltk/jquery.py`
-    redirects to `https://raw.githubusercontent.com/pyscript/ltk/refs/heads/main/ltk/jquery.py`. Use the latter.
+    redirects to `https://raw.githubusercontent.com/pyscript/ltk/refs/heads/main/ltk/jquery.py`. 
+    
+    Use the latter.
 
-!!! tip
-
-    **For most people, most of the time, the simple URL to filename mapping,
-    described above, will be sufficient.**
-
-    Yet certain situations may require more flexibility. In which case, read
-    on.
+For most people, most of the time, the simple URL to filename mapping,
+described above, will be sufficient. Yet certain situations may require more flexibility.
 
 Sometimes many resources are needed to be fetched from a single location and
 copied into the same directory on the file system. To aid readability and
@@ -328,6 +333,16 @@ following valid forms:
 * An arbitrary URL to a Python package: `"https://.../package.whl"`
 * A file copied onto the browser based file system: `"emfs://.../package.whl"`
 
+#### Package Support
+
+We have created a [handy website](https://pyscript.github.io/pyscript-packages/)
+that tracks which third party packages in PyPI are supported by PyScript. You
+can also use this site to report if a package you're trying to use is supported
+or not.
+
+The [website's help section](https://pyscript.github.io/pyscript-packages/help/)
+explains more.
+
 #### Package Cache
 
 For performance reasons, PyScript caches packages so that a delay resulting
@@ -378,18 +393,15 @@ plugins = ["custom_plugin", "!error"]
 !!! warning
 
     Please note `plugins` are currently a *core* only feature. If you need any
-    extra functionality out of the box *files* or *js_modules* are the current
-    way to provide more features without needing to file a *PR* in *core*.
-
-    This means that the current `plugins` proposal is meant to disable our own
-    plugins but it has no usage to add 3rd party plugins right now.
+    extra functionality out of the box, `files` or `js_modules` are the current
+    way to provide more features without needing to file a PR in `core` PyScript.
 
 ### JavaScript modules
 
 It's easy to import and use JavaScript modules in your Python code. This
 section of the docs examines the configuration needed to make this work. How
 to make use of JavaScript is dealt with
-[elsewhere](../dom/#working-with-javascript).
+[elsewhere](dom.md#working-with-javascript).
 
 We need to tell PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
@@ -489,7 +501,7 @@ without the need for the worker to interact with the main thread. You're simply
 awaiting the result of a method exposed from a worker.
 
 This has the advantage of not requiring the use of `SharedArrayBuffer` and
-[associated CORS related header configuration](../workers/#http-headers).
+[associated CORS related header configuration](workers.md#http-headers).
 
 If the `sync_main_only` flag is set, then **interactions between the main thread
 and workers are limited to one way calls from the main thread to methods
@@ -520,7 +532,7 @@ If `sync_main_only` is set, the following caveats apply:
 
 Knowing when to use the `pyscript.ffi.create_proxy` method when using Pyodide
 can be confusing at the best of times and full of
-[technical "magic"](../ffi#create_proxy).
+[technical "magic"](ffi.md#create_proxy).
 
 This _experimental_ flag, when set to `"auto"` will cause PyScript to try to
 automatically handle such situations, and should "just work".
@@ -624,3 +636,83 @@ print(config.get("files"))
 
     Changing the `config` dictionary at runtime doesn't change the actual
     configuration.
+
+## Practical example
+
+Here's a complete example showing common configuration options:
+
+```json title="pyscript.json - A typical configuration."
+{
+    "packages": [
+        "numpy",
+        "matplotlib"
+    ],
+    "files": {
+        "https://example.com/data.csv": "./data.csv",
+        "./utils.py": "./lib/utils.py"
+    },
+    "js_modules": {
+        "main": {
+            "https://cdn.jsdelivr.net/npm/chart.js": "chartjs"
+        }
+    }
+}
+```
+
+```html title="index.html - Using the configuration."
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My PyScript App</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+  </head>
+  <body>
+    <h1>Data Analysis</h1>
+    <div id="output"></div>
+    <script type="py" src="./main.py" config="./pyscript.json"></script>
+  </body>
+</html>
+```
+
+```python title="main.py - Using the configured resources."
+import numpy as np
+from pyscript import display
+
+
+# Use installed packages.
+data = np.array([1, 2, 3, 4, 5])
+display(f"Mean: {data.mean()}")
+
+# Read configured files.
+with open("data.csv") as f:
+    display(f"Data: {f.read()[:100]}")
+
+# Use JavaScript modules.
+from pyscript.js_modules import chartjs
+display("Chart.js loaded!")
+```
+
+## What's next
+
+Now that you understand configuration, explore these related topics:
+
+**[DOM Interaction](dom.md)** - Learn how to create and manipulate
+elements for more control than `display()` provides.
+
+**[Events](events.md)** - Make your displayed content interactive by
+handling user events.
+
+**[Architecture guide](architecture.md)** - provides technical details about
+how PyScript implements workers using PolyScript and Coincident if you're
+interested in the underlying mechanisms.
+
+**[Workers](workers.md)** - Configure Python code to run in background
+threads with the same configuration options.
+
+**[Filesystem](filesystem.md)** - Learn more about the virtual
+filesystem and how the `files` option works.
+
+**[FFI](ffi.md)** - Understand how JavaScript modules integrate with
+Python through the foreign function interface.

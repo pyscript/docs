@@ -73,25 +73,38 @@ plugins:
 
 nav:
   - Home: index.md
-  - Beginning PyScript: beginning-pyscript.md
-  - Example Applications: examples.md
+  - Start here: beginning-pyscript.md
   - User guide:
     - Introduction: user-guide/index.md
     - What is PyScript?: user-guide/what.md
-    - Features: user-guide/features.md
-    - First steps: user-guide/first-steps.md
-    - Architecture: user-guide/architecture.md
-    - Configure PyScript: user-guide/configuration.md
-    - The DOM &amp; JavaScript: user-guide/dom.md
-    - Web Workers: user-guide/workers.md
-    - The FFI in detail: user-guide/ffi.md
-    - PyScript and filesystems: user-guide/filesystem.md
-    - Python terminal: user-guide/terminal.md
-    - Python editor: user-guide/editor.md
-    - Media: user-guide/media.md
-    - PyGame-CE: user-guide/pygame-ce.md
-    - Plugins: user-guide/plugins.md
-    - Use Offline: user-guide/offline.md
+    - Core concepts:
+      - The DOM &amp; JavaScript: user-guide/dom.md
+      - Events: user-guide/events.md
+      - Displaying things: user-guide/display.md
+      - Configure PyScript: user-guide/configuration.md
+    - Advanced topics:
+      - Architecture: user-guide/architecture.md
+      - Web Workers: user-guide/workers.md
+      - PyScript and filesystems: user-guide/filesystem.md
+      - Media: user-guide/media.md
+      - The FFI in detail: user-guide/ffi.md
+      - Use Offline: user-guide/offline.md
+    - Feature guides:
+      - Python terminal: user-guide/terminal.md
+      - Python editor: user-guide/editor.md
+      - PyGame-CE: user-guide/pygame-ce.md
+      - Plugins: user-guide/plugins.md
+  - Example Applications:
+      - Overview: example-apps/overview.md
+      - Bouncing Ball: example-apps/bouncing-ball/info.md
+      - Colour Picker: example-apps/colour-picker/info.md
+      - Display Demos: example-apps/display-demo/info.md
+      - Note Taker: example-apps/note-taker/info.md
+      - Photobooth: example-apps/photobooth/info.md
+      - Pirate Translator: example-apps/pirate-translator/info.md
+      - Prime Number Finder: example-apps/prime-worker/info.md
+      - Task Board (FFI): example-apps/task-board-ffi/info.md
+      - Task Board (Pythonic): example-apps/task-board-web/info.md
   - PyScript APIs:
     - Introduction: api/init.md
     - context: api/context.md
@@ -107,8 +120,9 @@ nav:
     - web: api/web.md
     - websocket: api/websocket.md
     - workers: api/workers.md
+  - Developing PyScript:
+    - Contributing: contributing.md
+    - Developer Guide: developers.md
+    - Code of Conduct: conduct.md
+    - License: license.md
   - FAQ: faq.md
-  - Contributing: contributing.md
-  - Developer Guide: developers.md
-  - Code of Conduct: conduct.md
-  - License: license.md
