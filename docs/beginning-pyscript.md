@@ -240,11 +240,7 @@ to actually translate the `english` to something piratical.
 
 That's it!
 
-<<<<<<< HEAD
-## Editing your app
-=======
 !!! info "Alternative: JavaScript-style DOM access"
->>>>>>> 2bc3162 (First draft of comprehensive user-guide re-write. TODO: check example apps again.)
 
     PyScript also provides direct access to the browser's JavaScript APIs. If
     you're already familiar with JavaScript, you can use `document.querySelector`
