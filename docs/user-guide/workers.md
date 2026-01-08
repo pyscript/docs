@@ -1,351 +1,275 @@
 # Workers
 
-Workers run code that won't block the "main thread" controlling the user
-interface. If you block the main thread, your web page becomes annoyingly
-unresponsive. **You should never block the main thread.**
+Workers run Python code in background threads, keeping your user interface
+responsive. Without workers, long computations block the main thread and freeze
+the page. With workers, heavy tasks run in the background whilst the UI stays
+smooth and interactive.
 
-Happily, PyScript makes it very easy to use workers and uses a feature recently
-added to web standards called
-[Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics).
-**You don't need to know about Atomics to use web workers**, but it's useful to
-know that the underlying [coincident library](architecture.md#coincident)
-uses it under the hood.
+This guide explains how to use workers in PyScript, when to use them, and how
+to structure your applications to take advantage of background processing.
 
-!!! info
+## Understanding the problem
 
-    Sometimes you only need to `await` in the main thread on a method in a
-    worker when neither `window` nor `document` are referenced in the code
-    running on the worker.
+JavaScript (and therefore PyScript) runs on a single "main" thread. When Python
+code executes, nothing else can happen. Long computations freeze the interface.
+Users cannot click buttons, scroll, or interact with the page until the
+computation completes.
 
-    In these cases, you don't need any special header or service worker
-    as long as **the method exposed from the worker returns a serializable
-    result**.
+Workers solve this problem by running Python in separate threads. The main
+thread handles the UI. Workers handle computation. Both run simultaneously, so
+your application remains responsive even during heavy processing.
 
-## HTTP headers
+## Defining workers
 
-To use the `window` and `document` objects from within a worker (i.e. use
-synchronous Atomics) **you must ensure your web server enables the following
-headers** (this is the default behavior for
-[pyscript.com](https://pyscript.com)):
-
-```
-Access-Control-Allow-Origin: *
-Cross-Origin-Opener-Policy: same-origin
-Cross-Origin-Embedder-Policy: require-corp
-Cross-Origin-Resource-Policy: cross-origin
-```
-
-If you're unable to configure your server's headers, you have two options:
-
-1. Use the [mini-coi](https://github.com/WebReflection/mini-coi#readme) project
-   to enforce headers.
-2. Use the `service-worker` attribute with the `script` element.
-
-### Option 1: mini-coi
-
-For performance reasons, this is the preferred option so Atomics works at
-native speed.
-
-The simplest way to use mini-coi is to copy the
-[mini-coi.js](https://raw.githubusercontent.com/WebReflection/mini-coi/main/mini-coi.js)
-file content and save it in the root of your website (i.e. `/`), and reference
-it as the first child tag in the `<head>` of your HTML documents:
+Workers are defined with `<script>` tags that have a `worker` attribute:
 
 ```html
-<html>
-  <head>
-    <script src="/mini-coi.js"></script>
-    <!-- etc -->
-  </head>
-  <!-- etc -->
-</html>
+<script type="py" worker name="calculator" config='{"packages":["numpy"]}'>
+import numpy as np
+
+
+def add_arrays(a, b):
+    """
+    Add two arrays using numpy.
+    """
+    return (np.array(a) + np.array(b)).tolist()
+
+
+# Export functions to make them accessible.
+__export__ = ["add_arrays"]
+</script>
 ```
 
-### Option 2: `service-worker` attribute
+The `worker` attribute marks the script as a worker. The `name` attribute
+provides a unique identifier for accessing the worker from other code. The
+`type` attribute specifies the interpreter: `py` for Pyodide or `mpy` for
+MicroPython.
 
-This allows you to slot in a custom
-[service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
-to handle requirements for synchronous operations.
+Workers must explicitly export functions using the `__export__` list. Only
+exported functions are accessible from the main thread. This keeps the API
+clear and prevents accidental exposure of internal implementation details.
 
-Each `<script type="m/py">` or `<m/py-script>` may optionally have
-a `service-worker` attribute pointing to a locally served file (the
-same way `mini-coi.js` needs to be served).
+## Accessing workers
 
-Such file needs to orchestrate *coincident* *POST* requests so that:
-
-* you can copy and paste the
-  [coincident Service Worker](https://cdn.jsdelivr.net/npm/coincident/dist/sw.js)
-  into your local project and point at that via the `service-worker` attribute.
-  This will not change the original behavior of your project, it will not
-  interfere with all default or pre-defined headers your application uses
-  already but it will
-  **fallback to a (slower but working) synchronous operation**
-  that allows both `window` and `document` access in your worker logic.
-* you can import
-  [coincident listeners](https://github.com/WebReflection/coincident/blob/main/src/sabayon/listeners.js)
-  in your project and at least add the `fetc` one before your listeners.
-  It will automatically stop propagation when a request is meant to be handled
-  so that the rest of your logic will not be affected or change by any mean.
-
-```html
-<html>
-  <head>
-    <!-- PyScript link and script -->
-  </head>
-  <body>
-    <script type="py" service-worker="./sw.js" worker>
-      from pyscript import window, document
-
-      document.body.append("Hello PyScript!")
-    </script>
-  </body>
-</html>
-```
-
-!!! warning 
-
-    Using *coincident* as the fallback for synchronous operations via Atomics
-    should be **the last solution to consider**. It is inevitably
-    slower than using native Atomics.
-
-    If you must use `service-worker` attribute, always reduce the amount of
-    synchronous operations by caching references from the *main* thread.
-
-    ```python
-    # ❌ THIS IS UNNECESSARILY SLOWER
-    from pyscript import document
-
-    # add a data-test="not ideal attribute"
-    document.body.dataset.test = "not ideal"
-    # read a data-test attribute
-    print(document.body.dataset.test)
-
-    # - - - - - - - - - - - - - - - - - - - - -
-
-    # ✔️ THIS IS FINE
-    from pyscript import document
-
-    # if needed elsewhere, reach it once
-    body = document.body
-    dataset = body.dataset
-
-    # add a data-test="not ideal attribute"
-    dataset.test = "not ideal"
-    # read a data-test attribute
-    print(dataset.test)
-    ```
-
-In latter example the number of operations has been reduced from six to just
-four. The rule of thumb is: _if you ever need a DOM reference more than once,
-cache it_. 👍
-
-
-## Start working
-
-To start your code in a worker, simply ensure the `<script>`, `<py-script>` or
-`<mpy-script>` tag pointing to the code you want to run has a `worker`
-attribute flag:
-
-```HTML title="Evaluating code in a worker"
-<script type="py" src="./my-worker-code.py" worker></script>
-```
-
-You may also want to add a `name` attribute to the tag, so you can use
-`pyscript.workers` in the main thread to retrieve a reference to the worker:
-
-```html
-<script type="py" src="./my-worker-code.py" worker name="my-worker"></script>
-```
+Access workers from the main thread using the `workers` object:
 
 ```python
 from pyscript import workers
 
-my_worker = await workers["my-worker"]
+
+# Get the worker by name.
+calc = await workers["calculator"]
+
+# Call its exported function.
+result = await calc.add_arrays([1, 2, 3], [4, 5, 6])
+print(result)  # [5, 7, 9]
 ```
 
-Alternatively, to launch a worker from within Python running on the main thread
-use the [pyscript.PyWorker](../../api/#pyscriptpyworker) class and you must
-reference both the target Python script and interpreter type:
+Worker access is asynchronous because workers may not be ready immediately.
+They need time to download and initialise the interpreter, load configured
+packages, execute the worker script, and register exported functions. The
+`await` ensures the worker is fully ready before you use it.
 
-```python title="Launch a worker from within Python"
-from pyscript import PyWorker
+Once you have a worker reference, call its exported functions like normal async
+functions. **All calls must be awaited, and all data passed between the main
+thread and workers must be serialisable (numbers, strings, lists, dictionaries,
+booleans, None)**. You cannot pass functions, classes, or complex objects.
 
-# The type MUST be given and can be either `micropython` or `pyodide`
-my_worker = PyWorker("my-worker-code.py", type="micropython")
+## Choosing interpreters
+
+PyScript supports two Python interpreters, and you can mix them based on your
+needs. The main thread and workers can use different interpreters.
+
+Pyodide (`type="py"`) provides full CPython compatibility with access to
+weighty packages like numpy and pandas. It has a larger download size and
+slower startup, but offers the complete Python ecosystem. Use Pyodide for heavy
+computation requiring numerical libraries, tasks needing the full Python
+ecosystem, or complex data processing.
+
+MicroPython (`type="mpy"`) provides fast startup with a small footprint. It
+includes core Python only, with no pip packages. Use MicroPython for
+lightweight tasks, quick worker startup, or simple computations when you don't
+need packages.
+
+A common pattern is MicroPython on the main thread for a fast, responsive UI,
+with Pyodide in workers for powerful computation when needed:
+
+```html
+<!-- Fast main thread. -->
+<script type="mpy" src="./main.py"></script>
+
+<!-- Powerful worker. -->
+<script type="py" worker name="compute" config='{"packages":["numpy"]}'>
+import numpy as np
+
+
+def crunch_numbers(data):
+    return np.array(data).sum()
+
+
+__export__ = ["crunch_numbers"]
+</script>
 ```
 
-## Worker interactions
+## Creating workers dynamically
 
-Code running in the worker needs to be able to interact with code running in
-the main thread and perhaps have access to the web page. This is achieved via
-some helpful [builtin APIs](../../api).
+Create workers from Python code using `create_named_worker()`:
 
-!!! note
+```python
+from pyscript import create_named_worker
 
-    For ease of use, the worker related functionality in PyScript is
-    a simpler presentation of more sophisticated and powerful behaviour
-    available via PolyScript.
 
-    **If you are a confident advanced user**, please
-    [consult the XWorker](https://pyscript.github.io/polyscript/#xworker)
-    related documentation from the PolyScript project for how to make use of
-    these features.
+# Create a Pyodide worker.
+worker = await create_named_worker(
+    src="./background_tasks.py",
+    name="task-processor",
+    config={"packages": ["pandas"]}
+)
 
-To synchronise serializable data between the worker and the main thread use
-[the `sync` function](../../api/#pyscriptsync) in the worker to reference a
-function registered on the main thread:
-
-```python title="Python code running on the main thread."
-from pyscript import PyWorker
-
-def hello(name="world"):
-    return(f"Hello, {name}")
-
-# Create the worker.
-worker = PyWorker("./worker.py", type="micropython")
-
-# Register the hello function as callable from the worker.
-worker.sync.hello = hello
+# Use it immediately.
+result = await worker.process_data()
 ```
 
-```python title="Python code in the resulting worker."
-from pyscript import sync, window
+This is useful for spawning workers based on user actions, creating multiple
+workers for parallel processing, or loading workers conditionally based on
+application state.
 
-greeting = sync.hello("PyScript")
-window.console.log(greeting)
+The function accepts four parameters. The `src` parameter specifies the path to
+the worker's Python file. The `name` parameter provides a unique identifier for
+the worker. The `config` parameter accepts a configuration dictionary or JSON
+string (optional). The `type` parameter specifies the interpreter: `"py"`
+(default) or `"mpy"` (optional).
+
+## Configuration
+
+Workers support the same configuration as main thread scripts. You can specify
+packages to install, files to fetch, and JavaScript modules to import. See the
+[Configuration guide](configuration.md) for complete details on available
+options.
+
+The configuration is provided either inline as a JSON string in the `config`
+attribute, or as a path to a configuration file:
+
+```html
+<!-- Inline configuration. -->
+<script type="py" worker name="processor" config='{"packages":["pandas"]}'>
+...
+</script>
+
+<!-- Configuration file. -->
+<script type="py" worker name="processor" config="./worker-config.json">
+...
+</script>
 ```
 
-Alternatively, for the main thread to call functions in a worker, specify the
-functions in a `__export__` list:
+## Example: Prime number calculator
 
-```python title="Python code on the worker."
-import sys
+Here's a complete example demonstrating workers in action:
 
-def version():
-    return sys.version
+<iframe src="../../example-apps/prime-worker/" style="border: 1px solid black; width:100%; min-height: 600px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
-# Define what to export to the main thread.
-__export__ = ["version", ]
+[View the complete source code](https://github.com/pyscript/docs/tree/main/docs/example-apps/prime-worker).
+
+This application finds prime numbers using the
+[Sieve of Eratosthenes algorithm](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
+The heavy computation runs in a worker, keeping the main thread responsive.
+
+The HTML page defines two scripts. The main thread uses MicroPython and
+handles the UI:
+
+```html
+<script type="mpy" src="./main.py"></script>
 ```
 
-Then ensure you have a reference to the worker in the main thread (for
-instance, by using the `pyscript.workers`):
+The worker uses Pyodide with numpy and does the computation:
 
-```html title="Creating a named worker in the web page."
-<script type="py" src="./my-worker-code.py" worker name="my-worker"></script>
+```html
+<script type="py" worker name="primes" config="./pyscript.json">
 ```
 
-```python title="Referencing and using the worker from the main thread."
+When you click "Find Primes", the main thread gets a reference to the
+worker, calls the worker's function, and displays the results when they
+arrive:
+
+```python
 from pyscript import workers
+from pyscript.web import page
 
-my_worker = await workers["my-worker"]
 
-print(await my_worker.version())
+@when("click", "#find-btn")
+async def find_primes(event):
+    # Get the worker.
+    worker = await workers["primes"]
+    
+    # Check if numpy should be used.
+    use_numpy = page["#use-numpy"].checked
+    
+    # Call its exported function.
+    result = await worker.find_primes(limit, use_numpy)
+    
+    # Display the results.
+    print(f"Found {result['count']} primes")
 ```
 
-The values passed between the main thread and the worker **must be
-serializable**. Try the example given above via
-[this project on PyScript.com](https://pyscript.com/@ntoll/tiny-silence/latest).
+The worker script defines the computation and exports it:
 
-No matter if your code is running on the main thread or in a web worker,
-both the [`pyscript.window`](../../api/#pyscriptwindow) (representing the main
-thread's global window context) and
-[`pyscript.document`](../../api/#pyscriptdocument) (representing the web
-page's
-[document object](https://developer.mozilla.org/en-US/docs/Web/API/Document))
-will be available and work in the same way. As a result, a worker can reach
-into the DOM and access some `window` based APIs.
+```python
+import numpy as np
 
-!!! warning
 
-    Access to the `window` and `document` objects is a powerful feature. Please
-    remember that:
+def find_primes(limit, use_numpy=True):
+    # Use numpy's efficient array operations or pure Python.
+    # ... Sieve of Eratosthenes algorithm ...
+    return {"count": len(primes), "first_20": first_20_primes}
 
-    * Arguments to and the results from such calls, when used in a worker,
-      **must be serializable**, otherwise they won't work.
-    * If you manipulate the DOM via the `document` object, and other workers or
-      code on the main thread does so too, **they may interfere with each other
-      and produce unforeseen problematic results**. Remember, with great power
-      comes great responsibility... and we've given you a bazooka (so please
-      remember not to shoot yourself in the foot with it).
 
-## Common Use Case
-
-While it is possible to start a MicroPython or Pyodide worker from either
-MicroPython or Pyodide running on the main thread, the most common use case
-we have encountered is MicroPython on the main thread starting a Pyodide
-worker.
-
-Here's how:
-
-**index.html**
-```HTML title="Evaluate main.py via MicroPython on the main thread"
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!-- PyScript CSS -->
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-    <!-- This script tag bootstraps PyScript -->
-    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
-    <title>PyWorker - mpy bootstrapping pyodide example</title>
-    <script type="mpy" src="main.py"></script>
-  </head>
-</html>
+__export__ = ["find_primes"]
 ```
 
-**main.py**
-```Python title="MicroPython's main.py: bootstrapping a Pyodide worker."
-from pyscript import PyWorker, document
+Watch the pulsing green indicator whilst computing. It never stops,
+proving the main thread stays responsive. Try entering different values
+to see the worker handle various workloads. The "Use NumPy" checkbox
+lets you compare the performance of numpy's array operations against
+pure Python - a nice demonstration of why numerical libraries matter for
+computational tasks.
 
-# Bootstrap the Pyodide worker, with optional config too.
-# The worker is:
-#   * Owned by this script, no JS or Pyodide code in the same page can access
-#     it.
-#   * It allows pre-sync methods to be exposed.
-#   * It has a ready Promise to await for when Pyodide is ready in the worker. 
-#   * It allows the use of post-sync (methods exposed by Pyodide in the
-#     worker).
-worker = PyWorker("worker.py", type="pyodide")
+## Understanding limitations
 
-# Expose a utility that can be immediately invoked in the worker. 
-worker.sync.greetings = lambda: print("Pyodide bootstrapped")
+Workers have separate memory spaces. Each worker has its own memory, and
+you cannot share objects between workers or with the main thread. All
+communication happens via function calls with serialised data.
 
-print("before ready")
-# Await until Pyodide has completed its bootstrap, and is ready.
-await worker.ready
-print("after ready")
+Only serialisable data can pass between threads. Function arguments and
+return values must be JSON-serialisable: numbers, strings, lists,
+dictionaries, booleans, and None work. Functions, classes, file handles,
+and numpy arrays (convert to lists first) do not work.
 
-# Await any exposed methods exposed via Pyodide in the worker.
-result = await worker.sync.heavy_computation()
-print(result)
+Workers need time to initialise. Pyodide workers especially may take time
+to download packages and start up. The first call may be slow. Plan your
+application accordingly and consider showing loading indicators during
+initialisation.
 
-# Show the result at the end of the body.
-document.body.append(result)
+User activation requirements apply. Creating workers dynamically with
+`create_named_worker()` during page load works fine. However, if your
+worker needs to access certain browser features, those features may
+require user activation (a button click or similar interaction).
 
-# Free memory and get rid of everything in the worker.
-worker.terminate()
-```
+## What's next
 
-**worker.py**
-```Python title="The worker.py script runs in the Pyodide worker."
-from pyscript import sync
+Now that you understand workers, explore these related topics to deepen
+your knowledge.
 
-# Use any methods from main.py on the main thread.
-sync.greetings()
+**[Architecture guide](architecture.md)** - provides technical details about
+how PyScript implements workers using PolyScript and Coincident if you're
+interested in the underlying mechanisms.
 
-# Expose any methods meant to be used from main.
-sync.heavy_computation = lambda: 6 * 7
-```
+**[Filesystem](filesystem.md)** - Learn more about the virtual
+filesystem and how the `files` option works.
 
-Save these files in a `tmp` folder, ensure [your headers](#http-headers) (just
-use `npx mini-coi ./tmp` to serve via localhost) then see the following
-outcome in the browser's devtools. 
+**[FFI](ffi.md)** - Understand how JavaScript modules integrate with
+Python through the foreign function interface.
 
-```
-before ready
-Pyodide bootstrapped
-after ready
-42
-```
+**[Media](media.md)** - Capture photos and video with the camera or 
+record audio with your microphone.
+
+**[Offline](offline.md)** - Use PyScript while not connected to the internet.

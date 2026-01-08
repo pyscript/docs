@@ -1,0 +1,3 @@
+# `pyscript.fetch`
+
+::: pyscript.fetch

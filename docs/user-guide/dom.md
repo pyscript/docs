@@ -2,452 +2,554 @@
 
 The DOM
 ([document object model](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model))
-is a tree like data structure representing the web page displayed by the
-browser. PyScript interacts with the DOM to change the user interface and react
-to things happening in the browser.
+is a tree-like data structure representing the web page displayed by
+the browser. PyScript interacts with the DOM to change the user
+interface and react to things happening in the browser.
 
-There are currently two ways to interact with the DOM:
+PyScript provides two ways to work with the DOM:
 
-1. Through the [foreign function interface](#ffi) (FFI) to interact with objects found
-   in the browser's `globalThis` or `document` objects.
-2. Through the [`pyscript.web` module](#pyscriptweb) that acts as a Pythonic wrapper around
-   the FFI and comes as standard with PyScript.
+1. **The `pyscript.web` module** - A Pythonic interface that feels
+   natural to Python developers. This is the recommended approach for
+   most tasks.
+2. **The FFI (foreign function interface)** - Direct access to
+   JavaScript APIs for advanced use cases or when you need complete
+   control.
 
-## FFI
+Both approaches are powerful and can accomplish the same goals. We'll
+explore each one, starting with the Pythonic `pyscript.web` module.
 
-The foreign function interface (FFI) gives Python access to all the
-[standard web capabilities and features](https://developer.mozilla.org/en-US/docs/Web),
-such as the browser's built-in
-[web APIs](https://developer.mozilla.org/en-US/docs/Web/API).
+!!! tip
 
-This is available via the `pyscript.window` module which is a proxy for
-the main thread's `globalThis` object, or `pyscript.document` which is a proxy
-for the website's `document` object in JavaScript:
+    **New to PyScript?** Start with `pyscript.web`. It's designed to
+    feel natural if you know Python, and it handles many common tasks
+    more elegantly than direct JavaScript API calls.
+    
+    The FFI becomes useful when you need to integrate specific
+    JavaScript libraries or when you're already familiar with web
+    development in JavaScript.
 
-```Python title="Accessing the window and document objects in Python"
-from pyscript import window, document
+## Quick start: pyscript.web
 
+The `pyscript.web` module provides an idiomatic Python interface to the
+DOM. It wraps the FFI in a way that feels natural to Python developers,
+with familiar patterns like dictionary-style access, set-like class
+management, and Pythonic method names.
 
-my_element = document.querySelector("#my-id")
-my_element.innerText = window.location.hostname
-```
+### Finding elements
 
-The FFI creates _proxy objects_ in Python linked to _actual objects_ in
-JavaScript.
-
-The proxy objects in your Python code look and behave like Python
-objects but have related JavaScript objects associated with them. It means the
-API defined in JavaScript remains the same in Python, so any
-[browser based JavaScript APIs](https://developer.mozilla.org/en-US/docs/Web/API)
-or third party JavaScript libraries that expose objects in the web page's
-`globalThis`, will have exactly the same API in Python as in JavaScript.
-
-The FFI automatically transforms Python and JavaScript objects into the
-equivalent in the other language. For example, Python's boolean `True` and
-`False` will become JavaScript's `true` and `false`, while a JavaScript array
-of strings and integers, `["hello", 1, 2, 3]` becomes a Python list of the
-equivalent values: `["hello", 1, 2, 3]`.
-
-!!! info
-
-    Instantiating classes into objects is an interesting special case that the
-    FFI expects you to handle.
-
-    **If you wish to instantiate a JavaScript class in your Python
-    code, you need to call the class's `new` method:**
-
-    ```python
-    from pyscript import window
-
-
-    my_obj = window.MyJavaScriptClass.new("some value")
-
-    ```
-
-    The underlying reason for this is simply JavaScript and Python do
-    instantiation very differently. By explicitly calling the JavaScript
-    class's `new` method PyScript both signals and honours this difference.
-
-    More technical information about instantiating JavaScript classes can be
-    [found in the FAQ](../../faq/#javascript-classnew)
-
-Should you require lower level API access to FFI features, you can find such
-builtin functions under the `pyscript.ffi` namespace in both Pyodide and
-MicroPython. The available functions are described in our section on the
-[builtin API](../../api).
-
-Advanced users may wish to explore the
-[technical details of the FFI](../ffi).
-
-## `pyscript.web` 
-
-!!! warning
-
-    The `pyscript.web` module is currently a work in progress.
-
-    We welcome feedback and suggestions.
-
-The `pyscript.web` module is an idiomatically Pythonic API for interacting with
-the DOM. It wraps the FFI in a way that is more familiar to Python developers
-and works natively with the Python language. Technical documentation for this
-module can be found in [the API](../../api/#pyscriptweb) section.
-
-There are three core concepts to remember:
-
-* Find elements on the page via
-  [CSS selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors).
-  The `find` API uses exactly the [same queries](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Locating_DOM_elements_using_selectors)
-  as those used by native browser methods like `qurerySelector` or
-  `querySelectorAll`.
-* Use classes in the `pyscript.web` namespace to create and organise
-  new elements on the web page.
-* Collections of elements allow you to access and change attributes en-mass.
-  Such collections are returned from `find` queries and are also used for the
-  [children](https://developer.mozilla.org/en-US/docs/Web/API/Element/children)
-  of an element.
-
-You have several options for accessing the content of the page, and these are
-all found in the `pyscript.web.page` object. The `html`, `head` and `body`
-attributes reference the page's top-level html, head and body. As a convenience
-the `page`'s `title` attribute can be used to get and set the web page's title
-(usually shown in the browser's tab). The `append` method is a shortcut for
-adding content to the page's `body`. Whereas, the `find` method is used to
-return collections of elements matching a CSS query. You may also shortcut
-`find` via a CSS query in square brackets. Finally, all elements have a `find`
-method that searches within their children for elements matching your CSS
-query.
+The `page` object represents your web page. Use it to find elements by
+their ID or with CSS selectors:
 
 ```python
-from pyscript.web import page
+from pyscript import web
 
 
-# Print all the child elements of the document's head.
-print(page.head.children)
-# Find all the paragraphs in the DOM.
-paragraphs = page.find("p")
-# Or use square brackets.
-paragraphs = page["p"]
+# Get an element by ID (returns single Element or None).
+header = web.page["header-id"]
+header = web.page["#header-id"]  # The "#" prefix is optional.
+
+# Find by CSS selector (returns an ElementCollection).
+divs = web.page.find("div")
+buttons = web.page.find(".button-class")
+items = web.page.find("#list .item")
+
+# Access page structure.
+web.page.body.append(some_element)
+web.page.title = "New Page Title"
 ```
 
-The object returned from a query, or used as a reference to an element's
-children is iterable:
+CSS selectors work exactly like they do in CSS or JavaScript's
+[`querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector).
+If you can select it in CSS, you can find it with `pyscript.web`.
+
+### Creating elements
+
+Create new HTML elements using simple Python classes. Element
+names correspond to HTML tags, and are lower-case to match web
+conventions. Compose elements together in a
+[declarative style](https://en.wikipedia.org/wiki/Declarative_programming):
 
 ```python
-from pyscript.web import page
+from pyscript import web
 
 
-# Get all the paragraphs in the DOM.
-paragraphs = page["p"]
+# Create simple elements.
+div = web.div("Hello, World!")
+paragraph = web.p("Some text", id="my-para", classes=["intro"])
 
-# Print the inner html of each paragraph.
-for p in paragraphs:
-    print(p.html)
+# Compose elements together.
+container = web.div(
+    web.h1("My Task List"),
+    web.p("Keep track of your work"),
+    web.ul(
+        web.li("First task"),
+        web.li("Second task"),
+        web.li("Third task")
+    ),
+    id="task-container",
+    classes=["panel", "primary"]
+)
+
+# Add to the page.
+web.page.body.append(container)
 ```
 
-Alternatively, it is also indexable / sliceable:
+The first (unnamed) arguments to an element become its children. Named
+arguments like `id`, `classes`, and `style` set HTML attributes.
+
+You can also create elements
+[imperatively](https://en.wikipedia.org/wiki/Imperative_programming):
 
 ```python
-from pyscript.web import page
+from pyscript import web
 
 
-# Get an ElementCollection of all the paragraphs in the DOM
-paragraphs = page["p"]
+# Create an empty div.
+my_div = web.div(id="my-container")
 
-# Only the final two paragraphs.
-for p in paragraphs[-2:]:
-    print(p.html)
+# Add content and styling.
+my_div.innerHTML = "<p>Hello!</p>"
+my_div.classes.add("active")
+my_div.style["background-color"] = "lightblue"
+
+# Create a paragraph and add it.
+my_p = web.p("This is a paragraph.")
+my_div.append(my_p)
 ```
 
-You have access to all the standard attributes related to HTML elements (for
-example, the `innerHTML` or `value`), along with a couple of convenient ways
-to interact with classes and CSS styles:
+### Modifying content and attributes
 
-* `classes` - the list of classes associated with the elements.
-* `style` - a dictionary like object for interacting with CSS style rules.
-
-For example, to continue the example above, `paragraphs.innerHTML` will return
-a list of all the values of the `innerHTML` attribute on each contained
-element. Alternatively, set an attribute for all elements contained in the
-collection like this: `paragraphs.style["background-color"] = "blue"`.
-
-It's possible to create new elements to add to the page:
+Once you have an element, you can modify its content and attributes
+using idiomatic Python:
 
 ```python
-from pyscript.web import page, div, select, option, button, span, br 
+from pyscript import web
 
 
-page.append(
-    div(
-        div("Hello!", classes="a-css-class", id="hello"),
-        select(
-            option("apple", value=1),
-            option("pear", value=2),
-            option("orange", value=3),
-        ),
-        div(
-            button(span("Hello! "), span("World!"), id="my-button"),
-            br(),
-            button("Click me!"),
-            classes=["css-class1", "css-class2"],
-            style={"background-color": "red"}
-        ),
-        div(
-            children=[
-                button(
-                    children=[
-                        span("Hello! "),
-                        span("Again!")
-                    ],
-                    id="another-button"
-                ),
-                br(),
-                button("b"),
-            ],
-            classes=["css-class1", "css-class2"]
-        )
-    )
+element = web.page["my-element"]
+
+# Update content.
+element.innerHTML = "<b>Bold text</b>"
+element.textContent = "Plain text"
+
+# Update attributes.
+element.id = "new-id"
+element.title = "Tooltip text"
+
+# Bulk update with convenience method.
+element.update(
+    classes=["active", "highlighted"],
+    style={"color": "red", "font-size": "16px"},
+    title="Updated tooltip"
 )
 ```
 
-This example demonstrates a declaritive way to add elements to the body of the
-page. Notice how the first (unnamed) arguments to an element are its children.
-The named arguments (such as `id`, `classes` and `style`) refer to attributes
-of the underlying HTML element. If you'd rather be explicit about the children
-of an element, you can always pass in a list of such elements as the named
-`children` argument (you see this in the final `div` in the example above).
+### Working with classes and styles
 
-Of course, you can achieve similar results in an imperative style of
-programming:
+Element classes behave like a Python `set`, and styles behave like a
+Python `dict`:
 
 ```python
-from pyscript.web import page, div, p 
+from pyscript import web
 
 
-my_div = div()
-my_div.style["background-color"] = "red"
-my_div.classes.add("a-css-class")
+element = web.page["my-button"]
 
-my_p = p()
-my_p.content = "This is a paragraph."
+# Classes work like sets.
+element.classes.add("active")
+element.classes.add("highlighted")
+element.classes.remove("hidden")
+element.classes.discard("maybe-not-there")  # No error if missing.
 
-my_div.append(my_p)
+# Check membership.
+if "active" in element.classes:
+    print("Element is active")
 
-# etc...
+# Clear all classes.
+element.classes.clear()
+
+# Styles work like dictionaries.
+element.style["color"] = "red"
+element.style["background-color"] = "#f0f0f0"
+element.style["font-size"] = "16px"
+
+# Remove a style.
+del element.style["margin"]
+
+# Check if style is set.
+if "color" in element.style:
+    print(f"Colour is {element.style['color']}")
 ```
 
-It's also important to note that the `pyscript.when` decorator understands
-element references from `pyscript.web`:
+### Working with collections
+
+When you find multiple elements, you get an `ElementCollection` that
+you can iterate over, slice, or update in bulk:
 
 ```python
-from pyscript import when
-from pyscript.web import page 
+from pyscript import web
 
 
-btn = page["#my-button"]
+# Find multiple elements (returns an ElementCollection).
+items = web.page.find(".list-item")
 
+# Iterate over collection.
+for item in items:
+    item.innerHTML = "Updated"
+    item.classes.add("processed")
 
-@when("click", btn)
-def my_button_click_handler(event):
-    print("The button has been clicked!")
+# Bulk update all elements.
+items.update_all(
+    innerHTML="New content",
+    classes=["updated-item"]
+)
+
+# Index and slice collections.
+first = items[0]
+last = items[-1]
+subset = items[1:3]
+
+# Get an element by ID within the collection.
+special = items["special-id"]
+
+# Find descendants within the collection.
+subitems = items.find(".sub-item")
 ```
 
-Should you wish direct access to the proxy object representing the underlying
-HTML element, each Python element has a `_dom_element` property for this
-purpose.
+### Managing select elements
 
-Once again, the technical details of these classes are described in the
-[built-in API documentation](../../api/#pyscriptweb).
+The `select` element contains a list of `option` instances from which you
+select. When rendered on a web page, it looks like this:
 
-## Working with JavaScript
+<label for="example_option">Choose an option: </label>
+<select id="example_option">
+  <option>Option 1</option>
+  <option>Option 2</option>
+  <option>Option 3</option>
+</select>
 
-There are three ways in which JavaScript can get into a web page.
+The `options` property of `select` elements provides convenient methods
+for managing such options:
 
-1. As a global reference attached to the `window` object in the web page
-   because the code was referenced as the source of a `script` tag in your HTML
-   (the very old school way to do this).
-2. Using the [Universal Module Definition](https://github.com/umdjs/umd) (UMD),
-   an out-of-date and non-standard way to create JavaScript modules.
-3. As a standard
-   [JavaScript Module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
-   which is the modern, standards compliant way to define and use a JavaScript
-   module. If possible, this is the way you should do things.
+```python
+from pyscript import web
 
-Sadly, this being the messy world of the web, methods 1 and 2 are still quite
-common, and so you need to know about them so you're able to discern and work
-around them. There's nothing WE can do about this situation, but we can
-suggest "best practice" ways to work around each situation.
 
-Remember, as mentioned
-[elsewhere in our documentation](../configuration/#javascript-modules),
-the standard way to get JavaScript modules into your PyScript Python context is
-to link a _source_ standard JavaScript module to a _destination_ name:
+# Get an existing select element.
+select = web.page["my-select"]
 
-```toml title="Reference a JavaScript module in the configuration."
+# Add options.
+select.options.add(value="1", html="Option 1")
+select.options.add(value="2", html="Option 2", selected=True)
+
+# Get the selected option.
+selected = select.options.selected
+print(f"Selected: {selected.value}")
+
+# Iterate over options.
+for option in select.options:
+    print(f"{option.value}: {option.innerHTML}")
+
+# Clear all options.
+select.options.clear()
+
+# Remove specific option by index.
+select.options.remove(0)
+```
+
+This also works for `datalist` and `optgroup` elements, that also require
+lists of options to function.
+
+### Event handling with pyscript.web
+
+The `@when` decorator works seamlessly with `pyscript.web` elements:
+
+```python
+from pyscript import when, web
+
+
+# Create a button.
+button = web.button("Click me", id="my-button")
+web.page.body.append(button)
+
+# Attach event handler with decorator.
+@when("click", button)
+def handle_click(event):
+    print("Button clicked!")
+
+# Or attach during creation.
+def another_handler(event):
+    print("Another handler")
+
+button2 = web.button("Click too", on_click=another_handler)
+```
+
+Learn more about event handling in the [events guide](events.md).
+
+### Direct DOM access
+
+When needed, you can access the underlying DOM element directly:
+
+```python
+from pyscript import web
+
+
+element = web.page["my-element"]
+
+# Most DOM methods are accessible directly.
+element.scrollIntoView()
+element.focus()
+element.blur()
+
+# Convenience method for scrolling.
+element.show_me()  # Calls scrollIntoView().
+
+# Access the raw underlying DOM element for special cases.
+dom_element = element._dom_element
+```
+
+!!! info
+
+    For complete API documentation of `pyscript.web`, including all
+    available element types and methods, see the
+    [API reference](../../api/web).
+
+## Example: Task board with pyscript.web
+
+Let's look at a complete example that demonstrates these concepts. This
+task board application lets users add tasks, mark them complete, filter
+by priority, and delete tasks:
+
+<iframe src="../../example-apps/task-board-web/" style="border: 1px solid black; width:100%; min-height: 500px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+[View the complete source code](https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-web).
+
+Notice how the code uses Pythonic patterns throughout: dictionary-style
+access for elements, set operations for classes, and familiar Python
+syntax for creating and modifying elements.
+
+## The FFI: JavaScript interoperability
+
+The foreign function interface (FFI) gives Python direct access to all
+the [standard web capabilities and features](https://developer.mozilla.org/en-US/docs/Web),
+including the browser's built-in
+[web APIs](https://developer.mozilla.org/en-US/docs/Web/API).
+
+This is available via the `pyscript.window` and `pyscript.document`
+objects, which are proxies for JavaScript's `globalThis` and `document`
+objects:
+
+```python
+from pyscript import window, document
+
+
+# Access browser APIs.
+hostname = window.location.hostname
+current_url = window.location.href
+
+# Find and manipulate DOM elements.
+my_element = document.querySelector("#my-id")
+my_element.innerText = "Hello from Python!"
+
+# Query all matching elements.
+paragraphs = document.querySelectorAll("p")
+for p in paragraphs:
+    p.style.color = "blue"
+```
+
+### Proxy objects
+
+The FFI creates _proxy objects_ in Python that are linked to _actual
+objects_ in JavaScript. These proxy objects look and behave like Python
+objects but have related JavaScript objects associated with them
+"in the background" and automatically managed for you by the FFI.
+
+This means the API defined in JavaScript remains the same in Python, so
+any [browser-based JavaScript APIs](https://developer.mozilla.org/en-US/docs/Web/API)
+or third-party JavaScript libraries that expose objects in the web
+page's `globalThis` will have exactly the same API in Python as in
+JavaScript.
+
+### Type conversions
+
+The FFI automatically transforms Python and JavaScript objects into
+their equivalent in the other language:
+
+| Python | JavaScript |
+|--------|------------|
+| `True`, `False` | `true`, `false` |
+| `None` | `null` or `undefined` |
+| `int`, `float` | `number` |
+| `str` | `string` |
+| `list` | `Array` |
+| `dict` | `Object` |
+
+For example, a JavaScript array `["hello", 1, 2, 3]` becomes a Python
+list `["hello", 1, 2, 3]`, and vice versa.
+
+### JavaScript class instantiation
+
+Instantiating JavaScript classes requires special handling because
+Python and JavaScript do it differently:
+
+```python
+from pyscript import window
+
+
+# To instantiate a JavaScript class, call its .new() method.
+my_obj = window.MyJavaScriptClass.new("some value")
+
+# This is equivalent to JavaScript: new MyJavaScriptClass("some value")
+```
+
+The `.new()` method is required because Python and JavaScript handle
+class instantiation very differently. By explicitly calling `.new()`,
+PyScript signals and honours this difference.
+
+!!! info
+
+    For more technical details about JavaScript class instantiation,
+    see the [FAQ](../../faq/#javascript-classnew).
+
+### Lower-level FFI features
+
+Advanced users who need lower-level access to FFI features can use
+functions in the `pyscript.ffi` namespace, available in both Pyodide
+and MicroPython. These functions are documented in the
+[API reference](../../api/ffi).
+
+For deep technical details about how the FFI works, see the
+[FFI technical guide](ffi.md).
+
+## Example: Task board with FFI
+
+Here's the same task board application implemented using the FFI and
+direct JavaScript APIs instead of `pyscript.web`:
+
+<iframe src="../../example-apps/task-board-ffi/" style="border: 1px solid black; width:100%; min-height: 500px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+[View the complete source code](https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-ffi).
+
+Compare this implementation with the `pyscript.web` version above.
+Notice how the FFI version uses JavaScript method names like
+`querySelector` and `createElement`, whilst the `pyscript.web` version
+uses Pythonic patterns.
+
+
+## Working with JavaScript libraries
+
+There are three ways JavaScript code typically appears in web pages.
+Understanding these helps you integrate JavaScript libraries into your
+PyScript applications.
+
+### Standard JavaScript modules (recommended)
+
+Modern JavaScript uses ES6 modules with `import` and `export`
+statements. This is the best way to integrate JavaScript:
+
+```toml title="pyscript.toml - Configure JavaScript modules"
 [js_modules.main]
 "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js" = "leaflet"
 ```
 
-Then, reference the module via the destination name in your Python code, by
-importing it from the `pyscript.js_modules` namespace:
+Then import the module in your Python code:
 
-```python title="Import the JavaScript module into Python"
+```python title="main.py - Use the JavaScript module"
 from pyscript.js_modules import leaflet as L
 
+
 map = L.map("map")
-
-# etc....
+# Use the library...
 ```
 
-We'll deal with each of the potential JavaScript related situations in turn:
+That's it! PyScript handles loading the module and making it available
+in Python.
 
-### JavaScript as a global reference
+!!! tip
 
-In this situation, you have some JavaScript code that just globally defines
-"stuff" in the context of your web page via a `script` tag. Your HTML will
-contain something like this:
+    This is the recommended approach. Most modern JavaScript libraries
+    provide ES6 module builds that work perfectly with this method.
 
-```html title="JavaScript as a global reference"
+### JavaScript as a global reference (legacy)
+
+Older JavaScript code may add objects directly to the global `window`
+object via a `<script>` tag:
+
+```html title="HTML with global JavaScript"
 <!doctype html>
-<!--
-This JS utility escapes and unescapes HTML chars. It adds an "html" object to
-the global context.
--->
-<script src="https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js"></script>
-
-<!--
-Vanilla JS just to check the expected object is in the global context of the
-web page.
--->
-<script>
-    console.log(html);
-</script>
+<html>
+  <head>
+    <!-- This adds an 'html' object to the global scope. -->
+    <script src="https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js"></script>
+  </head>
+  <body>
+    <!-- Your content -->
+  </body>
+</html>
 ```
 
-When you find yourself in this situation, simply use the `window` object in
-your Python code (found in the `pyscript` namespace) to interact with the
-resulting JavaScript objects:
+Access these global objects via the `window` object in Python:
 
-```python title="Python interaction with the JavaScript global reference"
+```python title="main.py - Access global JavaScript"
 from pyscript import window, document
 
 
-# The window object is the global context of your web page.
+# The window object is the global context.
 html = window.html
 
-# Just use the object "as usual"...
-# e.g. show escaped HTML in the body: &lt;&gt;
-document.body.append(html.escape("<>"))
+# Use the object normally.
+escaped = html.escape("<>")
+document.body.append(escaped)
 ```
 
-You can find an example of this technique here:
+### UMD modules (legacy)
 
-[https://pyscript.com/@agiammarchi/floral-glade/v1](https://pyscript.com/@agiammarchi/floral-glade/v1)
+The Universal Module Definition (UMD) is an outdated, non-standard way
+to create JavaScript modules. If you encounter UMD modules, you have
+two options:
 
-### JavaScript as a non-standard UMD module
+**Option 1: Use esm.run** - This service automatically converts UMD
+modules to standard ES6 modules:
 
-Sadly, these sorts of non-standard JavaScript modules are still quite
-prevalent. But the good news is there are strategies you can use to help you
-get them to work properly.
-
-The non-standard UMD approach tries to check for `export` and `module` fields
-in the JavaScript module and, if it doesn’t find them, falls back to treating
-the module in the same way as a global reference described above.
-
-If you find you have a UMD JavaScript module, there are services online to
-automagically convert it to the modern and standards compliant way to d
-o JavaScript modules. A common (and usually reliable) service is provided by
-[https://esm.run/your-module-name](https://esm.run/your-module-name), a
-service that provides an out of the box way to consume the module in the
-correct and standard manner:
-
-```html title="Use esm.run to automatically convert a non-standard UMD module"
-<!doctype html>
-<script type="module">
-    // this utility escapes and unescape HTML chars
-    import { escape, unescape } from "https://esm.run/html-escaper";
-    // esm.run returns a module       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    console.log(escape("<>"));
-    // log: "&lt;&gt;"
-</script>
+```toml title="pyscript.toml - Use esm.run to convert UMD"
+[js_modules.main]
+"https://esm.run/html-escaper" = "html_escaper"
 ```
 
-If a similar test works for the module you want to use, use the esm.run CDN
-service within the `py` or `mpy` configuration file as explained at the start
-of this section on JavaScript (i.e. you'll use it via the `pyscript.js_modules`
-namespace).
+**Option 2: Create a wrapper** - If esm.run doesn't work, wrap the
+module yourself:
 
-If this doesn't work, assume the module is not updated nor migrated to a state
-that can be automatically translated by services like esm.run. You could try an
-alternative (more modern) JavaScript module to achieve you ends or (if it
-really must be this module), you can wrap it in a new JavaScript module that
-conforms to the modern standards.
-
-The following four files demonstrate this approach:
-
-```html title="index.html - still grab the script so it appears as a global reference."
-<!doctype html>
-...
-<!-- land the utility still globally as generic script -->
+```html title="index.html - Load the UMD module globally"
 <script src="https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js"></script>
-...
 ```
 
-```js title="wrapper.js - this grabs the JavaScript functionality from the global context and wraps it (exports it) in the modern standards compliant manner."
-// get all utilities needed from the global.
+```js title="wrapper.js - Wrap it as a standard module"
+// Get utilities from the global scope.
 const { escape, unescape } = globalThis.html;
 
-// export utilities like a standards compliant module would do.
+// Export as a standard module.
 export { escape, unescape };
 ```
 
-```toml title="pyscript.toml - configure your JS modules as before, but use your wrapper instead of the original module."
+```toml title="pyscript.toml - Reference your wrapper"
 [js_modules.main]
-# will simulate a standard JS module
 "./wrapper.js" = "html_escaper"
 ```
 
-```python title="main.py - just import the module as usual and make use of it."
-from pyscript import document
-
-# import the module either via
+```python title="main.py - Use it normally"
 from pyscript.js_modules import html_escaper
-# or via
-from pyscript.js_modules.html_escaper import escape, unescape
 
-# show on body: &lt;&gt;
-document.body.append(html.escape("<>"))
+
+escaped = html_escaper.escape("<>")
 ```
 
-You can see this approach in action here:
+### Your own JavaScript code
 
-[https://pyscript.com/@agiammarchi/floral-glade/v2](https://pyscript.com/@agiammarchi/floral-glade/v2)
+Write your own JavaScript as standard ES6 modules by using `export`:
 
-### A standard JavaScript module
-
-This is both the easiest and best way to import any standard JS module into
-Python.
-
-You don't need to reference the script in your HTML, just define how the source
-JavaScript module maps into the `pyscript.js_modules` namespace in your
-configuration file, as explained above.
-
-That's it!
-
-Here is an example project that uses this approach:
-
-[https://pyscript.com/@agiammarchi/floral-glade/v3](https://pyscript.com/@agiammarchi/floral-glade/v3)
-
-
-### My own JavaScript code
-
-If you have your own JavaScript work, just remember to write it as a standard
-JavaScript module. Put simply, ensure you `export` the things you need to. For
-instance, in the following fragment of JavaScript, the two functions are
-exported from the module:
-
-```js title="code.js - containing two functions exported as capabilities of the module."
+```js title="code.js - Your JavaScript module"
 /*
-Some simple JavaScript functions for example purposes.
+Simple JavaScript functions for example purposes.
 */
 
 export function hello(name) {
@@ -461,33 +563,74 @@ export function fibonacci(n) {
 }
 ```
 
-Next, just reference this module in the usual way in your TOML or JSON
-configuration file:
+Reference it in your configuration:
 
-```TOML title="pyscript.toml - references the code.js module so it will appear as the code module in the pyscript.js_modules namespace."
+```toml title="pyscript.toml"
 [js_modules.main]
 "code.js" = "code"
 ```
 
-In your HTML, reference your Python script with this configuration file:
+Use it from Python:
 
-```html title="Reference the expected configuration file."
-<script type="py" src="./main.py" config="./pyscript.toml" terminal></script>
-```
-
-Finally, just use your JavaScript module’s exported functions inside PyScript:
-
-```python title="Just call your bespoke JavaScript code from Python."
+```python title="main.py"
 from pyscript.js_modules import code
 
 
-# Just use the JS code from Python "as usual".
 greeting = code.hello("Chris")
 print(greeting)
+
 result = code.fibonacci(12)
 print(result)
 ```
 
-You can see this in action in the following example project:
+For more details on configuring JavaScript modules, see the
+[configuration guide](configuration.md/#javascript-modules).
 
-[https://pyscript.com/@ntoll/howto-javascript/latest](https://pyscript.com/@ntoll/howto-javascript/latest)
+## When to use which approach
+
+Both `pyscript.web` and the FFI are powerful tools. Here's when to use
+each:
+
+### Use pyscript.web when:
+
+- **You're comfortable with Python** - The API feels natural to Python
+  developers, with Pythonic naming and patterns.
+- **You're building from scratch** - Creating new elements and
+  composing interfaces is elegant and concise.
+- **You value readability** - The code is self-documenting and easy to
+  understand.
+- **You're teaching or learning** - The interface is easier to
+  explain and understand to Python learners.
+
+### Use the FFI when:
+
+- **You're integrating JavaScript libraries** - Direct access to
+  JavaScript APIs means no translation layer.
+- **You're porting existing JavaScript code** - The API is identical,
+  making translation straightforward.
+- **You need a specific browser API** - Some browser features don't
+  have `pyscript` based wrappers (yet!).
+- **You're already familiar with web development** - If you know
+  JavaScript, the FFI feels natural.
+
+!!! tip
+
+    You can mix both approaches in the same application. Use
+    `pyscript.web` for most tasks and drop down to the FFI when needed.
+    They work together seamlessly.
+
+## What's next
+
+Now that you understand DOM manipulation, explore these related topics:
+
+**[Events](events.md)** - Learn how to respond to user actions and
+browser events with the `@when` decorator and event handlers.
+
+**[Display](display.md)** - Discover how to show Python objects, images,
+charts, and rich content on your page with the `display()` function.
+
+**[Configuration](configuration.md)** - Configure your Python
+environment, specify packages, and customise PyScript's behaviour.
+
+**[Workers](workers.md)** - Run Python code in background threads for
+responsive applications.
