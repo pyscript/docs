@@ -93,6 +93,7 @@ nav:
       - Python terminal: user-guide/terminal.md
       - Python editor: user-guide/editor.md
       - PyGame-CE: user-guide/pygame-ce.md
+      - PyScript in JavaScript: user-guide/from_javascript.md
       - Plugins: user-guide/plugins.md
   - Example Applications:
       - Overview: example-apps/overview.md

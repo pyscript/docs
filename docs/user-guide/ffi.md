@@ -11,6 +11,13 @@ consistently across both Pyodide and MicroPython interpreters. This
 guide explains how to use the FFI to bridge between Python and
 JavaScript when necessary.
 
+!!! info
+
+    PyScript also enables JavaScript to call into Python!
+
+    Please see the [PyScript in JavaScript](./from_javascript.md) section
+    of this user-guide for more information.
+
 ## When to use the FFI
 
 The FFI is a low-level interface for situations where higher-level

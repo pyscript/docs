@@ -41,46 +41,6 @@ the user's browser.
 Python and JavaScript, when to use Pyodide vs. MicroPython, and how to
 optimise your applications for performance.
 
-## How to use this guide
-
-This guide is organised into focused sections that build upon each other.
-We recommend reading them in this order:
-
-1. **[What is PyScript?](what.md)** - Understand the philosophy and
-   capabilities of the platform.
-
-2. **[First steps](first-steps.md)** - Learn the basic structure of a
-   PyScript application.
-
-3. **[Configuration](configuration.md)** - Discover how to configure
-   your Python environment, specify packages, and customise PyScript's
-   behaviour.
-
-4. **[DOM interaction](dom.md)** - Master the core skill of working with
-   web page elements using both the FFI and the `pyscript.web` module.
-
-5. **[Events](events.md)** - Learn to respond to user actions and
-   browser events with the `@when` decorator and other patterns.
-
-6. **[Workers](workers.md)** - Understand how to use background threads
-   for responsive applications.
-
-7. **[Filesystem](filesystem.md)** and **[Media](media.md)** - Explore
-   device capabilities like file access, camera, and audio.
-
-8. **[Architecture](architecture.md)** - Dive deep into how PyScript
-   works under the hood.
-
-Of course, you can jump directly to any section that interests you. Each
-page is written to be useful on its own, with cross-references to related
-topics.
-
-!!! tip
-
-    New to web development? The [DOM interaction](dom.md) and
-    [events](events.md) sections are essential reading. They explain
-    core concepts that apply to all web applications, not just PyScript.
-
 ## Core concepts
 
 PyScript brings together two powerful ecosystems: Python and the web.
@@ -113,11 +73,13 @@ Throughout this guide, you'll find working examples that demonstrate
 PyScript's features. All examples are complete, runnable applications
 that you can explore, modify, and learn from.
 
-You'll find the example applications in the
-[`example-apps` directory in the source code for these docs](https://github.com/pyscript/docs/tree/main/docs/example-apps),
+You'll find the [example applications](../example-apps/overview.md)
 organised by app name. Each example includes all the files you need
-(`index.html`, Python code, configuration) plus a README explaining what
-it demonstrates and how it works.
+(`index.html`, Python code, configuration etc...) plus an `info.md`
+explaining what it demonstrates and how it works.
+
+The source code for all the example apps can be found in our GIT
+[repository online](https://github.com/pyscript/docs/tree/main/docs/example-apps).
 
 ## Get involved
 
@@ -146,8 +108,8 @@ your project featured in our examples.
 
 ## Ready to dive in?
 
-Start with [What is PyScript?](what.md) to understand the platform's
+Start with [What is PyScript?](./what.md) to understand the platform's
 philosophy and capabilities, or jump straight to
-[First steps](first-steps.md) if you're eager to start coding.
+[working with the DOM](./dom.md) if you're eager to start coding.
 
 Welcome to PyScript!
