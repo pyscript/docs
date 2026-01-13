@@ -2,32 +2,32 @@
 Interactive Colour Picker - demonstrating event handling in PyScript.
 
 Shows:
+
 - Multiple event types (input, click, change)
 - Custom events for decoupled logic
 - Working with form inputs
 - Dynamic UI updates
 """
 from pyscript import when, Event
-from pyscript.web import page
+from pyscript.web import page, div
 
 
 # Custom event for when colour changes.
-colour_changed = Event()
-
+_colour_has_changed = Event()
 # Colour history (limited to 10).
-history = []
+_HISTORY = []
 
 
 def rgb_to_hex(r, g, b):
     """
-    Convert RGB values to hex colour string.
+    Convert RGB values to a hex colour string.
     """
     return f"#{r:02X}{g:02X}{b:02X}"
 
 
 def hex_to_rgb(hex_colour):
     """
-    Convert hex colour string to RGB tuple.
+    Convert a hex colour string to an RGB tuple.
     """
     hex_colour = hex_colour.lstrip("#")
     return tuple(int(hex_colour[i:i+2], 16) for i in (0, 2, 4))
@@ -60,34 +60,28 @@ def update_controls(r, g, b):
     page["#red-slider"].value = r
     page["#green-slider"].value = g
     page["#blue-slider"].value = b
-    
     # Update number inputs.
     page["#red-value"].value = r
     page["#green-value"].value = g
     page["#blue-value"].value = b
-    
     # Update hex input.
     hex_colour = rgb_to_hex(r, g, b)
     page["#hex-input"].value = hex_colour
-    
     # Update display.
     update_display(hex_colour)
-    
     # Trigger custom event.
-    colour_changed.trigger(hex_colour)
+    _colour_has_changed.trigger(hex_colour)
 
 
 def add_to_history(hex_colour):
     """
     Add colour to history, maintaining max of 10 items.
     """
-    if hex_colour in history:
+    if hex_colour in _HISTORY:
         return
-    
-    history.insert(0, hex_colour)
-    if len(history) > 10:
-        history.pop()
-    
+    _HISTORY.insert(0, hex_colour)
+    if len(_HISTORY) > 10:
+        _HISTORY.pop()
     # Update history display.
     render_history()
 
@@ -96,14 +90,11 @@ def render_history():
     """
     Render colour history.
     """
-    from pyscript.web import div
-    
     container = page["#history-colours"]
     container.clear()
-    
-    for colour in history:
+    for colour in _HISTORY:
         colour_div = div(Class="history-colour", title=colour)
-        colour_div.style.backgroundColor = colour
+        colour_div.style["backgroundColor"] = colour
         colour_div.dataset.colour = colour
         container.append(colour_div)
 
@@ -129,12 +120,10 @@ def handle_number_change(event):
     r = int(page["#red-value"].value)
     g = int(page["#green-value"].value)
     b = int(page["#blue-value"].value)
-    
     # Clamp values.
     r = max(0, min(255, r))
     g = max(0, min(255, g))
     b = max(0, min(255, b))
-    
     update_controls(r, g, b)
 
 
@@ -144,11 +133,9 @@ def handle_hex_change(event):
     Handle hex input changes.
     """
     hex_colour = event.target.value.strip()
-    
     # Validate hex colour.
     if not hex_colour.startswith("#"):
         hex_colour = "#" + hex_colour
-    
     try:
         r, g, b = hex_to_rgb(hex_colour)
         update_controls(r, g, b)
@@ -177,7 +164,7 @@ def handle_history_click(event):
     update_controls(r, g, b)
 
 
-@when(colour_changed)
+@when(_colour_has_changed)
 def handle_colour_changed(hex_colour):
     """
     Handle custom colour changed event.

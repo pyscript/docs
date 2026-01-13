@@ -1,5 +1,7 @@
 """
 Note Taker - demonstrating local filesystem access.
+
+**CHROMIUM ONLY!**
 """
 from pyscript import when, fs
 from pyscript.web import page
@@ -8,14 +10,15 @@ from pyscript.web import page
 @when("click", "#mount-btn")
 async def mount_folder(event):
     """
-    Mount a local folder for saving notes.
+    Mount a local folder for saving notes. The local filesystem will
+    be mapped to the `/notes` mount point on the virtual filesystem.
+
+    The user will be prompted to select a folder.
     """
     status = page["#status"]
     status.content = "Please select a folder..."
-    
     try:
         await fs.mount("/notes")
-        
         # Enable the UI.
         page["#save-btn"].disabled = False
         page["#note"].disabled = False
@@ -31,15 +34,12 @@ async def save_note(event):
     """
     status = page["#status"]
     note_text = page["#note"].value
-    
     try:
-        # Write the note.
+        # Write the note to the mounted folder.
         with open("/notes/my-note.txt", "w") as f:
             f.write(note_text)
-        
-        # Sync to local filesystem.
+        # Sync the mounted folder to the local filesystem.
         await fs.sync("/notes")
-        
         status.content = "Note saved successfully!"
     except Exception as e:
         status.content = f"Error saving: {e}"

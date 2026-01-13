@@ -1,8 +1,11 @@
 # Note Taker
 
+[Run the app](index.html) | 
+[View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/note-taker)
+
 A simple note-taking application demonstrating local filesystem access.
 
-## What it shows
+## What it demonstrates
 
 - Mounting a local directory on user interaction.
 - Writing files to the mounted directory.

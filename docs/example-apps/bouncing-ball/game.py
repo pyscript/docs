@@ -2,6 +2,9 @@
 Bouncing Ball - PyGame-CE demo for PyScript.
 
 Based on the PyGame-CE quickstart tutorial.
+
+Note the use of `await asyncio.sleep()` in place of `pygame.time.Clock()`
+to yield to the event loop and keep the browser responsive.
 """
 import asyncio
 import sys
@@ -21,14 +24,13 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-
     ballrect = ballrect.move(speed)
     if ballrect.left < 0 or ballrect.right > width:
         speed[0] = -speed[0]
     if ballrect.top < 0 or ballrect.bottom > height:
         speed[1] = -speed[1]
-
     screen.fill(black)
     screen.blit(ball, ballrect)
     pygame.display.flip()
+    # Needed to yield to the event loop to keep the browser responsive.
     await asyncio.sleep(1/60)

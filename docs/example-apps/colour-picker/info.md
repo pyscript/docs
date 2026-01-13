@@ -1,33 +1,28 @@
 # Interactive Colour Picker
 
+[Run the app](index.html) | 
+[View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/colour-picker) 
+
 A colour picker application demonstrating various event handling
 patterns in PyScript.
 
 ## What it demonstrates
 
-**Multiple event types:**
-- `input` events - RGB sliders update in real-time.
-- `change` events - Number inputs and hex input.
-- `click` events - Preset buttons and history colours.
-
-**Stacked decorators:**
-- Single function handling multiple sliders with `@when` stacked three
-  times.
-
-**Custom events:**
-- `colour_changed` Event for decoupling colour updates from history
-  management.
-- Shows how to separate concerns in your application.
-
-**Working with form inputs:**
-- Range sliders, number inputs, text inputs.
-- Synchronising values across different input types.
-- Validating and clamping values.
-
-**Dynamic UI updates:**
-- Updating display colour.
-- Maintaining colour history.
-- Creating history elements dynamically.
+* Multiple event types with `input` events (RGB sliders update in real-time), 
+`change` events (number inputs and hex input) and `click` events (preset
+buttons and history colours).
+* Stacked decorators with a single function handling multiple sliders with
+  `@when` stacked three times.
+* Custom events via the `colour_changed` Event for decoupling colour updates
+  from app history and to show how to separate concerns in your application.
+* Working with form inputs of different types:
+    - Range sliders, number inputs, text inputs.
+    - Synchronising values across different input types.
+    - Validating and clamping values.
+* Dynamic UI updates:
+    - Updating display colour.
+    - Maintaining colour history.
+    - Creating history elements dynamically.
 
 ## Features
 
@@ -44,7 +39,7 @@ patterns in PyScript.
 - `index.html` - Page structure and styling.
 - `main.py` - Event handling logic demonstrating various patterns.
 
-## Key patterns demonstrated
+## How it works
 
 ### Stacking decorators
 
@@ -82,13 +77,3 @@ def handle_slider_change(event):
     # Update display.
     update_display(value)
 ```
-
-## Running locally
-
-Serve these files from a web server:
-
-```bash
-python3 -m http.server
-```
-
-Then open http://localhost:8000 in your browser.

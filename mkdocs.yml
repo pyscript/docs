@@ -96,15 +96,15 @@ nav:
       - Plugins: user-guide/plugins.md
   - Example Applications:
       - Overview: example-apps/overview.md
-      - Bouncing Ball: example-apps/bouncing-ball/info.md
+      - Pirate Translator: example-apps/pirate-translator/info.md
+      - Task Board (Pythonic): example-apps/task-board-web/info.md
+      - Task Board (FFI): example-apps/task-board-ffi/info.md
       - Colour Picker: example-apps/colour-picker/info.md
       - Display Demos: example-apps/display-demo/info.md
+      - Prime Number Finder: example-apps/prime-worker/info.md
       - Note Taker: example-apps/note-taker/info.md
       - Photobooth: example-apps/photobooth/info.md
-      - Pirate Translator: example-apps/pirate-translator/info.md
-      - Prime Number Finder: example-apps/prime-worker/info.md
-      - Task Board (FFI): example-apps/task-board-ffi/info.md
-      - Task Board (Pythonic): example-apps/task-board-web/info.md
+      - Bouncing Ball: example-apps/bouncing-ball/info.md
   - PyScript APIs:
     - Introduction: api/init.md
     - context: api/context.md

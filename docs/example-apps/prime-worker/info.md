@@ -1,27 +1,58 @@
 # Prime Number Calculator with Workers
 
+[Run the app](index.html) | 
+[View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/prime-worker) 
+
 A demonstration of PyScript workers showing how to keep the main thread
 responsive whilst performing heavy computation in a background worker.
 
+1. Enter a number (10 to 100,000).
+2. Click "Find Primes".
+3. Watch the green heartbeat - it never stops pulsing.
+4. See primes appear in real-time.
+
+Try interacting with the page whilst it's computing - everything stays
+smooth because the main thread is never blocked.
+
 ## What it demonstrates
 
-**Worker architecture:**
-- **Main thread**: MicroPython (lightweight, fast startup, responsive UI).
-- **Worker thread**: Pyodide with numpy (heavy computation, numerical
-  libraries).
-- Clear separation of concerns.
+* Worker architecture:
+    - **Main thread**: MicroPython (lightweight, fast startup, responsive UI).
+    - **Worker thread**: Pyodide with numpy (heavy computation, numerical
+    libraries).
+    - A clear separation of concerns.
+* Key patterns:
+    - Starting a worker from the main thread.
+    - Calling worker methods with `await`.
+    - Sending incremental results back via callbacks.
+    - Using `pyscript.sync` to expose functions between threads.
+    - Keeping the main thread responsive during computation.
+* Visual feedback:
+    - Animated "heartbeat" proves main thread never blocks.
+    - Real-time display of primes as they're found.
+    - Status updates showing worker progress.
 
-**Key patterns:**
-- Starting a worker from the main thread.
-- Calling worker methods with `await`.
-- Sending incremental results back via callbacks.
-- Using `pyscript.sync` to expose functions between threads.
-- Keeping the main thread responsive during computation.
+## Features
 
-**Visual feedback:**
-- Animated "heartbeat" proves main thread never blocks.
-- Real-time display of primes as they're found.
-- Status updates showing worker progress.
+* MicroPython on main thread:
+    - Fast startup (no heavy packages to load).
+    - Lightweight (perfect for UI interactions).
+    - Stays responsive (no blocking operations).
+* Pyodide in worker:
+    - Full Python with scientific libraries (numpy).
+    - Heavy computation off the main thread.
+    - Can use the full Python ecosystem.
+* Best of both worlds:
+    - Fast, responsive UI.
+    - Powerful computation when needed.
+    - Users never see a frozen interface.
+
+## Files
+
+- `index.html` - Page structure and styling.
+- `main.py` - Main thread logic (MicroPython).
+- `worker.py` - Worker thread logic (Pyodide with numpy).
+- `worker-config.json` - Worker configuration (numpy package).
 
 ## How it works
 
@@ -44,15 +75,6 @@ The worker does the heavy lifting:
 3. Calls back to the main thread's `handle_prime()` for each prime found.
 4. Sends results in batches with small delays to keep UI smooth.
 5. Returns a summary when complete.
-
-## Files
-
-- `index.html` - Page structure and styling.
-- `main.py` - Main thread logic (MicroPython).
-- `worker.py` - Worker thread logic (Pyodide with numpy).
-- `worker-config.json` - Worker configuration (numpy package).
-
-## Key code patterns
 
 ### Starting the worker
 
@@ -92,49 +114,10 @@ async def handle_prime(prime):
     print(f"Got prime: {prime}")
 
 sync.handle_prime = handle_prime
+```
 
+```python
 # Worker calls back to main thread.
 handle_prime = await sync.handle_prime
 await handle_prime(42)
 ```
-
-## Why this architecture?
-
-**MicroPython on main thread:**
-- Fast startup (no heavy packages to load).
-- Lightweight (perfect for UI interactions).
-- Stays responsive (no blocking operations).
-
-**Pyodide in worker:**
-- Full Python with scientific libraries (numpy).
-- Heavy computation off the main thread.
-- Can use the full Python ecosystem.
-
-**Best of both worlds:**
-- Fast, responsive UI.
-- Powerful computation when needed.
-- Users never see a frozen interface.
-
-## Try it
-
-1. Enter a number (10 to 100,000).
-2. Click "Find Primes".
-3. Watch the green heartbeat - it never stops pulsing.
-4. See primes appear in real-time.
-
-Try interacting with the page whilst it's computing - everything stays
-smooth because the main thread is never blocked.
-
-## Running locally
-
-Serve these files from a web server:
-
-```bash
-python3 -m http.server
-```
-
-Then open http://localhost:8000 in your browser.
-
-**Note**: You'll need to serve with appropriate CORS headers for workers
-to access `window` and `document`. See the
-[workers guide](../../user-guide/workers.md#http-headers) for details.

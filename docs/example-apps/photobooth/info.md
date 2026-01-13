@@ -1,9 +1,12 @@
 # Photobooth
 
+[Run the app](index.html) | 
+[View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/photobooth) 
+
 A simple webcam application demonstrating media device access and still
 frame capture.
 
-## What it shows
+## What it demonstrates
 
 - Requesting camera access with `Device.request_stream()`.
 - Displaying live video in a video element.

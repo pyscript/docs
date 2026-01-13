@@ -2,23 +2,6 @@
 
 <h1 style="text-align: center; font-weight: bold;">PyScript is an <u>open source</u> platform for Python in the browser.</h1>
 
-## PyScript is...
-
-* **Easy**: your apps run in the browser with no complicated installation
-  required.
-* **Expressive**: create apps with a powerful, popular and easy to learn
-  language like Python.
-* **Scalable**: no need for expensive infrastructure ~ your code runs in
-  your user's browser.
-* **Shareable**: applications are just a URL on the web. That's it!
-* **Universal**: your code runs anywhere a browser runs... which is
-  _everywhere_!
-* **Secure**: PyScript runs in the world's most battle-tested computing 
-  platform, the browser!
-* **Powerful**: the best of the web and Python, together at last.
-
-## What's next?
-
 <dl>
   <dt><strong>I'm a beginner...</strong></dt>
   <dd>Welcome! PyScript is designed to be friendly for beginner coders. The
@@ -45,12 +28,6 @@
     Our <a href="developers/">developer guide</a> explains how to set
     up a working development environment for PyScript.</p>
   </dd>
-  <dt><strong>Just show me...</strong></dt>
-  <dd>That's easy! Just take a look around
-  <a href="https://pyscript.com/" target="_blank">pyscript.com</a> - our
-  platform for developing and hosting PyScript applications. By using
-  using this service you help to support and sustain the development and growth
-  of the open-source PyScript project.</dd>
   <dt><strong>I want support...</strong></dt>
   <dd>
     <p>Join the conversation on our

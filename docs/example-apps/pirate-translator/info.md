@@ -1,5 +1,8 @@
 # Pirate Translator 🦜 💬 🇬🇧 ➡️ 🏴‍☠️
 
+[Run the app](index.html) | 
+[View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/pirate-translator) 
+
 A simple PyScript application that translates English text into Pirate speak.
 
 ## What it demonstrates
@@ -23,13 +26,3 @@ A simple PyScript application that translates English text into Pirate speak.
 4. Function retrieves the input text using `web.page["english"]`.
 5. Text is translated using the `arrr` library.
 6. Result is displayed in the output div using `web.page["output"]`.
-
-## Running locally
-
-Simply serve these files from a web server. For example:
-
-```bash
-python3 -m http.server
-```
-
-Then open http://localhost:8000 in your browser.

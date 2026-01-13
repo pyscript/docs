@@ -4,8 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Display Demo</title>
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+    <link rel="stylesheet" 
+      href="https://pyscript.net/releases/2025.11.2/core.css">
+    <script type="module" 
+      src="https://pyscript.net/releases/2025.11.2/core.js"></script>
     <style>
       body {
         font-family: system-ui, -apple-system, sans-serif;
@@ -42,6 +44,12 @@
         border-radius: 4px;
         border: 1px solid #dee2e6;
         min-height: 100px;
+        overflow: hidden;
+      }
+      .output img {
+        max-width: 100%;
+        height: auto;
+        display: block;
       }
       button {
         background: #3498db;
@@ -72,6 +80,23 @@
         opacity: 0.9;
         font-size: 0.9rem;
       }
+      .loading {
+        text-align: center;
+        color: #666;
+      }
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 1rem auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
@@ -80,7 +105,12 @@
     <div class="grid">
       <div class="panel">
         <h2>Basic Types</h2>
-        <div id="basic-output" class="output"></div>
+        <div id="basic-output" class="output">
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading PyScript...</p>
+          </div>
+        </div>
         <button id="btn-basic">Show Basic Types</button>
       </div>
       
@@ -113,8 +143,25 @@
         <div id="incremental-output" class="output"></div>
         <button id="btn-incremental">Start Updates</button>
       </div>
+      
+      <div class="panel">
+        <h2>Pandas DataFrame</h2>
+        <div id="dataframe-output" class="output"></div>
+        <button id="btn-dataframe">Show DataFrame</button>
+      </div>
+      
+      <div class="panel">
+        <h2>Matplotlib Plot</h2>
+        <div id="plot-output" class="output"></div>
+        <button id="btn-plot">Generate Plot</button>
+      </div>
+      
+      <div class="panel">
+        <h2>Multiple Plots</h2>
+        <div id="multiplot-output" class="output"></div>
+        <button id="btn-multiplot">Show Subplots</button>
+      </div>
     </div>
-
-    <script type="mpy" src="./main.py"></script>
+    <script type="py" src="./main.py" config="./pyscript.json"></script>
   </body>
 </html>

@@ -7,7 +7,7 @@ from pyscript.web import page
 
 
 # Track the current stream.
-current_stream = None
+_current_stream = None
 
 
 @when("click", "#start-btn")
@@ -15,19 +15,15 @@ async def start_camera(event):
     """
     Start the camera and display live video.
     """
-    global current_stream
-    
+    global _current_stream
     status = page["#status"]
     status.content = "Requesting camera access..."
-    
     try:
         # Request video stream.
-        current_stream = await Device.request_stream(video=True)
-        
+        _current_stream = await Device.request_stream(video=True)
         # Display in video element.
         video = page["#camera"]
-        video.srcObject = current_stream
-        
+        video.srcObject = _current_stream
         # Update UI.
         page["#start-btn"].disabled = True
         page["#capture-btn"].disabled = False
@@ -39,17 +35,14 @@ async def start_camera(event):
 @when("click", "#capture-btn")
 def capture_photo(event):
     """
-    Capture a still frame from the video stream.
+    Capture a still frame from the video stream and display it in the canvas.
     """
     video = page["#camera"]
     canvas = page["#photo"]
-    
     # Get the canvas 2D context.
     ctx = canvas.getContext("2d")
-    
     # Draw the current video frame onto the canvas.
     ctx.drawImage(video, 0, 0, 400, 300)
-    
     # Update status.
     status = page["#status"]
     status.content = "Photo captured!"
