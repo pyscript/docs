@@ -3,12 +3,38 @@
 
 <h1 style="text-align: center; font-weight: bold;">PyScript is an <u>open source</u> platform for Python in the browser.</h1>
 
+**Step 1:** Add these two lines to the `<head>` of your HTML document:
+
+```html
+<link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css" />
+<script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+```
+
+**Step 2:** Start PyScript with a `<script>` tag:
+
+```html
+<script type="py" config="./conf.json" src="./main.py"></script>
+```
+
+**Step 3:** Write Python (use the `pyscript` namespace):
+
+```python
+from pyscript import when, display
+
+
+@when("click", "#my-button")
+def handler():
+    display("Button clicked!")
+```
+
+That's just the start of it!
+
+What's next?
+
 <dl>
   <dt><strong>I'm a beginner...</strong></dt>
   <dd>Welcome! PyScript is designed to be friendly for beginner coders. Start
   with our <a href="./beginning-pyscript">beginning PyScript guide</a>
-  and use
-  <a href="https://pyscript.com/" target="_blank">pyscript.com</a>
   to create your first apps. Graduate to the
   <a href="./user-guide">user guide</a> to grow your understanding.</dd>
   <dt><strong>I'm already technical...</strong></dt>
