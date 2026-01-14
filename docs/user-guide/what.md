@@ -1,7 +1,7 @@
 # What is PyScript?
 
 [PyScript](https://pyscript.net) is an
-[open source](../../license/) platform for running
+[open source](../license.md) platform for running
 [Python](https://python.org) in modern
 [web browsers](https://en.wikipedia.org/wiki/Web_browser).
 
@@ -94,7 +94,7 @@ Python. The FFI makes it seamless.
 Put simply, PyScript helps Python and JavaScript to be friends that
 complement and amplify each others strengths.
 
-Learn more about the FFI in the high level [DOM interaction guide](dom.md#ffi)
+Learn more about the FFI in the high level [DOM interaction guide](dom.md#the-ffi-javascript-interoperability)
 or dive deep into the [FFI's technical details](ffi.md).
 
 ## Key capabilities
@@ -168,9 +168,9 @@ Learn more in the [workers guide](workers.md).
 ### Device capabilities
 
 PyScript gives your Python code access to modern browser capabilities:
-capture photos and video with the [camera](media.md#camera), record
-[audio](media.md#audio), read and write [files](filesystem.md), store
-data [locally](storage.md), and integrate with all the other available
+capture photos and video with the [camera](media.md), record
+[media](media.md#capturing-media-streams), read and write [files](filesystem.md), store
+data [locally](../api/storage.md), and integrate with all the other available
 web APIs.
 
 Build applications that feel native, with access to device hardware and

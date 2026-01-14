@@ -332,7 +332,7 @@ the [user guide](user-guide/display.md).
 user interfaces from Python code - build forms, tables, and interactive
 components without writing HTML. You can compose complex layouts using familiar
 Python syntax. Explore the possibilities in the
-[DOM interaction guide](user-guide/dom.md#pyscriptweb).
+[DOM interaction guide](user-guide/dom.md).
 
 **Handle any browser event**: Beyond simple clicks, you can respond to
 keyboard input, mouse movements, form submissions, and more. PyScript makes it

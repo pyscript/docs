@@ -37,7 +37,7 @@ demonstrates basic PyScript concepts: writing Python in HTML, handling
 user input, and manipulating the DOM. This is the first example new
 users encounter.
 
-[Run the app](../pirate-translator) | 
+[Run the app](./pirate-translator/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/pirate-translator) |
 [Beginning PyScript](../beginning-pyscript.md)
 
@@ -49,7 +49,7 @@ for DOM manipulation. Shows how to create, modify, and remove elements
 using Pythonic patterns along with element access, creating
 elements with Python functions, event handlers, dynamic content updates.
 
-[Run the app](../task-board-web) | 
+[Run the app](./task-board-web/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-web) |
 [The DOM](../user-guide/dom.md)
 
@@ -60,7 +60,7 @@ where `pyscript.web` isn't sufficient along with direct JavaScript object
 access, `ffi.create_proxy` for event handlers, working with JavaScript
 APIs, when to use FFI vs `pyscript.web`.
 
-[Run the app](../task-board-ffi) | 
+[Run the app](./task-board-ffi/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-ffi) |
 [The DOM](../user-guide/dom.md) |
 [The FFI](../user-guide/ffi.md)
@@ -73,7 +73,7 @@ interactions and update the interface based on input. Specific use of
 event handlers via `pyscript.web`, handling multiple input types (sliders,
 text), real-time updates, colour manipulation.
 
-[Run the app](../colour-picker) | 
+[Run the app](./colour-picker/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/colour-picker) |
 [Events](../user-guide/events.md)
 
@@ -86,7 +86,7 @@ formatted tables, creating Matplotlib plots (single and subplots),
 incremental UI updates with `async`, appending vs replacing content. This
 is how to present data and visualisations in the browser with PyScript.
 
-[Run the app](../display-demo) | 
+[Run the app](./display-demo/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/display-demo) |
 [Display](../user-guide/display.md)
 
@@ -99,7 +99,7 @@ optional NumPy comparison. Specifically, this code shows how to use web
 workers for background computation, MicroPython vsPyodide performance,
 worker-main thread communication, and responsive UI during computation.
 
-[Run the app](../prime-worker) | 
+[Run the app](./prime-worker/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/prime-worker) |
 [Workers](../user-guide/workers.md)
 
@@ -116,7 +116,7 @@ reading and writing files, virtual filesystem concepts, mounting local
 filesystems, permissions and user approvals, data persistence via the local
 filesystem mounted to locations on the virtual filesystem.
 
-[Run the app](../note-taker) | 
+[Run the app](./note-taker/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/note-taker) |
 [Filesystems](../user-guide/filesystem.md)
 
@@ -127,7 +127,7 @@ media device access. Captures photos from the user's camera using the PyScript
 media API. Demonstrates camera access with `pyscript.media`, requesting user
 permissions, capturing still frames, canvas manipulation.
 
-[Run the app](../photobooth) | 
+[Run the app](./photobooth/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/photobooth) |
 [Media](../user-guide/media.md)
 
@@ -139,7 +139,7 @@ detection running entirely in the browser. This shows idiomatic PyGame-CE
 integration with PyScript, game loop with `await asyncio.sleep()`, loading
 assets, basic game physics.
 
-[Run the app](../bouncing-ball) | 
+[Run the app](./bouncing-ball/index.html) | 
 [View the code on GitHub](https://github.com/pyscript/docs/tree/main/docs/example-apps/bouncing-ball) |
 [PyGame Support](../user-guide/pygame-ce.md)
 
@@ -173,7 +173,7 @@ good example, consider contributing it. Good example applications:
 ## What's next
 
 After exploring these examples, consult the
-[PyScript user guide](../user-guide/) for comprehensive documentation on
+[PyScript user guide](../user-guide/index.md) for comprehensive documentation on
 all features. The guide provides deeper explanations of concepts
 demonstrated in these examples.
 

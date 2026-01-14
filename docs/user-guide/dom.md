@@ -312,7 +312,7 @@ dom_element = element._dom_element
 
     For complete API documentation of `pyscript.web`, including all
     available element types and methods, see the
-    [API reference](../../api/web).
+    [API reference](../api/web.md).
 
 ## Example: Task board with pyscript.web
 
@@ -409,14 +409,14 @@ PyScript signals and honours this difference.
 !!! info
 
     For more technical details about JavaScript class instantiation,
-    see the [FAQ](../../faq/#javascript-classnew).
+    see the [FAQ](../faq.md#javascript-classnew).
 
 ### Lower-level FFI features
 
 Advanced users who need lower-level access to FFI features can use
 functions in the `pyscript.ffi` namespace, available in both Pyodide
 and MicroPython. These functions are documented in the
-[API reference](../../api/ffi).
+[API reference](../api/ffi.md).
 
 For deep technical details about how the FFI works, see the
 [FFI technical guide](ffi.md).

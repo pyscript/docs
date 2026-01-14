@@ -78,7 +78,7 @@ _single_ `<py-config>` or `<mpy-config>` tag in your HTML document:
     these tags on the page per interpreter**.
     
     Additionally, `<py-config>` only works for `py`/`mpy` type scripts and is not used
-    with [`py-game`](../pygame-ce) or [`py-editor`](../editor). For these use the config
+    with [`py-game`](./pygame-ce.md) or [`py-editor`](./editor.md). For these use the config
     attribute method.
 
 !!! warning
@@ -146,7 +146,7 @@ The `files` option fetches arbitrary content from URLs onto the virtual
 filesystem available to Python, and emulated by the browser. Just map a valid
 URL to a destination filesystem path on the in-browser virtual filesystem. You
 can find out more about the in-browser virtual filesystem in the section about
-[PyScript and filesystems](../filesystem/).
+[PyScript and filesystems](./filesystem.md).
 
 The following JSON and TOML are equivalent:
 
@@ -401,7 +401,7 @@ plugins = ["custom_plugin", "!error"]
 It's easy to import and use JavaScript modules in your Python code. This
 section of the docs examines the configuration needed to make this work. How
 to make use of JavaScript is dealt with
-[elsewhere](dom.md#working-with-javascript).
+[elsewhere](dom.md#working-with-javascript-libraries).
 
 We need to tell PyScript about the JavaScript modules you want to
 use. This is the purpose of the `js_modules` related configuration fields.
@@ -501,7 +501,7 @@ without the need for the worker to interact with the main thread. You're simply
 awaiting the result of a method exposed from a worker.
 
 This has the advantage of not requiring the use of `SharedArrayBuffer` and
-[associated CORS related header configuration](workers.md#http-headers).
+[associated CORS related header configuration](workers.md#understanding-the-problem).
 
 If the `sync_main_only` flag is set, then **interactions between the main thread
 and workers are limited to one way calls from the main thread to methods
@@ -532,7 +532,7 @@ If `sync_main_only` is set, the following caveats apply:
 
 Knowing when to use the `pyscript.ffi.create_proxy` method when using Pyodide
 can be confusing at the best of times and full of
-[technical "magic"](ffi.md#create_proxy).
+[technical "magic"](ffi.md#creating-function-proxies).
 
 This _experimental_ flag, when set to `"auto"` will cause PyScript to try to
 automatically handle such situations, and should "just work".

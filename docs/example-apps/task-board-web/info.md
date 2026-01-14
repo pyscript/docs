@@ -40,5 +40,5 @@ All DOM manipulation uses `pyscript.web`'s Pythonic interface:
 
 ## Compare with FFI version
 
-See the [FFI version](../task-board-ffi/) of this same application to
+See the [FFI version](../task-board-ffi/index.html) of this same application to
 compare the Pythonic approach with direct JavaScript API calls.

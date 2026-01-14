@@ -79,7 +79,7 @@ element.
 You've explicitly created a `PyWorker` or `MPWorker` instance somewhere
 in your code without providing a `service_worker` fallback.
 
-The [workers guide](../user-guide/workers/) documents all these cases
+The [workers guide](./user-guide/workers.md) documents all these cases
 with code examples and solutions.
 
 #### Why
@@ -105,7 +105,7 @@ responsive during heavy computation.
 
 Unfortunately, we cannot patch or work around these primitives - they're
 defined by web standards. However, various solutions exist for working
-within these limitations. The [workers guide](../user-guide/workers/)
+within these limitations. The [workers guide](./user-guide/workers.md)
 explains how.
 
 ### Borrowed proxy
@@ -160,7 +160,7 @@ it must not be garbage collected - hence the error.
 Two solutions exist:
 
 Manually wrap functions with
-[`pyscript.ffi.create_proxy`](../../api/#pyscriptfficreate_proxy):
+[`pyscript.ffi.create_proxy`](./api/ffi.md#pyscript.ffi.create_proxy):
 
 ```python
 from pyscript import ffi, window
@@ -173,7 +173,7 @@ window.setTimeout(
 ```
 
 Or set
-[`experimental_create_proxy = "auto"`](../configuration/#experimental_create_proxy)
+[`experimental_create_proxy = "auto"`](./user-guide/configuration.md#experimental_create_proxy)
 in your configuration. This intercepts Python objects passed to
 JavaScript callbacks and manages memory automatically via JavaScript's
 garbage collector.
@@ -208,7 +208,7 @@ configuration automates memory management via `FinalizationRegistry`.
 ### Python packages
 
 Sometimes Python packages specified via
-[`packages` configuration](../user-guide/configuration/#packages) don't
+[`packages` configuration](./user-guide/configuration.md#packages) don't
 work with PyScript's interpreters.
 
 !!! failure
@@ -248,7 +248,7 @@ to overcome this limitation.
 In MicroPython, the package hasn't been ported to the
 [`micropython-lib` repository](https://github.com/micropython/micropython-lib).
 To use pure Python packages with MicroPython, use the
-[files configuration](../user-guide/configuration/#files) to manually
+[files configuration](./user-guide/configuration.md#files) to manually
 copy the package onto the filesystem, or reference it via URL.
 
 The [packaging pointers](#packaging-pointers) section provides hints and
@@ -280,7 +280,7 @@ versions of `numpy` or `sqlite`).
 
 ### JavaScript modules
 
-When [using JavaScript modules](../user-guide/dom/#working-with-javascript)
+When [using JavaScript modules](./user-guide/dom.md#the-ffi-javascript-interoperability)
 you may encounter these errors:
 
 !!! failure
@@ -313,7 +313,7 @@ from pyscript.js_modules import d3
 
 Alternatively, ensure referenced JavaScript code uses `export` or
 request an `.mjs` version. The
-[user guide](../user-guide/dom/#working-with-javascript) covers all
+[user guide](./user-guide/dom.md#the-ffi-javascript-interoperability) covers all
 options and technical considerations for using JavaScript modules.
 
 #### Why

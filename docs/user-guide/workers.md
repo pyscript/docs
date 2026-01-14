@@ -19,6 +19,22 @@ Workers solve this problem by running Python in separate threads. The main
 thread handles the UI. Workers handle computation. Both run simultaneously, so
 your application remains responsive even during heavy processing.
 
+!!! warning
+
+    For workers to work properly, your web server must send specific HTTP
+    headers:
+
+    ```
+    Access-Control-Allow-Origin: *
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Embedder-Policy: require-corp
+    Cross-Origin-Resource-Policy: cross-origin
+    ```
+
+    If you don't have control over your web server's headers, we recommend
+    you make use of the [mini-coi](https://github.com/WebReflection/mini-coi)
+    project (see their README for details).
+
 ## Defining workers
 
 Workers are defined with `<script>` tags that have a `worker` attribute:
