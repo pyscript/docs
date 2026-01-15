@@ -3,7 +3,7 @@
 PyScript applications typically load from a Content Delivery Network
 or webserver, fetching core files and Python interpreters over the internet.
 This works well when you have reliable network access, but sometimes you need
-applications to run offline - in air-gapped environments, on local
+applications to run offline ~ in air-gapped environments, on local
 networks, or where internet connectivity isn't available or is patchy.
 
 Running PyScript offline means bundling everything your application
@@ -216,23 +216,23 @@ the Pyodide package bundle. Download it from the
 
 !!! warning
 
-    The complete package bundle exceeds 200MB. It contains all packages
+    The complete package bundle exceeds 300MB. It contains all packages
     available in Pyodide. Pyodide loads packages on demand, so you only
     download what your code actually imports, but the entire bundle must
     be available locally.
 
 Download and extract the bundle for your Pyodide version (e.g.,
-`pyodide-0.26.2.tar.bz2`):
+`pyodide-0.29.1.tar.bz2`):
 
 ```sh
 # Download the bundle.
-wget https://github.com/pyodide/pyodide/releases/download/0.26.2/pyodide-0.26.2.tar.bz2
+wget https://github.com/pyodide/pyodide/releases/download/0.29.1/pyodide-0.29.1.tar.bz2
 
 # Extract it.
-tar -xjf pyodide-0.26.2.tar.bz2
+tar -xjf pyodide-0.29.1.tar.bz2
 
 # Copy package files to your public directory.
-cp -R pyodide-0.26.2/pyodide/* public/pyodide/
+cp -R pyodide-0.29.1/pyodide/* public/pyodide/
 ```
 
 Now use packages in your application:
@@ -283,8 +283,9 @@ or local files with no network errors.
 
 If your application uses workers, you need a server that sets
 Cross-Origin Isolation (COI) headers. These headers enable
-`SharedArrayBuffer` and other features required for worker support. Use
-`mini-coi` instead of Python's simple server:
+`SharedArrayBuffer` and other features required for worker support.
+[Use `mini-coi` instead](https://github.com/WebReflection/mini-coi)
+of Python's simple server:
 
 ```sh
 # Install mini-coi if needed.

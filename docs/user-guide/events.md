@@ -198,7 +198,7 @@ def handle_inner(event):
 
 ## Custom Pythonic events
 
-The `Event` class lets you create custom events within your Python
+The `pyscript.Event` class lets you create custom events within your Python
 code. This is useful for decoupling parts of your application or
 creating your own event-driven architecture.
 

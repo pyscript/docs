@@ -261,5 +261,8 @@ interface for interactive Python sessions.
 differences from traditional PyGame development and techniques for making
 games work well in the browser.
 
+**[PyScript in JavaScript](from_javascript.md)** - drive PyScript from the
+world JavaScript. 
+
 **[Plugins](plugins.md)** - Understand the plugin system, lifecycle hooks,
 and how to write plugins that integrate with PyScript.

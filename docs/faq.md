@@ -340,8 +340,8 @@ This error message indicates a serious problem:
 #### When
 
 This error occurs when code on a worker and the main thread are in
-[deadlock](https://en.wikipedia.org/wiki/Deadlock). Neither fragment can
-proceed without waiting for the other.
+[deadlock](https://en.wikipedia.org/wiki/Deadlock_(computer_science)).
+Neither fragment can proceed without waiting for the other.
 
 #### Why
 
@@ -452,8 +452,8 @@ When reporting bugs or asking questions, always mention which PyScript
 version you're using. Different versions may behave differently, and
 version information helps diagnose problems.
 
-Check the [releases page](https://pyscript.net/releases/) to see
-available versions and their release notes.
+Check the [releases page](https://github.com/pyscript/pyscript/releases)
+to see available versions and their release notes.
 
 ### Workers via JavaScript
 

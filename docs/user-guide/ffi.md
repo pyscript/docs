@@ -6,9 +6,9 @@ access browser APIs, and manipulate the DOM directly. JavaScript code
 can call Python functions and access Python objects. This
 interoperability is what makes PyScript possible.
 
-PyScript provides a unified FFI through `pyscript.ffi` that works
-consistently across both Pyodide and MicroPython interpreters. This
-guide explains how to use the FFI to bridge between Python and
+PyScript provides a unified FFI through [`pyscript.ffi`](../api/ffi.md)
+that works consistently across both Pyodide and MicroPython interpreters.
+This guide explains how to use the FFI to bridge between Python and
 JavaScript when necessary.
 
 !!! info
@@ -22,7 +22,8 @@ JavaScript when necessary.
 
 The FFI is a low-level interface for situations where higher-level
 abstractions don't suffice. Most of the time, you should prefer
-`pyscript.web` for DOM manipulation, `pyscript.media` for device
+[`pyscript.web`](../api/web.md) for DOM manipulation,
+[`pyscript.media`](../api/media.md) for device
 access, and other purpose-built APIs. These modules use the FFI
 internally whilst providing cleaner, more Pythonic interfaces.
 
@@ -37,8 +38,8 @@ where `pyscript.web` doesn't apply.
 
 ## Converting Python to JavaScript
 
-The `to_js()` function converts Python objects into their JavaScript
-equivalents:
+The [`to_js()`](../api/ffi.md#pyscript.ffi.to_js) function converts Python
+objects into their JavaScript equivalents:
 
 ```python
 from pyscript.ffi import to_js
@@ -88,9 +89,10 @@ button = document.getElementById("my-button")
 button.addEventListener("click", create_proxy(handle_click))
 ```
 
-Without `create_proxy()`, the Python function would be garbage collected
-immediately, causing the event listener to fail. The proxy maintains a
-reference, keeping the function alive for JavaScript to call.
+Without [`create_proxy()`](../api/ffi.md#pyscript.ffi.create_proxy), the
+Python function would be garbage collected immediately, causing the event
+listener to fail. The proxy maintains a reference, keeping the function
+alive for JavaScript to call.
 
 !!! warning
 
@@ -101,7 +103,7 @@ reference, keeping the function alive for JavaScript to call.
 ## Checking for null values
 
 JavaScript has both `null` and `undefined`. Python has `None`. The
-`is_none()` function checks for both:
+[`is_none()`](../api/ffi.md#pyscript.ffi.is_none) function checks for both:
 
 ```python
 from pyscript.ffi import is_none
@@ -119,8 +121,8 @@ across interpreters.
 
 ## Merging JavaScript objects
 
-The `assign()` function merges JavaScript objects, similar to
-`Object.assign()` in JavaScript:
+The [`assign()`](../api/ffi.md#pyscript.ffi.assign) function merges
+JavaScript objects, similar to `Object.assign()` in JavaScript:
 
 ```python
 from pyscript.ffi import assign, to_js
@@ -140,7 +142,8 @@ whole.
 
 ## Accessing JavaScript globals
 
-The `js` module provides access to JavaScript's global namespace:
+The `js` module provides access to
+[JavaScript's global namespace](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis):
 
 ```python
 from pyscript import js
@@ -226,7 +229,7 @@ When working with workers, the FFI provides additional utilities for
 cross-thread communication. The `direct`, `gather`, and `query`
 functions help manage objects and data across thread boundaries. These
 are advanced features covered in detail in the
-[workers API docs](../api/workers.md) and are primarily relevant when building
+[FFI API docs](../api/ffi.md) and are primarily relevant when building
 complex multi-threaded applications.
 
 ## In summary
@@ -242,7 +245,7 @@ Convert Python objects to JavaScript when calling browser APIs. Most
 JavaScript functions expect JavaScript objects, not Python objects, so
 use `to_js()` when passing dictionaries or complex data structures.
 
-Handle null values correctly. JavaScript's `null` and `undefined` both
+Handle `null` values correctly. JavaScript's `null` and `undefined` both
 exist alongside Python's `None`, so use `is_none()` for reliable null
 checking.
 

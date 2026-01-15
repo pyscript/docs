@@ -154,12 +154,12 @@ minimise network transfer. It works especially well for user interface
 code, simple scripting, or applications on mobile devices. The trade-off
 is no package installation - you only get the standard library subset
 MicroPython provides, or code you directly copy into the PyScript
-environment via `files` based configuration.
+environment via [`files` based configuration](./configuration.md#files).
 
 ### Cross-interpreter compatibility
 
 Both interpreters implement almost the same Foreign Function Interface for
-Python-JavaScript interaction. PyScript's unified `pyscript.ffi`
+Python-JavaScript interaction. PyScript's unified [`pyscript.ffi`](../api/ffi.md)
 namespace works consistently across both interpreters, making it
 relatively straightforward to migrate between them.
 
@@ -170,7 +170,7 @@ in MicroPython. Test thoroughly if you switch interpreters.
 ## Understanding WebAssembly compilation
 
 Both interpreters use [Emscripten](https://emscripten.org/), a compiler
-toolchain built on LLVM, to compile C to WebAssembly. Emscripten
+toolchain built on [LLVM](https://llvm.org/), to compile C to WebAssembly. Emscripten
 provides more than just compilation - it supplies APIs for operating
 system-level features in the browser environment.
 

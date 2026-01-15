@@ -138,7 +138,7 @@ The configuration file lists game assets:
 ```
 
 Download `intro_ball.gif` from the
-[PyGame-CE repository](https://github.com/pygame-community/pygame-ce/blob/main/docs/reST/tutorials/assets/intro_ball.webp?raw=true).
+[example on this website](../example-apps/bouncing-ball/intro_ball.gif).
 
 ## Running locally and in browser
 
@@ -317,6 +317,9 @@ interface for interactive Python sessions.
 
 **[Editor](editor.md)** - Create interactive Python coding environments in
 web pages with the built-in code editor.
+
+**[PyScript in JavaScript](from_javascript.md)** - drive PyScript from the
+world JavaScript. 
 
 **[Plugins](plugins.md)** - Understand the plugin system, lifecycle hooks,
 and how to write plugins that integrate with PyScript.

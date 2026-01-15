@@ -22,13 +22,13 @@ explore each one, starting with the Pythonic `pyscript.web` module.
 
     **New to PyScript?** Start with `pyscript.web`. It's designed to
     feel natural if you know Python, and it handles many common tasks
-    more elegantly than direct JavaScript API calls.
+    more Pythonically than direct JavaScript API calls.
     
     The FFI becomes useful when you need to integrate specific
     JavaScript libraries or when you're already familiar with web
     development in JavaScript.
 
-## Quick start: pyscript.web
+## Quick start: `pyscript.web`
 
 The `pyscript.web` module provides an idiomatic Python interface to the
 DOM. It wraps the FFI in a way that feels natural to Python developers,

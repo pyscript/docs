@@ -39,7 +39,7 @@ tool for your application:
 
 <a href="https://pyodide.org/"><img src="../../assets/images/pyodide.png" alt="Pyodide logo"/></a>
 
-**[Pyodide](architecture.md#pyodide)** is the full CPython interpreter
+**[Pyodide](https://pyodide.org/)** is the full CPython interpreter
 compiled to WebAssembly. It's the standard Python you already know: the same
 interpreter that runs on your laptop, with the same standard library and the same
 behaviour. Because it's genuine CPython, Pyodide gives you access to
@@ -47,9 +47,15 @@ Python's vast ecosystem of packages from [PyPI](https://pypi.org/). Want
 to use NumPy, Pandas, Matplotlib, Scikit-learn, or thousands of other
 libraries? Pyodide makes it possible.
 
+!!! info
+
+    Want to check if a third party package works with PyScript/Pyodide?
+
+    [Use this handy site!](https://pyscript.github.io/pyscript-packages/)
+
 <a href="https://micropython.org/"><img src="../../assets/images/micropython.png" alt="MicroPython logo"/></a>
 
-**[MicroPython](architecture.md#micropython)** is a lean, efficient
+**[MicroPython](https://micropython.org/)** is a lean, efficient
 reimplementation of Python 3 that includes a comprehensive subset of the
 standard library. At just 170KB, MicroPython loads almost instantly,
 making it ideal for mobile devices, slow connections, or any time you
@@ -197,7 +203,7 @@ At the core of PyScript is a philosophy of digital empowerment.
 
 The web is the world's most ubiquitous computing platform, mature and
 familiar to billions of people. Python is one of the
-[world's most popular programming languages](https://spectrum.ieee.org/the-top-programming-languages-2023):
+[world's most popular programming languages](https://spectrum.ieee.org/top-programming-languages-2025):
 it's easy to teach and learn, used across countless domains (data
 science, education, games, embedded systems, artificial intelligence,
 finance, physics, film production - to name but a few), and the Python

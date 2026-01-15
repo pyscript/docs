@@ -22,7 +22,7 @@ JavaScript API calls.
 ## Features
 
 This is the exact same application as the
-[pyscript.web version](../task-board-web/index.html), but implemented using
+[pyscript.web version](../task-board-web/info.md), but implemented using
 JavaScript APIs directly. Key differences:
 
 ## Files

@@ -16,7 +16,7 @@ tag:
 
 ```html
 <script type="py" terminal>
-print("Hello from the terminal!")
+print("hello world")
 </script>
 ```
 
@@ -110,8 +110,8 @@ print("Custom font terminal")
 </script>
 ```
 
-This accesses XTerm.js's full configuration API, letting you adjust
-colours, fonts, cursor styles, and other visual properties.
+This accesses [XTerm.js's full configuration API](https://xtermjs.org/docs/),
+letting you adjust colours, fonts, cursor styles, and other visual properties.
 
 ### Resizing
 
@@ -223,6 +223,9 @@ web pages with the built-in code editor.
 **[PyGame](pygame-ce.md)** - Use PyGame-CE with PyScript, covering the
 differences from traditional PyGame development and techniques for making
 games work well in the browser.
+
+**[PyScript in JavaScript](from_javascript.md)** - drive PyScript from the
+world JavaScript. 
 
 **[Plugins](plugins.md)** - Understand the plugin system, lifecycle hooks,
 and how to write plugins that integrate with PyScript.

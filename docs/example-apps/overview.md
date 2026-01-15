@@ -12,7 +12,8 @@ for understanding how PyScript works.
 ## Running the examples
 
 Each example is self-contained with its own `index.html` file. To run
-an application locally (we'll use the "Pirate Translator" as an example):
+an application locally with Python (we'll use the "Pirate Translator" as
+an example):
 
 ```sh
 # Navigate to the example directory.
@@ -22,6 +23,22 @@ cd example_apps/pirate-translator
 python -m http.server 8000
 
 # Visit http://localhost:8000 in your browser.
+```
+
+**Sometimes an example uses web-workers, and these need the server to
+respond with special headers.** The 
+[`mini-coi` command](https://github.com/WebReflection/mini-coi) (which
+uses [node.js](https://nodejs.org/en) under the hood) does the right
+thing for you:
+
+```sh
+# Navigate to the worker-related project.
+cd example_apps/prime-worker
+
+# Serve the app with the correct headers.
+npx mini-coi .
+
+# Visit http://localhost:8080/ in your browser.
 ```
 
 All examples use the latest PyScript release referenced in this

@@ -2,7 +2,8 @@
 
 Modern web applications often need to interact with cameras,
 microphones, and other media devices. PyScript provides a Pythonic
-interface to these devices through the `pyscript.media` module, letting
+interface to these devices through the 
+[`pyscript.media` module](../api/media.md), letting
 your Python code capture video, record audio, and enumerate available
 hardware directly from the browser.
 

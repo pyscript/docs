@@ -48,11 +48,13 @@ packages = ["arrr", "numberwang" ]
 ## File or inline
 
 The recommended way to write configuration is via a separate file and then
-reference it from the tag used to specify the Python code:
+reference it as a URL from the tag used to specify the Python code:
 
 ```HTML title="Reference a configuration file."
 <script type="py" src="main.py" config="pyscript.json"></script>
 ```
+
+The name of the file doesn't matter, so long as it's either JSON or TOML.
 
 If you use JSON, you can make it the value of the `config` attribute:
 

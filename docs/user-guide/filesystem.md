@@ -30,8 +30,8 @@ local filesystem appears at a directory in the browser's virtual filesystem*.
 
 !!! danger 
 
-    Access to the device's local filesystem is only available in recent Chromium
-    based browsers. The maximum capacity for files shared in this way is 4GB.
+    **Access to the device's local filesystem is only available in recent Chromium
+    based browsers**. The maximum capacity for files shared in this way is 4GB.
 
     Firefox and Safari do not support this capability yet, so it is not
     available to PyScript running in these browsers.
@@ -89,7 +89,7 @@ control).
     Chromium based browsers.
 
 Your device that runs your browser has a filesystem provided by a hard drive.
-Thanks to the `pyscript.fs` namespace, both MicroPython and Pyodide can gain
+Thanks to the [`pyscript.fs` namespace](../api/fs.md), both MicroPython and Pyodide can gain
 access to this filesystem, should the user of your code allow this to happen.
 
 This requires what's called a

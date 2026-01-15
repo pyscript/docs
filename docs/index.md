@@ -1,5 +1,5 @@
 
-<div><img alt="PyScript Logo" src="assets/images/pyscript.svg"></div>
+<img alt="PyScript Logo" src="assets/images/pyscript.svg">
 
 <h1 style="text-align: center; font-weight: bold;">PyScript is an <u>open source</u> platform for Python in the browser.</h1>
 
@@ -10,13 +10,13 @@
 <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
 ```
 
-**Step 2:** Start PyScript with a `<script>` tag:
+**Step 2:** Start PyScript with a `<script>` tag in the `<body>` of your HTML document:
 
 ```html
 <script type="py" config="./conf.json" src="./main.py"></script>
 ```
 
-**Step 3:** Write Python (use the `pyscript` namespace):
+**Step 3:** Write Python and explore the `pyscript` namespace:
 
 ```python
 from pyscript import when, display

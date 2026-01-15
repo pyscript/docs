@@ -246,3 +246,6 @@ web pages with the built-in code editor.
 **[PyGame](pygame-ce.md)** - Use PyGame-CE with PyScript, covering the
 differences from traditional PyGame development and techniques for making
 games work well in the browser.
+
+**[PyScript in JavaScript](from_javascript.md)** - drive PyScript from the
+world JavaScript. 
