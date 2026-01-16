@@ -665,7 +665,7 @@ with open("data.csv") as f:
 ```
 
 It's also possible to manually upload files onto the virtual file system
-from the browser (<input type="file">), and using the DOM API.
+from the browser (`<input type="file">`), using the DOM API.
 
 The following fragment is just one way to achieve this:
 
