@@ -19,7 +19,7 @@ between languages without manual serialisation or message passing.
 
 Python code accesses storage through the `pyscript.storage` module:
 
-```python
+```python title="Access storage from Python."
 from pyscript import storage
 
 
@@ -40,7 +40,7 @@ serialised to formats JavaScript can understand.
 
 JavaScript code imports the storage module from PyScript core:
 
-```javascript
+```javascript title="Access storage in JavaScript."
 import storage from 'https://pyscript.net/releases/2025.11.2/storage.js';
 
 
@@ -80,7 +80,7 @@ use Python from pure JavaScript without writing PyScript tags.
 
 Import the `donkey` function and create a worker with it:
 
-```javascript
+```javascript title="Call for the PyScript donkey."
 import { donkey } from 'https://pyscript.net/releases/2025.11.2/core.js';
 
 const py_donkey = await donkey({
@@ -171,7 +171,7 @@ Ask for a new donkey if you need Python execution again.
 The `persistent` option controls whether state persists between
 executions:
 
-```javascript
+```javascript title="State persistence."
 // Non-persistent: each execution starts fresh.
 const worker1 = await donkey({ type: 'mpy', persistent: false });
 await worker1.execute('x = 10');
@@ -191,7 +191,7 @@ executions.
 
 The `terminal` option specifies where Python output appears:
 
-```javascript
+```javascript title="Terminal output."
 const py_donkey = await donkey({
   type: 'mpy',
   terminal: '#py_donkey-output'
@@ -204,7 +204,7 @@ await py_donkey.process('print("Hello from Python!")');
 If no terminal is specified, PyScript creates a default terminal
 element. To hide the terminal, point it to a hidden element:
 
-```javascript
+```javascript title="Hiding the terminal output."
 const py_donkey = await donkey({
   type: 'mpy',
   terminal: '#hidden-terminal'
@@ -217,7 +217,7 @@ Then style `#hidden-terminal` with `display: none` in your CSS.
 
 The `config` option accepts [standard PyScript configuration](./configuration.md):
 
-```javascript
+```javascript title="Configure the donkey."
 const py_donkey = await donkey({
   type: 'py',
   config: {
@@ -251,7 +251,7 @@ JavaScript, and call them as if they were JavaScript functions.
 
 Create a Python file with functions you want to export:
 
-```python
+```python title="A simple Python module to use in JavaScript."
 # calculations.py
 def add(a, b):
     """
@@ -278,7 +278,7 @@ def factorial(n):
 
 Create a JavaScript bridge module adjacent to the Python file:
 
-```javascript
+```javascript title="Use the bridge to create a JavaScript module."
 // calculations.js
 import bridge from 'https://esm.run/@pyscript/bridge';
 
@@ -293,7 +293,7 @@ as `calculations.js` and makes available its top level functions.
 
 Et voila! Import and use the Python functions in your JavaScript:
 
-```javascript
+```javascript title="Use Python within JavaScript."
 // main.js
 import { pystuff } from './calculations.js';
 
@@ -339,7 +339,7 @@ main thread is faster for simple functions but can block the UI.
 Standard [PyScript configuration](./configuration.md) for things like
 packages and files:
 
-```javascript
+```javascript title="Configure PyScript environment for the bridged code."
 export const pystuff = bridge(import.meta.url, {
   type: 'py',
   config: {
@@ -358,7 +358,7 @@ configuration conflicts on the main thread.
 
 Share environments across multiple modules:
 
-```javascript
+```javascript title="Shared environments."
 // Both modules share the same Python environment.
 export const pystuff1 = bridge(import.meta.url, { env: 'shared' });
 export const pystuff2 = bridge(import.meta.url, { env: 'shared' });
@@ -371,7 +371,7 @@ state and imports.
 
 The PyScript version to load if not already on the page:
 
-```javascript
+```javascript title="Specify the PyScript version."
 export const pystuff = bridge(import.meta.url, {
   pyscript: '2025.11.2'
 });
@@ -385,7 +385,7 @@ for production stability**.
 The bridge imports all top-level functions from the Python file. You
 can also import from Python packages:
 
-```python
+```python title="A more complex module."
 # utils.py
 import json
 
@@ -404,7 +404,7 @@ def stringify_json(obj):
     return json.dumps(obj)
 ```
 
-```javascript
+```javascript title="Use the complex module in JavaScript."
 import { pystuff } from './utils.js';
 
 const { parse_json, stringify_json } = await pystuff;
@@ -420,7 +420,7 @@ console.log(text); // '{"status": "ok", "code": 200}'
 
 Python exceptions propagate to JavaScript as rejected promises:
 
-```python
+```python title="A contrived example that raises an exception."
 # errors.py
 def divide(a, b):
     """
@@ -431,7 +431,7 @@ def divide(a, b):
     return a / b
 ```
 
-```javascript
+```javascript title="Handle Python exceptions in JavaScript."
 import { pystuff } from './errors.js';
 
 const { divide } = await pystuff;

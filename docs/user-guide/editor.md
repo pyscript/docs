@@ -20,7 +20,7 @@ demonstrations, and interactive coding experiences.
 Create an editor by setting the script type to `py-editor` for Pyodide
 or `mpy-editor` for MicroPython:
 
-```html
+```html title="A simple editor example."
 <script type="py-editor">
 import sys
 print(sys.version)
@@ -42,7 +42,7 @@ only when needed.
 Each editor runs in its own isolated environment by default. Variables
 and state don't leak between editors:
 
-```html
+```html title="Independent editor environments."
 <script type="py-editor">
 import sys
 print(sys.version)
@@ -64,7 +64,7 @@ exist in the first.
 
 Editors can share state by using the same interpreter and `env` attribute:
 
-```html
+```html title="Shared editor environments."
 <script type="mpy-editor" env="shared">
 if 'a' not in globals():
     a = 1
@@ -92,7 +92,7 @@ of each editor, showing which environment it belongs to.
 Sometimes you need boilerplate code that runs automatically without
 cluttering the visible editor. The `setup` attribute handles this:
 
-```html
+```html title="Editor setup."
 <script type="mpy-editor" env="classroom" setup>
 # This code runs automatically but isn't visible.
 import math
@@ -131,7 +131,7 @@ code. This speeds up the edit-run-debug cycle.
 
 Access and control editors from Python code using the `code` property:
 
-```python
+```python title="Updating code in the editor via Python."
 from pyscript import document
 
 # Get reference to an editor.
@@ -159,7 +159,7 @@ based on user actions elsewhere on the page.
 By default, editors render where their script tag appears. Use the
 `target` attribute to render elsewhere:
 
-```html
+```html title="Specify a target in which to render the editor."
 <script type="mpy-editor" target="editor-container">
 import sys
 print(sys.version)
@@ -176,7 +176,7 @@ script tag. This gives you control over page layout.
 Editors require explicit configuration through the `config` attribute.
 They don't use `<py-config>` or `<mpy-config>` tags:
 
-```html
+```html title="Sample configuration."
 <script type="py-editor" config='{"packages": ["numpy"]}'>
 import numpy as np
 print(np.array([1, 2, 3]))
@@ -191,7 +191,7 @@ subsequent editors in the same environment share that configuration.
 Advanced use cases may require custom execution behaviour. Override the
 editor's `handleEvent` method:
 
-```html
+```html title="Custom execution behaviour."
 <script type="mpy-editor" id="custom">
 print(6 * 7)
 </script>

@@ -18,7 +18,7 @@ called automatically.
 
 The simplest form takes an event type and a CSS selector:
 
-```python
+```python title="Decorate with an event type and target (CSS selector)."
 from pyscript import when
 
 
@@ -54,7 +54,7 @@ for a complete list.
 
 The selector can be any valid CSS selector:
 
-```python
+```python title="The @when decorator and CSS selectors are a flexible combination."
 from pyscript import when
 
 
@@ -87,7 +87,7 @@ def handle_menu(event):
 You can also pass `pyscript.web` Element objects directly instead of
 CSS selectors:
 
-```python
+```python title="The @when decorator also works with Pythonic Element instances."
 from pyscript import when, web
 
 
@@ -103,7 +103,7 @@ def handle_click(event):
 
 This works with `ElementCollection` objects too:
 
-```python
+```python title="The @when decorator applied to all items in an ElementCollection."
 from pyscript import when, web
 
 
@@ -118,13 +118,14 @@ def handle_button_click(event):
 
 ## JavaScript event objects
 
-When a browser event occurs, your function receives a JavaScript event object
+When a browser event occurs, your function receives a
+[JavaScript event object](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 containing information about what happened. Handling such events
 [is optional](#functions-without-event-arguments).
 
 ### Common properties
 
-```python
+```python title="An event object's different properties."
 from pyscript import when
 
 
@@ -153,7 +154,7 @@ def handle_click(event):
 
 Some events have default browser behaviours you might want to prevent:
 
-```python
+```python title="Preventing default event behaviour."
 from pyscript import when
 
 
@@ -180,7 +181,7 @@ def handle_link(event):
 Events "bubble" up through the DOM tree. Stop this with
 `stopPropagation()`:
 
-```python
+```python title="Stop the event 'bubbling' up."
 from pyscript import when
 
 
@@ -198,13 +199,14 @@ def handle_inner(event):
 
 ## Custom Pythonic events
 
-The `pyscript.Event` class lets you create custom events within your Python
+The [`pyscript.Event` class](../api/events.md#pyscript.events.Event)
+lets you create custom events within your Python
 code. This is useful for decoupling parts of your application or
 creating your own event-driven architecture.
 
 ### Creating and using custom events
 
-```python
+```python title="A simple Event example."
 from pyscript import Event, when
 
 
@@ -224,7 +226,7 @@ data_loaded.trigger({"items": [1, 2, 3], "count": 3})
 
 Custom events can have multiple listeners:
 
-```python
+```python title="Multiple listeners on a single Event instance."
 from pyscript import Event, when
 
 
@@ -254,7 +256,7 @@ user_logged_in.trigger({"id": 123, "name": "Alice"})
 
 You can trigger custom events from DOM event handlers:
 
-```python
+```python title="Trigger custom events."
 from pyscript import Event, when
 
 
@@ -286,7 +288,7 @@ This pattern decouples DOM handling from business logic.
 You can stack `@when` decorators to handle multiple events with one
 function:
 
-```python
+```python title="Stacked @when decorators."
 from pyscript import when
 
 
@@ -306,7 +308,7 @@ def unhighlight_element(event):
 
 Event handlers can be async functions:
 
-```python
+```python title="Asynchronous handlers."
 from pyscript import when
 import asyncio
 
@@ -325,7 +327,7 @@ async def fetch_data(event):
 
 Pass options to control how events are handled:
 
-```python
+```python title="Event options."
 from pyscript import when
 
 
@@ -355,7 +357,7 @@ for details.
 
 If your handler doesn't need the event object, you can omit it:
 
-```python
+```python title="The event argument is optional."
 from pyscript import when
 
 

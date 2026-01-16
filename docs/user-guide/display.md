@@ -14,7 +14,7 @@ superpowers.
 
 The simplest use is displaying text:
 
-```python
+```python title="Simple Python objects via display()"
 from pyscript import display
 
 
@@ -29,7 +29,7 @@ page. Each call appends content unless you specify otherwise.
 
 Control where content appears using the `target` parameter:
 
-```python
+```python title="Specify where to display things."
 from pyscript import display
 
 
@@ -45,7 +45,7 @@ display("Hello", target="#output-div")
 By default, `display()` appends content. Use `append=False` to replace
 existing content:
 
-```python
+```python title="Append or replace."
 from pyscript import display
 
 
@@ -62,7 +62,7 @@ display("More content", target="output-div", append=True)
 
 Plain strings are automatically HTML-escaped for safety:
 
-```python
+```python title="Strings are escaped."
 from pyscript import display
 
 
@@ -75,7 +75,7 @@ display("<script>alert('XSS')</script>")
 
 To display unescaped HTML, wrap it in the `HTML` class:
 
-```python
+```python title="The HTML class unescapes (handle with care!)"
 from pyscript import HTML, display
 
 
@@ -93,7 +93,7 @@ display(HTML("<p>This is <strong>bold</strong> text.</p>"))
 
 Most Python objects display using their `__repr__()` method:
 
-```python
+```python title="Default behaviour via __repr__()."
 from pyscript import display
 
 
@@ -120,7 +120,7 @@ display(Person("Bob"))
 
 Display images from various sources:
 
-```python
+```python title="Image handling."
 from pyscript import display
 
 
@@ -162,7 +162,7 @@ Objects are checked for these methods in order of preference:
 
 Create objects that display beautifully:
 
-```python
+```python title="Custom HTML rendering."
 from pyscript import display
 
 
@@ -199,7 +199,7 @@ display(ColourSwatch("#0000FF", "Blue"))
 
 Provide multiple representations for maximum compatibility:
 
-```python
+```python title="Define rendering via mime-type."
 from pyscript import display
 
 
@@ -247,7 +247,7 @@ display(table)
 When PyScript runs a `<script type="mpy">` tag, `display()` outputs to
 that script's location by default:
 
-```html
+```html title="Output at the &lt;script&gt;'s location in the DOM."
 <div>
   <h2>Output appears here:</h2>
   <script type="mpy">
@@ -261,7 +261,7 @@ that script's location by default:
 
 Use the `target` attribute on your script tag to send output elsewhere:
 
-```html
+```html title="Specify an output target."
 <div id="results"></div>
 
 <script type="mpy" target="results">
@@ -293,7 +293,7 @@ This example demonstrates:
 
 **Never use `HTML()` with untrusted content:**
 
-```python
+```python title="This is dangerous!"
 # DANGEROUS - don't do this!
 user_input = "<script>alert('XSS')</script>"
 display(HTML(user_input))
@@ -316,7 +316,7 @@ For frequent or rapid updates:
 
 Keep display logic close to your data:
 
-```python
+```python title="_repr_ logic on a class."
 class Report:
     def __init__(self, data):
         self.data = data

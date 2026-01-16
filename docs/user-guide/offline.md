@@ -45,7 +45,7 @@ You have two ways to obtain PyScript core files.
 
 The simplest approach uses npm to download the distribution:
 
-```sh
+```sh title="npm based downloading."
 # Create your project directory.
 mkdir pyscript-offline
 cd pyscript-offline
@@ -68,7 +68,7 @@ needed to run PyScript locally.
 
 For development builds or customisation, clone and build the repository:
 
-```sh
+```sh title="Cloning the repository."
 # Clone the repository.
 git clone https://github.com/pyscript/pyscript.git
 cd pyscript
@@ -86,7 +86,7 @@ instructions.
 Create an HTML file that loads PyScript from local paths rather than the
 CDN:
 
-```html
+```html title="Ensure local paths to PyScript."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,7 +119,7 @@ files with no network requests.
 
 MicroPython is available through npm:
 
-```sh
+```sh title="Getting MicroPython."
 # Install the MicroPython package.
 npm i @micropython/micropython-webassembly-pyscript
 
@@ -133,7 +133,7 @@ cp node_modules/@micropython/micropython-webassembly-pyscript/micropython.* publ
 This copies `micropython.mjs` and `micropython.wasm` to your public
 directory. Configure your HTML to use these local files:
 
-```html
+```html title="Ensure local MicroPython in your configuration."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,7 +164,7 @@ MicroPython files.
 
 Pyodide is also available through npm:
 
-```sh
+```sh title="Getting Pyodide."
 # Install Pyodide.
 npm i pyodide
 
@@ -184,7 +184,7 @@ cp node_modules/pyodide/python_stdlib.zip public/pyodide/
 
 Configure your HTML to use local Pyodide:
 
-```html
+```html title="Ensure local Pyodide in your configuration."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -224,7 +224,7 @@ the Pyodide package bundle. Download it from the
 Download and extract the bundle for your Pyodide version (e.g.,
 `pyodide-0.29.1.tar.bz2`):
 
-```sh
+```sh title="Download the complete Pyodide package bundle."
 # Download the bundle.
 wget https://github.com/pyodide/pyodide/releases/download/0.29.1/pyodide-0.29.1.tar.bz2
 
@@ -237,7 +237,7 @@ cp -R pyodide-0.29.1/pyodide/* public/pyodide/
 
 Now use packages in your application:
 
-```html
+```html title="Local use of packages."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -287,7 +287,7 @@ Cross-Origin Isolation (COI) headers. These headers enable
 [Use `mini-coi` instead](https://github.com/WebReflection/mini-coi)
 of Python's simple server:
 
-```sh
+```sh title="Basic mini-coi usage."
 # Install mini-coi if needed.
 npm i -g mini-coi
 

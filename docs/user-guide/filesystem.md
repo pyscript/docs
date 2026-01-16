@@ -46,7 +46,7 @@ settings](configuration.md#files).
 
 Here's a simple example. First, configure a file to be fetched:
 
-```json
+```json title="Copy the source URL to ./myfile.txt."
 {
   "files": {
     "https://example.com/myfile.txt": "./myfile.txt"
@@ -56,7 +56,7 @@ Here's a simple example. First, configure a file to be fetched:
 
 Then use the resulting file as usual from Python:
 
-```python
+```python title="Read the file from the browser's virtual filesystem."
 with open("myfile.txt", "r") as myfile:
     print(myfile.read())
 ```
@@ -119,7 +119,7 @@ filesystem and the user's local filesystem are synchronised.
 
 The following code demonstrates the simplest use case:
 
-```python
+```python title="Access to the user's local filesystem."
 # Chromium only browsers!
 from pyscript import fs
 
@@ -148,7 +148,7 @@ instance, you may have different versions of data for a PyScript based applicati
 different directories, and may wish to switch between them at runtime. In this
 case, use the following technique:
 
-```python
+```python title="Mounting and unmounting."
 # Mount a local folder specifying a different handler. This requires a
 # user explicit transient action (once).
 await fs.mount("/local", id="v1")

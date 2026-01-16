@@ -40,7 +40,7 @@ management, and Pythonic method names.
 The `page` object represents your web page. Use it to find elements by
 their ID or with CSS selectors:
 
-```python
+```python title="Referencing elements via the page object."
 from pyscript import web
 
 
@@ -69,7 +69,7 @@ names correspond to HTML tags, and are lower-case to match web
 conventions. Compose elements together in a
 [declarative style](https://en.wikipedia.org/wiki/Declarative_programming):
 
-```python
+```python title="Declaratively creating elements on the page."
 from pyscript import web
 
 
@@ -100,7 +100,7 @@ arguments like `id`, `classes`, and `style` set HTML attributes.
 You can also create elements
 [imperatively](https://en.wikipedia.org/wiki/Imperative_programming):
 
-```python
+```python title="Imperatively created elements on the web page."
 from pyscript import web
 
 
@@ -122,7 +122,7 @@ my_div.append(my_p)
 Once you have an element, you can modify its content and attributes
 using idiomatic Python:
 
-```python
+```python title="Modifying an element."
 from pyscript import web
 
 
@@ -149,7 +149,7 @@ element.update(
 Element classes behave like a Python `set`, and styles behave like a
 Python `dict`:
 
-```python
+```python title="CSS classes are a Python set, CSS styles a Python dict."
 from pyscript import web
 
 
@@ -186,7 +186,7 @@ if "color" in element.style:
 When you find multiple elements, you get an `ElementCollection` that
 you can iterate over, slice, or update in bulk:
 
-```python
+```python title="Working with ElementCollections."
 from pyscript import web
 
 
@@ -231,7 +231,7 @@ select. When rendered on a web page, it looks like this:
 The `options` property of `select` elements provides convenient methods
 for managing such options:
 
-```python
+```python title="Elements with options (e.g. &lt;select&gt;)."
 from pyscript import web
 
 
@@ -264,7 +264,7 @@ lists of options to function.
 
 The `@when` decorator works seamlessly with `pyscript.web` elements:
 
-```python
+```python title="@when working with Element instances."
 from pyscript import when, web
 
 
@@ -290,7 +290,7 @@ Learn more about event handling in the [events guide](events.md).
 
 When needed, you can access the underlying DOM element directly:
 
-```python
+```python title="Use _dom_element to get the underlying JavaScript Element."
 from pyscript import web
 
 
@@ -339,7 +339,7 @@ This is available via the `pyscript.window` and `pyscript.document`
 objects, which are proxies for JavaScript's `globalThis` and `document`
 objects:
 
-```python
+```python title="Complete JavaScript access via the FFI."
 from pyscript import window, document
 
 
@@ -392,7 +392,7 @@ list `["hello", 1, 2, 3]`, and vice versa.
 Instantiating JavaScript classes requires special handling because
 Python and JavaScript do it differently:
 
-```python
+```python title="Use .new() to instantiate JavaScript classes."
 from pyscript import window
 
 

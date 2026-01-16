@@ -14,7 +14,7 @@ and interactive Python sessions in your browser applications.
 Enable the terminal by adding the `terminal` attribute to your script
 tag:
 
-```html
+```html title="Hello world (in a terminal)."
 <script type="py" terminal>
 print("hello world")
 </script>
@@ -35,7 +35,7 @@ To accept user input with the `input()` function, you must run your code
 in a worker. Interactive terminals require workers to handle blocking
 input without freezing the page:
 
-```html
+```html title="Use a worker for blocking input."
 <script type="py" terminal worker>
 name = input("What is your name? ")
 print(f"Hello, {name}")
@@ -55,7 +55,7 @@ keeps the UI responsive whilst waiting for user input.
 
 For an interactive Python REPL session, use Python's `code` module:
 
-```python
+```python title="Start an interactive REPL in the terminal."
 import code
 
 code.interact()
@@ -75,7 +75,7 @@ particularly useful for educational applications or debugging tools.
 You can send code to the terminal programmatically from JavaScript. Give
 your script an ID, then call the `process()` method:
 
-```html
+```html title="Use JavaScript to send Python to the terminal."
 <script id="my-terminal" type="mpy" terminal worker></script>
 
 <script>
@@ -99,7 +99,7 @@ instance through the `__terminal__` reference in Python or the
 
 Customise terminal appearance through XTerm.js options:
 
-```html
+```html title="Customise appearances."
 <script type="py" terminal worker>
 from pyscript import ffi
 
@@ -117,7 +117,7 @@ letting you adjust colours, fonts, cursor styles, and other visual properties.
 
 Control terminal dimensions programmatically:
 
-```python
+```python title="Resize the terminal."
 if '__terminal__' in locals():
     __terminal__.resize(60, 10)  # (width, height)
 ```
@@ -129,7 +129,7 @@ interfaces or compact terminal displays.
 
 Clear the terminal programmatically:
 
-```html
+```html title="Clear output."
 <script type="mpy" terminal worker>
 print("This will disappear")
 __terminal__.clear()
@@ -143,7 +143,7 @@ Only output after the clear appears in the terminal.
 
 The terminal supports ANSI escape codes for text formatting:
 
-```html
+```html title="Terminal colour support."
 <script type="mpy" terminal worker>
 print("This is \033[1mbold\033[0m")
 print("This is \033[32mgreen\033[0m")
@@ -159,7 +159,7 @@ other formatting. This works like traditional terminal applications.
 Extend terminal functionality using
 [XTerm.js addons](https://xtermjs.org/docs/guides/using-addons/):
 
-```html
+```html title="Using addons."
 <py-config>
 [js_modules.main]
 "https://cdn.jsdelivr.net/npm/@xterm/addon-web-links/+esm" = "weblinks"

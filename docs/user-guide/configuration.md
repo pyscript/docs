@@ -273,7 +273,7 @@ filename in the destination directory.
 
 For example, the end of the previous config file could be:
 
-```toml
+```toml title="Automatic use of the source filename into a destination directory."
 "{TO}" = "./my_module/"
 "{FROM}/__init__.py" = "{TO}"
 "{FROM}/foo.py" = "{TO}"

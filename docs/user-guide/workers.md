@@ -39,7 +39,7 @@ your application remains responsive even during heavy processing.
 
 Workers are defined with `<script>` tags that have a `worker` attribute:
 
-```html
+```html title="Use of the 'worker' attribute."
 <script type="py" worker name="calculator" config='{"packages":["numpy"]}'>
 import numpy as np
 
@@ -69,7 +69,7 @@ clear and prevents accidental exposure of internal implementation details.
 
 Access workers from the main thread using the `workers` object:
 
-```python
+```python title="Accessing workers."
 from pyscript import workers
 
 
@@ -110,7 +110,7 @@ need packages.
 A common pattern is MicroPython on the main thread for a fast, responsive UI,
 with Pyodide in workers for powerful computation when needed:
 
-```html
+```html title="Different interpreters."
 <!-- Fast main thread. -->
 <script type="mpy" src="./main.py"></script>
 
@@ -131,7 +131,7 @@ __export__ = ["crunch_numbers"]
 
 Create workers from Python code using `create_named_worker()`:
 
-```python
+```python title="Dynamic worker creation."
 from pyscript import create_named_worker
 
 
@@ -166,7 +166,7 @@ options.
 The configuration is provided either inline as a JSON string in the `config`
 attribute, or as a path to a configuration file:
 
-```html
+```html title="Different worker configurations."
 <!-- Inline configuration. -->
 <script type="py" worker name="processor" config='{"packages":["pandas"]}'>
 ...
@@ -207,7 +207,7 @@ When you click "Find Primes", the main thread gets a reference to the
 worker, calls the worker's function, and displays the results when they
 arrive:
 
-```python
+```python title="Finding prime numbers (on the main thread)."
 from pyscript import workers
 from pyscript.web import page
 
@@ -229,7 +229,7 @@ async def find_primes(event):
 
 The worker script defines the computation and exports it:
 
-```python
+```python title="Finding prime numbers (on the worker)."
 import numpy as np
 
 

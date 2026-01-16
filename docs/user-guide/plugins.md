@@ -112,7 +112,7 @@ references fail.
 
 This works because everything is self-contained:
 
-```js
+```js title="Everything is in the scope of the inner function."
 import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
 
 hooks.worker.onReady.add(() => {
@@ -125,7 +125,7 @@ hooks.worker.onReady.add(() => {
 
 This fails because of the outer scope reference:
 
-```js
+```js title="Failure because the inner function won't have access to 'i'."
 import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
 
 // This won't work in workers!
@@ -148,7 +148,7 @@ programmatically without corresponding HTML elements.
 
 Here's a complete plugin that logs lifecycle events to the console:
 
-```js
+```js title="A contrived example plugin."
 // Import hooks from PyScript.
 import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
 
@@ -195,7 +195,7 @@ hooks.worker.onAfterRun.add(() => {
 
 Include this plugin before PyScript:
 
-```html
+```html title="Use the example plugin."
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -37,7 +37,7 @@ to work with media devices safely.
 The `list_devices()` function discovers what media devices are available
 on the user's system:
 
-```python
+```python title="Finding available media devices."
 from pyscript.media import list_devices
 
 
@@ -56,7 +56,7 @@ Microphone". The `id` property gives a unique identifier for the device.
 
 You can filter devices by type to find specific hardware:
 
-```python
+```python title="Filter by type."
 # Find all cameras.
 cameras = [d for d in devices if d.kind == "videoinput"]
 
@@ -81,7 +81,7 @@ The `Device.request_stream()` class method requests access to media
 devices and returns a stream you can use with HTML video or audio
 elements:
 
-```python
+```python title="Grabbing a media stream."
 from pyscript.media import Device
 from pyscript.web import page
 
@@ -100,7 +100,7 @@ video feed. If they deny permission, an exception is raised.
 
 You can request audio, video, or both:
 
-```python
+```python title="Specify different types of stream."
 # Video only (default).
 video_stream = await Device.request_stream(video=True)
 
@@ -113,7 +113,7 @@ av_stream = await Device.request_stream(audio=True, video=True)
 
 For finer control, specify constraints as dictionaries:
 
-```python
+```python title="Very fine-grained control of options."
 # Request specific video resolution.
 stream = await Device.request_stream(
     video={"width": 1920, "height": 1080}
@@ -140,7 +140,7 @@ Sometimes you need to capture from a particular camera or microphone
 rather than the default device. List devices first, then request a
 stream from the one you want:
 
-```python
+```python title="Use a specific device."
 from pyscript.media import list_devices
 
 
@@ -180,7 +180,7 @@ creating a still image you can save or process further.
 Media access requires user permission, and users can deny access or
 revoke it later. Always handle these cases gracefully:
 
-```python
+```python title="Always handle permissions."
 from pyscript.media import Device
 
 
@@ -204,7 +204,7 @@ deny permission or lack the necessary hardware.
 Media streams use system resources. Stop streams when you're finished to
 free up cameras and microphones:
 
-```python
+```python title="Clean up media streams."
 # Get stream.
 stream = await Device.request_stream(video=True)
 

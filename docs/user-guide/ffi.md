@@ -41,7 +41,7 @@ where `pyscript.web` doesn't apply.
 The [`to_js()`](../api/ffi.md#pyscript.ffi.to_js) function converts Python
 objects into their JavaScript equivalents:
 
-```python
+```python title="The to_js() function."
 from pyscript.ffi import to_js
 
 
@@ -72,7 +72,7 @@ translation automatically, converting dictionaries to JavaScript objects
 When passing Python functions to JavaScript, you must create a proxy to
 prevent garbage collection:
 
-```python
+```python title="Function proxies."
 from pyscript.ffi import create_proxy
 from pyscript import document
 
@@ -105,7 +105,7 @@ alive for JavaScript to call.
 JavaScript has both `null` and `undefined`. Python has `None`. The
 [`is_none()`](../api/ffi.md#pyscript.ffi.is_none) function checks for both:
 
-```python
+```python title="The correct way to check for null-ish values."
 from pyscript.ffi import is_none
 from pyscript import js
 
@@ -124,7 +124,7 @@ across interpreters.
 The [`assign()`](../api/ffi.md#pyscript.ffi.assign) function merges
 JavaScript objects, similar to `Object.assign()` in JavaScript:
 
-```python
+```python title="Merge JavaScript objects."
 from pyscript.ffi import assign, to_js
 from pyscript import js
 
@@ -145,7 +145,7 @@ whole.
 The `js` module provides access to
 [JavaScript's global namespace](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis):
 
-```python
+```python title="Using the js to reference globalThis."
 from pyscript import js
 
 
@@ -183,7 +183,7 @@ higher-level API is Pythonically preferable.
 The FFI code creates elements, sets properties, and appends children
 manually:
 
-```python
+```python title="FFI based native DOM manipulation." 
 from pyscript import document
 from pyscript.ffi import create_proxy
 

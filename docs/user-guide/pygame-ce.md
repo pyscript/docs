@@ -66,7 +66,7 @@ for canvas updates.
 
 The Python code:
 
-```python
+```python title="The bouncing ball example from PyGame-CE."
 import asyncio
 import sys
 import pygame
@@ -105,7 +105,7 @@ modification (covered below).
 
 The HTML file needs a canvas element and the script tag:
 
-```html
+```html title="Provide a &lt;canvas&gt; element for the game to render."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,7 +149,7 @@ automatically, but local Python doesn't.
 Wrap your game in an async function and use a try-except block to detect
 the environment:
 
-```python
+```python title="Browser/non-browser compatibility."
 import asyncio
 import sys
 import pygame
@@ -204,7 +204,7 @@ Better timing synchronises with the display refresh rate using
 `requestAnimationFrame` in the browser and `vsync=1` locally. This
 requires separating setup from the game loop:
 
-```python
+```python title="Precise timing."
 import sys
 import pygame
 

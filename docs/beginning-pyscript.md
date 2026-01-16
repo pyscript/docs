@@ -111,7 +111,7 @@ PyScript, and so we create a `<script>` tag that references the PyScript
 module, and a `<link>` to some PyScript specific CSS, in the document's
 `<head>` tag:
 
-```html
+```html title="The head of index.html"
 <!DOCTYPE html>
 <html>
   <head>
@@ -133,7 +133,7 @@ Notice that the `<body>` of the document is empty except for the TODO comment.
 It's in here that we put standard HTML content to define our user interface, so
 the `<body>` now looks like:
 
-```html
+```html title="The body of index.html"
 <body>
   <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>
   <p>Translate English into Pirate speak...</p>
@@ -158,7 +158,7 @@ where PyScript should find the configuration (`config="./pyscript.json"`).
 
 In the end, our HTML should look like this:
 
-```html title="index.html"
+```html title="The complete index.html"
 <!DOCTYPE html>
 <html>
   <head>
