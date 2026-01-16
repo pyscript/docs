@@ -1,0 +1,3 @@
+# `pyscript.event`
+
+::: pyscript.events

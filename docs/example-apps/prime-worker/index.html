@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Prime Numbers with Workers</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+      .controls label {
+        font-weight: 500;
+      }
+      .controls input[type="number"] {
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        width: 150px;
+      }
+      .options {
+        margin: 1rem 0;
+      }
+      .checkbox-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+      }
+      .checkbox-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+      button {
+        padding: 0.75rem 1.5rem;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      button:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+      }
+      #output {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 4px;
+        min-height: 100px;
+        font-family: monospace;
+        margin-top: 1.5rem;
+      }
+      .pulse {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: #27ae60;
+        border-radius: 50%;
+        animation: pulse 1s ease-in-out infinite;
+        margin-right: 0.5rem;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prime Number Calculator</h1>
+    <p><span class="pulse"></span>Main thread stays responsive</p>
+    
+    <div class="controls">
+      <label for="limit">Find primes up to:</label>
+      <input type="number" id="limit" value="10000" min="10" max="1000000" />
+      <button id="find-btn">Find Primes</button>
+      <button id="stop-btn" disabled>Stop</button>
+    </div>
+    
+    <div class="options">
+      <label class="checkbox-label">
+        <input type="checkbox" id="use-numpy" checked />
+        <span>Use NumPy (faster)</span>
+      </label>
+    </div>
+    
+    <div id="output">Enter a number and click Find Primes...</div>
+
+    <script type="mpy" src="./main.py"></script>
+    <script type="py" src="./worker.py" worker name="primes" config="./pyscript.json"></script>
+  </body>
+</html>

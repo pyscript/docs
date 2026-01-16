@@ -2,40 +2,114 @@
 
 !!! info
 
-    This guide provides technical guidance and exploration of the PyScript
-    platform.
+    This guide provides technical guidance and in-depth exploration of
+    the PyScript platform.
 
-    While we endeavour to write clearly, some of the content in this user guide
-    will not be suitable for beginners. We assume you already have Python
-    or web development experience. If you're a beginner start with our
-    [beginner's guide](../beginning-pyscript.md).
+    We assume you already have Python or web development experience. If
+    you're new to PyScript, start with our
+    [beginner's guide](../beginning-pyscript.md) to learn the
+    fundamentals through a hands-on example.
 
-    We [welcome constructive feedback](https://github.com/pyscript/docs/issues).
+    Once you're comfortable with the basics, return here to explore
+    PyScript's full capabilities in detail.
 
-Our docs have three aims:
+## What you'll learn
 
-1. A [clear overview](what.md) of all things PyScript.
-2. [Exploration of PyScript](architecture.md) in substantial technical detail.
-3. Demonstration of the features of PyScript working together in
-   [real-world example applications](../examples.md).
+This user guide will teach you how to:
 
-_Read this user guide in full_: it is a short but comprehensive overview of the
-PyScript platform.
+**Build interactive web applications with Python** - Create rich user
+interfaces, handle events, manipulate the DOM, and respond to user input
+using idiomatic Python code.
 
-Get involved! Join in the PyScript conversation on our
-[discord server](https://discord.gg/HxvBtukrg2). There you'll find core
-developers, community contributors and a flourishing forum for those creating
-projects with PyScript. Should you wish to engage with the development of
-PyScript, you are welcome to contribute via 
-[the project's GitHub organisation](https://github.com/pyscript).
+**Leverage Python's ecosystem in the browser** - Use popular libraries
+like NumPy, Pandas, Matplotlib, and thousands more from PyPI directly in
+your web applications.
 
-Finally, the example projects referenced in our docs are all freely available
-and copiously commented on [pyscript.com](https://pyscript.com).
+**Access browser capabilities from Python** - Capture photos and video,
+record audio, read and write files, store data locally, and integrate
+with web APIs.
+
+**Create fast, responsive applications** - Use web workers to run Python
+code in background threads, keeping your user interface smooth even
+during heavy computation.
+
+**Deploy Python applications anywhere** - Share your work with a simple
+URL, no server-side Python required. Your applications run entirely in
+the user's browser.
+
+**Understand PyScript's architecture** - Learn how PyScript bridges
+Python and JavaScript, when to use Pyodide vs. MicroPython, and how to
+optimise your applications for performance.
+
+## Core concepts
+
+PyScript brings together two powerful ecosystems: Python and the web.
+Understanding a few key concepts will help you get the most from the
+platform:
+
+**The FFI (Foreign Function Interface)** - This is how Python and
+JavaScript communicate. The FFI automatically translates between Python
+and JavaScript objects, letting you use browser APIs directly from
+Python code.
+
+**Pyodide vs. MicroPython** - PyScript supports two Python interpreters.
+Pyodide is full CPython compiled to WebAssembly, giving you access to
+the entire Python ecosystem. MicroPython is smaller and faster to load,
+making it ideal for mobile devices or when you don't need heavy
+libraries.
+
+**The `pyscript` namespace** - This is PyScript's Pythonic API for
+working with the web. It includes modules like `pyscript.web` for DOM
+manipulation, `pyscript.display` for showing output, and decorators like
+`@when` for handling events.
+
+**Web workers** - Background threads that let you run Python code
+without blocking the user interface. Essential for data processing,
+simulations, or any CPU-intensive work.
+
+## Example applications
+
+Throughout this guide, you'll find working examples that demonstrate
+PyScript's features. All examples are complete, runnable applications
+that you can explore, modify, and learn from.
+
+You'll find the [example applications](../example-apps/overview.md)
+organised by app name. Each example includes all the files you need
+(`index.html`, Python code, configuration etc...) plus an `info.md`
+explaining what it demonstrates and how it works.
+
+The source code for all the example apps can be found in our GIT
+[repository online](https://github.com/pyscript/docs/tree/main/docs/example-apps).
+
+## Get involved
+
+PyScript is an open source project with a welcoming, vibrant community.
+
+**Join the conversation** - Our [Discord server](https://discord.gg/HxvBtukrg2)
+is the heart of the PyScript community. You'll find core developers,
+experienced contributors, and fellow learners ready to help. It's the
+best place to ask questions, share your projects, and discuss ideas.
+
+**Contribute to PyScript** - Whether you're fixing documentation,
+reporting bugs, or adding features, contributions are welcome. Visit
+[PyScript's GitHub organisation](https://github.com/pyscript) to get
+started.
+
+**Share your work** - Built something interesting with PyScript? We love
+to recognise and celebrate community projects. Share your work on
+Discord or [get in touch](https://discord.gg/HxvBtukrg2) if you'd like
+your project featured in our examples.
 
 !!! note
 
-    Many of these examples come from contributors in our wonderful
-    community. We love to recognise, share and celebrate the incredible work
-    of folks in the PyScript community. If you believe you have a project that
-    would make a good demonstration, please don't hesitate to
-    [get in touch](https://discord.gg/HxvBtukrg2).
+    We [welcome constructive feedback](https://github.com/pyscript/docs/issues)
+    on these docs. Found something unclear? Have a suggestion? Please let
+    us know.
+
+## Ready to dive in?
+
+Start with [What is PyScript?](./what.md) to understand the platform's
+philosophy and capabilities, or jump straight to
+[working with the DOM](./dom.md) if you're eager to start coding.
+
+Welcome to PyScript!
