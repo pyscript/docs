@@ -664,6 +664,36 @@ with open("data.csv") as f:
     data = f.read()
 ```
 
+It's also possible to manually upload files onto the virtual file system
+from the browser (<input type="file">), and using the DOM API.
+
+The following fragment is just one way to achieve this:
+
+```python
+# Assume an input element of type "file" with an id of "upload" in
+# the DOM.
+# E.g. <input type="file" id="upload">
+
+from pyscript import when, fetch, window
+
+
+@when("change", "#upload")
+async def on_change(event):
+    """
+    Activated when the user has selected a file to upload via
+    the file input element.
+    """
+    # For each file the user has selected to upload...
+    for file in input.files:
+        # Create a temporary URL.
+        tmp = window.URL.createObjectURL(file)
+        # Fetch and save its content somewhere.
+        with open(f"./{file.name}", "wb") as dest:
+            dest.write(await fetch(tmp).bytearray())
+        # Then revoke the tmp URL.
+        window.URL.revokeObjectURL(tmp)
+```
+
 #### Writing files
 
 You can create and write files in the virtual filesystem:
@@ -684,14 +714,16 @@ def download_file(filename, content):
     """
     Trigger browser download of file content.
     """
+    # Ensure you use the correct mime-type!
     blob = window.Blob.new([content], ffi.to_js({"type": "text/plain"}))
+    # Create a temporary download link/URL.
     url = window.URL.createObjectURL(blob)
-    
     link = window.document.createElement("a")
     link.href = url
     link.download = filename
+    # Activate the link (pretend to click it).
     link.click()
-    
+    # Then revoke the temporary URL.
     window.URL.revokeObjectURL(url)
 
 
