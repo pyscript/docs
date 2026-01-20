@@ -67,15 +67,12 @@ As an open source project, PyScript has community at its core. In addition to
 the ways to engage already outlined, you could join our live community calls.
 
 - [PyScript Community Call](https://discord.com/events/972017612454232116/1227274094366556279)
-  - weekly on Tuesdays. A coordination call for anyone participating in the
-  PyScript project.
-- [Community Engagement Call](https://discord.com/events/972017612454232116/1227275045965922376)
-  - weekly on Wednesdays. A non-technical meeting where we coordinate how the
-  PyScript project engages with, nourishes and grows our wonderful community.
+    - every two weeks on Tuesdays. A coordination call for anyone participating in the
+      PyScript project.
 - [PyScript FUN](https://discord.com/events/972017612454232116/1227275336115556402)
-  - held every two weeks on a Thursday, this call is an informal,
-  supportive and often humorous "show and tell" of community created projects,
-  hacks, feedback and plugins.
+    - held on the first Thursday of every month, this call is an informal,
+      supportive and often humorous "show and tell" of community created projects,
+      hacks, feedback and plugins.
 
 Announcement of connection details is made via the PyScript
 [discord server](https://discord.gg/HxvBtukrg2).
@@ -136,15 +133,14 @@ suggestions, and feedback you submitted are accepted under the
 [Apache 2.0](license.md) license. You represent that if you do not own
 copyright in the code that you have the authority to submit it under the
 [Apache 2.0](license.md) license. All feedback, suggestions, or contributions
-are not confidential.
+**are not confidential**.
 
 ### Becoming a maintainer
 
 Contributors are invited to be maintainers of the project by demonstrating good
 decision making in their contributions, a commitment to the goals of the
 project, and consistent adherence to the
-[code of conduct](conduct.md). New maintainers are invited by a 3/4 vote of
-the existing maintainers.
+[code of conduct](conduct.md).
 
 ## Trademarks
 

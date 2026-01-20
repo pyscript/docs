@@ -1,301 +1,202 @@
-# Architecture, Lifecycle &amp; Interpreters
+# Architecture
 
-## Core concepts 
+Understanding how PyScript works helps you build better applications and
+debug problems when they arise. This guide explains PyScript's
+architecture, lifecycle, and the interpreters that power your Python
+code in the browser.
 
-PyScript's architecture has three core concepts:
+You don't need to master these details to use PyScript effectively, but
+knowing the fundamentals helps you understand what's happening behind
+the scenes.
 
-1. A small, efficient and powerful kernel called
-   [PolyScript](https://github.com/pyscript/polyscript) is the foundation
-   upon which PyScript and plugins are built.
-2. A library called [coincident](https://github.com/WebReflection/coincident#readme)
-   that simplifies and coordinates interactions with web workers.
-3. The PyScript [stack](https://en.wikipedia.org/wiki/Solution_stack) inside
-   the browser is simple and clearly defined.
+## The foundation: PolyScript
 
-### PolyScript
+PyScript is built on [PolyScript](https://github.com/pyscript/polyscript),
+a small kernel that bootstraps interpreters and provides core
+capabilities. PolyScript handles script evaluation, event processing,
+and worker management - the low-level machinery that makes everything
+work.
 
-[PolyScript](https://github.com/pyscript/polyscript) is the core of PyScript.
+Most PyScript users never interact with PolyScript directly. PyScript
+wraps PolyScript with convenient features, helper functions, and
+powerful capabilities that make Python in the browser accessible and
+practical. PolyScript provides the foundation. PyScript provides the
+usable platform.
 
-!!! danger 
+You might encounter PolyScript if you debug interpreter loading issues,
+investigate event handling problems, or explore advanced customisation.
+But for typical application development, you can safely ignore
+PolyScript's existence.
 
-    Unless you are an advanced user, you only need to know that PolyScript
-    exists, and it can be safely ignored.
+## Worker coordination: Coincident
 
-PolyScript's purpose is to bootstrap the platform and provide all the necessary
-core capabilities. Setting aside PyScript for a moment, to use
-*just PolyScript* requires a `<script>` reference to it, along with a further
-`<script>` tag defining how to run your code.
+PyScript uses [Coincident](https://github.com/WebReflection/coincident)
+to coordinate interactions between the main thread and web workers. This
+library handles the complexity of cross-thread communication,
+SharedArrayBuffer management, and memory coordination.
 
-```html title="Bootstrapping with just PolyScript"
-<!doctype html>
-<html>
-    <head>
-        <!-- this is a way to automatically bootstrap polyscript -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/polyscript"></script>
-    </head>
-    <body>
-        <!--
-            Run some Python code with the MicroPython interpreter, but without
-            the extra benefits provided by PyScript.
-        -->
-        <script type="micropython">
-            from js import document
-            document.body.textContent = 'polyscript'
-        </script>
-    </body>
-</html>
-```
+Like PolyScript, Coincident operates behind the scenes. You use the
+clean `pyscript.workers` API without worrying about the underlying
+coordination mechanisms. Coincident makes worker communication feel
+simple and natural, hiding the difficult parts.
 
-!!! warning
+If you encounter worker-related issues - functions not being callable
+across threads, arguments not being passed correctly, or memory leaks -
+these might originate in Coincident. Such problems are rare, but knowing
+this layer exists helps when debugging unusual worker behaviour.
 
-    **PolyScript is not PyScript.**
+## The PyScript stack
 
-    PyScript enhances the available Python interpreters with convenient
-    features, helper functions and easy-to-use yet powerful capabilities.
-
-    These enhancements are missing from PolyScript.
-
-PolyScript's capabilities, upon which PyScript is built, can be summarised as:
-
-* Evaluation of code via [`<script>` tags](https://pyscript.github.io/polyscript/#how-scripts-work).
-* Handling
-  [browser events](https://pyscript.github.io/polyscript/#how-events-work)
-  via code evaluated with an interpreter supported by PolyScript.
-* A [clear way to use workers](https://pyscript.github.io/polyscript/#xworker)
-  via the `XWorker` class and its related reference, `xworker`.
-* [Custom scripts](https://pyscript.github.io/polyscript/#custom-scripts) to
-  enrich PolyScript's capabilities.
-* A [ready event](https://pyscript.github.io/polyscript/#ready-event)
-  dispatched when an interpreter is ready and about to run code, and a
-  [done event](https://pyscript.github.io/polyscript/#done-event) when an
-  interpreter has finished evaluating code.
-* [Hooks](https://pyscript.github.io/polyscript/#hooks), called at clearly
-  defined moments in the page lifecycle, provide a means of calling user
-  defined functions to modify and enhance PolyScript's default behaviour.
-* [Multiple interpreters](https://pyscript.github.io/polyscript/#interpreter-features)
-  (in addition to Pyodide and MicroPython, PolyScript works with R, Lua and
-  Ruby - although these are beyond the scope of this project).
-
-PolyScript may become important if you encounter problems with PyScript. You
-should investigate PolyScript if any of the following is true about your
-problem:
-
-* The interpreter fails to load.
-* There are errors about the interpreter starting.
-* HTML events (e.g. `py-*` or `mpy-*`) are not triggered.
-* An explicit feature of PolyScript is not reflected in PyScript.
-
-We encourage you to engage and ask questions about PolyScript on our
-[discord server](https://discord.gg/HxvBtukrg2). But in summary, as a user of
-PyScript you should probably never encounter PolyScript. However, please be
-aware that specific features of bug fixes my happen in the PolyScript layer in
-order to then land in PyScript.
-
-### Coincident
-
-!!! danger 
-
-    Unless you are an advanced user, you only need to know that coincident
-    exists, and it can be safely ignored. As with PolyScript, we include these
-    details only for those interested in the more fundamental aspects of
-    PyScript.
-
-PolyScript uses the
-[coincident](https://github.com/WebReflection/coincident#readme) library to
-seamlessly interact with web workers and coordinate interactions between the
-browser's main thread and such workers.
-
-Any `SharedArrayBuffer` issues are the responsibility of coincident and, to
-some extent, anything related to memory leaks.
-
-In a nutshell, this project is likely responsible for the following modes of
-failure:
-
-* Failing to invoke something from a worker that refers to the main thread.
-* A reproducible and cross platform (browser based) memory leak.
-* Invoking a function with a specific argument from a worker that doesn't
-  produce the expected result.
-
-We hope all these scenarios are unlikely to happen within a *PyScript* project.
-They are all battle tested and covered with general purpose cross-environment
-testing before landing in *PyScript*. But, if you feel something is odd,
-leaking, or badly broken, please feel free to file an issue in
-[the coincident project](https://github.com/WebReflection/coincident/issues).
-As usual, there is never a silly question, so long as you provide a minimal
-reproducible example in your bug reports or query.
-
-### The stack
-
-The stack describes how the different building blocks _inside_ a PyScript
-application relate to each other:
+Understanding how components layer together helps you think about where
+your code fits:
 
 <img src="../../assets/images/platform.png"/>
 
-* Everything happens inside the context of the browser (represented by the
-  black border). **The browser tab for your PyScript app is your
-  sandboxed computing environment**.
+At the foundation are Python interpreters compiled to WebAssembly -
+either Pyodide or MicroPython. These evaluate your code and interact
+with the browser through the Foreign Function Interface.
 
-!!! failure
+The PyScript layer sits above the interpreters, consisting of two parts.
+PolyScript provides the kernel that bootstraps everything and handles
+core capabilities. PyScript and its plugins sit atop PolyScript,
+providing the easy-to-use Python platform you actually interact with.
 
-    PyScript is simply Python running in the browser. **Please remember**:
-
-    * PyScript isn't running on a server hosted in the cloud.
-    * PyScript doesn't use the version of Python running natively on the user's
-      operating system.
-    * **PyScript only runs IN THE BROWSER (and nowhere else).**
-
-* At the bottom of the stack are the Python interpreters compiled to WASM. They
-  evaluate your code and interact with the browser via the [FFI](dom.md/#ffi).
-* The PyScript layer makes it easy to use and configure the Python
-  interpreters. There are two parts to this:
-    1. The PolyScript kernel (see above), that bootstraps everything and
-       provides the core capabilities.
-    2. PyScript and related plugins that sit atop PolyScript to give us an
-       easy-to-use Python platform _in the browser_.
-* Above the PyScript layer are either:
-    1. Application frameworks, modules and libraries written in Python that you
-       use to create useful applications.
-    2. Your code (that's your responsibility).
-
-## Lifecycle
-
-If the architecture explains how components relate to each other, the lifecycle
-explains how things unfold. It's important to understand both: it will
-help you think about your own code and how it sits within PyScript.
-
-Here's how PyScript unfolds through time:
-
-* The browser is directed to a URL. The response is HTML.
-* When parsing the HTML response the browser encounters the `<script>`
-  tag that references PyScript. PyScript is loaded and evaluated as a
-  [JavaScript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules),
-  meaning it doesn't hold up the loading of the page and is only evaluated when
-  the HTML is fully parsed.
-* The PyScript module does broadly six things:
-    1. Discover Python code referenced in the page.
-    2. Evaluate any [configuration](configuration.md) on the page (either via
-       single `<py-config>` or `<mpy-config>` tags **or** the `config`
-       attribute of a `<script>`, `<py-script>` or `<mpy-script>` tag).
-    3. Given the detected configuration, download the required interpreter.
-    4. Setup the interpreter's environment. This includes any
-       [plugins](configuration.md/#plugins), [packages](configuration.md/#packages), [files](configuration.md/#files) or [JavaScript modules](configuration.md/#javascript-modules) 
-       that need to be loaded.
-    5. Make available various
-       [builtin helper objects and functions](../../api) to the
-       interpreter's environment (accessed via the `pyscript` module).
-    6. Only then use the interpreter in the correctly configured environment to
-       evaluate the detected Python code.
-* When an interpreter is ready the `py:ready` or `mpy:ready` events are
-  dispatched, depending which interpreter you've specified (Pyodide or
-  MicroPython respectively).
-* Finally, a `py:done` event is dispatched after every single script
-  referenced from the page has finished.
-
-In addition, various "hooks" are called at different moments in the lifecycle
-of PyScript. These can be used by plugin authors to modify or enhance the
-behaviour of PyScript. The hooks, and how to use them, are explored further in
-[the section on plugins](plugins.md).
-
-!!! warning
-
-    A web page's workers have completely separate environments to the main
-    thread.
-
-    It means configuration in the main thread can be different to that for
-    an interpreter running on a worker. In fact, you can use different
-    interpreters and configuration in each context (for instance, MicroPython
-    on the main thread, and Pyodide on a worker).
-
-    Think of workers as completely separate sub-processes inside your browser
-    tab.
-
-## Interpreters
-
-Python is an interpreted language, and thus needs an interpreter to work.
-
-PyScript currently supports two versions of the Python interpreter that have
-been compiled to WASM: Pyodide and MicroPython. You should select which one to
-use depending on your use case and acceptable trade-offs.
+Your application code runs at the top of the stack, either directly or
+through frameworks and libraries you've chosen. Everything happens
+inside your browser tab - a sandboxed computing environment isolated
+from both the server and the user's operating system.
 
 !!! info
 
-    In future, and subject to progress, we hope to make available a third
-    Pythonic option: [SPy](https://github.com/spylang/spy), a staticially typed
-    version of Python compiled directly to WASM.
+    PyScript runs entirely in the browser. It doesn't execute on a
+    server in the cloud. It doesn't use Python installed on the user's
+    operating system. Everything happens in the browser tab, and nowhere
+    else.
 
-Both interpreters make use of [emscripten](https://emscripten.org/), a compiler
-toolchain (using [LLVM](https://llvm.org/)), for emitting WASM assets for the
-browser. Emscripten also provides APIs so operating-system level features such
-as a sandboxed [file system](https://emscripten.org/docs/api_reference/Filesystem-API.html)
-(**not** the user's local machine's filesystem), [IO](https://emscripten.org/docs/api_reference/console.h.html)
-(`stdin`, `stdout`, `stderr` etc,) and [networking](https://emscripten.org/docs/api_reference/fetch.html) are
-available within the context of a browser.
+## Application lifecycle
 
-Both Pyodide and MicroPython implement the same robust
-[Python](https://pyodide.org/en/stable/usage/api/python-api.html)
-⟺ [JavaScript](https://pyodide.org/en/stable/usage/api/js-api.html)
-[foreign function interface](dom.md/#ffi) (FFI). This
-bridges the gap between the browser and Python worlds.
+Understanding the lifecycle helps you think about timing and order of
+operations in your applications. Here's how PyScript unfolds:
+
+The browser loads your HTML page. When it encounters the PyScript
+script tag, PyScript loads as a JavaScript module. Module loading is
+non-blocking, so the page continues loading whilst PyScript
+initialises.
+
+Once loaded, PyScript discovers Python code on the page, evaluates any
+configuration, downloads the required interpreter, and sets up the
+interpreter's environment. This setup includes loading plugins,
+packages, files, and JavaScript modules specified in your configuration.
+
+PyScript then makes built-in helper objects and functions available
+through the `pyscript` module. Only after this completes does the
+interpreter evaluate your Python code.
+
+When the interpreter is ready, PyScript dispatches a `py:ready` event
+for Pyodide or `mpy:ready` for MicroPython. After all scripts finish
+evaluating, a `py:done` event signals completion.
+
+This lifecycle applies to both the main thread and workers. Workers have
+completely separate environments - different configuration, different
+interpreters, different package sets. Think of each worker as a
+separate subprocess inside your browser tab.
+
+## Choosing interpreters
+
+PyScript supports two Python interpreters compiled to WebAssembly. Each
+offers different trade-offs, and you should choose based on your
+application's needs.
 
 ### Pyodide
 
+[Pyodide](https://pyodide.org/) is CPython compiled to WebAssembly. It
+provides full Python compatibility with access to the standard library
+and many third-party packages.
+
 <a href="https://pyodide.org/"><img src="../../assets/images/pyodide.png"/></a>
 
-[Pyodide](https://pyodide.org/) is a version of the standard
-[CPython](https://python.org/) interpreter, patched to compile to WASM and
-work in the browser.
+Pyodide's strengths include package installation from PyPI using
+micropip, extensive documentation and community support, and pre-built
+versions of popular data science packages like numpy, scipy, and pandas.
+The active community produces excellent documentation and tutorials.
 
-It includes many useful features:
+Use Pyodide when you need full Python compatibility, access to packages
+from PyPI, or weighty computing libraries. The trade-off is larger
+file size and slower initial load compared to MicroPython.
 
-* The installation of pure Python packages from [PyPI](https://pypi.org/) via
-  the [micropip](https://micropip.pyodide.org/en/stable/index.html) package
-  installer.
-* An active, friendly and technically outstanding team of volunteer
-  contributors (some of whom have been supported by the PyScript project).
-* Extensive official
-  [documentation](https://micropip.pyodide.org/en/stable/index.html), and many
-  tutorials found online.
-* Builds of Pyodide that include popular packages for data science like
-  [Numpy](https://numpy.org/), [Scipy](https://scipy.org/) and
-  [Pandas](https://pandas.pydata.org/).
+!!! warning
 
-!!! warning 
+    Some packages with C extensions work in Pyodide, others don't.
+    Pyodide can install packages with C extensions that have been
+    compiled to WebAssembly. Packages not compiled for WebAssembly
+    cause "pure Python wheel" errors. See
+    [Pyodide's FAQ](https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package)
+    for details.
 
-    You may encounter an error message from `micropip` that explains it can't
-    find a "pure Python wheel" for a package. Pyodide's documentation
-    [explains what to do in this situation](https://pyodide.org/en/stable/usage/faq.html#why-can-t-micropip-find-a-pure-python-wheel-for-a-package).
-
-    Briefly, some
-    [packages with C extensions](https://docs.python.org/3/extending/building.html)
-    have versions compiled for WASM and these can be installed with `micropip`.
-    Packages containing C extensions that _are not compiled for WASM_ cause the
-    "pure Python wheel" error.
-
-    There are plans afoot to make WASM a target in PyPI so packages with C
-    extensions are automatically compiled to WASM.
+    If you want to check if a package works with PyScript, check
+    out [this handy website](https://pyscript.github.io/pyscript-packages/)
+    for more information.
 
 ### MicroPython
 
+[MicroPython](https://micropython.org/) is a lean Python implementation
+designed for constrained environments. It includes a subset of the
+standard library and focuses on efficiency.
+
 <a href="https://micropython.org/"><img src="../../assets/images/micropython.png"/></a>
 
-[MicroPython](https://micropython.org/) is a lean and efficient implementation
-of the Python 3 programming language that includes a small subset of the Python
-standard library and is optimised to run on microcontrollers and in constrained
-environments (like the browser). 
+MicroPython's key advantage is size. Compressed for delivery, it's only
+about 170KB - smaller than many images on the web. This makes it ideal
+for mobile devices with slower connections and less powerful hardware.
 
-Everything needed to view a web page in a browser needs to be delivered
-over the network. The smaller the asset to be delivered can be, the better.
-MicroPython, when compressed for delivery to the browser, is only around
-170k in size - smaller than many images found on the web.
+Use MicroPython when you need fast startup, small file size, or want to
+minimise network transfer. It works especially well for user interface
+code, simple scripting, or applications on mobile devices. The trade-off
+is no package installation - you only get the standard library subset
+MicroPython provides, or code you directly copy into the PyScript
+environment via [`files` based configuration](./configuration.md#files).
 
-This makes MicroPython particularly suited to browsers running in a more
-constrained environment such as on a mobile or tablet based device. Browsing
-with these devices often uses (slower) mobile internet connections.
-Furthermore, because MicroPython is lean and efficient it still performs
-exceptionally well on these relatively underpowered devices.
+### Cross-interpreter compatibility
 
-Thanks to collaboration between the MicroPython, Pyodide and PyScript projects,
-there is a foreign function interface for MicroPython. The MicroPython FFI
-deliberately copies the API of the FFI originally written for Pyodide - meaning
-it is relatively easy to migrate between the two supported interpreters via the
-`pyscript.ffi` namespace.
+Both interpreters implement almost the same Foreign Function Interface for
+Python-JavaScript interaction. PyScript's unified [`pyscript.ffi`](../api/ffi.md)
+namespace works consistently across both interpreters, making it
+relatively straightforward to migrate between them.
+
+However, code using packages from PyPI only works in Pyodide. Code
+relying on full standard library features may behave differently or fail
+in MicroPython. Test thoroughly if you switch interpreters.
+
+## Understanding WebAssembly compilation
+
+Both interpreters use [Emscripten](https://emscripten.org/), a compiler
+toolchain built on [LLVM](https://llvm.org/), to compile C to WebAssembly. Emscripten
+provides more than just compilation - it supplies APIs for operating
+system-level features in the browser environment.
+
+Through Emscripten, interpreters access a sandboxed filesystem (not the
+user's actual filesystem), standard input/output streams, and network
+capabilities. These features work within the browser's security sandbox,
+providing familiar Python programming patterns whilst maintaining web
+security.
+
+This is why you can use `open()` to read files, `print()` to write
+output, and `import` modules - Emscripten bridges the gap between Python's
+expectations and the browser's capabilities.
+
+## What's next
+
+Now that you understand PyScript's architecture, these related topics
+provide more context:
+
+**[Workers](workers.md)** - Configure Python code to run in background
+threads with the same configuration options.
+
+**[Filesystem](filesystem.md)** - Learn more about the virtual
+filesystem and how the `files` option works.
+
+**[FFI](ffi.md)** - Understand how JavaScript modules integrate with
+Python through the foreign function interface.
+
+**[Media](media.md)** - Capture photos and video with the camera or 
+record audio with your microphone.

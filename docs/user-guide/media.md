@@ -1,372 +1,237 @@
-# PyScript and Media Devices
+# Media
 
-For web applications to interact with cameras, microphones, and other media
-devices, there needs to be a way to access these hardware components through the
-browser. PyScript provides a media API that enables your Python code to interact
-with media devices directly from the browser environment.
+Modern web applications often need to interact with cameras,
+microphones, and other media devices. PyScript provides a Pythonic
+interface to these devices through the 
+[`pyscript.media` module](../api/media.md), letting
+your Python code capture video, record audio, and enumerate available
+hardware directly from the browser.
 
-This section explains how PyScript interacts with media devices and how you can
-use these capabilities in your applications.
+This guide explains how to work with media devices in PyScript,
+covering device discovery, stream capture, and practical usage
+patterns.
 
-## Media Device Access
+## Understanding media access
 
-PyScript interacts with media devices through the browser's [MediaDevices
-API](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices). This API
-provides access to connected media input devices like cameras and microphones,
-as well as output devices like speakers.
+Media device access in the browser follows strict security and privacy
+rules. Your code runs in a sandbox with these constraints:
 
-When using PyScript's media API, it's important to understand:
+**User permission is required.** The browser will show a permission
+dialog when you first attempt to access cameras or microphones. Users
+can grant or deny access, and they can revoke permissions at any time.
 
-1. Media access requires **explicit user permission**. The browser will show a
-   permission dialog when your code attempts to access cameras or microphones.
-2. Media access is only available in **secure contexts** (HTTPS or localhost).
-3. All media interactions happen within the **browser's sandbox**, following the
-   browser's security policies.
+**Secure contexts only.** Media access works only over HTTPS or on
+localhost. This security requirement prevents malicious sites from
+accessing media devices without proper encryption.
 
-## The `pyscript.media` API
+**Privacy protections apply.** Device labels may appear as empty strings
+until permission is granted. This prevents sites from fingerprinting
+users based on their connected hardware before receiving explicit
+consent.
 
-PyScript provides a Pythonic interface to media devices through the
-`pyscript.media` namespace. This API includes two main components:
+These requirements protect users whilst enabling legitimate applications
+to work with media devices safely.
 
-1. The `Device` class - represents a media device and provides methods to
-   interact with it
-2. The `list_devices()` function - discovers available media devices
+## Listing available devices
 
-### Listing Available Devices
+The `list_devices()` function discovers what media devices are available
+on the user's system:
 
-To discover what media devices are available, use the `list_devices()` function:
-
-```python
+```python title="Finding available media devices."
 from pyscript.media import list_devices
 
-async def show_available_devices():
-    devices = await list_devices()
-    for device in devices:
-        print(f"Device: {device.label}, Type: {device.kind}, ID: {device.id}")
 
-# List all available devices
-show_available_devices()
+# Get all available media devices.
+devices = await list_devices()
+
+for device in devices:
+    print(f"{device.kind}: {device.label}")
 ```
 
-This function returns a list of `Device` objects, each representing a media
-input or output device. Note that the browser will typically request permission
-before providing this information.
+Each device has three key properties. The `kind` property indicates
+device type: `"videoinput"` for cameras, `"audioinput"` for
+microphones, or `"audiooutput"` for speakers. The `label` property
+provides a human-readable name like "Built-in Camera" or "External USB
+Microphone". The `id` property gives a unique identifier for the device.
 
-### Working with the Camera
+You can filter devices by type to find specific hardware:
 
-The most common use case is accessing the camera to display a video stream:
+```python title="Filter by type."
+# Find all cameras.
+cameras = [d for d in devices if d.kind == "videoinput"]
 
-```python
-from pyscript import when
+# Find all microphones.
+microphones = [d for d in devices if d.kind == "audioinput"]
+
+# Find a specific device by label.
+usb_camera = None
+for device in devices:
+    if device.kind == "videoinput" and "USB" in device.label:
+        usb_camera = device
+        break
+```
+
+Device labels may be empty strings until the user grants permission to
+access media devices. Once permission is granted, labels become
+available, helping users understand which hardware is being used.
+
+## Capturing media streams
+
+The `Device.request_stream()` class method requests access to media
+devices and returns a stream you can use with HTML video or audio
+elements:
+
+```python title="Grabbing a media stream."
 from pyscript.media import Device
 from pyscript.web import page
 
-async def start_camera():
-    # Get a video stream (defaults to video only, no audio)
-    stream = await Device.load(video=True)
-    
-    # Connect the stream to a video element in your HTML
-    video_element = page["#camera"][0]._dom_element
-    video_element.srcObject = stream
-    
-    return stream
 
-# Start the camera
-camera_stream = start_camera()
+# Request video from the default camera.
+stream = await Device.request_stream(video=True)
+
+# Display it in a video element.
+video = page["#my-video"]
+video.srcObject = stream
 ```
 
-The `Device.load()` method is a convenient way to access media devices without
-first listing all available devices. You can specify options to control which
-camera is used:
+This triggers a permission dialog the first time it runs. If the user
+grants permission, you receive a `MediaStream` object containing the
+video feed. If they deny permission, an exception is raised.
 
-```python
-# Prefer the environment-facing camera (often the back camera on mobile)
-stream = await Device.load(video={"facingMode": "environment"})
+You can request audio, video, or both:
 
-# Prefer the user-facing camera (often the front camera on mobile)
-stream = await Device.load(video={"facingMode": "user"})
+```python title="Specify different types of stream."
+# Video only (default).
+video_stream = await Device.request_stream(video=True)
 
-# Request specific resolution
-stream = await Device.load(video={
-    "width": {"ideal": 1280},
-    "height": {"ideal": 720}
-})
+# Audio only.
+audio_stream = await Device.request_stream(audio=True, video=False)
+
+# Both audio and video.
+av_stream = await Device.request_stream(audio=True, video=True)
 ```
 
-### Capturing Images from the Camera
+For finer control, specify constraints as dictionaries:
 
-To capture a still image from the video stream:
+```python title="Very fine-grained control of options."
+# Request specific video resolution.
+stream = await Device.request_stream(
+    video={"width": 1920, "height": 1080}
+)
 
-```python
-def capture_image(video_element):
-    # Get the video dimensions
-    width = video_element.videoWidth
-    height = video_element.videoHeight
-    
-    # Create a canvas to capture the frame
-    canvas = document.createElement("canvas")
-    canvas.width = width
-    canvas.height = height
-    
-    # Draw the current video frame to the canvas
-    ctx = canvas.getContext("2d")
-    ctx.drawImage(video_element, 0, 0, width, height)
-    
-    # Get the image as a data URL
-    image_data = canvas.toDataURL("image/png")
-    
-    return image_data
+# Request high-quality audio with echo cancellation.
+stream = await Device.request_stream(
+    audio={
+        "sampleRate": 48000,
+        "echoCancellation": True,
+        "noiseSuppression": True
+    }
+)
 ```
 
-For applications that need to process images with libraries like OpenCV, you
-need to convert the image data to a format these libraries can work with:
+These constraints follow the
+[MediaTrackConstraints web standard](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints).
+The browser does its best to satisfy your constraints but may fall back
+to available settings if exact matches aren't possible.
 
-```python
-import numpy as np
-import cv2
+## Using specific devices
 
-def process_frame_with_opencv(video_element):
-    # Get video dimensions
-    width = video_element.videoWidth
-    height = video_element.videoHeight
-    
-    # Create a canvas and capture the frame
-    canvas = document.createElement("canvas")
-    canvas.width = width
-    canvas.height = height
-    ctx = canvas.getContext("2d")
-    ctx.drawImage(video_element, 0, 0, width, height)
-    
-    # Get the raw pixel data
-    image_data = ctx.getImageData(0, 0, width, height).data
-    
-    # Convert to numpy array for OpenCV
-    frame = np.asarray(image_data, dtype=np.uint8).reshape((height, width, 4))
-    
-    # Convert from RGBA to BGR (OpenCV's default format)
-    frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGBA2BGR)
-    
-    # Process the image with OpenCV
-    # ...
-    
-    return frame_bgr
+Sometimes you need to capture from a particular camera or microphone
+rather than the default device. List devices first, then request a
+stream from the one you want:
+
+```python title="Use a specific device."
+from pyscript.media import list_devices
+
+
+# Find all cameras.
+devices = await list_devices()
+cameras = [d for d in devices if d.kind == "videoinput"]
+
+# Use the second camera if available.
+if len(cameras) > 1:
+    stream = await cameras[1].get_stream()
+    video = page["#my-video"]
+    video.srcObject = stream
 ```
 
-### Managing Camera Resources
+The `get_stream()` method on a device instance requests a stream from
+that specific device, handling the device ID constraints automatically.
 
-It's important to properly manage media resources, especially when your
-application no longer needs them. Cameras and microphones are shared resources,
-and failing to release them can impact other applications or cause unexpected
-behavior.
+## Example: Photobooth application
 
-### Stopping the Camera
+Here's a complete application demonstrating webcam access and still
+frame capture:
 
-To stop the camera and release resources:
+<iframe src="../../example-apps/photobooth/" style="border: 1px solid black; width:100%; min-height: 700px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
-```python
-from pyscript.web import page
+[View the complete source code](https://github.com/pyscript/docs/tree/main/docs/example-apps/photobooth).
 
-def stop_camera(stream):
-    # Stop all tracks on the stream
-    if stream:
-        tracks = stream.getTracks()
-        for track in tracks:
-            track.stop()
-        
-        # Clear the video element's source
-        video_element = page["#camera"][0]._dom_element
-        if video_element:
-            video_element.srcObject = None
-```
+This application requests camera access, displays live video, and
+captures still frames using a canvas element. Click "Start Camera" to
+begin, then "Capture Photo" to grab the current frame.
 
-### Switching Between Cameras
+The technique uses canvas to extract frames from the video stream. The
+`drawImage()` method copies the current video frame onto a canvas,
+creating a still image you can save or process further.
 
-For devices with multiple cameras, you can implement camera switching:
+## Handling permissions
 
-```python
-from pyscript.media import Device, list_devices
-from pyscript.web import page
+Media access requires user permission, and users can deny access or
+revoke it later. Always handle these cases gracefully:
 
-class CameraManager:
-    def __init__(self):
-        self.cameras = []
-        self.current_index = 0
-        self.active_stream = None
-        self.video_element = page["#camera"][0]._dom_element
-    
-    async def initialize(self):
-        # Get all video input devices
-        devices = await list_devices()
-        self.cameras = [d for d in devices if d.kind == "videoinput"]
-        
-        # Start with the first camera
-        if self.cameras:
-            await self.start_camera(self.cameras[0].id)
-    
-    async def start_camera(self, device_id=None):
-        # Stop any existing stream
-        await self.stop_camera()
-        
-        # Start a new stream
-        video_options = (
-            {"deviceId": {"exact": device_id}} if device_id 
-            else {"facingMode": "environment"}
-        )
-        self.active_stream = await Device.load(video=video_options)
-        
-        # Connect to the video element
-        if self.video_element:
-            self.video_element.srcObject = self.active_stream
-    
-    async def stop_camera(self):
-        if self.active_stream:
-            tracks = self.active_stream.getTracks()
-            for track in tracks:
-                track.stop()
-            self.active_stream = None
-            
-            if self.video_element:
-                self.video_element.srcObject = None
-    
-    async def switch_camera(self):
-        if len(self.cameras) <= 1:
-            return
-        
-        # Move to the next camera
-        self.current_index = (self.current_index + 1) % len(self.cameras)
-        await self.start_camera(self.cameras[self.current_index].id)
-```
-
-## Working with Audio
-
-In addition to video, the PyScript media API can access audio inputs:
-
-```python
-# Get access to the microphone (audio only)
-audio_stream = await Device.load(audio=True, video=False)
-
-# Get both audio and video
-av_stream = await Device.load(audio=True, video=True)
-```
-
-## Best Practices
-
-When working with media devices in PyScript, follow these best practices:
-
-### Permissions and User Experience
-
-1. **Request permissions contextually**:
-   - Only request camera/microphone access when needed
-   - Explain to users why you need access before requesting it
-   - Provide fallback options when permissions are denied
-
-2. **Clear user feedback**:
-   - Indicate when the camera is active
-   - Provide controls to pause/stop the camera
-   - Show loading states while the camera is initializing
-
-### Resource Management
-
-1. **Always clean up resources**:
-   - Stop media tracks when they're not needed
-   - Clear `srcObject` references from video elements
-   - Be especially careful in single-page applications
-
-2. **Handle errors gracefully**:
-   - Catch exceptions when requesting media access
-   - Provide meaningful error messages
-   - Offer alternatives when media access fails
-
-### Performance Optimization
-
-1. **Match resolution to needs**:
-   - Use lower resolutions when possible
-   - Consider mobile device limitations
-   - Adjust video constraints based on the device
-
-2. **Optimize image processing**:
-   - Process frames on demand rather than continuously
-   - Use efficient algorithms
-   - Consider downsampling for faster processing
-
-## Example Application: Simple Camera Capture
-
-Here's a simplified example that shows how to capture and display images from a
-camera:
-
-```python
-from pyscript import when, window
+```python title="Always handle permissions."
 from pyscript.media import Device
-from pyscript.web import page
 
-class CameraCapture:
-    def __init__(self):
-        # Get UI elements
-        self.video = page["#camera"][0]
-        self.video_element = self.video._dom_element
-        self.capture_button = page["#capture-button"]
-        self.snapshot = page["#snapshot"][0]
-        
-        # Start camera
-        self.initialize_camera()
-    
-    async def initialize_camera(self):
-        # Prefer environment-facing camera on mobile devices
-        stream = await Device.load(video={"facingMode": "environment"})
-        self.video_element.srcObject = stream
-    
-    def take_snapshot(self):
-        """Capture a frame from the camera and display it"""
-        # Get video dimensions
-        width = self.video_element.videoWidth
-        height = self.video_element.videoHeight
-        
-        # Create canvas and capture frame
-        canvas = window.document.createElement("canvas")
-        canvas.width = width
-        canvas.height = height
-        
-        # Draw the current video frame to the canvas
-        ctx = canvas.getContext("2d")
-        ctx.drawImage(self.video_element, 0, 0, width, height)
-        
-        # Convert the canvas to a data URL and display it
-        image_data_url = canvas.toDataURL("image/png")
-        self.snapshot.setAttribute("src", image_data_url)
 
-# HTML structure needed:
-# <video id="camera" autoplay playsinline></video>
-# <button id="capture-button">Take Photo</button>
-# <img id="snapshot">
-
-# Usage:
-# camera = CameraCapture()
-# 
-# @when("click", "#capture-button")
-# def handle_capture(event):
-#     camera.take_snapshot()
+try:
+    stream = await Device.request_stream(video=True)
+    # Use the stream.
+    video = page["#camera"]
+    video.srcObject = stream
+except Exception as e:
+    # Permission denied or device not available.
+    print(f"Could not access camera: {e}")
+    # Show a message to the user explaining what happened.
 ```
 
-This example demonstrates:
-- Initializing a camera with the PyScript media API
-- Accessing the camera stream and displaying it in a video element
-- Capturing a still image from the video stream when requested
-- Converting the captured frame to an image that can be displayed
+Consider providing fallback content or alternative functionality when
+media access isn't available. This improves the experience for users who
+deny permission or lack the necessary hardware.
 
-This simple pattern can serve as the foundation for various camera-based
-applications and can be extended with image processing libraries as needed for
-more complex use cases.
+## Stream management
 
+Media streams use system resources. Stop streams when you're finished to
+free up cameras and microphones:
 
-## Conclusion
+```python title="Clean up media streams."
+# Get stream.
+stream = await Device.request_stream(video=True)
 
-The PyScript media API provides a powerful way to access and interact with
-cameras and microphones directly from Python code running in the browser. By
-following the patterns and practices outlined in this guide, you can build
-sophisticated media applications while maintaining good performance and user
-experience.
+# Use it...
+video = page["#camera"]
+video.srcObject = stream
 
-Remember that media access is a sensitive permission that requires user consent
-and should be used responsibly. Always provide clear indications when media
-devices are active and ensure proper cleanup of resources when they're no longer
-needed.
+# Later, stop all tracks.
+for track in stream.getTracks():
+    track.stop()
+```
+
+Stopping tracks releases the hardware, allowing other applications to
+use the devices and conserving battery life on mobile devices.
+
+## What's next
+
+Now that you understand media device access, explore these related
+topics:
+
+**[Workers](workers.md)** - Display content from background threads
+(requires explicit `target` parameter).
+
+**[Filesystem](filesystem.md)** - Learn more about the virtual
+filesystem and how the `files` option works.
+
+**[FFI](ffi.md)** - Understand how JavaScript modules integrate with
+Python through the foreign function interface.
+
+**[Offline](offline.md)** - Use PyScript while not connected to the internet.

@@ -1,261 +1,269 @@
-# PyScript FFI
+# Foreign Function Interface
 
-The foreign function interface (FFI) gives Python access to JavaScript, and
-JavaScript access to Python. As a result PyScript is able to access all the
-standard APIs and capabilities provided by the browser.
+The Foreign Function Interface (FFI) enables Python and JavaScript to
+work together seamlessly. Python code can call JavaScript functions,
+access browser APIs, and manipulate the DOM directly. JavaScript code
+can call Python functions and access Python objects. This
+interoperability is what makes PyScript possible.
 
-We provide a unified `pyscript.ffi` because
-[Pyodide's FFI](https://pyodide.org/en/stable/usage/api/python-api/ffi.html)
-is only partially implemented in MicroPython and there are some fundamental
-differences. The `pyscript.ffi` namespace smooths out such differences into
-a uniform and consistent API.
+PyScript provides a unified FFI through [`pyscript.ffi`](../api/ffi.md)
+that works consistently across both Pyodide and MicroPython interpreters.
+This guide explains how to use the FFI to bridge between Python and
+JavaScript when necessary.
 
-Our `pyscript.ffi` offers the following utilities:
+!!! info
 
-* `ffi.to_js(reference)` converts a Python object into its JavaScript
-  counterpart.
-* `ffi.create_proxy(def_or_lambda)` proxies a generic Python function into a
-  JavaScript one, without destroying its reference right away.
-* `ffi.is_none(reference)` to check if a specific value is either `None` or `JsNull`.
+    PyScript also enables JavaScript to call into Python!
 
-Should you require access to Pyodide or MicroPython's specific version of the
-FFI you'll find them under the `pyodide.ffi` and `micropython.ffi` namespaces.
-Please refer to the documentation for those projects for further information.
+    Please see the [PyScript in JavaScript](./from_javascript.md) section
+    of this user-guide for more information.
 
-## to_js
+## When to use the FFI
 
-In the
-[Pyodide project](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.to_js),
-this utility converts Python dictionaries into
-[JavaScript `Map` objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
-Such `Map` objects reflect the `obj.get(field)` semantics native to Python's
-way of retrieving a value from a dictionary.
+The FFI is a low-level interface for situations where higher-level
+abstractions don't suffice. Most of the time, you should prefer
+[`pyscript.web`](../api/web.md) for DOM manipulation,
+[`pyscript.media`](../api/media.md) for device
+access, and other purpose-built APIs. These modules use the FFI
+internally whilst providing cleaner, more Pythonic interfaces.
 
-Unfortunately, this default conversion breaks the vast majority of native and
-third party JavaScript APIs. This is because the convention in idiomatic
-JavaScript is to use an [object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects)
-for such key/value data structures (not a `Map` instance).
+Use the FFI directly when you need to work with JavaScript libraries
+that don't have PyScript wrappers, access browser APIs not yet covered
+by PyScript modules, or pass Python functions as callbacks to JavaScript
+code.
 
-A common complaint has been the repeated need to call `to_js` with the long
-winded argument `dict_converter=js.Object.fromEntries`. It turns out, most
-people most of the time simply want to map a Python `dict` to a JavaScript
-`object` (not a `Map`).
+For DOM manipulation specifically, always prefer `pyscript.web` over
+direct FFI usage. The FFI examples in this guide focus on situations
+where `pyscript.web` doesn't apply.
 
-Furthermore, in MicroPython the default Python `dict` conversion is to the
-idiomatic and sensible JavaScript `object`, making the need to specify a
-dictionary converter pointless.
+## Converting Python to JavaScript
 
-Therefore, if there is no reason to hold a Python reference in a JavaScript
-context (which is 99% of the time, for common usage of PyScript) then use the
-`pyscript.ffi.to_js` function, on both Pyodide and MicroPython, to always
-convert a Python `dict` to a JavaScript `object`.
+The [`to_js()`](../api/ffi.md#pyscript.ffi.to_js) function converts Python
+objects into their JavaScript equivalents:
 
-```html title="to_js: pyodide.ffi VS pyscript.ffi"
-<!-- works on Pyodide (type py) only -->
-<script type="py">
-  from pyodide.ffi import to_js
+```python title="The to_js() function."
+from pyscript.ffi import to_js
 
-  # default into JS new Map([["a", 1], ["b", 2]])
-  to_js({"a": 1, "b": 2})
-</script>
 
-<!-- works on both Pyodide and MicroPython -->
-<script type="py">
-  from pyscript.ffi import to_js
+# Python dict becomes JavaScript object.
+options = {"title": "Hello", "icon": "icon.png"}
+js_options = to_js(options)
 
-  # always default into JS {"a": 1, "b": 2}
-  to_js({"a": 1, "b": 2})
-</script>
+# Python list becomes JavaScript array.
+numbers = [1, 2, 3, 4, 5]
+js_array = to_js(numbers)
 ```
 
-!!! Note
+This conversion is essential when calling JavaScript APIs that expect
+JavaScript objects rather than Python objects. The function handles the
+translation automatically, converting dictionaries to JavaScript objects
+(not Maps), lists to arrays, and other common types appropriately.
 
-    It is still possible to specify a different `dict_converter` or use Pyodide
-    specific features while converting Python references by simply overriding
-    the explicit field for `dict_converter`.
+!!! info
 
-    However, we cannot guarantee all fields and features provided by Pyodide
-    will work in the same way on MicroPython.
+    PyScript's `to_js()` differs from Pyodide's version by defaulting
+    to converting Python dictionaries into JavaScript objects rather
+    than Maps. This matches what most JavaScript APIs expect and aligns
+    with MicroPython's behaviour, providing consistency across
+    interpreters.
 
-## create_proxy
+## Creating function proxies
 
-In the
-[Pyodide project](https://pyodide.org/en/stable/usage/api/python-api/ffi.html#pyodide.ffi.create_proxy),
-this function ensures that a Python callable associated with an event listener,
-won't be garbage collected immediately after the function is assigned to the
-event. Therefore, in Pyodide, if you do not wrap your Python function, it is
-immediately garbage collected after being associated with an event listener.
+When passing Python functions to JavaScript, you must create a proxy to
+prevent garbage collection:
 
-This is so common a gotcha (see the FAQ for
-[more on this](../../faq#borrowed-proxy)) that the Pyodide project have already
-created many work-arounds to address this situation. For example, the
-`create_once_callable`, `pyodide.ffi.wrappers.add_event_listener` and
-`pyodide.ffi.set_timeout` are all methods whose goal is to automatically manage
-the lifetime of the passed in Python callback.
-
-Add to this situation methods connected to the JavaScript `Promise` object
-(`.then` and `.catch` callbacks that are implicitly handled to guarantee no
-leaks once executed) and things start to get confusing and overwhelming with
-many ways to achieve a common end result.
-
-Ultimately, user feedback suggests folks simply want to do something like this,
-as they write their Python code:
-
-```python title="Define a callback without create_proxy."
-import js
-from pyscript import window
+```python title="Function proxies."
+from pyscript.ffi import create_proxy
+from pyscript import document
 
 
-def callback(msg):
+def handle_click(event):
     """
-    A Python callable that logs a message.
+    Handle button clicks.
     """
-    window.console.log(msg)
+    print("Button clicked!")
 
 
-# Use the callback without having to explicitly create_proxy.
-js.setTimeout(callback, 1000, 'success')
+# Create a proxy for the JavaScript event listener.
+button = document.getElementById("my-button")
+button.addEventListener("click", create_proxy(handle_click))
 ```
 
-Therefore, PyScript provides an experimental configuration flag called
-`experimental_create_proxy = "auto"`. When set, you should never have to care
-about these technical details nor use the `create_proxy` method and all the
-JavaScript callback APIs should just work.
-
-Under the hood, the flag is strictly coupled with the JavaScript garbage
-collector that will eventually destroy all proxy objects created via the
-[FinalizationRegistry](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry)
-built into the browser.
-
-This flag also won't affect MicroPython because it rarely needs a
-`create_proxy` at all when Python functions are passed to JavaScript event
-handlers. MicroPython automatically handles this situation. However,
-there might still be rare and niche cases in MicroPython where such a
-conversion might be needed.
-
-Hence, PyScript retains the `create_proxy` method, even though it does not
-change much in the MicroPython world, although it might be still needed with
-the Pyodide runtime is you don't use the `experimental_create_proxy = "auto"`
-flag.
-
-At a more fundamental level, MicroPython doesn't provide (yet) a way to
-explicitly destroy a proxy reference, whereas Pyodide still expects to
-explicitly invoke `proxy.destroy()` when the function is not needed.
+Without [`create_proxy()`](../api/ffi.md#pyscript.ffi.create_proxy), the
+Python function would be garbage collected immediately, causing the event
+listener to fail. The proxy maintains a reference, keeping the function
+alive for JavaScript to call.
 
 !!! warning
 
-    In MicroPython proxies might leak due to the lack of a `destroy()` method.
+    When using `pyscript.web` with the `@when` decorator, proxies are
+    created automatically. You only need `create_proxy()` when working
+    directly with JavaScript APIs.
 
-    Happily, proxies are usually created explicitly for event listeners or
-    other utilities that won't need to be destroyed in the future. So the lack
-    of a `destroy()` method in MicroPython is not a problem in this specific,
-    and most common, situation.
+## Checking for null values
 
-    Until we have a `destroy()` in MicroPython, we suggest testing the
-    `experimental_create_proxy` flag with Pyodide so both runtimes handle
-    possible leaks automatically.
+JavaScript has both `null` and `undefined`. Python has `None`. The
+[`is_none()`](../api/ffi.md#pyscript.ffi.is_none) function checks for both:
 
-For completeness, the following examples illustrate the differences in
-behaviour between Pyodide and MicroPython:
+```python title="The correct way to check for null-ish values."
+from pyscript.ffi import is_none
+from pyscript import js
 
-```html title="A classic Pyodide gotcha VS MicroPython"
-<!-- Throws:
-Uncaught Error: This borrowed proxy was automatically destroyed
-at the end of a function call. Try using create_proxy or create_once_callable.
--->
-<script type="py">
-    import js
-    js.setTimeout(lambda x: print(x), 1000, "fail");
-</script>
 
-<!-- logs "success" after a second -->
-<script type="mpy">
-    import js
-    js.setTimeout(lambda x: print(x), 1000, "success");
-</script>
+value = js.document.getElementById("nonexistent")
+if is_none(value):
+    print("Element not found")
 ```
 
-To address the difference in Pyodide's behaviour, we can use the experimental
-flag:
+This handles the mismatch between Python's single null-like value and
+JavaScript's multiple null-like values, providing consistent behaviour
+across interpreters.
 
-```html title="experimental create_proxy"
-<py-config>
-    experimental_create_proxy = "auto"
-</py-config>
+## Merging JavaScript objects
 
-<!-- logs "success" after a second in both Pyodide and MicroPython -->
-<script type="py">
-    import js
-    js.setTimeout(lambda x: print(x), 1000, "success");
-</script>
+The [`assign()`](../api/ffi.md#pyscript.ffi.assign) function merges
+JavaScript objects, similar to `Object.assign()` in JavaScript:
+
+```python title="Merge JavaScript objects."
+from pyscript.ffi import assign, to_js
+from pyscript import js
+
+
+# Create a base object.
+options = js.Object.new()
+
+# Merge in properties.
+assign(options, {"width": 800}, {"height": 600})
 ```
 
-Alternatively, `create_proxy` via the `pyscript.ffi` in both interpreters, but
-only in Pyodide can we then destroy such proxy:
+This is useful when building configuration objects for JavaScript
+libraries that expect objects built through mutation rather than created
+whole.
 
-```html title="pyscript.ffi.create_proxy"
-<!-- success in both Pyodide and MicroPython -->
-<script type="py">
-    from pyscript.ffi import create_proxy
-    import js
+## Accessing JavaScript globals
 
-    def log(x):
-        try:
-            proxy.destroy()
-        except:
-            pass  # MicroPython
-        print(x)
+The `js` module provides access to
+[JavaScript's global namespace](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis):
 
-    proxy = create_proxy(log)
-    js.setTimeout(proxy, 1000, "success");
-</script>
+```python title="Using the js to reference globalThis."
+from pyscript import js
+
+
+# Call JavaScript functions.
+js.console.log("Hello from Python!")
+
+# Access browser APIs.
+js.alert("This is an alert")
+
+# Create JavaScript objects.
+date = js.Date.new()
+print(date.toISOString())
 ```
 
-## is_none
+Through `js`, you can access anything available in JavaScript's global
+scope, including browser APIs, third-party libraries loaded via script
+tags, and built-in JavaScript objects.
 
-*Pyodide* version `0.28` onwards has introduced a new *nullish* value that
-precisely represents JavaScript's `null` value.
+## Example: Task board with direct DOM manipulation
 
-Previously, both JavaScript `null` and `undefined` would have been converted
-into Python's `None` but, alas, some APIs behave differently if a value is
-`undefined` or explicitly `null`.
+The task board example demonstrates FFI usage for direct DOM
+manipulation, contrasting with the more Pythonic `pyscript.web`
+approach:
 
-For example, in *JSON*, `null` would survive serialization while `undefined`
-would vanish. To preserve that distinction in *Python*, the conversion
-between *JS* and *Python* now has a new `pyodide.ffi.jsnull` as explained in
-the
-[pyodide documentation](https://pyodide.org/en/stable/usage/type-conversions.html#javascript-to-python).
+<iframe src="../../example-apps/task-board-ffi/" style="border: 1px solid black; width:100%; min-height: 600px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
 
-In general, there should be no surprises. But, especially when dealing with the
-*DOM* world, most utilities and methods return `null`.
+[View the complete source code](https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-ffi).
 
-To simplify and smooth-out this distinction, we decided to introduce `is_null`,
-as [demoed here](https://pyscript.com/@agiammarchi/pyscript-ffi-is-none/latest?files=main.py):
+This example intentionally uses the FFI directly rather than
+`pyscript.web`, showing how to work with the DOM at a lower level when
+necessary. Compare this to
+[the `pyscript.web` version](../example-apps/task-board-web/info.md) to see why the
+higher-level API is Pythonically preferable.
 
-```html title="pyscript.ffi.is_none"
-<!-- success in both Pyodide and MicroPython -->
-<script type="py">
-    from pyscript.ffi import is_none
-    import js
+The FFI code creates elements, sets properties, and appends children
+manually:
 
-    js_undefined = js.undefined
-    js_null = js.document.body.getAttribute("nope")
+```python title="FFI based native DOM manipulation." 
+from pyscript import document
+from pyscript.ffi import create_proxy
 
-    print(js_undefined is None)     # True
-    print(js_null)                  # jsnull
-    print(js_null is None)          # False
 
-    # JsNull is still a "falsy" value
-    if (js_null):
-        print("this will not be shown")
+# Create element.
+task_div = document.createElement("div")
+task_div.className = "task"
+task_div.textContent = task_text
 
-    # safely compared against both
-    print(is_none(js_undefined))    # True
-    print(is_none(js_none))         # True
-</script>
+# Create button with event handler.
+delete_btn = document.createElement("button")
+delete_btn.textContent = "Delete"
+delete_btn.addEventListener("click", create_proxy(delete_handler))
+
+# Assemble the DOM.
+task_div.appendChild(delete_btn)
+container.appendChild(task_div)
 ```
 
-Please note that in *MicroPython* the method works the same but, as we try to
-reach feature-parity among runtimes, it is suggested to use `is_none(ref)`
-even if, right now, there is no such distinction between `null` and
-`undefined` in MicroPython.
+This works, but `pyscript.web` would express the same logic more clearly,
+Pythonically and with less boilerplate.
+
+## Understanding interpreter differences
+
+Pyodide and MicroPython implement JavaScript interop differently.
+PyScript's FFI abstracts these differences, but understanding them helps
+when debugging issues.
+
+Pyodide provides comprehensive FFI features including detailed type
+conversion control, whilst MicroPython offers a simpler, more
+straightforward implementation. PyScript's unified FFI provides a
+consistent interface that works reliably on both, defaulting to
+sensible behaviours that match common use cases.
+
+For interpreter-specific FFI features, access them through
+`pyodide.ffi` or `micropython.ffi` directly. However, this breaks
+cross-interpreter compatibility and should only be done when absolutely
+necessary.
+
+## Worker context utilities
+
+When working with workers, the FFI provides additional utilities for
+cross-thread communication. The `direct`, `gather`, and `query`
+functions help manage objects and data across thread boundaries. These
+are advanced features covered in detail in the
+[FFI API docs](../api/ffi.md) and are primarily relevant when building
+complex multi-threaded applications.
+
+## In summary
+
+Prefer higher-level APIs when they exist. Use `pyscript.web` for DOM
+work, `pyscript.media` for devices, and other purpose-built modules
+rather than reaching for the FFI directly.
+
+Create proxies for Python callbacks passed to JavaScript. Without
+proxies, functions get garbage collected and event handlers fail.
+
+Convert Python objects to JavaScript when calling browser APIs. Most
+JavaScript functions expect JavaScript objects, not Python objects, so
+use `to_js()` when passing dictionaries or complex data structures.
+
+Handle `null` values correctly. JavaScript's `null` and `undefined` both
+exist alongside Python's `None`, so use `is_none()` for reliable null
+checking.
+
+## What's next
+
+Now that you understand the FFI, explore these related topics:
+
+**[Architecture guide](architecture.md)** - provides technical details about
+how PyScript implements workers using PolyScript and Coincident if you're
+interested in the underlying mechanisms.
+
+**[Workers](workers.md)** - Display content from background threads
+(requires explicit `target` parameter).
+
+**[Filesystem](filesystem.md)** - Learn more about the virtual
+filesystem and how the `files` option works.
+
+**[FFI](ffi.md)** - Understand how JavaScript modules integrate with
+Python through the foreign function interface.
+
+**[Offline](offline.md)** - Use PyScript while not connected to the internet.

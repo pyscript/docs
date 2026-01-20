@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Note Taker</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 1rem;
+      }
+      button {
+        padding: 0.75rem 1.5rem;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-right: 0.5rem;
+      }
+      button:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+      }
+      textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 1rem;
+        margin: 1rem 0;
+        box-sizing: border-box;
+      }
+      #status {
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 4px;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Note Taker</h1>
+    <p>Save notes to your local filesystem.</p>
+    
+    <div>
+      <button id="mount-btn">Select Folder</button>
+      <button id="save-btn" disabled>Save Note</button>
+    </div>
+    
+    <textarea id="note" rows="10" disabled>Write your note here...</textarea>
+    
+    <div id="status">Click "Select Folder" to begin...</div>
+
+    <script type="mpy" src="./main.py"></script>
+  </body>
+</html>

@@ -1,90 +1,92 @@
-# Use PyScript Offline
+# Running Offline
 
-Sometimes you want to run PyScript applications offline.
+PyScript applications typically load from a Content Delivery Network
+or webserver, fetching core files and Python interpreters over the internet.
+This works well when you have reliable network access, but sometimes you need
+applications to run offline ~ in air-gapped environments, on local
+networks, or where internet connectivity isn't available or is patchy.
 
-Both PyScript core and the interpreter used to run code need to be served with
-the application itself. The two requirements needed to create an offline
-version of PyScript are:
+Running PyScript offline means bundling everything your application
+needs locally. This guide explains how to package PyScript core and
+Python interpreters so your applications work without network access.
 
-1. Download and include PyScript core.
-2. Download and include the Python interpreters used in your application.
+## What you need
 
-## Get PyScript core
+An offline PyScript application requires two components available
+locally:
 
-You have two choices:
+The first is PyScript core itself - the `core.js` file and associated
+resources that provide the runtime. This is what loads interpreters,
+manages execution, and bridges Python to the browser.
 
-  1. **Build from source**. Clone the repository, install dependencies, then
-     build and use the content found in the `./dist/` folder.
-  2. **Grab the npm package**. For simplicity this is the method we currently
-     recommend as the easiest to get started.
+The second is the Python interpreter your application uses - either
+Pyodide or MicroPython. These are substantial files containing the
+entire Python runtime compiled to WebAssembly.
 
-In the following instructions, we assume the existence of a folder called
-`pyscript-offline`. All the necessary files needed to use PyScript offline will
-eventually find their way in there.
+If your application imports Python packages, those need to be bundled
+locally as well. For Pyodide applications using numpy, pandas, or other
+libraries, the package files must also be available offline.
 
-In your computer's command line shell, create the `pyscript-offline` folder
-like this:
+## Shortcut
 
-```sh
-mkdir -p pyscript-offline
-```
+Helpfully, since the end of 2025, all
+[releases of PyScript](https://pyscript.net/releases/2026.1.1/)
+have an associated `offline`
+zip file containing everything you need. Just download it, unpack it and
+start to modify the content of the `index.html` found therein to your needs.
 
-Now change into the newly created directory:
+Read on, if you want to modify or learn how such assets are created.
 
-```sh
+## Getting PyScript core
+
+You have two ways to obtain PyScript core files.
+
+### Using npm (recommended)
+
+The simplest approach uses npm to download the distribution:
+
+```sh title="npm based downloading."
+# Create your project directory.
+mkdir pyscript-offline
 cd pyscript-offline
-```
 
-### PyScipt core from source
+# Create a package.json file.
+echo '{}' > package.json
 
-Build PyScript core by cloning the project repository and follow the
-instructions in our [developer guide](../developers.md)
-
-Once completed, copy the `dist` folder, that has been created by the build
-step, into your `pyscript-offline` folder.
-
-### PyScript core from `npm`
-
-Ensure you are in the `pyscript-offline` folder created earlier.
-
-Create a `package.json` file. Even an empty one with just `{}` as content will
-suffice. This is needed to make sure our folder will include the local
-`npm_modules` folder instead of placing assets elsewhere. Our aim is to ensure
-everything is in the same place locally.
-
-```sh
-# only if there is no package.json, create one
-echo '{}' > ./package.json
-```
-
-Assuming you have
-[npm installed on your computer](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm),
-issue the following command in the `pyscript-offline` folder to install the
-PyScript core package.
-
-```
-# install @pyscript/core
+# Install PyScript core.
 npm i @pyscript/core
-```
 
-Now the folder should contain a `node_module` folder in it, and we can copy the
-`dist` folder found within the `@pyscript/core` package wherever we like.
-
-```sh
-# create a public folder to serve locally
+# Copy distribution files to your public directory.
 mkdir -p public
-
-# move @pyscript/core dist into such folder
-cp -R ./node_modules/@pyscript/core/dist ./public/pyscript
+cp -R node_modules/@pyscript/core/dist public/pyscript
 ```
 
-That's almost it!
+This gives you a `public/pyscript` directory containing everything
+needed to run PyScript locally.
 
-## Set up your application
+### Building from source
 
-Simply create a `./public/index.html` file that loads the local PyScript:
+For development builds or customisation, clone and build the repository:
 
-```html
+```sh title="Cloning the repository."
+# Clone the repository.
+git clone https://github.com/pyscript/pyscript.git
+cd pyscript
+
+# Follow build instructions from the developer guide.
+# Once built, copy the dist folder.
+cp -R dist ../pyscript-offline/public/pyscript
+```
+
+See the [developer guide](../developers.md) for detailed build
+instructions.
+
+## Setting up your application
+
+Create an HTML file that loads PyScript from local paths rather than the
+CDN:
+
+```html title="Ensure local paths to PyScript."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,57 +99,41 @@ Simply create a `./public/index.html` file that loads the local PyScript:
 <body>
   <script type="mpy">
     from pyscript import document
-
+    
     document.body.append("Hello from PyScript")
   </script>
 </body>
 </html>
 ```
 
-Run this project directly (after being sure that `index.html` file is saved
-into the `public` folder):
+Save this as `public/index.html` and serve it locally:
 
 ```sh
-python3 -m http.server -d ./public/
+python3 -m http.server -d public/
 ```
 
-If you would like to test `worker` features, try instead:
+Open `http://localhost:8000` in your browser. PyScript loads from local
+files with no network requests.
 
-```sh
-npx mini-coi ./public/
-```
+## Getting MicroPython
 
-## Download a local interpreter
+MicroPython is available through npm:
 
-PyScript officially supports *MicroPython* and *Pyodide* interpreters, so let's
-see how to get a local copy for each one of them.
-
-### Local MicroPython
-
-Similar to `@pyscript/core`, we can also install *MicroPython* from *npm*:
-
-```sh
+```sh title="Getting MicroPython."
+# Install the MicroPython package.
 npm i @micropython/micropython-webassembly-pyscript
+
+# Create target directory.
+mkdir -p public/micropython
+
+# Copy interpreter files.
+cp node_modules/@micropython/micropython-webassembly-pyscript/micropython.* public/micropython/
 ```
 
-Our `node_modules` folder should contain a `@micropython` one and from there we
-can move relevant files into our `public` folder.
+This copies `micropython.mjs` and `micropython.wasm` to your public
+directory. Configure your HTML to use these local files:
 
-Let's be sure we have a target for that:
-
-```sh
-# create a folder in our public space
-mkdir -p ./public/micropython
-
-# copy related files into such folder
-cp ./node_modules/@micropython/micropython-webassembly-pyscript/micropython.* ./public/micropython/
-```
-
-The folder should contain at least both `micropython.mjs` and
-`micropython.wasm` files. These are the files to use locally via a dedicated
-config.
-
-```html
+```html title="Ensure local MicroPython in your configuration."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,44 +144,47 @@ config.
   <link rel="stylesheet" href="/pyscript/core.css">
 </head>
 <body>
+  <!-- This should be in a config file, using mpy-config for brevity. -->
   <mpy-config>
     interpreter = "/micropython/micropython.mjs"
   </mpy-config>
   <script type="mpy">
     from pyscript import document
-
-    document.body.append("Hello from PyScript")
+    
+    document.body.append("Hello from MicroPython offline")
   </script>
 </body>
 </html>
-``` 
-
-### Local Pyodide
-
-Remember, Pyodide uses `micropip` to install third party packages. While the
-procedure for offline Pyodide is very similar to the one for MicroPython,
-if we want to use 3rd party packages we also need to have these available
-locally. We'll start simple and cover such packaging issues at the end.
-
-```sh
-# locally install the pyodide module
-npm i pyodide
-
-# create a folder in our public space
-mkdir -p ./public/pyodide
-
-# move all necessary files into that folder
-cp ./node_modules/pyodide/pyodide* ./public/pyodide/
-cp ./node_modules/pyodide/python_stdlib.zip ./public/pyodide/
 ```
 
-Please **note** that the `pyodide-lock.json` file is needed, so please don't
-change that `cp` operation as all `pyodide*` files need to be moved.
+The `interpreter` configuration tells PyScript where to find the local
+MicroPython files.
 
-At this point, all we need to do is to change the configuration on our *HTML*
-page to use *pyodide* instead:
+## Getting Pyodide
 
-```html
+Pyodide is also available through npm:
+
+```sh title="Getting Pyodide."
+# Install Pyodide.
+npm i pyodide
+
+# Create target directory.
+mkdir -p public/pyodide
+
+# Copy all necessary files.
+cp node_modules/pyodide/pyodide* public/pyodide/
+cp node_modules/pyodide/python_stdlib.zip public/pyodide/
+```
+
+!!! info
+
+    Make sure to copy all files matching `pyodide*`, including
+    `pyodide-lock.json`. This lock file is essential for Pyodide to
+    function correctly.
+
+Configure your HTML to use local Pyodide:
+
+```html title="Ensure local Pyodide in your configuration."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -206,52 +195,49 @@ page to use *pyodide* instead:
   <link rel="stylesheet" href="/pyscript/core.css">
 </head>
 <body>
+  <!-- This should be in a config file, using mpy-config for brevity. -->
   <py-config>
     interpreter = "/pyodide/pyodide.mjs"
   </py-config>
   <script type="py">
     from pyscript import document
-
-    document.body.append("Hello from PyScript")
+    
+    document.body.append("Hello from Pyodide offline")
   </script>
 </body>
 </html>
 ```
 
-## Wrap up
+## Bundling Pyodide packages
 
-That's basically it!
-
-Disconnect from the internet, run the local server, and the page will still
-show that very same `Hello from PyScript` message.
-
-## Local Pyodide packages
-
-Finally, we need the ability to install Python packages from a local source
-when using Pyodide.
-
-Put simply, we use the packages bundle from
-[pyodide releases](https://github.com/pyodide/pyodide/releases/tag/0.26.2).
+If your application uses Python packages like numpy or pandas, you need
+the Pyodide package bundle. Download it from the
+[Pyodide releases page](https://github.com/pyodide/pyodide/releases).
 
 !!! warning
 
-    This bundle is more than 200MB!
+    The complete package bundle exceeds 300MB. It contains all packages
+    available in Pyodide. Pyodide loads packages on demand, so you only
+    download what your code actually imports, but the entire bundle must
+    be available locally.
 
-    It contains each package that is required by Pyodide, and Pyodide will only
-    load packages when needed.
+Download and extract the bundle for your Pyodide version (e.g.,
+`pyodide-0.29.1.tar.bz2`):
 
-Once downloaded and extracted (we're using version `0.26.2` in this example),
-we can simply copy the files and folders inside the `pyodide-0.26.2/pyodide/*`
-directory into our `./public/pyodide/*` folder.
+```sh title="Download the complete Pyodide package bundle."
+# Download the bundle.
+wget https://github.com/pyodide/pyodide/releases/download/0.29.1/pyodide-0.29.1.tar.bz2
 
-Feel free to either skip or replace the content, or even directly move the
-`pyodide` folder inside our `./public/` one.
+# Extract it.
+tar -xjf pyodide-0.29.1.tar.bz2
 
-Now use any package available in via the Pyodide bundle.
+# Copy package files to your public directory.
+cp -R pyodide-0.29.1/pyodide/* public/pyodide/
+```
 
-For example:
+Now use packages in your application:
 
-```html
+```html title="Local use of packages."
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,16 +254,67 @@ For example:
   </py-config>
   <script type="py">
     import pandas as pd
-    x = pd.Series([1,2,3,4,5,6,7,8,9,10])
-
+    
+    x = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    result = [i**2 for i in x]
+    
     from pyscript import document
-    document.body.append(str([i**2 for i in x]))
+    document.body.append(str(result))
   </script>
 </body>
 </html>
 ```
 
-We should now be able to read `[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]` on the
-page *even* if we disconnect from the Internet.
+The page will display `[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]` even with no
+internet connection. Pyodide loads pandas and all dependencies from your
+local package bundle.
 
-That's it!
+## Testing offline operation
+
+To verify everything works offline, disconnect from the internet and
+reload your application. If it loads and runs correctly, you've
+successfully configured offline operation.
+
+You can also test using browser developer tools. Open the Network tab,
+enable "Offline" mode, and reload. All resources should load from cache
+or local files with no network errors.
+
+## Serving with workers
+
+If your application uses workers, you need a server that sets
+Cross-Origin Isolation (COI) headers. These headers enable
+`SharedArrayBuffer` and other features required for worker support.
+[Use `mini-coi` instead](https://github.com/WebReflection/mini-coi)
+of Python's simple server:
+
+```sh title="Basic mini-coi usage."
+# Install mini-coi if needed.
+npm i -g mini-coi
+
+# Serve with COI headers enabled.
+npx mini-coi public/
+```
+
+The `mini-coi` tool automatically sets the necessary headers to enable
+worker functionality.
+
+## What's next
+
+Now that you understand offline deployment, explore these related
+topics:
+
+**[Architecture guide](architecture.md)** - provides technical details about
+how PyScript implements workers using PolyScript and Coincident if you're
+interested in the underlying mechanisms.
+
+**[Workers](workers.md)** - Display content from background threads
+(requires explicit `target` parameter).
+
+**[Filesystem](filesystem.md)** - Learn more about the virtual
+filesystem and how the `files` option works.
+
+**[FFI](ffi.md)** - Understand how JavaScript modules integrate with
+Python through the foreign function interface.
+
+**[Media](media.md)** - Capture photos and video with the camera or 
+record audio with your microphone.

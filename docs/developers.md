@@ -63,10 +63,10 @@ between two options for setting up your environment.
     python3 -m venv my_pyscript_dev_venv
     ```
 
-    !!! warning
+!!! warning
 
-        Replace `my_pyscript_dev_venv` with a meaningful name for the
-        virtual environment, that works for you.
+      Replace `my_pyscript_dev_venv` with a meaningful name for the
+      virtual environment, that works for you.
 
 * A `my_pyscript_dev_venv` directory containing the virtual environment's
   "stuff" is created as a subdirectory of your current directory. Next,
@@ -97,9 +97,9 @@ you can create a conda environment that includes both Python and NodeJS:
     conda activate pyscript
     ```
   
-  !!! warning
+!!! warning
 
-  Replace `pyscript` with a meaningful name for the conda environment, that works for you.
+    Replace `pyscript` with a meaningful name for the conda environment, that works for you.
 
 * This creates a new environment with both Python and NodeJS installed. The prompt in your
 terminal will change to include the name of your conda environment indicating the sandbox is active.
@@ -299,14 +299,11 @@ terminal will change to include the name of your conda environment indicating th
   [discussions section](https://github.com/pyscript/pyscript/discussions) of
   our GitHub repository.
 
-* Every Tuesday is a [technical community video call](https://discord.com/events/972017612454232116/1227274094366556279),
+* Every two weeks on a Tuesday is a [technical community video call](https://discord.com/events/972017612454232116/1227274094366556279),
   the details of which are posted onto
   the discord server. Face to face technical discussions happen here.
 
-* Every Wednesday is a [non-technical community engagement call](https://discord.com/events/972017612454232116/1227275045965922376),
-  in which we organise how to engage with, grow and nourish our community.
-
-* Every two weeks, on a Thursday, is a
+* On the first Thursday of every month is a
   [PyScript FUN call](https://discord.com/events/972017612454232116/1227275336115556402),
   the details of which
   are also posted to discord. Project show-and-tells, cool hacks, new features
