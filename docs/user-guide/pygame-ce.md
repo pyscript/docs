@@ -113,9 +113,9 @@ The HTML file needs a canvas element and the script tag:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="stylesheet" 
-    href="https://pyscript.net/releases/2025.11.2/core.css">
+    href="https://pyscript.net/releases/2026.1.1/core.css">
   <script type="module" 
-    src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+    src="https://pyscript.net/releases/2026.1.1/core.js"></script>
 </head>
 <body>
   <canvas id="canvas" style="image-rendering: pixelated"></canvas>

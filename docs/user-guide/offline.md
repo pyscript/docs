@@ -30,7 +30,7 @@ libraries, the package files must also be available offline.
 ## Shortcut
 
 Helpfully, since the end of 2025, all
-[releases of PyScript](https://pyscript.net/releases/2025.11.2/)
+[releases of PyScript](https://pyscript.net/releases/2026.1.1/)
 have an associated `offline`
 zip file containing everything you need. Just download it, unpack it and
 start to modify the content of the `index.html` found therein to your needs.

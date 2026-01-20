@@ -667,8 +667,8 @@ Here's a complete example showing common configuration options:
   <head>
     <meta charset="utf-8" />
     <title>My PyScript App</title>
-    <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-    <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
   </head>
   <body>
     <h1>Data Analysis</h1>

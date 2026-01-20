@@ -149,7 +149,7 @@ def add_task(event):
     # This task's index in the tasks list.
     task_index = len(_TASKS)
     # Create the checkbox for marking complete.
-    checkbox = web.input(
+    checkbox = web.input_(
         type="checkbox",
         classes=["checkbox"]
     )
@@ -220,9 +220,9 @@ def select_priority(event):
     priority_btns = web.page.find(".priority-btn")
     # Remove "selected" styling from all buttons.
     for btn in priority_btns:
-        btn.classes.remove("selected")
+        btn.classes.discard("selected")
     # Add "selected" styling to the clicked button.
-    event.target.classes.add("selected")
+    event.target.classList.add("selected")
     # Update which priority will be used for new tasks.
     _SELECTED_PRIORITY = event.target.dataset.priority
 
@@ -240,9 +240,9 @@ def filter_tasks(event):
     filter_btns = web.page.find(".filter-btn")
     # Remove "active" styling from all buttons.
     for btn in filter_btns:
-        btn.classes.remove("active")
+        btn.classes.discard("active")
     # Add "active" styling to the clicked button.
-    event.target.classes.add("active")
+    event.target.classList.add("active")
     # Update the current filter setting.
     _CURRENT_FILTER = event.target.dataset.filter
     # Update which tasks are visible.

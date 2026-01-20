@@ -41,7 +41,7 @@ serialised to formats JavaScript can understand.
 JavaScript code imports the storage module from PyScript core:
 
 ```javascript title="Access storage in JavaScript."
-import storage from 'https://pyscript.net/releases/2025.11.2/storage.js';
+import storage from 'https://pyscript.net/releases/2026.1.1/storage.js';
 
 
 const my_store = await storage(name="shared");
@@ -81,7 +81,7 @@ use Python from pure JavaScript without writing PyScript tags.
 Import the `donkey` function and create a worker with it:
 
 ```javascript title="Call for the PyScript donkey."
-import { donkey } from 'https://pyscript.net/releases/2025.11.2/core.js';
+import { donkey } from 'https://pyscript.net/releases/2026.1.1/core.js';
 
 const py_donkey = await donkey({
   type: 'mpy',        // Use MicroPython ('py' for Pyodide).

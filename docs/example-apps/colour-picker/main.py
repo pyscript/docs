@@ -48,7 +48,7 @@ def update_display(hex_colour):
     Update the colour display with the given hex colour.
     """
     display = page["#colour-display"]
-    display.style.backgroundColor = hex_colour
+    display.style["background-color"] = hex_colour
     display.content = hex_colour
 
 
@@ -91,11 +91,12 @@ def render_history():
     Render colour history.
     """
     container = page["#history-colours"]
-    container.clear()
+    container.replaceChildren()
     for colour in _HISTORY:
-        colour_div = div(Class="history-colour", title=colour)
-        colour_div.style["backgroundColor"] = colour
+        colour_div = div(classes="history-colour", title=colour)
+        colour_div.style["background-color"] = colour
         colour_div.dataset.colour = colour
+        when("click", colour_div)(handle_history_click)
         container.append(colour_div)
 
 
@@ -154,7 +155,6 @@ def handle_preset_click(event):
     update_controls(r, g, b)
 
 
-@when("click", ".history-colour")
 def handle_history_click(event):
     """
     Handle clicks on history colours.

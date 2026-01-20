@@ -36,7 +36,7 @@ async def find_primes(event):
     find_btn.disabled = True
     stop_btn.disabled = False
     limit_input.disabled = True
-    output.content = f"Computing primes up to {limit:,}..."
+    output.innerText = f"Computing primes up to {limit:,}..."
     try:
         # Get the worker and call its exported function.
         worker = await workers["primes"]
@@ -50,9 +50,9 @@ async def find_primes(event):
             primes_str = ", ".join(str(p) for p in first_20)
             method = "NumPy" if use_numpy else "Pure Python"
             # Display the results in the UI.
-            output.content = f"Found {result['count']:,} primes up to {limit:,}!\n\nMethod: {method}\nTime: {elapsed:.3f} seconds\n\nFirst 20: {primes_str}"
+            output.innerText = f"Found {result['count']:,} primes up to {limit:,}!\n\nMethod: {method}\nTime: {elapsed:.3f} seconds\n\nFirst 20: {primes_str}"
     except Exception as e:
-        output.content = f"Error: {e}"
+        output.innerText = f"Error: {e}"
     finally:
         # Reset UI state.
         _computing = False

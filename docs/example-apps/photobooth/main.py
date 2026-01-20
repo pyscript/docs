@@ -37,12 +37,13 @@ def capture_photo(event):
     """
     Capture a still frame from the video stream and display it in the canvas.
     """
+    print("YES!")
     video = page["#camera"]
     canvas = page["#photo"]
     # Get the canvas 2D context.
     ctx = canvas.getContext("2d")
-    # Draw the current video frame onto the canvas.
-    ctx.drawImage(video, 0, 0, 400, 300)
+    # Draw the current video frame onto the canvas from the raw video element.
+    ctx.drawImage(video._dom_element, 0, 0, 400, 300)
     # Update status.
     status = page["#status"]
     status.content = "Photo captured!"

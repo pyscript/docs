@@ -118,8 +118,8 @@ module, and a `<link>` to some PyScript specific CSS, in the document's
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-      <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
   </head>
   <body>
 
@@ -165,8 +165,8 @@ In the end, our HTML should look like this:
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <title>🦜 Polyglot - Piratical PyScript</title>
-      <link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css">
-      <script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
   </head>
   <body>
     <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>
@@ -308,7 +308,7 @@ To run PyScript offline, without the need of a CDN or internet connection, read
 the [offline guide](user-guide/offline.md) section of the user guide.
 
 We also provide an `offline.zip` file with
-[each release](https://pyscript.net/releases/2025.11.2/). This file contains
+[each release](https://pyscript.net/releases/2026.1.1/). This file contains
 everything you need for an offline version of PyScript: PyScript itself,
 versions of Pyodide and MicroPython, and an index.html page from which you
 could create your offline-first PyScript work.

@@ -9,7 +9,7 @@ const calVer = /\/\d{4}\.\d{1,2}\.\d{1,2}\//g;
 const patch = directory => {
   for (const file of readdirSync(directory)) {
     const path = join(directory, file);
-    if (file.endsWith('.md')) {
+    if (file.endsWith('.md') || file.endsWith('.html')) {
       writeFileSync(
         path,
         readFileSync(path).toString().replace(

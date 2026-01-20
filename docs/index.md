@@ -6,8 +6,8 @@
 **Step 1:** Add these two lines to the `<head>` of your HTML document:
 
 ```html
-<link rel="stylesheet" href="https://pyscript.net/releases/2025.11.2/core.css" />
-<script type="module" src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+<link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css" />
+<script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
 ```
 
 **Step 2:** Start PyScript with a `<script>` tag in the `<body>` of your HTML document:

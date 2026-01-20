@@ -113,7 +113,7 @@ references fail.
 This works because everything is self-contained:
 
 ```js title="Everything is in the scope of the inner function."
-import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2026.1.1/core.js";
 
 hooks.worker.onReady.add(() => {
     // Define global variable if it doesn't exist.
@@ -126,7 +126,7 @@ hooks.worker.onReady.add(() => {
 This fails because of the outer scope reference:
 
 ```js title="Failure because the inner function won't have access to 'i'."
-import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2026.1.1/core.js";
 
 // This won't work in workers!
 let i = 0;
@@ -150,7 +150,7 @@ Here's a complete plugin that logs lifecycle events to the console:
 
 ```js title="A contrived example plugin."
 // Import hooks from PyScript.
-import { hooks } from "https://pyscript.net/releases/2025.11.2/core.js";
+import { hooks } from "https://pyscript.net/releases/2026.1.1/core.js";
 
 // Register main thread hooks.
 hooks.main.onReady.add((wrap, element) => {
@@ -207,9 +207,9 @@ Include this plugin before PyScript:
     
     <!-- PyScript loads after. -->
     <link rel="stylesheet" 
-      href="https://pyscript.net/releases/2025.11.2/core.css">
+      href="https://pyscript.net/releases/2026.1.1/core.css">
     <script type="module" 
-      src="https://pyscript.net/releases/2025.11.2/core.js"></script>
+      src="https://pyscript.net/releases/2026.1.1/core.js"></script>
 </head>
 <body>
     <script type="mpy">
