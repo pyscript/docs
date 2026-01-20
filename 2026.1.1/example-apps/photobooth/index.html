@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Photobooth</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 1rem;
+      }
+      .camera-container {
+        display: flex;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      video, canvas {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        max-width: 100%;
+      }
+      video {
+        width: 400px;
+        height: 300px;
+        background: #000;
+      }
+      canvas {
+        width: 400px;
+        height: 300px;
+        background: #f8f9fa;
+      }
+      .controls {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+      button {
+        padding: 0.75rem 1.5rem;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      button:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+      }
+      button.capture {
+        background: #e74c3c;
+      }
+      #status {
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 4px;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Photobooth</h1>
+    <p>Capture still frames from your webcam.</p>
+    
+    <div class="controls">
+      <button id="start-btn">Start Camera</button>
+      <button id="capture-btn" class="capture" disabled>Capture Photo</button>
+    </div>
+    
+    <div class="camera-container">
+      <div>
+        <h3>Live View</h3>
+        <video id="camera" autoplay></video>
+      </div>
+      <div>
+        <h3>Captured Photo</h3>
+        <canvas id="photo" width="400" height="300"></canvas>
+      </div>
+    </div>
+    
+    <div id="status">Click "Start Camera" to begin.</div>
+
+    <script type="mpy" src="./main.py"></script>
+  </body>
+</html>
