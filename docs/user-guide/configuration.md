@@ -89,7 +89,7 @@ _single_ `<py-config>` or `<mpy-config>` tag in your HTML document:
     packages relating to the current Pyodide version.
 
     There is an
-    [ongoing effort to make choosing packages in Pyodide far more helpful](https://pyscript.github.io/pyscript-packages/)
+    [ongoing effort to make choosing packages in Pyodide far more helpful](https://packages.pyscript.net/)
     than it has ever been, but right now be aware that if a non-existent package for a
     specific Pyodide version cannot be found, an error will be thrown.
 
@@ -337,12 +337,12 @@ following valid forms:
 
 #### Package Support
 
-We have created a [handy website](https://pyscript.github.io/pyscript-packages/)
+We have created a [handy website](https://packages.pyscript.net/)
 that tracks which third party packages in PyPI are supported by PyScript. You
 can also use this site to report if a package you're trying to use is supported
 or not.
 
-The [website's help section](https://pyscript.github.io/pyscript-packages/help/)
+The [website's help section](https://packages.pyscript.net/help/)
 explains more.
 
 #### Package Cache

@@ -134,7 +134,7 @@ file size and slower initial load compared to MicroPython.
     for details.
 
     If you want to check if a package works with PyScript, check
-    out [this handy website](https://pyscript.github.io/pyscript-packages/)
+    out [this handy website](https://packages.pyscript.net/)
     for more information.
 
 ### MicroPython
