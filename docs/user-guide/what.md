@@ -51,7 +51,7 @@ libraries? Pyodide makes it possible.
 
     Want to check if a third party package works with PyScript/Pyodide?
 
-    [Use this handy site!](https://pyscript.github.io/pyscript-packages/)
+    [Use this handy site!](https://packages.pyscript.net/)
 
 <a href="https://micropython.org/"><img src="../../assets/images/micropython.png" alt="MicroPython logo"/></a>
 
@@ -134,7 +134,7 @@ share your work with just a URL. No server required, no complex
 deployment - just Python running where your users are.
 
 Need to check if a package is supported by PyScript? Use our
-[PyScript Packages](https://pyscript.github.io/pyscript-packages/) website
+[PyScript Packages](https://packages.pyscript.net/) website
 to check and/or report the status of any third party packages.
 
 ### AI and data science built in
