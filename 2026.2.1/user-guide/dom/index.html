@@ -1,0 +1,2565 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="PyScript - an open source platform for Python in the browser.">
+      
+      
+        <meta name="author" content="The PyScript OSS Team">
+      
+      
+      
+        <link rel="prev" href="../what/">
+      
+      
+        <link rel="next" href="../events/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.3.1">
+    
+    
+      
+        <title>The DOM & JavaScript - PyScript</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-dom" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You're not viewing the latest version.
+  <a href="../"> 
+    <strong>Click here to go to latest.</strong>
+  </a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PyScript" class="md-header__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyScript
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The DOM &amp; JavaScript
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PyScript" class="md-nav__button md-logo" aria-label="PyScript" data-md-component="logo">
+      
+  <img src="../../assets/images/pyscript-black.svg" alt="logo">
+
+    </a>
+    PyScript
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../beginning-pyscript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Start here
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    User guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            User guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../what/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What is PyScript?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Core concepts
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Core concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    The DOM &amp; JavaScript
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    The DOM &amp; JavaScript
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-pyscriptweb" class="md-nav__link">
+    Quick start: pyscript.web
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick start: pyscript.web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-elements" class="md-nav__link">
+    Finding elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-elements" class="md-nav__link">
+    Creating elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-content-and-attributes" class="md-nav__link">
+    Modifying content and attributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-classes-and-styles" class="md-nav__link">
+    Working with classes and styles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-collections" class="md-nav__link">
+    Working with collections
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-select-elements" class="md-nav__link">
+    Managing select elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-handling-with-pyscriptweb" class="md-nav__link">
+    Event handling with pyscript.web
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-dom-access" class="md-nav__link">
+    Direct DOM access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-task-board-with-pyscriptweb" class="md-nav__link">
+    Example: Task board with pyscript.web
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-ffi-javascript-interoperability" class="md-nav__link">
+    The FFI: JavaScript interoperability
+  </a>
+  
+    <nav class="md-nav" aria-label="The FFI: JavaScript interoperability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy-objects" class="md-nav__link">
+    Proxy objects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-conversions" class="md-nav__link">
+    Type conversions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-class-instantiation" class="md-nav__link">
+    JavaScript class instantiation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lower-level-ffi-features" class="md-nav__link">
+    Lower-level FFI features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-task-board-with-ffi" class="md-nav__link">
+    Example: Task board with FFI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-javascript-libraries" class="md-nav__link">
+    Working with JavaScript libraries
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with JavaScript libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-javascript-modules-recommended" class="md-nav__link">
+    Standard JavaScript modules (recommended)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-as-a-global-reference-legacy" class="md-nav__link">
+    JavaScript as a global reference (legacy)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#umd-modules-legacy" class="md-nav__link">
+    UMD modules (legacy)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-own-javascript-code" class="md-nav__link">
+    Your own JavaScript code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-which-approach" class="md-nav__link">
+    When to use which approach
+  </a>
+  
+    <nav class="md-nav" aria-label="When to use which approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-pyscriptweb-when" class="md-nav__link">
+    Use pyscript.web when:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-the-ffi-when" class="md-nav__link">
+    Use the FFI when:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    What's next
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Events
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../display/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Displaying things
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure PyScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advanced topics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filesystem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyScript and filesystems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../media/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Media
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ffi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    The FFI in detail
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../offline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use Offline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Feature guides
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Feature guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terminal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../editor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pygame-ce/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyGame-CE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../from_javascript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyScript in JavaScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Example Applications
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Example Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/pirate-translator/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pirate Translator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/task-board-web/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Task Board (Pythonic)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/task-board-ffi/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Task Board (FFI)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/colour-picker/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Colour Picker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/display-demo/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Display Demos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/prime-worker/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prime Number Finder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/note-taker/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Note Taker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/photobooth/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Photobooth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../example-apps/bouncing-ball/info/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bouncing Ball
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    PyScript APIs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            PyScript APIs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/init/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/context/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    context
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/display/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    display
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/events/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    events
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/fetch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fetch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/ffi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/flatted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    flatted
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/fs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/media/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    media
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/util/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    util
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/web/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    web
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/websocket/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    websocket
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/workers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    workers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Developing PyScript
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Developing PyScript
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conduct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code of Conduct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-pyscriptweb" class="md-nav__link">
+    Quick start: pyscript.web
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick start: pyscript.web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-elements" class="md-nav__link">
+    Finding elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-elements" class="md-nav__link">
+    Creating elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-content-and-attributes" class="md-nav__link">
+    Modifying content and attributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-classes-and-styles" class="md-nav__link">
+    Working with classes and styles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-collections" class="md-nav__link">
+    Working with collections
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-select-elements" class="md-nav__link">
+    Managing select elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-handling-with-pyscriptweb" class="md-nav__link">
+    Event handling with pyscript.web
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-dom-access" class="md-nav__link">
+    Direct DOM access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-task-board-with-pyscriptweb" class="md-nav__link">
+    Example: Task board with pyscript.web
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-ffi-javascript-interoperability" class="md-nav__link">
+    The FFI: JavaScript interoperability
+  </a>
+  
+    <nav class="md-nav" aria-label="The FFI: JavaScript interoperability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy-objects" class="md-nav__link">
+    Proxy objects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type-conversions" class="md-nav__link">
+    Type conversions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-class-instantiation" class="md-nav__link">
+    JavaScript class instantiation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lower-level-ffi-features" class="md-nav__link">
+    Lower-level FFI features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-task-board-with-ffi" class="md-nav__link">
+    Example: Task board with FFI
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-javascript-libraries" class="md-nav__link">
+    Working with JavaScript libraries
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with JavaScript libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-javascript-modules-recommended" class="md-nav__link">
+    Standard JavaScript modules (recommended)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-as-a-global-reference-legacy" class="md-nav__link">
+    JavaScript as a global reference (legacy)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#umd-modules-legacy" class="md-nav__link">
+    UMD modules (legacy)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-own-javascript-code" class="md-nav__link">
+    Your own JavaScript code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-which-approach" class="md-nav__link">
+    When to use which approach
+  </a>
+  
+    <nav class="md-nav" aria-label="When to use which approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-pyscriptweb-when" class="md-nav__link">
+    Use pyscript.web when:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-the-ffi-when" class="md-nav__link">
+    Use the FFI when:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    What's next
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="the-dom">The DOM</h1>
+<p>The DOM
+(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model">document object model</a>)
+is a tree-like data structure representing the web page displayed by
+the browser. PyScript interacts with the DOM to change the user
+interface and react to things happening in the browser.</p>
+<p>PyScript provides two ways to work with the DOM:</p>
+<ol>
+<li><strong>The <code>pyscript.web</code> module</strong> - A Pythonic interface that feels
+   natural to Python developers. This is the recommended approach for
+   most tasks.</li>
+<li><strong>The FFI (foreign function interface)</strong> - Direct access to
+   JavaScript APIs for advanced use cases or when you need complete
+   control.</li>
+</ol>
+<p>Both approaches are powerful and can accomplish the same goals. We'll
+explore each one, starting with the Pythonic <code>pyscript.web</code> module.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>New to PyScript?</strong> Start with <code>pyscript.web</code>. It's designed to
+feel natural if you know Python, and it handles many common tasks
+more Pythonically than direct JavaScript API calls.</p>
+<p>The FFI becomes useful when you need to integrate specific
+JavaScript libraries or when you're already familiar with web
+development in JavaScript.</p>
+</div>
+<h2 id="quick-start-pyscriptweb">Quick start: <code>pyscript.web</code></h2>
+<p>The <code>pyscript.web</code> module provides an idiomatic Python interface to the
+DOM. It wraps the FFI in a way that feels natural to Python developers,
+with familiar patterns like dictionary-style access, set-like class
+management, and Pythonic method names.</p>
+<h3 id="finding-elements">Finding elements</h3>
+<p>The <code>page</code> object represents your web page. Use it to find elements by
+their ID or with CSS selectors:</p>
+<div class="language-python highlight"><span class="filename">Referencing elements via the page object.</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Get an element by ID (returns single Element or None).</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">header</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;header-id&quot;</span><span class="p">]</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">header</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;#header-id&quot;</span><span class="p">]</span>  <span class="c1"># The &quot;#&quot; prefix is optional.</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Find by CSS selector (returns an ElementCollection).</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">divs</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">buttons</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.button-class&quot;</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">items</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;#list .item&quot;</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Access page structure.</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">some_element</span><span class="p">)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;New Page Title&quot;</span>
+</span></code></pre></div>
+<p>CSS selectors work exactly like they do in CSS or JavaScript's
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"><code>querySelector</code></a>.
+If you can select it in CSS, you can find it with <code>pyscript.web</code>.</p>
+<h3 id="creating-elements">Creating elements</h3>
+<p>Create new HTML elements using simple Python classes. Element
+names correspond to HTML tags, and are lower-case to match web
+conventions. Compose elements together in a
+<a href="https://en.wikipedia.org/wiki/Declarative_programming">declarative style</a>:</p>
+<div class="language-python highlight"><span class="filename">Declaratively creating elements on the page.</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Create simple elements.</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">div</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">paragraph</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="s2">&quot;Some text&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;my-para&quot;</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;intro&quot;</span><span class="p">])</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Compose elements together.</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">container</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">div</span><span class="p">(</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">web</span><span class="o">.</span><span class="n">h1</span><span class="p">(</span><span class="s2">&quot;My Task List&quot;</span><span class="p">),</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">web</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="s2">&quot;Keep track of your work&quot;</span><span class="p">),</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">web</span><span class="o">.</span><span class="n">ul</span><span class="p">(</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="n">web</span><span class="o">.</span><span class="n">li</span><span class="p">(</span><span class="s2">&quot;First task&quot;</span><span class="p">),</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="n">web</span><span class="o">.</span><span class="n">li</span><span class="p">(</span><span class="s2">&quot;Second task&quot;</span><span class="p">),</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="n">web</span><span class="o">.</span><span class="n">li</span><span class="p">(</span><span class="s2">&quot;Third task&quot;</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="p">),</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;task-container&quot;</span><span class="p">,</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;panel&quot;</span><span class="p">,</span> <span class="s2">&quot;primary&quot;</span><span class="p">]</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">)</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="c1"># Add to the page.</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The first (unnamed) arguments to an element become its children. Named
+arguments like <code>id</code>, <code>classes</code>, and <code>style</code> set HTML attributes.</p>
+<p>You can also create elements
+<a href="https://en.wikipedia.org/wiki/Imperative_programming">imperatively</a>:</p>
+<div class="language-python highlight"><span class="filename">Imperatively created elements on the web page.</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Create an empty div.</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">my_div</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;my-container&quot;</span><span class="p">)</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Add content and styling.</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">my_div</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;&lt;p&gt;Hello!&lt;/p&gt;&quot;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">my_div</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">my_div</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;background-color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;lightblue&quot;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Create a paragraph and add it.</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">my_p</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="s2">&quot;This is a paragraph.&quot;</span><span class="p">)</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">my_div</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">my_p</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="modifying-content-and-attributes">Modifying content and attributes</h3>
+<p>Once you have an element, you can modify its content and attributes
+using idiomatic Python:</p>
+<div class="language-python highlight"><span class="filename">Modifying an element.</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">element</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;my-element&quot;</span><span class="p">]</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Update content.</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">element</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;&lt;b&gt;Bold text&lt;/b&gt;&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">element</span><span class="o">.</span><span class="n">textContent</span> <span class="o">=</span> <span class="s2">&quot;Plain text&quot;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Update attributes.</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">element</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;new-id&quot;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">element</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Tooltip text&quot;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># Bulk update with convenience method.</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">element</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="s2">&quot;highlighted&quot;</span><span class="p">],</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;font-size&quot;</span><span class="p">:</span> <span class="s2">&quot;16px&quot;</span><span class="p">},</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Updated tooltip&quot;</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="working-with-classes-and-styles">Working with classes and styles</h3>
+<p>Element classes behave like a Python <code>set</code>, and styles behave like a
+Python <code>dict</code>:</p>
+<div class="language-python highlight"><span class="filename">CSS classes are a Python set, CSS styles a Python dict.</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">element</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;my-button&quot;</span><span class="p">]</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Classes work like sets.</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">element</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;active&quot;</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">element</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;highlighted&quot;</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">element</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;hidden&quot;</span><span class="p">)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">element</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="s2">&quot;maybe-not-there&quot;</span><span class="p">)</span>  <span class="c1"># No error if missing.</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Check membership.</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">if</span> <span class="s2">&quot;active&quot;</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">classes</span><span class="p">:</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Element is active&quot;</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># Clear all classes.</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="n">element</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1"># Styles work like dictionaries.</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="n">element</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="n">element</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;background-color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#f0f0f0&quot;</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="n">element</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;font-size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;16px&quot;</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="c1"># Remove a style.</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="k">del</span> <span class="n">element</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;margin&quot;</span><span class="p">]</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="c1"># Check if style is set.</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">style</span><span class="p">:</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Colour is </span><span class="si">{</span><span class="n">element</span><span class="o">.</span><span class="n">style</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="working-with-collections">Working with collections</h3>
+<p>When you find multiple elements, you get an <code>ElementCollection</code> that
+you can iterate over, slice, or update in bulk:</p>
+<div class="language-python highlight"><span class="filename">Working with ElementCollections.</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Find multiple elements (returns an ElementCollection).</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">items</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.list-item&quot;</span><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Iterate over collection.</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">item</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;Updated&quot;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">item</span><span class="o">.</span><span class="n">classes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;processed&quot;</span><span class="p">)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># Bulk update all elements.</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">items</span><span class="o">.</span><span class="n">update_all</span><span class="p">(</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="n">innerHTML</span><span class="o">=</span><span class="s2">&quot;New content&quot;</span><span class="p">,</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="n">classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;updated-item&quot;</span><span class="p">]</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="p">)</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="c1"># Index and slice collections.</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="n">first</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">last</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">subset</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="c1"># Get an element by ID within the collection.</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">special</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="s2">&quot;special-id&quot;</span><span class="p">]</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1"># Find descendants within the collection.</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">subitems</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.sub-item&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="managing-select-elements">Managing select elements</h3>
+<p>The <code>select</code> element contains a list of <code>option</code> instances from which you
+select. When rendered on a web page, it looks like this:</p>
+<p><label for="example_option">Choose an option: </label>
+<select id="example_option">
+<br />
+<option>Option 1</option></p>
+<option>Option 2</option>
+<option>Option 3</option>
+<p></select></p>
+<p>The <code>options</code> property of <code>select</code> elements provides convenient methods
+for managing such options:</p>
+<div class="language-python highlight"><span class="filename">Elements with options (e.g. &lt;select&gt;).</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Get an existing select element.</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">select</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;my-select&quot;</span><span class="p">]</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Add options.</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">select</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="s2">&quot;Option 1&quot;</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">select</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="s2">&quot;Option 2&quot;</span><span class="p">,</span> <span class="n">selected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># Get the selected option.</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">selected</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">selected</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected: </span><span class="si">{</span><span class="n">selected</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1"># Iterate over options.</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">select</span><span class="o">.</span><span class="n">options</span><span class="p">:</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">option</span><span class="o">.</span><span class="n">innerHTML</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1"># Clear all options.</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">select</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1"># Remove specific option by index.</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="n">select</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This also works for <code>datalist</code> and <code>optgroup</code> elements, that also require
+lists of options to function.</p>
+<h3 id="event-handling-with-pyscriptweb">Event handling with pyscript.web</h3>
+<p>The <code>@when</code> decorator works seamlessly with <code>pyscript.web</code> elements:</p>
+<div class="language-python highlight"><span class="filename">@when working with Element instances.</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">when</span><span class="p">,</span> <span class="n">web</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Create a button.</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">button</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Click me&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;my-button&quot;</span><span class="p">)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Attach event handler with decorator.</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="n">button</span><span class="p">)</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_click</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Button clicked!&quot;</span><span class="p">)</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1"># Or attach during creation.</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">another_handler</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Another handler&quot;</span><span class="p">)</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="n">button2</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Click too&quot;</span><span class="p">,</span> <span class="n">on_click</span><span class="o">=</span><span class="n">another_handler</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Learn more about event handling in the <a href="../events/">events guide</a>.</p>
+<h3 id="direct-dom-access">Direct DOM access</h3>
+<p>When needed, you can access the underlying DOM element directly:</p>
+<div class="language-python highlight"><span class="filename">Use _dom_element to get the underlying JavaScript Element.</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">web</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">element</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">page</span><span class="p">[</span><span class="s2">&quot;my-element&quot;</span><span class="p">]</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># Most DOM methods are accessible directly.</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">element</span><span class="o">.</span><span class="n">scrollIntoView</span><span class="p">()</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">element</span><span class="o">.</span><span class="n">focus</span><span class="p">()</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">element</span><span class="o">.</span><span class="n">blur</span><span class="p">()</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># Convenience method for scrolling.</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">element</span><span class="o">.</span><span class="n">show_me</span><span class="p">()</span>  <span class="c1"># Calls scrollIntoView().</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># Access the raw underlying DOM element for special cases.</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="n">dom_element</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">_dom_element</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For complete API documentation of <code>pyscript.web</code>, including all
+available element types and methods, see the
+<a href="../../api/web/">API reference</a>.</p>
+</div>
+<h2 id="example-task-board-with-pyscriptweb">Example: Task board with pyscript.web</h2>
+<p>Let's look at a complete example that demonstrates these concepts. This
+task board application lets users add tasks, mark them complete, filter
+by priority, and delete tasks:</p>
+<iframe src="../../example-apps/task-board-web/" style="border: 1px solid black; width:100%; min-height: 500px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+<p><a href="https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-web">View the complete source code</a>.</p>
+<p>Notice how the code uses Pythonic patterns throughout: dictionary-style
+access for elements, set operations for classes, and familiar Python
+syntax for creating and modifying elements.</p>
+<h2 id="the-ffi-javascript-interoperability">The FFI: JavaScript interoperability</h2>
+<p>The foreign function interface (FFI) gives Python direct access to all
+the <a href="https://developer.mozilla.org/en-US/docs/Web">standard web capabilities and features</a>,
+including the browser's built-in
+<a href="https://developer.mozilla.org/en-US/docs/Web/API">web APIs</a>.</p>
+<p>This is available via the <code>pyscript.window</code> and <code>pyscript.document</code>
+objects, which are proxies for JavaScript's <code>globalThis</code> and <code>document</code>
+objects:</p>
+<div class="language-python highlight"><span class="filename">Complete JavaScript access via the FFI.</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Access browser APIs.</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">hostname</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">hostname</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">current_url</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">href</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># Find and manipulate DOM elements.</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="n">my_element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">&quot;#my-id&quot;</span><span class="p">)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">my_element</span><span class="o">.</span><span class="n">innerText</span> <span class="o">=</span> <span class="s2">&quot;Hello from Python!&quot;</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># Query all matching elements.</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">paragraphs</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">:</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    <span class="n">p</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+</span></code></pre></div>
+<h3 id="proxy-objects">Proxy objects</h3>
+<p>The FFI creates <em>proxy objects</em> in Python that are linked to <em>actual
+objects</em> in JavaScript. These proxy objects look and behave like Python
+objects but have related JavaScript objects associated with them
+"in the background" and automatically managed for you by the FFI.</p>
+<p>This means the API defined in JavaScript remains the same in Python, so
+any <a href="https://developer.mozilla.org/en-US/docs/Web/API">browser-based JavaScript APIs</a>
+or third-party JavaScript libraries that expose objects in the web
+page's <code>globalThis</code> will have exactly the same API in Python as in
+JavaScript.</p>
+<h3 id="type-conversions">Type conversions</h3>
+<p>The FFI automatically transforms Python and JavaScript objects into
+their equivalent in the other language:</p>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>JavaScript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>True</code>, <code>False</code></td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+<tr>
+<td><code>None</code></td>
+<td><code>null</code> or <code>undefined</code></td>
+</tr>
+<tr>
+<td><code>int</code>, <code>float</code></td>
+<td><code>number</code></td>
+</tr>
+<tr>
+<td><code>str</code></td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td><code>Array</code></td>
+</tr>
+<tr>
+<td><code>dict</code></td>
+<td><code>Object</code></td>
+</tr>
+</tbody>
+</table>
+<p>For example, a JavaScript array <code>["hello", 1, 2, 3]</code> becomes a Python
+list <code>["hello", 1, 2, 3]</code>, and vice versa.</p>
+<h3 id="javascript-class-instantiation">JavaScript class instantiation</h3>
+<p>Instantiating JavaScript classes requires special handling because
+Python and JavaScript do it differently:</p>
+<div class="language-python highlight"><span class="filename">Use .new() to instantiate JavaScript classes.</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># To instantiate a JavaScript class, call its .new() method.</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">my_obj</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">MyJavaScriptClass</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;some value&quot;</span><span class="p">)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># This is equivalent to JavaScript: new MyJavaScriptClass(&quot;some value&quot;)</span>
+</span></code></pre></div>
+<p>The <code>.new()</code> method is required because Python and JavaScript handle
+class instantiation very differently. By explicitly calling <code>.new()</code>,
+PyScript signals and honours this difference.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For more technical details about JavaScript class instantiation,
+see the <a href="../../faq/#javascript-classnew">FAQ</a>.</p>
+</div>
+<h3 id="lower-level-ffi-features">Lower-level FFI features</h3>
+<p>Advanced users who need lower-level access to FFI features can use
+functions in the <code>pyscript.ffi</code> namespace, available in both Pyodide
+and MicroPython. These functions are documented in the
+<a href="../../api/ffi/">API reference</a>.</p>
+<p>For deep technical details about how the FFI works, see the
+<a href="../ffi/">FFI technical guide</a>.</p>
+<h2 id="example-task-board-with-ffi">Example: Task board with FFI</h2>
+<p>Here's the same task board application implemented using the FFI and
+direct JavaScript APIs instead of <code>pyscript.web</code>:</p>
+<iframe src="../../example-apps/task-board-ffi/" style="border: 1px solid black; width:100%; min-height: 500px; border-radius: 0.2rem; box-shadow: var(--md-shadow-z1);"></iframe>
+
+<p><a href="https://github.com/pyscript/docs/tree/main/docs/example-apps/task-board-ffi">View the complete source code</a>.</p>
+<p>Compare this implementation with the <code>pyscript.web</code> version above.
+Notice how the FFI version uses JavaScript method names like
+<code>querySelector</code> and <code>createElement</code>, whilst the <code>pyscript.web</code> version
+uses Pythonic patterns.</p>
+<h2 id="working-with-javascript-libraries">Working with JavaScript libraries</h2>
+<p>There are three ways JavaScript code typically appears in web pages.
+Understanding these helps you integrate JavaScript libraries into your
+PyScript applications.</p>
+<h3 id="standard-javascript-modules-recommended">Standard JavaScript modules (recommended)</h3>
+<p>Modern JavaScript uses ES6 modules with <code>import</code> and <code>export</code>
+statements. This is the best way to integrate JavaScript:</p>
+<div class="language-toml highlight"><span class="filename">pyscript.toml - Configure JavaScript modules</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">[js_modules.main]</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="s2">&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;leaflet&quot;</span>
+</span></code></pre></div>
+<p>Then import the module in your Python code:</p>
+<div class="language-python highlight"><span class="filename">main.py - Use the JavaScript module</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">leaflet</span> <span class="k">as</span> <span class="n">L</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">map</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;map&quot;</span><span class="p">)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Use the library...</span>
+</span></code></pre></div>
+<p>That's it! PyScript handles loading the module and making it available
+in Python.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>This is the recommended approach. Most modern JavaScript libraries
+provide ES6 module builds that work perfectly with this method.</p>
+</div>
+<h3 id="javascript-as-a-global-reference-legacy">JavaScript as a global reference (legacy)</h3>
+<p>Older JavaScript code may add objects directly to the global <code>window</code>
+object via a <code>&lt;script&gt;</code> tag:</p>
+<div class="language-html highlight"><span class="filename">HTML with global JavaScript</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="cm">&lt;!-- This adds an &#39;html&#39; object to the global scope. --&gt;</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="cm">&lt;!-- Your content --&gt;</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>Access these global objects via the <code>window</code> object in Python:</p>
+<div class="language-python highlight"><span class="filename">main.py - Access global JavaScript</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span><span class="p">,</span> <span class="n">document</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># The window object is the global context.</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">html</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">html</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Use the object normally.</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="n">escaped</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="s2">&quot;&lt;&gt;&quot;</span><span class="p">)</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">document</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">escaped</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="umd-modules-legacy">UMD modules (legacy)</h3>
+<p>The Universal Module Definition (UMD) is an outdated, non-standard way
+to create JavaScript modules. If you encounter UMD modules, you have
+two options:</p>
+<p><strong>Option 1: Use esm.run</strong> - This service automatically converts UMD
+modules to standard ES6 modules:</p>
+<div class="language-toml highlight"><span class="filename">pyscript.toml - Use esm.run to convert UMD</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">[js_modules.main]</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="s2">&quot;https://esm.run/html-escaper&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
+</span></code></pre></div>
+<p><strong>Option 2: Create a wrapper</strong> - If esm.run doesn't work, wrap the
+module yourself:</p>
+<div class="language-html highlight"><span class="filename">index.html - Load the UMD module globally</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/html-escaper@3.0.3/index.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-js highlight"><span class="filename">wrapper.js - Wrap it as a standard module</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// Get utilities from the global scope.</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">escape</span><span class="p">,</span><span class="w"> </span><span class="nx">unescape</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">globalThis</span><span class="p">.</span><span class="nx">html</span><span class="p">;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1">// Export as a standard module.</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">export</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">escape</span><span class="p">,</span><span class="w"> </span><span class="nx">unescape</span><span class="w"> </span><span class="p">};</span>
+</span></code></pre></div>
+<div class="language-toml highlight"><span class="filename">pyscript.toml - Reference your wrapper</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">[js_modules.main]</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="s2">&quot;./wrapper.js&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;html_escaper&quot;</span>
+</span></code></pre></div>
+<div class="language-python highlight"><span class="filename">main.py - Use it normally</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">html_escaper</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="n">escaped</span> <span class="o">=</span> <span class="n">html_escaper</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="s2">&quot;&lt;&gt;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="your-own-javascript-code">Your own JavaScript code</h3>
+<p>Write your own JavaScript as standard ES6 modules by using <code>export</code>:</p>
+<div class="language-js highlight"><span class="filename">code.js - Your JavaScript module</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="cm">/*</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="cm">Simple JavaScript functions for example purposes.</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="cm">*/</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">hello</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Hello &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="p">;</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="p">}</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">fibonacci</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fibonacci</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">fibonacci</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2</span><span class="p">);</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Reference it in your configuration:</p>
+<div class="language-toml highlight"><span class="filename">pyscript.toml</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">[js_modules.main]</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="s2">&quot;code.js&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;code&quot;</span>
+</span></code></pre></div>
+<p>Use it from Python:</p>
+<div class="language-python highlight"><span class="filename">main.py</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyscript.js_modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">code</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">greeting</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">hello</span><span class="p">(</span><span class="s2">&quot;Chris&quot;</span><span class="p">)</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="n">result</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">fibonacci</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<p>For more details on configuring JavaScript modules, see the
+<a href="../configuration/#javascript-modules">configuration guide</a>.</p>
+<h2 id="when-to-use-which-approach">When to use which approach</h2>
+<p>Both <code>pyscript.web</code> and the FFI are powerful tools. Here's when to use
+each:</p>
+<h3 id="use-pyscriptweb-when">Use pyscript.web when:</h3>
+<ul>
+<li><strong>You're comfortable with Python</strong> - The API feels natural to Python
+  developers, with Pythonic naming and patterns.</li>
+<li><strong>You're building from scratch</strong> - Creating new elements and
+  composing interfaces is elegant and concise.</li>
+<li><strong>You value readability</strong> - The code is self-documenting and easy to
+  understand.</li>
+<li><strong>You're teaching or learning</strong> - The interface is easier to
+  explain and understand to Python learners.</li>
+</ul>
+<h3 id="use-the-ffi-when">Use the FFI when:</h3>
+<ul>
+<li><strong>You're integrating JavaScript libraries</strong> - Direct access to
+  JavaScript APIs means no translation layer.</li>
+<li><strong>You're porting existing JavaScript code</strong> - The API is identical,
+  making translation straightforward.</li>
+<li><strong>You need a specific browser API</strong> - Some browser features don't
+  have <code>pyscript</code> based wrappers (yet!).</li>
+<li><strong>You're already familiar with web development</strong> - If you know
+  JavaScript, the FFI feels natural.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can mix both approaches in the same application. Use
+<code>pyscript.web</code> for most tasks and drop down to the FFI when needed.
+They work together seamlessly.</p>
+</div>
+<h2 id="whats-next">What's next</h2>
+<p>Now that you understand DOM manipulation, explore these related topics:</p>
+<p><strong><a href="../events/">Events</a></strong> - Learn how to respond to user actions and
+browser events with the <code>@when</code> decorator and event handlers.</p>
+<p><strong><a href="../display/">Display</a></strong> - Discover how to show Python objects, images,
+charts, and rich content on your page with the <code>display()</code> function.</p>
+<p><strong><a href="../configuration/">Configuration</a></strong> - Configure your Python
+environment, specify packages, and customise PyScript's behaviour.</p>
+<p><strong><a href="../workers/">Workers</a></strong> - Run Python code in background threads for
+responsive applications.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
