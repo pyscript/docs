@@ -260,9 +260,10 @@ computational tasks.
 
 ## Understanding limitations
 
-Workers have separate memory spaces. Each worker has its own memory, and
-you cannot share objects between workers or with the main thread. All
-communication happens via function calls with serialised data.
+Each worker is a separate Python interpreter, in a separate memory space,
+with a separate filesystem. You cannot share objects between workers, nor
+with the main thread. All communication between them happens via function
+calls with serialised data.
 
 Only serialisable data can pass between threads. Function arguments and
 return values must be JSON-serialisable: numbers, strings, lists,
