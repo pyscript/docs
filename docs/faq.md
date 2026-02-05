@@ -541,7 +541,7 @@ versions or use `latest`:
 
 ```html
 <!-- Specific version (recommended for production). -->
-<script type="module" src="https://pyscript.net/releases/2026.1.1/core.js"></script>
+<script type="module" src="https://pyscript.net/releases/2026.2.1/core.js"></script>
 
 <!-- Latest version (useful for development). -->
 <script type="module" src="https://pyscript.net/latest/core.js"></script>
@@ -572,7 +572,7 @@ You can create workers programmatically from JavaScript:
 
 ```html
 <script type="module">
-import { PyWorker } from "https://pyscript.net/releases/2026.1.1/core.js";
+import { PyWorker } from "https://pyscript.net/releases/2026.2.1/core.js";
 
 const worker = new PyWorker("./worker.py", {type: "pyodide"});
 
