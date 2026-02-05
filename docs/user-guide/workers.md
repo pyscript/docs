@@ -35,6 +35,11 @@ your application remains responsive even during heavy processing.
     you make use of the [mini-coi](https://github.com/WebReflection/mini-coi)
     project (see their README for details).
 
+    If you encounter problems with errors relating to the
+    SharedArrayBuffer (a core component for helping to make workers easy to
+    use in certain contexts), please see the
+    [extensive help in our FAQ](../faq.md/#sharedarraybuffer).
+
 ## Defining workers
 
 Workers are defined with `<script>` tags that have a `worker` attribute:
@@ -156,6 +161,10 @@ the worker. The `config` parameter accepts a configuration dictionary or JSON
 string (optional). The `type` parameter specifies the interpreter: `"py"`
 (default) or `"mpy"` (optional).
 
+It is possible to directly and manually instantiate a
+[PyWorker class](../api/context.md/#pyscript.context.PyWorker), although this
+is discouraged in favour of the managed `create_named_worker` method.
+
 ## Configuration
 
 Workers support the same configuration as main thread scripts. You can specify
@@ -251,9 +260,10 @@ computational tasks.
 
 ## Understanding limitations
 
-Workers have separate memory spaces. Each worker has its own memory, and
-you cannot share objects between workers or with the main thread. All
-communication happens via function calls with serialised data.
+Each worker is a separate Python interpreter, in a separate memory space,
+with a separate filesystem. You cannot share objects between workers, nor
+with the main thread. All communication between them happens via function
+calls with serialised data.
 
 Only serialisable data can pass between threads. Function arguments and
 return values must be JSON-serialisable: numbers, strings, lists,
