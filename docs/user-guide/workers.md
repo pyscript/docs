@@ -35,6 +35,11 @@ your application remains responsive even during heavy processing.
     you make use of the [mini-coi](https://github.com/WebReflection/mini-coi)
     project (see their README for details).
 
+    If you encounter problems with errors relating to the
+    SharedArrayBuffer (a core component for helping to make workers easy to
+    use in certain contexts), please see the
+    [extensive help in our FAQ](../faq.md/#sharedarraybuffer).
+
 ## Defining workers
 
 Workers are defined with `<script>` tags that have a `worker` attribute:
@@ -155,6 +160,10 @@ the worker's Python file. The `name` parameter provides a unique identifier for
 the worker. The `config` parameter accepts a configuration dictionary or JSON
 string (optional). The `type` parameter specifies the interpreter: `"py"`
 (default) or `"mpy"` (optional).
+
+It is possible to directly and manually instantiate a
+[PyWorker class](../api/context.md/#pyscript.context.PyWorker), although this
+is discouraged in favour of the managed `create_named_worker` method.
 
 ## Configuration
 

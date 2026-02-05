@@ -58,41 +58,36 @@ This is the most common error new PyScript users face:
 
 #### When
 
-This error occurs when code running in a worker tries to access `window`
-or `document` objects that exist on the main thread.
+This error occurs when code running in a worker tries to access
+`window` or `document` objects from the main thread.
 
-The error indicates either **your web server is incorrectly configured**
-or **a `service-worker` attribute is missing from your script element**.
+It indicates one of three situations:
 
-Specifically, one of three situations applies:
+1. **Server misconfiguration:** Your script has a `worker` attribute and
+   accesses `window` or `document`, but your web server isn't configured to
+   enable SharedArrayBuffer/Atomics.
 
-Your web server configuration prevents the browser from enabling Atomics
-(a technology for cross-thread communication). When your script element
-has a `worker` attribute and your Python code uses `window` or
-`document` objects that exist on the main thread, this browser
-limitation causes failure unless you reconfigure your server.
+2. **Missing service-worker attribute:** You're using
+   `<script type="py-editor">` (which always runs in a worker) without
+   providing a `service-worker` attribute for fallback synchronous operations.
 
-You're using `<script type="py-editor">` (which always runs in a worker)
-without providing a fallback via a `service-worker` attribute on that
-element.
+3. **PyWorker without fallback:** You've created a `PyWorker` or `MPWorker`
+   instance without providing a `service_worker` fallback (see:
+   [this API class](./api/context.md/#pyscript.context.PyWorker)).
 
-You've explicitly created a `PyWorker` or `MPWorker` instance somewhere
-in your code without providing a `service_worker` fallback.
-
-The [workers guide](./user-guide/workers.md) documents all these cases
+The [workers guide](./user-guide/workers.md) documents all these use cases
 with code examples and solutions.
 
 #### Why
 
-For `document.getElementById('some-id').value` to work in a worker,
-JavaScript requires two primitives:
+Workers often require two browser based features to access main thread objects
+like `window` and `document`.
 
-[SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)
-allows multiple threads to read and write shared memory.
-
-[Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
-provides `wait(sab, index)` and `notify(sab, index)` to coordinate
-threads, where `sab` is a SharedArrayBuffer.
+1. [SharedArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer)
+   allows multiple threads to read and write shared memory.
+2. [Atomics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics)
+   provides `wait(sab, index)` and `notify(sab, index)` to coordinate
+   threads, where `sab` is a SharedArrayBuffer.
 
 Whilst a worker waits for a main thread operation, it doesn't consume
 CPU. It idles until the referenced buffer index changes, effectively
@@ -105,8 +100,124 @@ responsive during heavy computation.
 
 Unfortunately, we cannot patch or work around these primitives - they're
 defined by web standards. However, various solutions exist for working
-within these limitations. The [workers guide](./user-guide/workers.md)
-explains how.
+within these limitations.
+
+The easiest fix is to ensure your webserver is correctly configured to
+serve responses with the following headers:
+
+```
+Access-Control-Allow-Origin: *
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Resource-Policy: cross-origin
+```
+
+If you are unable to reconfigure your webserver (perhaps, for example,
+you're using a third party for hosting), you have two options:
+
+**Option 1:** `mini-coi`
+
+The `mini-coi` project ensures a browser's
+[complicated Cross Origin Isolation (COI) settings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer#security_requirements)
+"just work" for web workers. This is especially useful when you have no
+control over the HTTP headers returned by the server.
+
+For performance reasons, this is the preferred option so Atomics works at
+native speed.
+
+The simplest way to use mini-coi is to copy the
+[`mini-coi.js`](https://raw.githubusercontent.com/WebReflection/mini-coi/main/mini-coi.js)
+file to the root of your website (i.e. `/`), and reference it as the first
+child tag in the `<head>` of your HTML documents:
+
+```html
+<html>
+  <head>
+    <script src="/mini-coi.js"></script>
+    <!-- etc -->
+  </head>
+  <!-- etc -->
+</html>
+```
+
+**Option 2:** `service-worker` attribute
+
+This allows you to slot in a custom
+[service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+to handle requirements for synchronous operations.
+
+Each `<script type="m/py">` or `<m/py-script>` may optionally have a
+`service-worker` attribute pointing to a locally served file (the same way
+`mini-coi.js` needs to be served).
+
+This file needs to orchestrate _coincident POST_ requests so that:
+
+* You can copy and paste
+  [the coincident Service Worker](https://cdn.jsdelivr.net/npm/coincident/dist/sw.js)
+  into your local project and point at that via the `service-worker`
+  attribute. This will not change the original behavior of your project, it
+  will not interfere with the default or pre-defined headers your application
+  uses already but it will **fallback to a (slower but working) synchronous
+  operation** that allows both `window` and `document` access in your worker
+  logic.
+* You can import 
+  [coincident listeners](https://github.com/WebReflection/coincident/blob/main/src/sabayon/listeners.js)
+  in your project and at least add the `fetch` one before your listeners. It
+  will automatically stop propagation when a request is meant to be handled
+  so that the rest of your logic will not be affected or change by any mean.
+
+```html
+<html>
+  <head>
+    <!-- PyScript link and script -->
+  </head>
+  <body>
+    <script type="py" service-worker="./sw.js" worker>
+      from pyscript import window, document
+
+      document.body.append("Hello PyScript!")
+    </script>
+  </body>
+</html>
+```
+
+!!! warning
+
+    Using _coincident_ as the fallback for synchronous operations via Atomics
+    should be **the last solution to consider**. It is inevitably slower than
+    using native Atomics.
+
+    If you must use `service-worker` attribute, always reduce the amount of
+    synchronous operations by caching references from the _main_ thread.
+
+    ```python
+    # ❌ THIS IS UNNECESSARILY SLOWER
+    from pyscript import document
+
+    # add a data-test="not ideal attribute"
+    document.body.dataset.test = "not ideal"
+    # read a data-test attribute
+    print(document.body.dataset.test)
+
+    # - - - - - - - - - - - - - - - - - - - - -
+
+    # ✔️ THIS IS FINE
+    from pyscript import document
+
+    # if needed elsewhere, reach it once
+    body = document.body
+    dataset = body.dataset
+
+    # add a data-test="not ideal attribute"
+    dataset.test = "not ideal"
+    # read a data-test attribute
+    print(dataset.test)
+    ```
+
+    In latter example the number of operations has been reduced from six to
+    just four. The rule of thumb is: _if you ever need a DOM reference more 
+    than once, cache it_.
+
 
 ### Borrowed proxy
 
