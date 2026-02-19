@@ -34,6 +34,41 @@ The decorator attaches the function to all elements matching the
 selector. If multiple elements match, the function is called for each
 one when its event fires.
 
+!!! warning
+
+    The `@when` decorator only affects matching elements that exist
+    _when the decorator is first encountered_. If you dynamically add
+    matching elements _after_ `@when` is encountered, **they will not
+    be affected**.
+
+    This reflects the browser-based capabilities that underpin
+    the `@when` decorator. Ultimately,
+    [JavaScript's `addEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+    is called, and this also only affects elements that exist at the
+    time of the call.
+
+    If you dynamically add new elements to the page, _you must also
+    indicate an event is to be handled for that new element_. For
+    instance, call `when` as a plain function, passing the new element
+    directly:
+
+    ```python
+    from pyscript import web, when
+
+
+    def my_handler(event):
+        # Do stuff.
+        ...
+
+    # Dynamimcally add a new element to the page.
+    el = web.button("Click me")
+    web.page.body.append(el)
+
+    # Use when() as a plain function to attach the my_handler function
+    # to the new button's click event.
+    when("click", el)(my_handler)
+    ```
+
 ### Event types
 
 You can handle any browser event. Common ones include:
