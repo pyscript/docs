@@ -13,14 +13,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
-            - name: Setup
-              uses: conda-incubator/setup-miniconda@v2
+            - name: Set up Python
+              uses: actions/setup-python@v6 
               with:
-                  auto-update-conda: true
-                  activate-environment: docs
-                  environment-file: environment.yml
+                  python-version: '3.14.2'  
+
+            - name: Install dependencies with pip
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
 
             - uses: oleksiyrudenko/gha-git-credentials@v2-latest
               with:
