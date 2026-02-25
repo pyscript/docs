@@ -119,7 +119,8 @@ for item in items:
 # Bulk update all elements.
 items.update_all(
     innerHTML="Hello",
-    className="updated-item"
+    classes="updated-item",
+    style={"color": "blue"},
 )
 
 # Index and slice collections.
@@ -1062,7 +1063,7 @@ class ElementCollection:
         item.classes.add("processed")
 
     # Bulk update all contained elements.
-    items.update_all(innerHTML="Hello", className="updated")
+    items.update_all(innerHTML="Hello", classes="updated")
 
     # Find matches within the collection.
     buttons = items.find("button")
@@ -1159,18 +1160,19 @@ class ElementCollection:
             elements.extend(_find_and_wrap(element._dom_element, selector))
         return ElementCollection(elements)
 
-    def update_all(self, **kwargs):
+    def update_all(self, classes=None, style=None, **kwargs):
         """
-        Explicitly update all elements with the given attributes.
+        Explicitly update all elements with the given `classes`, `style`, and
+        `attributes`. Delegates to each element's `update` method.
 
         ```python
         collection.update_all(innerHTML="Hello")
+        collection.update_all(classes="active", style={"color": "red"})
         collection.update_all(className="active", title="Updated")
         ```
         """
         for element in self._elements:
-            for name, value in kwargs.items():
-                setattr(element, name, value)
+            element.update(classes=classes, style=style, **kwargs)
 
 
 # Special elements with custom methods and mixins.
