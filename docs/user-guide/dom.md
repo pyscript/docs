@@ -201,7 +201,8 @@ for item in items:
 # Bulk update all elements.
 items.update_all(
     innerHTML="New content",
-    classes=["updated-item"]
+    classes="updated-item",
+    style={"color": "blue"},
 )
 
 # Index and slice collections.
