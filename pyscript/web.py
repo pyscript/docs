@@ -119,8 +119,7 @@ for item in items:
 # Bulk update all elements.
 items.update_all(
     innerHTML="Hello",
-    classes="updated-item",
-    style={"color": "blue"},
+    className="updated-item"
 )
 
 # Index and slice collections.
@@ -1063,7 +1062,7 @@ class ElementCollection:
         item.classes.add("processed")
 
     # Bulk update all contained elements.
-    items.update_all(innerHTML="Hello", classes="updated")
+    items.update_all(innerHTML="Hello", className="updated")
 
     # Find matches within the collection.
     buttons = items.find("button")
