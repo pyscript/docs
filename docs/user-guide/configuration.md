@@ -99,10 +99,8 @@ There are only a few core options ([`interpreter`](#interpreter), [`files`](#fil
 [`packages`](#packages), [`js_modules`](#javascript-modules), [`debug`](#debug),
 [`sync_main_only`](#sync_main_only)) and some experimental flags:
 ([`experimental_create_proxy`](#experimental_create_proxy)) that can be used in
-the configuration of PyScript, ([`experimental_ffi_timeout`](#experimental_ffi_timeout)) to
-help with worker related performance, and
-([`experimental_remote_packages`](#experimental_remote_packages)) which allows
-remotely hosted packages. The user is also free to define arbitrary additional
+the configuration of PyScript, and ([`experimental_ffi_timeout`](#experimental_ffi_timeout)) to
+help with worker related performance. The user is also free to define arbitrary additional
 configuration options that plugins or an app may require for their own reasons.
 
 !!! info
@@ -334,6 +332,44 @@ following valid forms:
   `"snowballstemmer>=2.2.0"`
 * An arbitrary URL to a Python package: `"https://.../package.whl"`
 * A file copied onto the browser based file system: `"emfs://.../package.whl"`
+* A remote `.toml` or `.json` configuration file that defines a custom pure
+  Python package: `"https://.../config.toml"`
+
+#### Remote packages
+
+PyScript can also load custom pure Python packages hosted remotely. Add a URL
+to a remote `.toml` or `.json` configuration file directly in the `packages`
+list alongside PyPI package names:
+
+```TOML title="A packages list with a remote package in TOML."
+packages = ["numpy", "https://remote.host.com/my_package/v1/config.toml"]
+```
+
+```JSON title="A packages list with a remote package in JSON."
+{
+    "packages": ["numpy", "https://remote.host.com/my_package/v1/config.toml"]
+}
+```
+
+The remote config is basically a subset of any other PyScript config with the
+only exception that its `name` field must specify the package name, which will
+then be used to import such package via regular imports:
+
+```TOML title="A remote config example"
+name = "my_package"
+
+# a remote config can include packages, even remote ones
+packages = ["matplotlib"]
+
+# files are resolved relatively to this config URL
+[files]
+"./__init__.py" = ""
+"./sub/module.py" = ""
+"./main.py" = ""
+```
+
+The bootstrap will take care of fetching and preparing the remote package so
+that all the code will need to do is: `from my_package import util`.
 
 #### Package Support
 
@@ -577,37 +613,6 @@ number is the maximum number of milliseconds the cache will be kept alive.
 In this experimental phase, we suggest trying `0`, `30` or a value that won't
 likely bypass the browser rendering of 60fps. Of course, `1000` (i.e. a second)
 would be a fun, if greedy, experiment.
-
-### experimental_remote_packages
-
-Specially designed to allow custom pure Python packages, it is possible to
-specify a remote `.toml` or `.json` configuration file within the list of
-packages:
-
-```TOML title="Using the experimental_remote_packages flag in TOML."
-experimental_remote_packages = true
-packages = ['numpy', 'https://remote.host.com/my_package/v1/config.toml']
-```
-
-The remote config is basically a subset of any other PyScript config with the
-only exception that its `name` field must specify the package name, which will
-then be used to import such package via regular imports:
-
-```TOML title="A remote config example"
-name = "my_package"
-
-# a remote config can include packages, even remote ones
-packages = ['matplotlib']
-
-# files are resolved relatively to this config URL
-[files]
-"./__init__.py" = ""
-"./sub/module.py" = ""
-"./main.py" = ""
-```
-
-The bootstrap will take care of fetching and preparing the remote package so
-that all the code will need to do is: `from my_package import util`.
 
 ### debug
 
