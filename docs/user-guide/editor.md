@@ -87,6 +87,23 @@ variables.
 The interpreter type and environment name appear in the top right corner
 of each editor, showing which environment it belongs to.
 
+### Reusing shared environments
+
+When an application terminates an editor, the shared environment it belongs
+to is also terminated. Any other editors using that same environment stop
+working too.
+
+To reuse that environment name and bootstrap everything from scratch, add the
+`env-override` attribute to the script. This forces the editor to create a
+fresh environment instead of reusing the terminated one:
+
+```html title="Re-create a terminated environment."
+<script type="mpy-editor" env="shared" env-override>
+import sys
+print(sys.version)
+</script>
+```
+
 ## Setup editors
 
 Sometimes you need boilerplate code that runs automatically without
@@ -249,6 +266,66 @@ press `Esc` before `Tab` to move focus to the next element. Otherwise,
 
 This provides both standard coding behaviour and an escape hatch for
 keyboard navigation.
+
+## Customize editors
+
+PyScript lets you customize an editor's height, as well
+as the icons used for its run and stop buttons.
+
+Use the `rows` attribute, set to a positive integer, to control the editor's
+height:
+
+```html title="Set a fixed maximum editor height."
+<script type="mpy-editor" rows="5">
+import sys
+print(sys.version)
+</script>
+```
+
+By default, an editor stretches to fit all of its code. When you set `rows`,
+the editor instead has a minimum height of 3 rows and a maximum height of the
+number of rows you specify, scrolling when the code exceeds that height.
+
+To change the run and stop buttons, pass SVG strings through the `data-run`
+and `data-stop` attributes:
+
+```html title="Provide custom run and stop icons."
+<script type="mpy-editor" data-run="<svg>...</svg>" data-stop="<svg>...</svg>">
+print("Hello, world!")
+</script>
+```
+
+These are `dataset` attributes because setting them in JavaScript via
+`script.dataset.run = '...'` and `script.dataset.stop = '...'` automatically
+escapes the SVG content. This ensures that even complex strings won't break
+the layout.
+
+Finally, the `output` attribute accepts the `id` of an existing element. When
+set, the editor writes its output to that element instead of creating a new
+output container of its own:
+
+```html title="Send editor output to an existing element."
+<script type="mpy-editor" output="output-container">
+print("This appears in #output-container.")
+</script>
+
+<div id="output-container"></div>
+```
+
+## The `onbeforerun` hook
+
+The `onbeforerun` attribute can contain Python code that runs immediately
+before the editor's code (or its setup) executes.
+
+Use this hook for a runtime "one-liner" that prepares the output. For example,
+set `onbeforerun` to `display('', append=False)` to clear any previously
+displayed output before each run:
+
+```html title="Clear previous output before each run."
+<script type="mpy-editor" onbeforerun="display('', append=False)">
+print("This output replaces whatever was shown before.")
+</script>
+```
 
 ## What's next
 
