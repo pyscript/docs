@@ -269,7 +269,7 @@ keyboard navigation.
 
 ## Customize editors
 
-The latest version of PyScript lets you customize an editor's height, as well
+PyScript lets you customize an editor's height, as well
 as the icons used for its run and stop buttons.
 
 Use the `rows` attribute, set to a positive integer, to control the editor's
