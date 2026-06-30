@@ -2419,7 +2419,7 @@ docs is handled automatically by GitHub actions. Inside the
   references to the old calver to the new calver. It also downloads the new
   version's Python API and auto-builds the API docs.</li>
 <li>If you have outstanding PRs for updates to the documentation, merge or resolve
-  them into this branch at this moment in time.</li>
+  them into this branch at this moment in time via <code>git fetch origin docs-pr-branch-name</code> followed by <code>git merge origin/docs-pr-branch-name</code></li>
 <li>Once you're happy with the state of the documentation for this new version,
   create a PR for your branch in GitHub.</li>
 <li>Once the PR is approved and merged, a GitHub action based on
