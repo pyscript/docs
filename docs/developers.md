@@ -346,7 +346,7 @@ docs is handled automatically by GitHub actions. Inside the
   references to the old calver to the new calver. It also downloads the new
   version's Python API and auto-builds the API docs.
 * If you have outstanding PRs for updates to the documentation, merge or resolve
-  them into this branch at this moment in time.
+  them into this branch at this moment in time via `git fetch origin docs-pr-branch-name` followed by `git merge origin/docs-pr-branch-name`
 * Once you're happy with the state of the documentation for this new version,
   create a PR for your branch in GitHub.
 * Once the PR is approved and merged, a GitHub action based on
