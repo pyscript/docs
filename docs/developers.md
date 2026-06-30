@@ -338,7 +338,8 @@ Each release of PyScript has its own version of the docs. The generation of the
 docs is handled automatically by GitHub actions. Inside the
 [documentation repository](https://github.com/pyscript/docs), the process is:
 
-* Create a new branch whose name is that of the new calver release.
+* Create a new branch whose name is that of the new calver release (but use `-`
+  instead of `.` between the numbers, e.g. `2026-6-1`).
 * Update the [`version.json`](https://github.com/pyscript/docs/blob/main/version.json)
   file to the new calver.
 * Run `node version-update.js`. This will automatically update all the
@@ -374,7 +375,8 @@ latest calver:
 2. Update the [`version.json`](https://github.com/pyscript/pyscript.net/blob/main/version.json)
    file to a JSON string containing the new calver.
 
-Bundle these changes into a single PR, to be reviewed and approved by someone
+Bundle these changes into a single PRi (named in the same way as the PR for
+PyScript's docs), to be reviewed and approved by someone
 else.
 [This pull request](https://github.com/pyscript/pyscript.net/pull/104/changes)
 is a good historical example of the changes described above.
