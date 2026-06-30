@@ -283,8 +283,130 @@ terminal will change to include the name of your conda environment indicating th
   in a separate repository:
   [https://github.com/pyscript/docs](https://github.com/pyscript/docs)
 
-* The documentation's `README` file contains instructions for setting up a
-  development environment and contributing.
+* The project's homepage ([pyscript.net](https://pyscript.net/)) contains links
+  and signposts for help and documentation. This is also found in a separate
+  repository:
+  [https://github.com/pyscript/pyscript.net](https://github.com/pyscript/pyscript.net)
+
+## Release PyScript
+
+This is the procedure for cutting a new release of PyScript. To follow it you
+need the correct permissions on GitHub (you're a PyScript core maintainer /
+admin).
+
+The steps below must be done in order. Each phase depends on the GitHub release
+created in the first phase already existing, so don't skip ahead.
+
+Throughout, the version number for a release uses
+[calver](https://calver.org/) in the form `YYYY.M.N` (year, month, and the
+release number within that month). For example, the first release in June 2026
+is `2026.6.1`. Wherever you see `2026.6.1` in the examples below, substitute the
+actual calver of the release you are cutting.
+
+### 1. Cut the GitHub release
+
+* Navigate to the [GitHub page for PyScript releases](https://github.com/pyscript/pyscript/releases).
+* Click the "Draft a new release" button, which will [take you here](https://github.com/pyscript/pyscript/releases/new),
+  where you can fill in the details of the new release of PyScript.
+    - Create a new tag. This should be the calver for the new release.
+    - Set the target to `main`.
+    - Set the release title to the calver for the new release (the same value
+      as the new tag).
+    - Write the release notes as a Markdown bulleted list of the changes, along
+      with references to the related pull requests and the GitHub usernames of
+      those who contributed.
+    - Set the release label to "Latest".
+* Once you're happy with the draft release, click the "Publish release" button.
+  At this point the [prepare-release.yml](https://github.com/pyscript/pyscript/blob/main/.github/workflows/prepare-release.yml)
+  and then the [publish-release.yml](https://github.com/pyscript/pyscript/blob/main/.github/workflows/publish-release.yml)
+  GitHub actions will run, to generate the assets needed for the release.
+  You'll be able to [observe this process here](https://github.com/pyscript/pyscript/actions).
+
+**Verify:** there should be two outcomes.
+
+1. A new latest release listed on GitHub, containing the description and
+   related assets. For example: [https://github.com/pyscript/pyscript/releases/tag/2026.6.1](https://github.com/pyscript/pyscript/releases/tag/2026.6.1).
+2. A page describing the release at `pyscript.net/releases/<CALVER>`. For
+   example: [https://pyscript.net/releases/2026.6.1/](https://pyscript.net/releases/2026.6.1/).
+
+You're not done yet. Now the release exists in GitHub, further changes to
+related repositories need to be made.
+
+### 2. Update the docs
+
+Each release of PyScript has its own version of the docs. The generation of the
+docs is handled automatically by GitHub actions. Inside the
+[documentation repository](https://github.com/pyscript/docs), the process is:
+
+* Create a new branch whose name is that of the new calver release.
+* Update the [`version.json`](https://github.com/pyscript/docs/blob/main/version.json)
+  file to the new calver.
+* Run `node version-update.js`. This will automatically update all the
+  references to the old calver to the new calver. It also downloads the new
+  version's Python API and auto-builds the API docs.
+* If you have outstanding PRs for updates to the documentation, merge or resolve
+  them into this branch at this moment in time.
+* Once you're happy with the state of the documentation for this new version,
+  create a PR for your branch in GitHub.
+* Once the PR is approved and merged, a GitHub action based on
+  [`update_docs.yml`](https://github.com/pyscript/docs/blob/main/.github/workflows/update_docs.yml)
+  will run to generate the new version of the documentation in the `gh-pages`
+  branch.
+
+**Verify:** once the `gh-pages` branch is updated, GitHub's own automatic
+deployment action will kick in, making the new version of the documentation
+live. You'll be able to [observe this process here](https://github.com/pyscript/docs/actions).
+Check the updated docs at
+[docs.pyscript.net](https://docs.pyscript.net) (and remember to clear your
+browser cache).
+
+### 3. Update the homepage
+
+Update two files in the
+[homepage repository](https://github.com/pyscript/pyscript.net) to use the
+latest calver:
+
+1. In [`index.html`](https://github.com/pyscript/pyscript.net/blob/main/index.html),
+   update ALL references to the old calver with the new version's calver. This
+   includes the `<link>` and `<script>` tags in the `<head>` of the document,
+   along with the content of the `<span class="subhead">` tag in the `<header>`
+   tag in the `<body>` of the document.
+2. Update the [`version.json`](https://github.com/pyscript/pyscript.net/blob/main/version.json)
+   file to a JSON string containing the new calver.
+
+Bundle these changes into a single PR, to be reviewed and approved by someone
+else.
+[This pull request](https://github.com/pyscript/pyscript.net/pull/104/changes)
+is a good historical example of the changes described above.
+
+**Verify**: Once your PR is reviewed and merged GitHub automatically deploys
+the changes.
+[Observe this process here](https://github.com/pyscript/pyscript.net/actions).
+Once deployed, check your changes at [pyscript.net](https://pyscript.net)
+(you may need to clear your browser cache).
+
+### 4. Update the README
+
+Update the opening HTML example in
+[PyScript's README](https://github.com/pyscript/pyscript/blob/main/README.md)
+to reference the new latest version.
+
+### 5. Announce the release
+
+**Verify first:** visit the new release's page on pyscript.net (for example,
+[https://pyscript.net/releases/2026.6.1/](https://pyscript.net/releases/2026.6.1/))
+and ensure the "Home", "Docs", "Code" and "Changes" links all point to the
+pages and assets you've just updated.
+
+Now all the pieces are in place, visit the
+[`#announcements`](https://discord.com/channels/972017612454232116/1028271951082442832)
+channel on the PyScript Discord server, and post a message along the lines of:
+
+> @here we have a new release of PyScript! All the details can be found here:
+> https://pyscript.net/releases/2026.6.1/ As always, feedback welcome. 🎉
+
+Remember to substitute the actual new calver, not the `2026.6.1` used in these
+examples.
 
 ## Contributing
 
