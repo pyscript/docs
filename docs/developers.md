@@ -327,7 +327,7 @@ actual calver of the release you are cutting.
 1. A new latest release listed on GitHub, containing the description and
    related assets. For example: [https://github.com/pyscript/pyscript/releases/tag/2026.6.1](https://github.com/pyscript/pyscript/releases/tag/2026.6.1).
 2. A page describing the release at `pyscript.net/releases/<CALVER>`. For
-   example: [https://pyscript.net/releases/2026.6.1/](https://pyscript.net/releases/2026.6.1/).
+   example: [https://pyscript.net/releases/2026.7.1/](https://pyscript.net/releases/2026.7.1/).
 
 You're not done yet. Now the release exists in GitHub, further changes to
 related repositories need to be made.
@@ -396,7 +396,7 @@ to reference the new latest version.
 ### 5. Announce the release
 
 **Verify first:** visit the new release's page on pyscript.net (for example,
-[https://pyscript.net/releases/2026.6.1/](https://pyscript.net/releases/2026.6.1/))
+[https://pyscript.net/releases/2026.7.1/](https://pyscript.net/releases/2026.7.1/))
 and ensure the "Home", "Docs", "Code" and "Changes" links all point to the
 pages and assets you've just updated.
 
@@ -405,7 +405,7 @@ Now all the pieces are in place, visit the
 channel on the PyScript Discord server, and post a message along the lines of:
 
 > @here we have a new release of PyScript! All the details can be found here:
-> https://pyscript.net/releases/2026.6.1/ As always, feedback welcome. 🎉
+> https://pyscript.net/releases/2026.7.1/ As always, feedback welcome. 🎉
 
 Remember to substitute the actual new calver, not the `2026.6.1` used in these
 examples.
