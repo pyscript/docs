@@ -126,4 +126,22 @@ nav:
     - Developer Guide: developers.md
     - Code of Conduct: conduct.md
     - License: license.md
+  - UX Research:
+    - Preface: ux/index.md
+    - Executive summary: ux/summary.md
+    - "1. Introduction": ux/introduction.md
+    - "2. Key findings": ux/key_findings.md
+    - "3. The interviewees": ux/interviewees.md
+    - "4. Key themes at a glance": ux/themes_at_a_glance.md
+    - "5. Themes in detail":
+      - "5a Friction-free": ux/friction_free.md
+      - "5b JS Boundary": ux/js_boundary.md
+      - "5c Packages, stability and errors": ux/packages_stability_errors.md
+      - "5d Onboarding path": ux/onboarding_path.md
+      - "5e AI as default": ux/ai_default.md
+      - "5f Visibility and community": ux/visibility.md
+      - "Case study: Tufts": ux/case_study.md
+    - "6. Conclusion": ux/conclusion.md
+    - Appendix 1: ux/appendix1.md
+    - Appendix 2: ux/appendix2.md
   - FAQ: faq.md
